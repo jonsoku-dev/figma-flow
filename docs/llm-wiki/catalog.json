@@ -12682,6 +12682,122 @@
           "version": "0.36.0"
         }
       ]
+    },
+    {
+      "commit": "a447283ab18da87a078dbacb2b9ea937f820d100",
+      "diff_sha256": "a22009c81a0217516ea566cb8f363fbdf79f6d60a383376ece5bb1e6cb30b477",
+      "files": [
+        "CHANGELOG.md",
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/1a04a5fc1fc9826998682d90a0cc829c952570ca.md",
+        "docs/llm-wiki/patches/35ce92863e8977aa18969133b24b715d145f405a.md",
+        "docs/llm-wiki/releases.md"
+      ],
+      "parents": [
+        "35ce92863e8977aa18969133b24b715d145f405a"
+      ],
+      "subject": "docs: record the direct edit and idle Codex wake verification",
+      "tree": "269811075cdb178b20dfa2bc522570bf8767e6eb",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.36.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.36.0"
+        }
+      ]
+    },
+    {
+      "commit": "10dbca56268290b3ea6d02ce64de563af013dce7",
+      "diff_sha256": "ae115028f40602b0fd21914549a91037b970fb08f825c964576c0144d07c0dd5",
+      "files": [
+        "tests/test_major_policy_boundary.py"
+      ],
+      "parents": [
+        "a447283ab18da87a078dbacb2b9ea937f820d100"
+      ],
+      "subject": "test: pin the required runtime policy authority for major releases",
+      "tree": "45316c7a5c4583d6cb1f69cefeaa7a371df085fe",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.36.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.36.0"
+        }
+      ]
+    },
+    {
+      "commit": "27aaddabedd9a46d617c47b464df3a9332e6f1ea",
+      "diff_sha256": "db0e6a422a3f235fc213e712175a58ec7acd9cbf5279d536c11051760ab38f08",
+      "files": [
+        ".github/workflows/reference-guard.yml",
+        "CONSTITUTION.md",
+        "CONTRIBUTING.md",
+        "README.md",
+        "figma-bridge/assets/panels.css",
+        "figma-bridge/assets/panels.js",
+        "figma-bridge/workspace_control.js",
+        "figma-bridge/workspace_host.js",
+        "library/panel-design/tokens.json",
+        "library/panel-design/views.json",
+        "panel-ui/build-tokens.mjs",
+        "panel-ui/build.mjs",
+        "panel-ui/package.json",
+        "panel-ui/src/app.jsx",
+        "panel-ui/src/styles/relay.css",
+        "panel-ui/src/styles/tokens.css",
+        "panel-ui/view-registry.mjs",
+        "release/authority.json",
+        "specs/README.md",
+        "specs/alignment-audit/graph.json",
+        "specs/codex-relay/graph.json",
+        "specs/graph-roots.json",
+        "specs/local-profile-init/graph.json",
+        "tests/helpers/rd07_bundle_kinds.cjs",
+        "tests/helpers/relay_palette.mjs",
+        "tests/nf03_history_detail.cjs",
+        "tests/test_carousel_present_link.cjs",
+        "tests/test_major_release.py",
+        "tests/test_native_runtime_version.cjs",
+        "tests/test_panel_design_tokens.py",
+        "tests/test_panel_view_registry.mjs",
+        "tests/test_panel_view_registry.py",
+        "tests/test_relay_palette_browser.py",
+        "tests/test_runtime_authority.py",
+        "tests/test_spec_graph_coverage.py",
+        "tests/test_workspace_carousel_ui.cjs",
+        "tests/test_workspace_control.cjs",
+        "tests/test_workspace_host.cjs",
+        "tests/workspace_history_failure_oracle.cjs",
+        "tools/figma_workspace.py",
+        "tools/major_release.py",
+        "tools/operation_detail.py",
+        "tools/panel_authority.py",
+        "tools/plugin_manifest.py",
+        "tools/plugin_panel.py",
+        "tools/runtime_authority.py",
+        "tools/spec_graph_coverage.py"
+      ],
+      "parents": [
+        "10dbca56268290b3ea6d02ce64de563af013dce7"
+      ],
+      "subject": "feat: gate major packages on graph ownership and reproducible authorities",
+      "tree": "46d1af1ba8fd19d81acfc4cb9c12b98d767946f9",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "0.36.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "0.36.0"
+        }
+      ]
     }
   ],
   "pages": {
@@ -12712,6 +12828,7 @@
     "104652403ef26368729086588387e9fae7dfe4ac": "fbf138e0d0c03121c0cdee700c3f9208156c26abb58146300d55d4518867bef1",
     "108ecded7a1e99ee040a4c4b067a837a85d4d67c": "ca9d673102b647d379a48195da3cccec58bc962df08808c00e875f1e8c2b6e7e",
     "10a379463f5bfa8af845420d3c3936b4b211596d": "61c6b09b162df832dfac1220aee4e4d971c6512c567c9306882bd31f31135fc0",
+    "10dbca56268290b3ea6d02ce64de563af013dce7": "6a713c400f149defb454a4018dcd69d04bb22430dd752b67ed6eab1fa86d78bf",
     "10e221f8fed97c5d5aa6416539d057b1d4aaebf1": "c240765f4519fb045f3b3d9da0c7fac595a5f82d00854ad9be842e0bfdd1747f",
     "1214f4848619f09cb1f625c5b3486ea71bc54aa1": "3edf5229395872e55394c0809af42058075aecc1e2625fefe06ff18283d43cdc",
     "1273bb3365947986b98b66a0b3e012d7a53b6e47": "862ebed33a277a141a87a0cc5756f62a6f7ed36329028e2b7d57a79f6c4b8055",
@@ -12749,6 +12866,7 @@
     "25b17f9cc0cd13f73f4545403fbef0f9d6ba1a6c": "249d210c5c4dbe7e063fe913087c556074fd277e742a994c69968c7fcc09e927",
     "25b6f754a4798119defc65c5146d59e0d3f23467": "873017a08c42fb2979ab2e5b1c40419e71208433616b8658bab50364c3037bda",
     "261ad77e4b60527cbdd81ae422f516f184464128": "2682c37c9047be1fcbe5f217a6d3b2b7f0fc7529b8d97c7bf682191f06eec7e2",
+    "27aaddabedd9a46d617c47b464df3a9332e6f1ea": "3e0c8354fd6714cd524a543ef5c81c2e12b255c48fdeb741895047fc94de6bbe",
     "28128ac57e43e314aade368f3f8c919c0246d22c": "38b10f4da39774e4cd1504426494e7869e7dc64084e8d9970b12daabec065ee3",
     "28eb39bc286e5728563d0b204928c7e323a6259f": "43cbe4f1a707d200c686c23ce4a9e4522728aee99b3c3749e2c77801b2aa7960",
     "29198999ebfe2aa9975576dc5792939315fbc850": "a045523c07d77719a1090426b2ecaa07143bfafb7e75c1a5829e0570b2116927",
@@ -12950,6 +13068,7 @@
     "a069898acd764f726494c713c2b742cb834fcd0b": "db4ab871a10f73355adb1128293d70cfd30fd1ee4b46556677489292fea2e14e",
     "a0f790602dc1a2b6b6efaaf4623b14dc7461faa8": "890ca77056c5172e56054e28e8471fc9c0cb68c2c808e37ae497f86d5bc53373",
     "a13e89c27c16108e4fb75a446154636124312c4d": "f12e95d0da042f4f9a9a3904b769cd32486c82c2c5f3eacd64c9ab936c3717d6",
+    "a447283ab18da87a078dbacb2b9ea937f820d100": "1c4c1b923809036605a83d8ea4cee8a57dcca82c67c309e4e8baa34865b04288",
     "a46a608d94731afdf0af5f1214d6e7b00dd495af": "bbf9829a5ee582ccafd43f5f4177b56e714794e9ca5cc7f5a21b944f13153132",
     "a5e4a098726872e9953e92da36065f4789f22811": "80e2d8e8721bb5f034c7077ee2e006c2bdc7766a7c9684c3664fc708731e138e",
     "a60f977b0093ea35f98d731c197e09f1667dbc75": "042be96fc647eb926e4a73c7b8cd0abab87342c59956acb1ad1d2f3e8e6d250d",
@@ -13194,6 +13313,10 @@
     },
     {
       "observed_at_commit": "25b6f754a4798119defc65c5146d59e0d3f23467",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "27aaddabedd9a46d617c47b464df3a9332e6f1ea",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -13893,7 +14016,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "35ce92863e8977aa18969133b24b715d145f405a",
+  "source_commit": "27aaddabedd9a46d617c47b464df3a9332e6f1ea",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
