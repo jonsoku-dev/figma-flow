@@ -22,10 +22,12 @@ class LittleHandsDesignSystemTests(unittest.TestCase):
             css = Path(directory) / 'design-system.css'
             manifest = Path(directory) / 'manifest.json'
             module = Path(directory) / 'design-system.js'
-            first = publish_design_system.publish(css_path=css, manifest_path=manifest, module_path=module)
+            graph_path = Path(directory) / 'graph.json'
+            graph_path.write_bytes(publish_design_system.GRAPH.read_bytes())
+            first = publish_design_system.publish(graph_path=graph_path, css_path=css, manifest_path=manifest, module_path=module)
             first_css = css.read_bytes()
             first_module = module.read_bytes()
-            second = publish_design_system.publish(css_path=css, manifest_path=manifest, module_path=module)
+            second = publish_design_system.publish(graph_path=graph_path, css_path=css, manifest_path=manifest, module_path=module)
             self.assertEqual(first_css, css.read_bytes())
             self.assertEqual(first['cssSha256'], second['cssSha256'])
             self.assertEqual(first_module, module.read_bytes())

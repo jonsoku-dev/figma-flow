@@ -13,7 +13,7 @@
       ],
       "test": "tests/test_little_hands_design_system.py",
       "case": "LittleHandsDesignSystemTests.test_publish_is_byte_stable_and_scoped_to_booking_cta",
-      "testSha256": "bb3719e0b9e574db836389d2f8600519fa0ec4fe0dc5f202d3bdb5d1ab0b6d21",
+      "testSha256": "1d7f7898c0c576dc78ce21588a8739a4e9a727a84a390c6d0ba0bd4e3d00586e",
       "assertion": "The booking CTA native and SSR consumers use their graph token alias, generation digest and exact scoped selector.",
       "observed": "The existing CTA tests republished stable CSS/module/manifest, mutated the bound color, and checked only booking controls consume the selector."
     },
@@ -28,7 +28,7 @@
       ],
       "test": "tests/test_little_hands_design_system.py",
       "case": "LittleHandsDesignSystemTests.test_ssr_uses_generated_css_and_only_tags_booking_controls",
-      "testSha256": "bb3719e0b9e574db836389d2f8600519fa0ec4fe0dc5f202d3bdb5d1ab0b6d21",
+      "testSha256": "1d7f7898c0c576dc78ce21588a8739a4e9a727a84a390c6d0ba0bd4e3d00586e",
       "assertion": "The booking CTA native and SSR consumers use their graph token alias, generation digest and exact scoped selector.",
       "observed": "The existing CTA tests republished stable CSS/module/manifest, mutated the bound color, and checked only booking controls consume the selector."
     }
