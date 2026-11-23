@@ -17571,6 +17571,153 @@
           "version": "1.0.0"
         }
       ]
+    },
+    {
+      "commit": "cb7ef62657648c874233ed0145f7748232563cf2",
+      "diff_sha256": "486d523ecfdfc988f38dde83f241ceeedcdb6955ddf48730e9c3162c3a645612",
+      "files": [
+        "CHANGELOG.md",
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/9e507ecb3915c8c9002d27073a9c0aff72cf6b1e.md",
+        "docs/llm-wiki/patches/f219eba38aab407a4c8da21695748db62cc8e17c.md"
+      ],
+      "parents": [
+        "f219eba38aab407a4c8da21695748db62cc8e17c"
+      ],
+      "subject": "Record development report hardening evidence",
+      "tree": "2e55476ecfd7c075085fa1bd271c50a93e46b029",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.0.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.0.0"
+        }
+      ]
+    },
+    {
+      "commit": "07befb0bfc019d46ef53b1dcc76311f14873bb90",
+      "diff_sha256": "96ae50baad38149354a1df11f98be0f160c334e9fa088b2542766c5d7a466998",
+      "files": [
+        ".github/CODEOWNERS",
+        "release/authority.json",
+        "tests/test_graph_generated.py",
+        "tests/test_panel_quality_witness.py"
+      ],
+      "parents": [
+        "cb7ef62657648c874233ed0145f7748232563cf2"
+      ],
+      "subject": "Prove panel quality controls on current tool settings",
+      "tree": "e07e4d82bd95522ac454cebc3d307e32d7c34e6f",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.0.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.0.0"
+        }
+      ]
+    },
+    {
+      "commit": "15051541950b339c5f23dd246f4910e794a597c9",
+      "diff_sha256": "38f667ec584a4fbd9fdd43feb375ad72899a96974b2d37321fb196cfd72e32ed",
+      "files": [
+        ".github/CODEOWNERS",
+        "tests/test_release_archive_dependencies.py",
+        "tools/major_release.py"
+      ],
+      "parents": [
+        "07befb0bfc019d46ef53b1dcc76311f14873bb90"
+      ],
+      "subject": "Supply panel dependencies during archived witness replay",
+      "tree": "d45c92111b58edafba1214c826bbb06a959eee7a",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.0.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.0.0"
+        }
+      ]
+    },
+    {
+      "commit": "06ce2b5439d18b0d0b2483cabce4f097a5b68945",
+      "diff_sha256": "169079a0c8ce3c5f7fdf7616e122ebc87d87d599a536112223ac0b2f1883f126",
+      "files": [
+        "tests/test_panel_browser_witness.cjs"
+      ],
+      "parents": [
+        "15051541950b339c5f23dd246f4910e794a597c9"
+      ],
+      "subject": "Synchronize Chromium witness with rendered chat status",
+      "tree": "b02030eec85f862e8ea6a394050c4cb32c723266",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.0.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.0.0"
+        }
+      ]
+    },
+    {
+      "commit": "7cf6d3813e5ed9efa3a6db9a8d55705e86c89e23",
+      "diff_sha256": "c4f24d2b83fb76abe9aa959929a5819a19b47fcf47eee766f2e86b403349ca34",
+      "files": [
+        "release/reviews/evidence/maintenance-retention/panel-1.json",
+        "release/reviews/evidence/panel-quality/biome.json",
+        "release/reviews/evidence/panel-quality/knip.json",
+        "release/reviews/evidence/panel-quality/observed-graph.json",
+        "release/reviews/evidence/panel-quality/oxlint.json",
+        "release/reviews/evidence/panel/01-css.json",
+        "release/reviews/evidence/panel/02-mutation.json",
+        "release/reviews/evidence/panel/03-browser.json",
+        "release/reviews/evidence/panel/03-metrics.json",
+        "release/reviews/evidence/panel/04-domain.json",
+        "release/reviews/evidence/panel/04-metrics.json",
+        "release/reviews/evidence/panel/05-contracts.json",
+        "release/reviews/evidence/panel/05-domain.json",
+        "release/reviews/evidence/panel/05-fresh.json",
+        "release/reviews/evidence/panel/06-browser.json",
+        "release/reviews/evidence/panel/06-contracts.json",
+        "release/reviews/evidence/panel/07-contracts.json",
+        "release/reviews/evidence/panel/07-domain.json",
+        "release/reviews/evidence/panel/08-browser.json",
+        "release/reviews/evidence/panel/08-chat.json",
+        "release/reviews/evidence/panel/08-contracts.json",
+        "release/reviews/evidence/panel/09-browser.json",
+        "release/reviews/evidence/panel/09-routes.json",
+        "release/reviews/evidence/panel/10-browser.json",
+        "release/reviews/evidence/panel/10-relay.json",
+        "release/reviews/evidence/panel/11-browser.json",
+        "release/reviews/evidence/panel/11-relay.json",
+        "release/reviews/evidence/panel/chat-input-message.json",
+        "release/reviews/evidence/panel/chat-input-preview.json",
+        "release/reviews/panel.json"
+      ],
+      "parents": [
+        "06ce2b5439d18b0d0b2483cabce4f097a5b68945"
+      ],
+      "subject": "Revalidate all current panel release witnesses",
+      "tree": "efc2a985ceeb075eaa1a77708c7ccdb12f6a1dcd",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.0.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.0.0"
+        }
+      ]
     }
   ],
   "pages": {
@@ -17589,7 +17736,9 @@
     "066830a97f7f053e880cdf2a6418aadb3de781ab": "550a1650979fd370795a40ad579f23195fee79154c67083518d72a9383a0fbb5",
     "068eb35374c2ec5f6f86efad6cefe7c316fa0740": "5cde070cb9aca85ddd63b513bccc198fdce5f444e227cc139986fa39bc380779",
     "06a40a1b83fac2f94b540d24e081ee87779e79ae": "aa00f0a77fa6212eaab136e81aa427bb4e25bd3148cfef6797ee7e2672943fe6",
+    "06ce2b5439d18b0d0b2483cabce4f097a5b68945": "0b417a5a4f4cfd9b16f41c0b387685436f8658f7fd3aa8db66e1b7ee2213c4ea",
     "074fbba12678a336817d2337f07d3a3dbc0a5e8a": "0e7dda881321ecd5c9e379ced8c8b8bd7a0474613fb0d2d8ac099ee33810ae67",
+    "07befb0bfc019d46ef53b1dcc76311f14873bb90": "f9ad366631d8b46be0b7e15f828eddf0213a25e55fe1a642b4418d4ac6067922",
     "07d32a81eb3523babd7d4039cdb6a39857b7517c": "38f5b574949617f2c492ec2979dbd4b85046c1ccaf0591a1867f3131a036948e",
     "09ea462e817112edc790234f6482cc19e7c7e4a2": "7798a5eae63f252b63c8bb276f0ee6140adc1f40797c883eedf85c8fa8d5a4ac",
     "0ad26187e423973a3895b3ae63e6953c0189761b": "1059832a262f3ce91d6a3dc676a2a44e2253992af6e5254447e861f323d78e26",
@@ -17617,6 +17766,7 @@
     "13ebd029c7d197cb7a0c6fbfbcd6cac7063a527b": "7d82331242eb5d70c0dda5ee11eaa07b672e9b2410a9ba879a18810400b8ab51",
     "142dfd97ed5bba73e787d99924a2693a3a86b61a": "ae48f7155217b25723041dbb94a637420e942ecb927b253dc65a16aebbee5c00",
     "1430fdfbed0cc7862ff2bbf9648c2faf468cf3de": "5f2b7a311e12c35569029d1556b3dd2842d65940a30d79ce1aeca5046864c300",
+    "15051541950b339c5f23dd246f4910e794a597c9": "b63931105a4d263c0d5734bdbfe53cd25cf1a3fc7405081194b9a9a29d614518",
     "159f3ae64bca897fe04734929bd406744b27932f": "ac67c67b1a72f2754170de1701582c6dd1c40461f5b96cb58096aa8db24a8a01",
     "15f29963c1f4e7685a7deb6b851a1d360fcbad6b": "5001d2f08dba44969ed63b29f62eb2531ddb3a9df18484c3b7355c555ac6b6b5",
     "16f728ae07a92f515225020fe61779e852eba285": "bb010fa919b222861483a5219962e89c732aec5e1178e5862910ecf3edc7e07b",
@@ -17808,6 +17958,7 @@
     "7b5ae4091641430d891e0c110c8efdb9a845a6ce": "063e8f7c15bd7989ed403013c467c8da048f725858a1473274172f3a6ca8492f",
     "7ba864310c66d6f972cb4b9e15cacc04c3761ccd": "6b8b7e52db476fbb4ddfb6330a32b0747fb0548cd21b6fdb94c91c245843e109",
     "7bff2100bccf6db00203cc5351c8773026783d72": "4bf77332ec7b7f05f26b5da425a0f61bee71c346e6e1e8eb8fd28d12681d9f1d",
+    "7cf6d3813e5ed9efa3a6db9a8d55705e86c89e23": "01a66873db762928ac86ae9c9c1b95962b2f511602e0dfd9f1919a59c9ef4fbf",
     "7d1249ed100f0cbd1ee13c0edf121d9f57e6821c": "0efd9598550ce33bf51a32bc74c3b9d451208ef499d1a13412dfc9d7458459e7",
     "7d2f41d9652ad228d42e9a1aec813c76b4ed204d": "3bebbd5477e9a93d753408df3c43f45defb51cb11630f0b43a0d8b33a8aa6584",
     "7da6848179efdf6ec9e91de8339c1e9ca8163a47": "edae9b67102c6fcc3f1ede490129787aff655ff68fc836746ef06171d6ad0c86",
@@ -17983,6 +18134,7 @@
     "cab5eae313363aa116816b0afc79673f7ffb54fe": "0b80eb0eb5cd7508a140f027a43251f4cd74f26a4b79ddfb7ea4bf7284625d1f",
     "cb19ac749989bafeda8ca5a75505ebe86abed802": "aa0b0da805dce8ba673cfeac0c4ea0b106068f91a9fbbe31b62dc74f73bb7f33",
     "cb392ce18d6c6b0654816641b4158dd6eb1291c0": "f339f9bfba69e83ec4a7dad566ed44d81ac751150588508c1f65c39853224dfd",
+    "cb7ef62657648c874233ed0145f7748232563cf2": "2d3799747be5cb5b870e00f23c2f33b82f51533bf3f05b6a55f6c9a9b74e83de",
     "cc53d88e91da49ac33c54c720b1be228b78c93bd": "fec3c731e4ba2bbb82e54b96ae89448a832b5172a869489fced421a481cd83d6",
     "cc676a77849197f90d6f7a57a9aff5e366fa5658": "54f29540d2fe15a1d5807c2cac20ce7455e845f83c84b4eb0534379c90214389",
     "cd4789321dafb40a82277fd1185a3462318f7748": "bf1aaca69565d201eaa42f7315291e7c2eaa0e3026c86097cd1e21fee62e0d0b",
@@ -18392,6 +18544,10 @@
     },
     {
       "observed_at_commit": "7b5ae4091641430d891e0c110c8efdb9a845a6ce",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "7cf6d3813e5ed9efa3a6db9a8d55705e86c89e23",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -18973,7 +19129,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "f219eba38aab407a4c8da21695748db62cc8e17c",
+  "source_commit": "7cf6d3813e5ed9efa3a6db9a8d55705e86c89e23",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
