@@ -60,7 +60,14 @@ try {
         panel.append(element);
       }
     })()`);
-    await command('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-color-scheme', value: 'light' }] });
+    async function colorScheme(scheme) {
+      await command('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-color-scheme', value: scheme }] });
+      const query = JSON.stringify('(prefers-color-scheme: ' + scheme + ')');
+      await until(() => evaluate('matchMedia(' + query + ').matches'), Date.now() + 8000,
+        'browser did not apply the ' + scheme + ' color scheme');
+      await evaluate('new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve(true))))');
+    }
+    await colorScheme('light');
     const results = [];
     for (const width of [320, 400]) {
       await command('Emulation.setDeviceMetricsOverride', {
@@ -129,7 +136,7 @@ try {
         };
       })()`));
     }
-    await command('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-color-scheme', value: 'dark' }] });
+    await colorScheme('dark');
     const darkPalette = await evaluate(`(() => ({
       text: getComputedStyle(document.querySelector('.relay-view')).color,
       canvas: getComputedStyle(document.querySelector('.relay-view')).backgroundColor,
