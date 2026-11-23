@@ -66,10 +66,14 @@ test('compiled panel runs localized partial read and dependency evidence in inst
           'Chat view did not display its exact reviewed preview');
         assert.equal(await evaluate(`document.querySelector('#chat-preview').rows`), chatInput.preview.reactRows,
           'rendered React chat preview rows use the shared chat input graph');
+        const waitForScopeError = (locale) => until(async () => {
+          const body = await evaluate(`document.querySelector('.view-chat .status-body')?.textContent`);
+          return body === catalog['chat.scopeError'][locale] ? body : null;
+        }, Date.now() + 3000, `Chat scope error did not render its exact ${locale} message`);
         await evaluate(`window.postMessage({pluginMessage:{type:'chat:error',code:'scope',message:'Native diagnostic without locale text.'}},'*')`);
-        assert.equal(await evaluate(`document.querySelector('.view-chat .status-body').textContent`), catalog['chat.scopeError'].ko);
+        await waitForScopeError('ko');
         await evaluate(`window.FlowUI.setLocale('en')`);
-        assert.equal(await evaluate(`document.querySelector('.view-chat .status-body').textContent`), catalog['chat.scopeError'].en);
+        await waitForScopeError('en');
         assert.equal(await evaluate(`document.querySelector('.chat-diagnostics').textContent`), 'Native diagnostic without locale text.');
       }
       if (view === 'review') {
