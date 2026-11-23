@@ -24,6 +24,8 @@ Figma Flow 전용 격리 브라우저는 [브라우저 설정](skills/figma-flow
 
 패널 Graph·구현·검증 정책을 변경하면 [Graph SSoT 품질 계약과 검사](docs/maintenance-verification.md#figma-패널-graph-검증)를 적용하고 `python3 -B tools/graph_governance.py verify --base <기준 커밋>`을 실행한다.
 
+개발 변경의 소유 Graph와 영향받는 검사 후보는 [개발 변경 분석](docs/development-changes.md)의 `python3 -B tools/development_changes.py --base HEAD`로 확인한다.
+
 검증 결과를 Git 기록에 연결한 뒤 실행이 만든 원본 산출물은 그 실행에서 정리한다. [검증 산출물의 수명](CONSTITUTION.md#검증-산출물의-수명)의 소유 범위와 예외를 사용한다.
 
 ## 패치 기록과 개선 완료 조건

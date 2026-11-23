@@ -14,6 +14,9 @@
 /library/panel-design/ @jonsoku-dev
 /tools/maintenance-contract.json @jonsoku-dev
 /tools/graph_governance.py @jonsoku-dev
+/tools/development_changes.py @jonsoku-dev
+/tools/release_ownership.py @jonsoku-dev
+/tools/major_release.py @jonsoku-dev
 /tools/graph_impact.py @jonsoku-dev
 /tools/graph_generated.py @jonsoku-dev
 /tools/panel_artifacts.py @jonsoku-dev
@@ -33,6 +36,7 @@
 /panel-ui/.oxlintrc.json @jonsoku-dev
 /panel-ui/knip.config.mjs @jonsoku-dev
 /tests/test_graph_governance.py @jonsoku-dev
+/tests/test_development_changes.py @jonsoku-dev
 /tests/test_graph_impact_migration.py @jonsoku-dev
 /tests/test_graph_generated.py @jonsoku-dev
 /tests/test_observed_graph_migration.cjs @jonsoku-dev

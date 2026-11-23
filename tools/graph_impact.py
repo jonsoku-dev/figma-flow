@@ -321,7 +321,8 @@ def analyze_observed_impact(base_observation, current_observation, changed_paths
 
 def _git(root, *args):
     return subprocess.run(
-        ['git', '--no-replace-objects', '-C', str(root), *args], capture_output=True, check=True,
+        ['git', '--no-optional-locks', '--no-replace-objects', '-C', str(root), *args],
+        capture_output=True, check=True,
     ).stdout
 
 
@@ -349,7 +350,7 @@ def _digest_stream(source, size=None):
 
 
 def _visit_blobs(root, items, read):
-    command = ['git', '--no-replace-objects', '-C', str(root), 'cat-file', '--batch']
+    command = ['git', '--no-optional-locks', '--no-replace-objects', '-C', str(root), 'cat-file', '--batch']
     with subprocess.Popen(command, stdin=subprocess.PIPE, stdout=subprocess.PIPE) as process:
         for key, object_id in items:
             process.stdin.write(object_id + b'\n')
@@ -481,8 +482,9 @@ def changed_paths(root, base_ref):
     """Compare the base commit, index and working tree using actual source bytes."""
     root = Path(root).resolve(strict=True)
     base = _git(root, 'rev-parse', '--verify', '--end-of-options', base_ref + '^{commit}').strip().decode('ascii')
-    worktree = _git(root, '-c', 'core.fileMode=true', 'diff', '--name-only', '--no-renames', '--no-ext-diff', '-z', base, '--')
-    staged = _git(root, 'diff', '--cached', '--name-only', '--no-renames', '--no-ext-diff', '-z', base, '--')
+    options = ('--name-only', '--no-renames', '--no-ext-diff', '--no-textconv', '-z', base, '--')
+    worktree = _git(root, '-c', 'core.fileMode=true', '-c', 'diff.autoRefreshIndex=false', 'diff', *options)
+    staged = _git(root, 'diff', '--cached', *options)
     untracked = _git(root, 'ls-files', '--others', '--exclude-standard', '-z')
     names = {os.fsdecode(path) for data in (worktree, staged, untracked) for path in _nul_items(data)}
     previous = _tree_blobs(root, base, names)

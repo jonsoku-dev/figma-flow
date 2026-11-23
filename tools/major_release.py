@@ -14,6 +14,7 @@ import tempfile
 from zipfile import ZipFile
 
 from graph_document import decode_json, read_json
+from release_ownership import REGISTRY, ReleaseOwnership, json_member, pointer_parts, relative
 
 import panel_authority
 import plugin_manifest
@@ -23,7 +24,6 @@ import runtime_authority
 import spec_graph_coverage
 
 ROOT = Path(__file__).resolve().parents[1]
-REGISTRY = 'release/authority.json'
 VERSION = re.compile(r'(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?')
 LOCAL_HOME = re.compile(rb'(?:/(?:Users|home)/[\w.-]+/(?:Documents|Desktop|\.codex)/|[A-Za-z]:[\\/]+Users[\\/]+[\w.-]+[\\/]+(?:Documents|Desktop)[\\/])')
 
@@ -54,15 +54,6 @@ def requires_major(candidate, base):
 
 def finding(code, path, message, **detail):
     return dict(code=code, path=path, message=message, **detail)
-
-
-def relative(name):
-    if not isinstance(name, str) or not name or '\\' in name:
-        raise ValueError(f'Invalid relative path: {name!r}')
-    path = PurePosixPath(name)
-    if path.is_absolute() or '..' in path.parts or str(path) != name or name == '.':
-        raise ValueError(f'Invalid relative path: {name!r}')
-    return name
 
 
 def scope_digest(root, paths):
@@ -117,14 +108,9 @@ sys.exit(0 if result.wasSuccessful() and result.testsRun == 1 and not result.ski
 
 def authority_field(path, pointer):
     """Resolve a JSON field or a unique ATX section of a normative Markdown document."""
-    if not pointer.startswith('/') or re.search(r'~(?![01])', pointer):
-        raise ValueError('Invalid authority pointer.')
-    parts = [s.replace('~1', '/').replace('~0', '~') for s in pointer[1:].split('/')]
+    parts = pointer_parts(pointer)
     if path.suffix.lower() not in {'.md', '.markdown'}:
-        value = read_json(path)
-        for part in parts:
-            value = value[int(part)] if isinstance(value, list) and part.isdecimal() else value[part]
-        return value
+        return json_member(read_json(path), parts)
 
     if len(parts) != 2 or parts[0] != 'sections' or not parts[1].strip():
         raise ValueError('Markdown authority requires /sections/<exact heading>.')
@@ -225,54 +211,32 @@ def verify_review(root, surface, paths, owners, fingerprint, panel_deps=None):
 
 
 def inventory(root, files, panel_deps=None):
-    graph = read_json(root/REGISTRY)
-    if graph.get('schema') != 'figma-flow-major-authority-v1':
-        raise ValueError('Unknown release graph schema.')
-    nodes = {n['id']: n for n in graph['nodes']}
-    if len(nodes) != len(graph['nodes']) or not all(isinstance(k,str) and re.fullmatch(r'[a-z][a-z0-9-]*',k) for k in nodes):
-        raise ValueError('Release graph IDs must be unique portable names.')
-    authorities = {k: relative(n['source']) for k,n in nodes.items() if n['type']=='authority'}
-    surfaces = {k:n for k,n in nodes.items() if n['type']=='surface'}
-    checks = {k:relative(n['source']) for k,n in nodes.items() if n['type']=='check'}
-    if len(nodes) != len(surfaces)+len(authorities)+len(checks) or not surfaces:
-        raise ValueError('Invalid release graph node type or missing surfaces.')
+    index = ReleaseOwnership(read_json(root/REGISTRY))
+    surfaces, checks = index.surfaces, index.checks
     owners = {k:set() for k in surfaces}
     issues = []
-    linked_checks = set()
-    for edge in graph['edges']:
-        if edge['type'] == 'checked-by' and edge['from'] in surfaces and edge['to'] in checks:
-            linked_checks.add(checks[edge['to']])
-            continue
-        if edge['type'] != 'owned-by' or edge['from'] not in surfaces or edge['to'] not in authorities:
-            raise ValueError('Invalid release authority edge.')
-        owner_id = edge['to']
-        owner_path = authorities[owner_id]
-        owners[edge['from']].add(owner_path)
-        # The feature registry owns the list. Resolve its members from the candidate itself.
-        if 'members' in nodes[owner_id] and owner_path in files:
-            index = nodes[owner_id]['members']
-            records = authority_field(root/owner_path, index['pointer'])
-            if not isinstance(records, list):
-                raise ValueError('Authority member index must point to an array.')
-            for row in records:
-                owners[edge['from']].add(relative(row[index['pathField']]))
-    roots, classified = {}, {k:[] for k in surfaces}
-    for id_, surface in surfaces.items():
-        if (not isinstance(surface['roots'],list) or not surface['roots'] or
-                surface['coverage'] not in {'review','projection','build-projection','test-oracle','upstream','record','gate-data'}):
-            raise ValueError('Missing roots or unsupported coverage: '+id_)
-        for name in map(relative,surface['roots']):
-            if name in roots:
-                raise ValueError('Ambiguous release graph ownership: '+name)
-            roots[name] = id_
+    linked_checks = {checks[check] for names in index.checked_by.values() for check in names}
+    for id_, owner_ids in index.owned_by.items():
+        for owner_id in owner_ids:
+            owner_path = index.authorities[owner_id]
+            owners[id_].add(owner_path)
+            if 'members' in index.nodes[owner_id] and owner_path in files:
+                membership = index.nodes[owner_id]['members']
+                records = authority_field(root/owner_path, membership['pointer'])
+                if not isinstance(records, list):
+                    raise ValueError('Authority member index must point to an array.')
+                for row in records:
+                    owners[id_].add(relative(row[membership['pathField']]))
+    classified = {key: [] for key in surfaces}
+    for id_ in surfaces:
         if not owners[id_] or not owners[id_] <= files:
             issues.append(finding('missing-surface-authority',REGISTRY,'Source owner missing from release graph or archive.',surface=id_))
     for file in sorted(files):
-        match = next((str(p) for p in (PurePosixPath(file), *PurePosixPath(file).parents) if str(p) in roots),None)
+        match = index.locate(file)
         if match is None:
             issues.append(finding('unowned-archive-file',file,'No owning surface in the release graph.'))
         else:
-            classified[roots[match]].append(file)
+            classified[match[0]].append(file)
     report = []
     for id_, paths in classified.items():
         surface = surfaces[id_]
@@ -310,7 +274,7 @@ def inventory(root, files, panel_deps=None):
                     issues.append(finding('machine-specific-home',name,'Machine-local path embedded in distributed first-party source.',
                                           line=data.count(b'\n',0,match.start())+1))
                     break
-    for path in sorted(roots):
+    for path in sorted(index.roots):
         if path not in files and not any(n.startswith(path + '/') for n in files):
             issues.append(finding('missing-archive-root',path,'Registered distribution input is absent.'))
     if not set(checks.values()) <= files or set(checks.values()) != set(CONTROLS) or linked_checks != set(CONTROLS):
