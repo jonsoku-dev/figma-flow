@@ -17070,6 +17070,239 @@
           "version": "1.0.0"
         }
       ]
+    },
+    {
+      "commit": "03ea89ed384360d3a6f7e70e4d3fa249bdc1ed93",
+      "diff_sha256": "821dfad06a94af492b096cb133bdf9b8267adff2545d8a4da9916a2d18784c05",
+      "files": [
+        "CHANGELOG.md",
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/2c67289ffe5599db2fb5dca835324a3549f340b6.md",
+        "docs/llm-wiki/patches/335679f7f543e354a370cf102d0d2bd88acb9007.md",
+        "docs/llm-wiki/patches/e2c2ab6071bc7513d3b22b472b607b57054e6bcb.md",
+        "docs/llm-wiki/patches/e8855f9227d3487fb427339323527060ea32be8d.md"
+      ],
+      "parents": [
+        "335679f7f543e354a370cf102d0d2bd88acb9007"
+      ],
+      "subject": "docs: record Figma page listener regression and repair",
+      "tree": "bc64220101de7ad9232f7d4b90d3b4ede37d16e8",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.0.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.0.0"
+        }
+      ]
+    },
+    {
+      "commit": "531365b4f23774444cdee1440f8756b6cd2068ff",
+      "diff_sha256": "3696e95a57c1b645a01eea92c4337aea8e88859e1d56069f25d3ae0e7711476f",
+      "files": [
+        "tests/test_workspace_changes.cjs"
+      ],
+      "parents": [
+        "03ea89ed384360d3a6f7e70e4d3fa249bdc1ed93"
+      ],
+      "subject": "test: cover a silent native page listener with selected edits",
+      "tree": "d3c5b8d687307c4965ce1bc1788a93ec5bc2fb25",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.0.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.0.0"
+        }
+      ]
+    },
+    {
+      "commit": "6deaaf123c4f65d436fe5bb75a8f9f5711ee72f7",
+      "diff_sha256": "db5951e713fa14090fc95821ee002e86f6973ab54dc168f980bbaf81c01ac086",
+      "files": [
+        "figma-bridge/workspace_changes.js",
+        "figma-bridge/workspace_control.js",
+        "figma-bridge/workspace_host.js"
+      ],
+      "parents": [
+        "531365b4f23774444cdee1440f8756b6cd2068ff"
+      ],
+      "subject": "fix: detect scoped selected-node edits when Figma is silent",
+      "tree": "0ec1de519953ddf22df24117189c51cf4a648435",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.0.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.0.0"
+        }
+      ]
+    },
+    {
+      "commit": "b7c4de81869b8b5ba05bcf6a86b0707884adcecf",
+      "diff_sha256": "ee7f157088adab8e5ed91e42510dc6f731ad30a8f743dc464319bfc5bc4a3fc7",
+      "files": [
+        "tests/test_workspace_changes.cjs"
+      ],
+      "parents": [
+        "6deaaf123c4f65d436fe5bb75a8f9f5711ee72f7"
+      ],
+      "subject": "test: reproduce a delayed native echo after resampling",
+      "tree": "280212fb9382369414e667f0750d4b5ed7172681",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.0.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.0.0"
+        }
+      ]
+    },
+    {
+      "commit": "6124588d6975f572630cb72a9e5a4b8872406169",
+      "diff_sha256": "ad15d651d4574449ee3aaafd093a5140daa721872b085b9ff6f90de37abc043b",
+      "files": [
+        "figma-bridge/workspace_changes.js",
+        "figma-bridge/workspace_host.js"
+      ],
+      "parents": [
+        "b7c4de81869b8b5ba05bcf6a86b0707884adcecf"
+      ],
+      "subject": "fix: preserve scoped edit deduplication across task resampling",
+      "tree": "9e78cab342c41142d484e2bffad42a140ad6d60a",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.0.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.0.0"
+        }
+      ]
+    },
+    {
+      "commit": "82d765f67af47070bc787efc8dcb167c28ff2465",
+      "diff_sha256": "fda4f5d03356f923e2b4f3acb5231fc5144f7e42aa5243bf4f80aca7a080638b",
+      "files": [
+        "release/reviews/design-host.json",
+        "release/reviews/evidence/design-host/01-appearance.json",
+        "release/reviews/evidence/design-host/01-graph_board.json",
+        "release/reviews/evidence/design-host/01-graph_card.json",
+        "release/reviews/evidence/design-host/01-graph_refresh.json",
+        "release/reviews/evidence/design-host/02-appearance.json",
+        "release/reviews/evidence/design-host/02-native_handoff.json",
+        "release/reviews/evidence/design-host/02-notes.json",
+        "release/reviews/evidence/design-host/03-appearance.json",
+        "release/reviews/evidence/design-host/03-cta.json",
+        "release/reviews/evidence/design-host/04-appearance.json",
+        "release/reviews/evidence/design-host/04-cta.json",
+        "release/reviews/evidence/design-host/05-appearance.json",
+        "release/reviews/evidence/design-host/05-web_tabs.json",
+        "release/reviews/evidence/design-host/06-web_tabs.json",
+        "release/reviews/evidence/design-host/07-appearance.json",
+        "release/reviews/evidence/design-host/07-native_edit.json",
+        "release/reviews/evidence/design-host/07-native_edit_reject.json",
+        "release/reviews/evidence/design-host/08-native_edit.json",
+        "release/reviews/evidence/design-host/08-native_edit_reject.json",
+        "release/reviews/evidence/design-host/09-appearance.json",
+        "release/reviews/evidence/design-host/09-control_icon.json",
+        "release/reviews/evidence/design-host/09-native_controls.json",
+        "release/reviews/evidence/design-host/10-appearance.json",
+        "release/reviews/evidence/design-host/10-figma_bridge.json",
+        "release/reviews/evidence/design-host/11-appearance.json",
+        "release/reviews/evidence/design-host/11-chat_host.json",
+        "release/reviews/evidence/design-host/11-standalone.json",
+        "release/reviews/evidence/design-host/12-chat_host.json",
+        "release/reviews/evidence/design-host/12-standalone.json",
+        "release/reviews/evidence/design-host/13-standalone.json",
+        "release/reviews/evidence/design-host/14-standalone.json",
+        "release/reviews/evidence/design-host/15-graph_catalog.json",
+        "release/reviews/evidence/design-host/15-standalone.json",
+        "release/reviews/evidence/design-host/16-standalone.json",
+        "release/reviews/evidence/design-host/17-host_locale.json",
+        "release/reviews/evidence/design-host/17-standalone.json",
+        "release/reviews/evidence/design-host/17-workspace_case.json",
+        "release/reviews/evidence/design-host/18-cta.json",
+        "release/reviews/evidence/design-host/18-family.json",
+        "release/reviews/evidence/design-host/19-control_icon.json",
+        "release/reviews/evidence/design-host/19-family.json",
+        "release/reviews/evidence/design-host/20-host_profile.json",
+        "release/reviews/evidence/design-host/20-window.json",
+        "release/reviews/evidence/design-host/21-window.json",
+        "release/reviews/evidence/design-host/22-control_native.json",
+        "release/reviews/evidence/design-host/22-host_profile.json",
+        "release/reviews/evidence/design-host/22-host_scope.json",
+        "release/reviews/evidence/design-host/23-host_profile.json",
+        "release/reviews/evidence/design-host/23-workspace_case.json",
+        "release/reviews/evidence/design-host/24-control_relay.json",
+        "release/reviews/evidence/design-host/24-transport.json",
+        "release/reviews/evidence/design-host/25-host_relay.json",
+        "release/reviews/evidence/design-host/25-read_getters.json",
+        "release/reviews/evidence/design-host/25-read_measure.json",
+        "release/reviews/evidence/design-host/26-audit_log.json",
+        "release/reviews/evidence/design-host/26-changes.json",
+        "release/reviews/evidence/design-host/26-host_locale.json",
+        "release/reviews/evidence/design-host/27-audit_log.json",
+        "release/reviews/evidence/design-host/27-control_native.json",
+        "release/reviews/evidence/design-host/27-host_scope.json",
+        "release/reviews/evidence/design-host/28-control_native.json",
+        "release/reviews/evidence/design-host/28-host_relay.json",
+        "release/reviews/evidence/design-host/29-chat_host.json",
+        "release/reviews/evidence/design-host/29-standalone.json",
+        "release/reviews/evidence/design-host/30-control_relay.json",
+        "release/reviews/evidence/design-host/30-host_relay.json",
+        "release/reviews/evidence/design-host/30-workspace_case.json",
+        "release/reviews/evidence/design-host/31-host_relay.json",
+        "release/reviews/evidence/design-host/31-relay_alignment.json",
+        "release/reviews/evidence/design-host/32-api_fixture.json",
+        "release/reviews/evidence/design-host/32-api_probe.json",
+        "release/reviews/evidence/design-host/33-workspace_recipes.json",
+        "release/reviews/evidence/design-host/34-token_sync.json",
+        "release/reviews/evidence/design-host/35-cta.json",
+        "release/reviews/evidence/design-host/35-token_sync.json",
+        "release/reviews/evidence/design-host/36-native_handoff.json",
+        "release/reviews/evidence/design-host/36-notes.json",
+        "release/reviews/evidence/design-host/37-graph_board.json",
+        "release/reviews/evidence/design-host/37-graph_card.json",
+        "release/reviews/evidence/design-host/38-design_graph.json",
+        "release/reviews/evidence/design-host/38-direction.json",
+        "release/reviews/evidence/design-host/39-panel_components.json",
+        "release/reviews/evidence/design-host/39-panel_locale.json",
+        "release/reviews/evidence/design-host/39-standalone.json",
+        "release/reviews/evidence/design-host/40-panel_components.json",
+        "release/reviews/evidence/design-host/40-standalone.json",
+        "release/reviews/evidence/design-host/41-appearance.json",
+        "release/reviews/evidence/design-host/41-standalone.json",
+        "release/reviews/evidence/design-host/42-changes.json",
+        "release/reviews/evidence/design-host/42-workspace_case.json",
+        "release/reviews/evidence/design-host/app-colors.json",
+        "release/reviews/evidence/page-listener/design-host-1.json",
+        "release/reviews/evidence/selected-change/design-host-1.json"
+      ],
+      "parents": [
+        "6124588d6975f572630cb72a9e5a4b8872406169"
+      ],
+      "subject": "verify: bind sampled change detection to Design host review",
+      "tree": "a795f7b2bf3f4271d72f4a05d1b6ee80b65571a5",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.0.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.0.0"
+        }
+      ]
     }
   ],
   "pages": {
@@ -17080,6 +17313,7 @@
     "01735351c2d82f1372442192b9bf14fa6f049a74": "3a796b6575b6bcc2362d0e718d5eca878fd332076ca79daaef4e215ae03cb281",
     "03358d54b306cc5bf31bcfb00c4b2fa8003ed80f": "d243f5d136f8084dcd41e7047e85b4372ae82c10597c64604ef539d7a6140589",
     "03c4c8b73bd2fa7be32d5e019cb69f61aba1ad67": "61949053f9384be3835130722102530cc224e5fee3080ef3ae0ebc7530dabafb",
+    "03ea89ed384360d3a6f7e70e4d3fa249bdc1ed93": "6ecb0e7e0d75c91fbb4d1b61dccc5a42c9eba50534e54272d24b6032b1859911",
     "05422a6e1cecfe76edc96077ac046a9e02ba8b04": "25fe364036073596b8d9ff5fd29cacf17237b78d78442eff4b72a078272a3d7e",
     "057f949078e2af85f8c911e4045a4977a3bd7f0b": "27ab48b75f989f49c4a712f9079ef27d3cc0616875ae6ee8070931ea80d4824a",
     "0664a3113792752d37096d12ee02aae08a488b2b": "cce929db346ed7af9c5328ec7b0452e26547a5b46d4496557566154d73e56525",
@@ -17230,6 +17464,7 @@
     "503a532696a7c9f912824d80c3157ee11eaefcd0": "6dc5716ec717ab678f90c0fbbfbf17020e4f2793250f2c56ee2aab4d3d8c1806",
     "517b26733de38a1ea1ae885498b8b5ec41f3b3f4": "ae54ef0fa6ada4a6fa658055805159dd1a9e1280c3758fa1fab408d967b60451",
     "5302e7ec33c30964a7c343b0a85497a6f70e61a7": "bbe9bb786cd83f51f6b746f76900d85946898a3c12b37d0c516c1cdb6bcb78d5",
+    "531365b4f23774444cdee1440f8756b6cd2068ff": "23f870449c1a2b18871c22a850be5cefa137d320b27e9f5780d6d5b29349c38d",
     "5355e61fb65f3c1a47f9cfbccdd26f71ec6a9979": "9c53f969ba7c610e4fd063bc9b74a03d0edbb11d89983018d7ff57669dbfcc3e",
     "550da40d10c9520d8e96478455cc6f14982fc322": "7f6cd0ea80f869bc1eccb855009ab51cb290f4a22b605c3791dca5ecdf8d05e7",
     "55267d1eb771e6ee403dc30e5e191b0c3742d9cc": "6a8661f86cf9dea9b9a8e0af296f8d44dcb8024f25cc7583faab7d667432eb50",
@@ -17256,6 +17491,7 @@
     "5fb07911e3a1b1530f34aee2cca47f9df7319910": "3f249cb0446e825f691fa1310e1689cc0ecf785653eba367f95009d04f6b58db",
     "5fb446a3ea368317de9b56df62f93597a25a6251": "455370f9f9a7cff5ffec9e33b7d5c36088643ff21cc45b3ecfdae4d1fb0a3f05",
     "6065daf3348b10390630e916cf97cdb187a176df": "fff1f9db49c321ea315a717da1c85f7523f0a056ad9b39befb2cf4d29821c163",
+    "6124588d6975f572630cb72a9e5a4b8872406169": "b50b8f965a50f8be0109c9f1b9312ee719faf4f1ba0f206e6e5f0f03d66f45c4",
     "612c67183e532bc4741342d2736b808a05c67ed1": "08c25a3f9950cf0bd4c52d71e42948a717e384403ba72f65d63a818339a62401",
     "615ea284259ebe8dd27d99421dba26e08e8d491e": "25a62b488fa3215b28c657c2b9f2822c98c5528bd7b96f5d993cc595facf10b6",
     "61647d636f23142c76d453f24512566043c40517": "7eead01fb27d1f5a6df3152c9447ed5e452bb79ec23b22f4772a3d6e58085ce8",
@@ -17281,6 +17517,7 @@
     "6ac040939170368c6d8a9ebc16f200ef31fd667d": "5151cfbe3236dce7eb433ab45833b664445f4ecaf49766bab0e9d19e6e474da1",
     "6b448d99524804101f37ccf3c4283c5c70e485e4": "ddb4c752a9b18098fef47f03d4c453006631cb2e33c1fe6d3c908d5271c2dafd",
     "6c9c6e454d826347971d4f7e612abcd43b8a306b": "a5619e59333e45a675013515a44153553ef7193116938b5ea0e4de2fd8ded382",
+    "6deaaf123c4f65d436fe5bb75a8f9f5711ee72f7": "d5e87c8db6e51c1c83dc220a58edc95b52bbf61d3172b6b17fe39f4f239ce3a7",
     "6df3d7849b82bd36526022e47a276e49f9e0faeb": "5de4e85f36ca52686ae7655313ac78e326c7dff764261b32834030f500b91ebb",
     "6e7b2174eac971cf8fb391edabeaee07866a83a7": "0057d00e26f588355c7c8c7ffc173b63a2efed64d02cba968d48a45702174a16",
     "709f11042d3aa621dd47a064168828f6aa4f828d": "d54437dbbde2e4f42c8b83d2b46aa7db79c0cffa48eeaea18e1a3bd8386ce0b3",
@@ -17309,6 +17546,7 @@
     "80742c55590c46e85ca8289298abc0a58371a9a8": "c446cccd82c9fa35acfcd6885b96461f92ee0dd56a6eb3f46d92f7d1c41c8c15",
     "80e8cf9ea1c9569f24455ffef3688d90d2d544d2": "77c5ecec2f545df888b1783a46dd992ab202912f4258f70b133a934d7e2a9430",
     "81f102ffec9bee7f7af20df9783e883b5b574b63": "eb5deced60add65d630eb2e3c0ba05a53d06fb3280e3e1afd23298593a5dbe4b",
+    "82d765f67af47070bc787efc8dcb167c28ff2465": "b226a677b7eeaa80a471cfd5664dd24f84bdac7b234a703a33af18e75878a3ed",
     "838533671dfc10fad4fa59d75d6685d49d2a8892": "a6eca4ed61df3e8040c6e9ba984c4eb7988ef0c8ca595c85726a57f19404ada7",
     "841aa58a7f0f5fabe68aaaa7bdee1cd3ba64c988": "ba173d8e2ea0d442205d290bc722610342be10bb3507ce1ad8f7a4f2694cd3dc",
     "8421b31163333c0b75e24e096ad6975d07138a33": "187ed6cf2cebb0b6099c40268afa9dbbcd70c69ed93869b79ebcc03712d142d7",
@@ -17427,6 +17665,7 @@
     "b70f1240f72f5dbe410b72faf9b40d7749f72099": "d687f77e244816f2f16101698d233eb6aaef418b95df77f3be6f710cfd1e4230",
     "b7209c96bfa57c008c59f351d55ac7f2d781811a": "7628f37cf4f54bd2d2df1ecf3b0d13a7ce756859f8c6845278477a26e10afed3",
     "b772bc508c6d36db040584cbd6247d5e1640dfb3": "b821973e3b5f265ea4290f1301566f4ccfd898f916f0474a24fdc2b86a7f00f3",
+    "b7c4de81869b8b5ba05bcf6a86b0707884adcecf": "04394e003d6e41c7e5657d65e94b299c86cc63af78e6f05ea927776bf3dab846",
     "b89ee860423de1716456931197d1adffac0dba89": "bb0d5493febe7552de1d29dd9a52e222da2b7637898e328097e796579728c283",
     "b91d26553b3343a61f8094a1ac041e3043506787": "1961375a350b6519167bf425c5123b0aa2532d8dd42e975ef9118f79387abb2c",
     "b9495234cdbc4547f083f5ee21cbd623c67a381f": "75028b56cfb85ace6ecd2576189d8cc27fb19b62522f6dfb181818c4670470e7",
@@ -17869,6 +18108,10 @@
     },
     {
       "observed_at_commit": "7b5ae4091641430d891e0c110c8efdb9a845a6ce",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "82d765f67af47070bc787efc8dcb167c28ff2465",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -18438,7 +18681,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "335679f7f543e354a370cf102d0d2bd88acb9007",
+  "source_commit": "82d765f67af47070bc787efc8dcb167c28ff2465",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
