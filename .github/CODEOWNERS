@@ -45,4 +45,5 @@
 /tests/test_observed_graph_migration.cjs @jonsoku-dev
 /tests/test_panel_knip.cjs @jonsoku-dev
 /tests/test_panel_maintenance_boundary.cjs @jonsoku-dev
+/tests/test_panel_quality_witness.py @jonsoku-dev
 /tests/test_panel_contract_ownership.cjs @jonsoku-dev

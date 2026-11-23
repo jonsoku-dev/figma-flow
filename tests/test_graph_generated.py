@@ -70,6 +70,17 @@ class GeneratedPanelTests(unittest.TestCase):
         self.assertEqual(before, (self.root / TOKEN_CSS).read_bytes())
         self.assertEqual([], list(self.scratch.iterdir()))
 
+    def test_real_build_rejects_network_access_from_a_view(self):
+        view = self.root / 'panel-ui/src/ReviewPanel.jsx'
+        with view.open('a', encoding='utf-8') as source:
+            source.write('\nfetch("/unpaired-fixture");\n')
+        findings = check_generated(self.root, self.contract)
+        self.assertEqual(1, len(findings), findings)
+        self.assertIn('Panel asset regeneration failed', findings[0])
+        self.assertIn('ReviewPanel.jsx', findings[0])
+        self.assertIn('Network access bypasses local pairing', findings[0])
+        self.assertEqual([], list(self.scratch.iterdir()))
+
     def test_successful_build_cannot_redefine_the_expected_inventory(self):
         missing = ASSET_DIR / 'panels.js'
         (self.root / missing).unlink()
