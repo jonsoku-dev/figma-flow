@@ -14,60 +14,60 @@ const server = createServer((_, response) => {
   response.end(html);
 });
 await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
+async function openRelay(command, evaluate, scheme) {
+  await command('Page.enable');
+  await command('Network.enable');
+  await command('Page.addScriptToEvaluateOnNewDocument', {source: `
+    window.addEventListener('message', event => {
+      const message = event.data?.pluginMessage;
+      if (message?.type === 'workspace-home-ready') window.relayReady = message.requestId;
+      if (message?.type === 'workspace-control-tick' && window.relayFixture) {
+        window.dispatchEvent(new MessageEvent('message', { data: { pluginMessage: window.relayFixture } }));
+      }
+    });
+  `});
+  await command('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-color-scheme', value: scheme }] });
+  await command('Page.navigate', { url: 'http://127.0.0.1:' + server.address().port });
+  const requestId = await until(() => evaluate('window.relayReady'), Date.now() + 8000,
+    'relay viewer did not request its initial state');
+  const snapshot = {
+    type: 'workspace-relay-viewer-state', requestId, workspaceSession: 'alignment-fixture', status: 'live',
+    locale: 'ko', file: { key: 'fixture-file', name: '예약 흐름 설계' },
+    page: { id: '2:3', name: '모바일 화면' },
+    selection: [
+      { id: '4:5', name: '예약 카드', type: 'FRAME' },
+      { id: '4:6', name: '확인 버튼', type: 'INSTANCE' },
+    ],
+  };
+  await evaluate(`(() => {
+    window.relayFixture = ${JSON.stringify(snapshot)};
+    window.dispatchEvent(new MessageEvent('message', { data: { pluginMessage: window.relayFixture } }));
+  })()`);
+  await until(() => evaluate("document.querySelectorAll('.relay-layers tbody tr').length === 2"),
+    Date.now() + 8000, 'bounded selection fixture did not render');
+  await evaluate("document.querySelector('.relay-footer details').open = true");
+  await evaluate(`(() => {
+    const panel = document.querySelector('.relay-view');
+    const status = document.createElement('span');
+    status.className = 'relay-status';
+    status.dataset.state = 'error';
+    status.dataset.paletteProbe = 'status-error';
+    const error = document.createElement('div');
+    error.className = 'relay-error';
+    for (const element of [status, error]) {
+      element.style.position = 'absolute';
+      element.style.visibility = 'hidden';
+      panel.append(element);
+    }
+  })()`);
+  const query = JSON.stringify('(prefers-color-scheme: ' + scheme + ')');
+  await until(() => evaluate('matchMedia(' + query + ').matches'), Date.now() + 8000,
+    'browser did not apply the ' + scheme + ' color scheme');
+}
+
 try {
   const samples = await withChromiumPage(binary, async ({ command, evaluate }) => {
-    await command('Page.enable');
-    await command('Network.enable');
-    await command('Page.addScriptToEvaluateOnNewDocument', {source: `
-      window.addEventListener('message', event => {
-        const message = event.data?.pluginMessage;
-        if (message?.type === 'workspace-home-ready') window.relayReady = message.requestId;
-        if (message?.type === 'workspace-control-tick' && window.relayFixture) {
-          window.dispatchEvent(new MessageEvent('message', { data: { pluginMessage: window.relayFixture } }));
-        }
-      });
-    `});
-    await command('Page.navigate', { url: 'http://127.0.0.1:' + server.address().port });
-    const requestId = await until(() => evaluate('window.relayReady'), Date.now() + 8000,
-      'relay viewer did not request its initial state');
-    const snapshot = {
-      type: 'workspace-relay-viewer-state', requestId, workspaceSession: 'alignment-fixture', status: 'live',
-      locale: 'ko', file: { key: 'fixture-file', name: '예약 흐름 설계' },
-      page: { id: '2:3', name: '모바일 화면' },
-      selection: [
-        { id: '4:5', name: '예약 카드', type: 'FRAME' },
-        { id: '4:6', name: '확인 버튼', type: 'INSTANCE' },
-      ],
-    };
-    await evaluate(`(() => {
-      window.relayFixture = ${JSON.stringify(snapshot)};
-      window.dispatchEvent(new MessageEvent('message', { data: { pluginMessage: window.relayFixture } }));
-    })()`);
-    await until(() => evaluate("document.querySelectorAll('.relay-layers tbody tr').length === 2"),
-      Date.now() + 8000, 'bounded selection fixture did not render');
-    await evaluate("document.querySelector('.relay-footer details').open = true");
-    await evaluate(`(() => {
-      const panel = document.querySelector('.relay-view');
-      const status = document.createElement('span');
-      status.className = 'relay-status';
-      status.dataset.state = 'error';
-      status.dataset.paletteProbe = 'status-error';
-      const error = document.createElement('div');
-      error.className = 'relay-error';
-      for (const element of [status, error]) {
-        element.style.position = 'absolute';
-        element.style.visibility = 'hidden';
-        panel.append(element);
-      }
-    })()`);
-    async function colorScheme(scheme) {
-      await command('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-color-scheme', value: scheme }] });
-      const query = JSON.stringify('(prefers-color-scheme: ' + scheme + ')');
-      await until(() => evaluate('matchMedia(' + query + ').matches'), Date.now() + 8000,
-        'browser did not apply the ' + scheme + ' color scheme');
-      await evaluate('new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve(true))))');
-    }
-    await colorScheme('light');
+    await openRelay(command, evaluate, 'light');
     const results = [];
     for (const width of [320, 400]) {
       await command('Emulation.setDeviceMetricsOverride', {
@@ -136,7 +136,13 @@ try {
         };
       })()`));
     }
-    await colorScheme('dark');
+    return results;
+  });
+  const { darkPalette, darkMetrics } = await withChromiumPage(binary, async ({ command, evaluate }) => {
+    await openRelay(command, evaluate, 'dark');
+    await command('Emulation.setDeviceMetricsOverride', {
+      width: 400, height: 900, deviceScaleFactor: 1, mobile: false,
+    });
     const darkPalette = await evaluate(`(() => ({
       text: getComputedStyle(document.querySelector('.relay-view')).color,
       canvas: getComputedStyle(document.querySelector('.relay-view')).backgroundColor,
@@ -157,12 +163,12 @@ try {
         contextWeight: computed('.relay-context-row > strong').fontWeight,
       };
     })()`);
-    for (const sample of results) {
-      sample.darkPalette = darkPalette;
-      sample.darkMetrics = darkMetrics;
-    }
-    return results;
-  });
+    return { darkPalette, darkMetrics };
+  }, { darkMode: true });
+  for (const sample of samples) {
+    sample.darkPalette = darkPalette;
+    sample.darkMetrics = darkMetrics;
+  }
   assert.equal(samples.length, 2);
   process.stdout.write(JSON.stringify(samples));
 } finally {

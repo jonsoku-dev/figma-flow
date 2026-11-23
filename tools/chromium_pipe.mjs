@@ -53,10 +53,10 @@ export function chromiumBinary(explicit) {
 }
 
 /** Run `body` with one attached page in a throwaway profile; the browser and profile are always removed. */
-export async function withChromiumPage(binary, body) {
+export async function withChromiumPage(binary, body, { darkMode = false } = {}) {
   const profile = await mkdtemp(path.join(os.tmpdir(), 'figma-flow-chromium-'));
   const proc = spawn(binary, ['--headless=new', '--remote-debugging-pipe', '--no-first-run',
-    '--no-default-browser-check', '--user-data-dir=' + profile, 'about:blank'], { stdio: ['ignore','ignore','ignore','pipe','pipe'] });
+    '--no-default-browser-check', ...(darkMode ? ['--force-dark-mode'] : []), '--user-data-dir=' + profile, 'about:blank'], { stdio: ['ignore','ignore','ignore','pipe','pipe'] });
   const send = connect(proc);
   try {
     const { targetId } = await send('Target.createTarget', { url: 'about:blank' });
