@@ -16569,6 +16569,52 @@
           "version": "1.0.0"
         }
       ]
+    },
+    {
+      "commit": "1713898a4682f94302b2a042cd764497cf083629",
+      "diff_sha256": "51a5d8aa5e439ca05cc1dc98e75c2a823743d8864e0544f1967083891b2ad08d",
+      "files": [
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/612c67183e532bc4741342d2736b808a05c67ed1.md",
+        "docs/llm-wiki/patches/9ad486bd30189852cefbe89809ec8bbc343cf92c.md"
+      ],
+      "parents": [
+        "612c67183e532bc4741342d2736b808a05c67ed1"
+      ],
+      "subject": "docs: record the hosted transport fixture budget",
+      "tree": "2a4163d23140384fb9d344672813eb6c43ba12ef",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.0.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.0.0"
+        }
+      ]
+    },
+    {
+      "commit": "503a532696a7c9f912824d80c3157ee11eaefcd0",
+      "diff_sha256": "f40f69563fa8897788fe7e0dd19e476210d3c12038f8eee7c670c5db0abf92f7",
+      "files": [
+        "tests/helpers/relay_palette.mjs"
+      ],
+      "parents": [
+        "1713898a4682f94302b2a042cd764497cf083629"
+      ],
+      "subject": "fix: wait for the browser color scheme before palette sampling",
+      "tree": "4f30afde3da00adf146f83884c90a6cc6ae897de",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.0.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.0.0"
+        }
+      ]
     }
   ],
   "pages": {
@@ -16616,6 +16662,7 @@
     "159f3ae64bca897fe04734929bd406744b27932f": "ac67c67b1a72f2754170de1701582c6dd1c40461f5b96cb58096aa8db24a8a01",
     "15f29963c1f4e7685a7deb6b851a1d360fcbad6b": "5001d2f08dba44969ed63b29f62eb2531ddb3a9df18484c3b7355c555ac6b6b5",
     "16f728ae07a92f515225020fe61779e852eba285": "bb010fa919b222861483a5219962e89c732aec5e1178e5862910ecf3edc7e07b",
+    "1713898a4682f94302b2a042cd764497cf083629": "b0342773ddead30f64a1611981ca0759c90781fa314c7830d288fd986623f01a",
     "172924ede1f192cd0f8d42839a1c7d95d2854393": "6ecda83d9ad9ad40abd0bb3cda7d7a45a3d226161f2589ea3901de5d9942670d",
     "199683f8c221fcac718991dd91ad96b6a50ab144": "1384f08a99bcf88bec7fc6c4d0912c17f8c2759d827b4da8bd16a8ef4dcf0277",
     "19b6e1a9d879272179c120cd9c0d303a3e765910": "3f491a6365b77d33ca0c8b367bdc5c3d895e96108e622977ff378f0d85c4ef7f",
@@ -16723,6 +16770,7 @@
     "4ef1c8e5c6b038ea26f097d67a962daf4ae6f477": "f6feab29268d0a5813611c966c700caa6e3c159cd39c64ba18aab4796d80f7ec",
     "4f451eec0b49366519297f878867b05aff0ff197": "7e39a2816fd58475e28395184ac2d02fdf2159e38835310d4fb77288086b4261",
     "4f75cb4af31947f6d4eda1f270279fa905a7c45c": "a6c8ed3f9a0e00ce494fbfe1db429a236da0fa7afa39d0e1c32cc8312dcf7cf9",
+    "503a532696a7c9f912824d80c3157ee11eaefcd0": "6dc5716ec717ab678f90c0fbbfbf17020e4f2793250f2c56ee2aab4d3d8c1806",
     "517b26733de38a1ea1ae885498b8b5ec41f3b3f4": "ae54ef0fa6ada4a6fa658055805159dd1a9e1280c3758fa1fab408d967b60451",
     "5302e7ec33c30964a7c343b0a85497a6f70e61a7": "bbe9bb786cd83f51f6b746f76900d85946898a3c12b37d0c516c1cdb6bcb78d5",
     "5355e61fb65f3c1a47f9cfbccdd26f71ec6a9979": "9c53f969ba7c610e4fd063bc9b74a03d0edbb11d89983018d7ff57669dbfcc3e",
@@ -17262,6 +17310,10 @@
     },
     {
       "observed_at_commit": "4f451eec0b49366519297f878867b05aff0ff197",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "503a532696a7c9f912824d80c3157ee11eaefcd0",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -17890,7 +17942,7 @@
     },
     {
       "source_commits": [
-        "612c67183e532bc4741342d2736b808a05c67ed1"
+        "503a532696a7c9f912824d80c3157ee11eaefcd0"
       ],
       "tagged": false,
       "tags": [],
@@ -17901,7 +17953,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "612c67183e532bc4741342d2736b808a05c67ed1",
+  "source_commit": "503a532696a7c9f912824d80c3157ee11eaefcd0",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
