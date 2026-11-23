@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Send, Copy, ExternalLink, Eye, MessageSquare, Layers } from 'lucide-react';
-import { Action, Notice, Section, Disclosure, PreviewStrip } from './components.jsx';
+import { Action, Notice, Section, Disclosure } from './components.jsx';
 import { chatErrorMessageKeys, chatInputPolicy, panelDesignMetrics } from './panelContracts.mjs';
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -9,7 +9,7 @@ function requestId(t) {
   if (typeof rng?.randomUUID === 'function') {
     try {
       return rng.randomUUID();
-    } catch (_) {}
+    } catch {}
   }
   if (typeof rng?.getRandomValues !== 'function') throw Error(t('chat.rng'));
   const bytes = rng.getRandomValues(new Uint8Array(16));
@@ -28,7 +28,7 @@ function selectedTypes(text) {
       counts = {};
     for (const node of data.selection.nodes) counts[node.type] = (counts[node.type] || 0) + 1;
     return Object.entries(counts);
-  } catch (_) {
+  } catch {
     return [];
   }
 }
@@ -50,7 +50,7 @@ function errorKey(raw, code) {
               ? 'inputError'
               : 'errorHelp';
 }
-export default function ChatPanel({ model = {}, locale, t, send, Shell }) {
+export default function ChatPanel({ model = {}, t, send, Shell }) {
   const [message, setMessage] = useState(''),
     [includeSelection, setIncludeSelection] = useState(true),
     [includeText, setIncludeText] = useState(false);
@@ -158,7 +158,7 @@ export default function ChatPanel({ model = {}, locale, t, send, Shell }) {
     let copied = false;
     try {
       copied = document.execCommand('copy');
-    } catch (_) {}
+    } catch {}
     setNotice({ title: copied ? 'copied' : 'copyManual', body: copied ? 'copiedHelp' : 'copyHelp' });
   }
   const state = busy

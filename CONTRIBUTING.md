@@ -41,6 +41,8 @@ python -B tools/reference_distribution_guard.py --worktree --reference-zip /path
 
 [유지보수 검증 절차](docs/maintenance-verification.md)의 프로필에서 변경을 직접 실행하고 기록을 남깁니다. PR 설명은 실행 결과와 근거 링크부터 작성합니다. 릴리스 워크플로는 그래프 변이 검사를 자동으로 실행합니다.
 
+패널과 그 계약의 변경은 [패널 Graph 집계 검사](docs/maintenance-verification.md#figma-패널-graph-검증)로 기준 커밋과 대조합니다. 검사·예외·생성 설정을 수정하는 PR은 코드 소유자가 검토할 변경과 실패를 재현한 구체적인 사례를 표시합니다.
+
 검증기의 임시 로그·캡처·아카이브·백업을 판정 직후 정리하고 Git에는 재실행에 필요한 짧은 근거를 남깁니다. 사용자가 요청한 릴리스 ZIP 등 최종 산출물은 산출물 계약으로 관리합니다. [검증 산출물 정리](docs/maintenance-verification.md#검증-산출물-정리)
 
 <a id="major-ssot"></a>

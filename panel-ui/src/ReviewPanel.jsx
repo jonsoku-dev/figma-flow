@@ -127,7 +127,7 @@ export function reviewMessageKey(selectedProduction, key) {
   return 'review.' + (selectedProduction && productionCopy.has(key) ? 'production.' : '') + key;
 }
 
-export default function ReviewPanel({ model, locale, t, send, Shell }) {
+export default function ReviewPanel({ model, t, send, Shell }) {
   const [state, dispatch] = useReducer(reducer, initialState);
   const run = useRef({ id: 0, nativeBusy: false, pending: false, received: false, controller: null });
   const download = useRef({ busy: false, timer: null, url: null });

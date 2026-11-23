@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Download, Eye, RefreshCw, Check, X } from 'lucide-react';
-import { workspaceAllows, Action, Notice, Section, Disclosure, PreviewStrip } from './components.jsx';
+import { workspaceAllows, Action, Notice, Section, Disclosure } from './components.jsx';
 import DiagnosticExport from './DiagnosticExport.jsx';
 import { nativeSummaryView } from './nativeSummary.mjs';
 import { graphSelection } from './graphSelection.mjs';
@@ -9,7 +9,7 @@ import { panelDesignMetrics } from './panelContracts.mjs';
 function parsed(value) {
   try {
     return JSON.parse(value);
-  } catch (_) {
+  } catch {
     return value;
   }
 }
@@ -75,7 +75,7 @@ function saveEvidence(evidence, discovery) {
   link.remove();
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
-export default function GraphPanel({ model, locale, t, send, Shell }) {
+export default function GraphPanel({ model, t, send, Shell }) {
   const discovery = model.mode === 'discovery';
   const [busy, setBusy] = useState(false),
     [confirm, setConfirm] = useState(false);

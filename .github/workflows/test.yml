@@ -27,6 +27,8 @@ jobs:
     runs-on: macos-15
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0
         with:
           python-version: '3.13'
@@ -72,11 +74,13 @@ jobs:
           python -B tools/figma_widget_project.py check "$widget_dir" --typescript "$FIGMA_SDK_TEST_TYPESCRIPT"
           python -B tools/figma_widget_project.py build "$widget_dir" --typescript "$FIGMA_SDK_TEST_TYPESCRIPT"
           node library/figma-recipes/test-rollback.cjs
-      - name: Rebuild offline React panels
+      - name: Verify the Figma panel Graph and impact evidence
+        env:
+          COMPARE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
         run: |
           npm --prefix panel-ui install --ignore-scripts --no-package-lock --no-audit --no-fund
-          npm --prefix panel-ui run build
-          git diff --exit-code -- figma-bridge/assets
+          base=$(git merge-base HEAD "$COMPARE_SHA")
+          python -B tools/graph_governance.py verify --base "$base"
       - name: Rebuild typed regression components
         run: |
           node examples/regression-program/design-system/build.mjs
@@ -100,5 +104,5 @@ jobs:
           export DYLD_LIBRARY_PATH="$FIGMA_FLOW_FONT_SHAPING_LIB"
           python -B -m unittest discover -v -s tests
           python -B -m unittest discover -s tests -p 'finalize_*.py'
-          node --test tests/*.cjs
+          python -B tools/graph_governance.py test-other-suites
           python -B -m unittest discover -s examples/native-direction-review -p test_demo.py

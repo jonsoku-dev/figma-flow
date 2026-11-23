@@ -19,6 +19,8 @@ description: Record a Figma Flow patch, audit missing patch history, or use obse
 
 [유지보수 검증 절차](../../docs/maintenance-verification.md)에서 변경에 맞는 프로필을 실행한다. 기존 검사에서 실제로 빠져나간 입력을 하나 재현하고, API나 정적 검사로 막을 수 있는 경우 해당 경계를 고친다. 고정한 독립 검사는 구현 전 예상 실패와 구현 후 결과를 확인한다. PR에는 실행 결과와 근거 링크, 건너뛴 검사를 먼저 기록한다.
 
+패널·생성기·정책을 바꾸면 [패널 Graph 검사](../../docs/maintenance-verification.md#figma-패널-graph-검증)의 전후 영향과 집계를 확인한다. 패치 기록에는 기준 커밋, 관측과 계약 검증의 범위, 처리한 미사용 후보, 실제 CI 실행과 병합 보호의 상태를 적는다.
+
 실행 근거를 [보존 계약](../../CONSTITUTION.md#검증-산출물의-수명)에 따라 기록한다. 성공과 실패를 판정한 직후 이번 실행이 만든 로그, 캡처, 백업과 임시 워크트리를 정리한다. 새 워크트리는 작업 소스를 잃지 않도록 커밋을 확인하고, 소유한 검증용 워크트리는 `git worktree remove`의 정상 경로로 정리한다.
 
 ## 실패를 이용한 개선

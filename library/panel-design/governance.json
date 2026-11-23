@@ -1,0 +1,82 @@
+{
+  "schema": 1,
+  "scope": "Figma Design panel runtime, boundaries, build outputs and their maintenance guidance",
+  "relationTypes": {
+    "IMPORTS": {"impact": true, "usage": true, "acyclic": false},
+    "REEXPORTS": {"impact": true, "usage": true, "acyclic": false},
+    "CALLS": {"impact": true, "usage": true, "acyclic": false},
+    "GENERATED_FROM": {"impact": true, "usage": false, "acyclic": true},
+    "IMPLEMENTS": {"impact": true, "usage": false, "acyclic": false},
+    "DOCUMENTS": {"impact": true, "usage": false, "acyclic": false},
+    "READS": {"impact": true, "usage": false, "acyclic": false},
+    "WRITES": {"impact": true, "usage": false, "acyclic": false},
+    "VERIFIES": {"impact": true, "usage": false, "acyclic": false}
+  },
+  "nodes": [
+    {"id":"panel-governance","kind":"policy","paths":["library/panel-design/governance.json","AGENTS.md","CONSTITUTION.md","docs/graph-governance-constitution.md"],"action":"validate-graph","status":"active"},
+    {"id":"panel-boundary-policy","kind":"policy","paths":["tools/maintenance-contract.json"],"action":"verify-structure","status":"active"},
+    {"id":"panel-runtime","kind":"implementation","paths":["panel-ui/src/**"],"action":"verify-usage","status":"active"},
+    {"id":"panel-host-bridge","kind":"implementation","binding":"bridgeOwner","paths":[],"action":"verify-structure","status":"active"},
+    {"id":"panel-review-transport","kind":"implementation","binding":"networkOwner","paths":[],"action":"verify-structure","status":"active"},
+    {"id":"panel-review-view","kind":"implementation","paths":["panel-ui/src/ReviewPanel.jsx"],"action":"verify-structure","status":"active"},
+    {"id":"panel-design-inputs","kind":"configuration","paths":["library/panel-design/views.json","library/panel-design/tokens.json","library/panel-design/contracts.json","library/figma-profile/read-limits.json","figma-bridge/audit_log.js","figma-bridge/chat-input.json","figma-bridge/locales/common.json","specs/workspace-activity/graph.json","plugin.json"],"action":"verify-contract","status":"active"},
+    {"id":"panel-build","kind":"generator","paths":["panel-ui/build.mjs","panel-ui/build-tokens.mjs","panel-ui/view-registry.mjs","panel-ui/architecture.cjs","panel-ui/package.json",".npmrc",".nvmrc","vendor/acorn/acorn.js"],"action":"verify-contract","status":"active"},
+    {"id":"panel-assets","kind":"generated","paths":["figma-bridge/assets/**","panel-ui/src/styles/tokens.css"],"action":"regenerate","status":"active"},
+    {"id":"panel-boundary-reference","kind":"generated","paths":["docs/generated/**"],"action":"regenerate","status":"active"},
+    {"id":"panel-maintenance-guide","kind":"documentation","paths":["docs/maintenance-verification.md","docs/graph-governance-review.json"],"action":"review-documentation","status":"active"},
+    {"id":"panel-static-quality","kind":"verification","paths":["panel-ui/biome.json","panel-ui/.oxlintrc.json","panel-ui/knip.config.mjs","panel-ui/package.json"],"action":"verify-quality","status":"active"},
+    {"id":"panel-evidence","kind":"verification","paths":["tools/graph_governance.py","tools/graph_impact.py","tools/graph_generated.py","tools/graph_document.py","tools/delivery_config.py","tools/panel_authority.py","tools/runtime_authority.py","tools/workspace_report.py","tools/figma_workspace.py","panel-ui/observed-graph.cjs","tests/test_graph_governance.py","tests/test_graph_impact_migration.py","tests/test_graph_generated.py","tests/test_observed_graph_migration.cjs","tests/test_panel_knip.cjs","tests/test_panel_maintenance_boundary.cjs","tests/test_panel_contract_ownership.cjs","library/delivery/**",".github/workflows/**",".github/CODEOWNERS",".gitignore",".gitattributes"],"action":"verify-contract","status":"active"}
+  ],
+  "relations": [
+    {"from":"panel-host-bridge","to":"panel-boundary-policy","type":"IMPLEMENTS","state":"required"},
+    {"from":"panel-review-transport","to":"panel-boundary-policy","type":"IMPLEMENTS","state":"required"},
+    {"from":"panel-review-view","to":"panel-review-transport","type":"IMPORTS","mode":"static","state":"required"},
+    {"from":"panel-runtime","to":"panel-governance","type":"IMPLEMENTS","state":"required"},
+    {"from":"panel-runtime","to":"panel-host-bridge","type":"IMPLEMENTS","state":"required"},
+    {"from":"panel-runtime","to":"panel-review-view","type":"IMPLEMENTS","state":"required"},
+    {"from":"panel-assets","to":"panel-runtime","type":"GENERATED_FROM","state":"required"},
+    {"from":"panel-assets","to":"panel-build","type":"GENERATED_FROM","state":"required"},
+    {"from":"panel-assets","to":"panel-design-inputs","type":"GENERATED_FROM","state":"required"},
+    {"from":"panel-boundary-reference","to":"panel-boundary-policy","type":"GENERATED_FROM","state":"required"},
+    {"from":"panel-boundary-reference","to":"panel-evidence","type":"GENERATED_FROM","state":"required"},
+    {"from":"panel-maintenance-guide","to":"panel-boundary-policy","type":"DOCUMENTS","state":"required"},
+    {"from":"panel-evidence","to":"panel-runtime","type":"VERIFIES","state":"required"},
+    {"from":"panel-evidence","to":"panel-build","type":"VERIFIES","state":"required"},
+    {"from":"panel-static-quality","to":"panel-runtime","type":"VERIFIES","state":"required"},
+    {"from":"panel-static-quality","to":"panel-build","type":"VERIFIES","state":"required"}
+  ],
+  "guideReview": {
+    "node": "panel-maintenance-guide",
+    "path": "docs/maintenance-verification.md",
+    "receipt": "docs/graph-governance-review.json",
+    "inputs": ["panel-boundary-policy"]
+  },
+  "contractTests": {
+    "tests/test_panel_maintenance_boundary.cjs": [
+      "panel build flags transport and native bridge bypasses",
+      "review pairing posts only the approved payload to the prepared local receiver"
+    ],
+    "tests/test_panel_contract_ownership.cjs": [
+      "all authored panel CSS dimensions have graph tokens and an injected literal is detected",
+      "graph preview metrics and workspace activity enums are projected from their field owners",
+      "cross-language panel contract graph owns operation detail, dependency artifact and asset status enums",
+      "React chat input bounds and row counts derive from the shared host contract graph",
+      "operation detail producer imports in a fresh process with the canonical domain graph",
+      "token projection mutation fails closed when an authoritative dimension changes"
+    ]
+  },
+  "externalConsumers": [
+    {"path":"panel-ui/src/WorkspaceActivity.mjs","consumer":"tools/workspace_report.py"},
+    {"path":"panel-ui/src/workspaceRecommendation.mjs","consumer":"tools/workspace_report.py"},
+    {"path":"panel-ui/src/assetInventory.mjs","consumer":"tools/workspace_report.py"},
+    {"path":"panel-ui/src/dependencyView.mjs","consumer":"tools/workspace_report.py"}
+  ],
+  "dispositions": [],
+  "exportDispositions": [
+    {"path":"panel-ui/src/ReviewPanel.jsx","symbol":"reviewMessageKey","reason":"The review acceptance test exercises the localized production notice key mapping directly.","approval":"Existing repository acceptance contract","reviewCondition":"Remove when review acceptance covers the mapping through rendered notices.","evidence":["tests/test_review_panel.cjs"]},
+    {"path":"panel-ui/src/Workspace.jsx","symbol":"selectRecommendation","reason":"The workspace acceptance test invokes the published panel recommendation adapter.","approval":"Existing repository acceptance contract","reviewCondition":"Remove when workspace acceptance exercises the adapter through the mounted workspace.","evidence":["tests/test_workspace_host.cjs"]},
+    {"path":"panel-ui/src/Workspace.jsx","symbol":"workspacePreviews","reason":"The workspace acceptance test invokes the panel preview admission helper.","approval":"Existing repository acceptance contract","reviewCondition":"Remove when workspace acceptance checks preview rejection through the mounted workspace.","evidence":["tests/test_workspace_host.cjs"]},
+    {"path":"panel-ui/src/WorkspaceActivity.jsx","symbol":"carouselNoticeText","reason":"Carousel acceptance covers the localized notice mapping directly.","approval":"Existing repository acceptance contract","reviewCondition":"Remove when carousel acceptance drives these notice states through the rendered panel.","evidence":["tests/test_workspace_carousel_ui.cjs"]},
+    {"path":"panel-ui/src/operationDetail.mjs","symbol":"redactDetailText","reason":"Release acceptance directly exercises the redaction function used by the panel.","approval":"Existing repository acceptance contract","reviewCondition":"Remove when release acceptance asserts redaction through the public normalized detail result.","evidence":["tests/test_panel_release_witness.cjs"]}
+  ]
+}

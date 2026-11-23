@@ -1,8 +1,8 @@
 import { operationDetailContract, operationDetailPanelFields } from './panelContracts.mjs';
 
 export const OPERATION_DETAIL_SCHEMA = operationDetailContract.schema;
-export const MAX_DIFF_ROWS = operationDetailContract.limits.diffRows;
-export const MAX_CONFLICT_ROWS = operationDetailContract.limits.conflictRows;
+const MAX_DIFF_ROWS = operationDetailContract.limits.diffRows;
+const MAX_CONFLICT_ROWS = operationDetailContract.limits.conflictRows;
 
 export const DETAIL_PROTOCOL = Object.freeze({ ...operationDetailContract.protocol });
 
@@ -37,7 +37,7 @@ function cleanString(value, maxLen = 200) {
   return typeof value === 'string' ? redactDetailText(value).slice(0, maxLen) : '';
 }
 
-export function safeRevision(value) {
+function safeRevision(value) {
   if (typeof value !== 'string') return '';
   const trimmed = value.trim();
   return /^[a-f0-9]{64}$/i.test(trimmed) ? trimmed.toLowerCase() : '';
@@ -49,7 +49,7 @@ export function safeOperationId(value) {
   return /^[a-f0-9]{32}$/i.test(trimmed) ? trimmed.toLowerCase() : null;
 }
 
-export function normalizeRuntimeGeneration(value) {
+function normalizeRuntimeGeneration(value) {
   if (typeof value === 'string') {
     const trimmed = value.trim();
     if (!trimmed) return null;

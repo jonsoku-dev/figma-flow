@@ -1,9 +1,14 @@
 {
   "schema": "figma-flow-maintenance-v1",
   "artifactRetention": {"receiptBytes": 65536},
+  "panelArtifacts": ["LICENSES.txt", "panel-shell.css", "panels.css", "panels.js", "panels.js.LEGAL.txt"],
   "panelBoundaries": {
+    "entry": "app.jsx",
     "networkOwner": "reviewTransport.mjs",
+    "networkApis": ["fetch", "XMLHttpRequest", "WebSocket", "EventSource", "sendBeacon"],
     "bridgeOwner": "app.jsx",
+    "bridgeApi": "postMessage",
+    "blockedPackages": ["axios", "undici"],
     "externalImports": {
       "DiagnosticExport.jsx": ["../../figma-bridge/audit_log.js"],
       "panelContracts.mjs": [

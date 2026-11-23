@@ -41,7 +41,7 @@ if (!validGraph) {
 const tokenName = (token) => `--${token.id}`;
 const declarations = (mode) => graph.tokens.map((token) => `  ${tokenName(token)}: ${token[mode]};`).join('\n');
 const darkAliases = graph.tokens.map((token) => `  ${tokenName(token)}-dark: ${token.dark};`).join('\n');
-const css = `/* Generated from library/panel-design/tokens.json. */
+export const panelTokenCss = `/* Generated from library/panel-design/tokens.json. */
 :root {
   color-scheme: light;
 ${declarations('light')}
@@ -52,10 +52,13 @@ ${darkAliases}
 ${declarations('dark')}
 }
 `;
-if (process.argv.includes('--check')) {
-  const current = await readFile(cssPath, 'utf8').catch(() => '');
-  if (current !== css) throw new Error('tokens.css is stale or was edited outside the panel design graph');
-} else {
-  await writeFile(cssPath, css, 'utf8');
+if (import.meta.main) {
+  const check = process.argv.includes('--check');
+  if (check) {
+    const current = await readFile(cssPath, 'utf8').catch(() => '');
+    if (current !== panelTokenCss) throw new Error('tokens.css is stale or was edited outside the panel design graph');
+  } else {
+    await writeFile(cssPath, panelTokenCss, 'utf8');
+  }
+  process.stdout.write(`panel token CSS ${check ? 'matches' : 'generated'} ${fileURLToPath(graphPath)}\n`);
 }
-process.stdout.write(`panel token CSS ${process.argv.includes('--check') ? 'matches' : 'generated'} ${fileURLToPath(graphPath)}\n`);

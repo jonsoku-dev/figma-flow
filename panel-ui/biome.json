@@ -1,0 +1,32 @@
+{
+  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+  "formatter": {
+    "includes": ["*.json"],
+    "indentStyle": "space",
+    "indentWidth": 2
+  },
+  "linter": {
+    "includes": ["*.json", "src/styles/*.css"],
+    "rules": {
+      "preset": "none",
+      "correctness": {
+        "noUnknownProperty": "error"
+      },
+      "suspicious": {
+        "noDuplicateAtImportRules": "error",
+        "noDuplicateCustomProperties": "error",
+        "noDuplicateDependencies": "error",
+        "noDuplicateObjectKeys": "error"
+      }
+    }
+  },
+  "assist": {
+    "includes": ["*.{js,cjs,mjs}", "src/**/*.{js,jsx,cjs,mjs}"],
+    "actions": {
+      "preset": "none",
+      "source": {
+        "organizeImports": "on"
+      }
+    }
+  }
+}

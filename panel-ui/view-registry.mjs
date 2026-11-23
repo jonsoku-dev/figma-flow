@@ -6,6 +6,10 @@ import { fileURLToPath } from 'node:url';
 const PANEL_UI = path.dirname(fileURLToPath(import.meta.url));
 const REPOSITORY_ROOT = path.resolve(PANEL_UI, '..');
 const GRAPH_RELATIVE = 'library/panel-design/views.json';
+export const panelViewRegistry = Object.freeze({
+  specifier: './view-registry.generated.js',
+  graph: GRAPH_RELATIVE,
+});
 const ROLE_LIFECYCLE = Object.freeze({
   'registered-home': 'active',
   task: 'active',
@@ -14,7 +18,7 @@ const ROLE_LIFECYCLE = Object.freeze({
 
 export async function panelViewRegistryModule({ root = REPOSITORY_ROOT, graphPath } = {}) {
   root = path.resolve(root);
-  graphPath = path.resolve(graphPath || path.join(root, GRAPH_RELATIVE));
+  graphPath = path.resolve(graphPath || path.join(root, panelViewRegistry.graph));
   const graph = JSON.parse(await readFile(graphPath, 'utf8'));
   if (graph.schema !== 'figma-flow-panel-view-graph-v1' || graph.version !== 1 ||
       !Array.isArray(graph.nodes) || !Array.isArray(graph.edges)) {

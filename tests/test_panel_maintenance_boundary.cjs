@@ -8,6 +8,8 @@ test('panel build flags transport and native bridge bypasses', () => {
     ['nested/View.js', 'const send = globalThis["fetch"]; send("/path");', /local pairing/],
     ['View.jsx', 'window.parent.postMessage({unsafe: true},"*");', /send callback/],
     ['View.jsx', "import fs from 'node:fs'; console.log(fs);", /source boundary/],
+    ['View.jsx', "const dns = require('dns/promises'); export { dns };", /source boundary/],
+    ['View.jsx', "const client = require('axios'); export { client };", /source boundary/],
     ['nested/View.js', 'import native from "../../../figma-bridge/workspace_host.js"; console.log(native);', /source boundary/],
   ];
   for (const [file, source, expected] of violations) {

@@ -184,7 +184,7 @@ def check(root: Path) -> list[dict]:
             'REACT_VIEW_ROUTER_DRIFT',
             'Route React views through the graph-generated view registry.'),
         'panel-ui/build.mjs': (
-            r"import\s+\{\s*panelViewRegistryModule\s*\}\s+from\s+['\"]\./view-registry\.mjs['\"].*?const\s+viewRegistrySource\s*=\s*await\s+panelViewRegistryModule\(\).*?name:\s*['\"]panel-view-graph['\"]",
+            r"import\s+\{\s*(?:panelViewRegistry\s*,\s*)?panelViewRegistryModule\s*\}\s+from\s+['\"]\./view-registry\.mjs['\"].*?const\s+viewRegistrySource\s*=\s*await\s+panelViewRegistryModule\(\).*?name:\s*['\"]panel-view-graph['\"]",
             'BUNDLER_VIEW_GRAPH_DRIFT',
             'Generate the React route module from the canonical panel view graph.'),
         'panel-ui/view-registry.mjs': (

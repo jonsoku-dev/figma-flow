@@ -1,0 +1,8 @@
+{
+  "decision": "updated",
+  "reason": "패널 통신 경계는 현재 정본에서 생성한 표로 안내하고, 유지보수 절차에는 구현·관측·생성 비교와 정책 변경 시 문서 재검토 방법을 기록했다.",
+  "inputs": {
+    "panel-boundary-policy": "dc0378528c26013b77a7c4c648e5874ce9d9895ffc08657543d987fdec3c40e1"
+  },
+  "documentSha256": "1c2d2970bd29632596eb01c9971d7ae0e5c89524e22d0187f043a7097dd9b0d9"
+}

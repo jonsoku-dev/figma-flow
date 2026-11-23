@@ -24,6 +24,10 @@
 
 메이저 배포 전에 해당 Git 트리 전체의 소유 범위, 기능 요구사항과 인수 근거의 그래프 연결, 제품 정책·디자인 값의 단일 원천을 확인한다. 그래프 누락, 제품 값을 여러 곳에서 독립적으로 선언한 하드코딩, 검토되지 않았거나 현재 소스와 일치하지 않는 근거가 하나라도 있으면 메이저 ZIP 생성을 중단한다. [배포 절차](CONTRIBUTING.md#major-ssot) · [배포 소유권 그래프](release/authority.json)
 
+## Graph SSoT와 코드 품질
+
+[Graph SSoT and Code Quality Constitution 1.0.0](docs/graph-governance-constitution.md)을 2026-11-23 채택한다. 적용 정책과 자동 검사 범위의 변경은 [패널 Graph](library/panel-design/governance.json)와 [검증 절차](docs/maintenance-verification.md#figma-패널-graph-검증)에 기록한다. 제품 기능의 인수, Graph 검사 실행과 GitHub의 병합 제한은 각각 해당 환경의 근거로 확인한다.
+
 ## 개발 경계
 
 배포하는 Figma 플러그인과 위젯의 편집기 대상은 `editorType: ["figma"]`다. 별도 FigJam 보드, Slides 덱, Buzz 문서, Make 프로젝트, Weave 작업 또는 Sites 게시 기능을 신규 개발하거나 메뉴·별칭·생성기·우회 경로로 제공하지 않는다. 디자인 파일 안의 프로토타입 프레젠테이션과 재생 검증은 Design 범위에 속한다. 공식 Figma MCP를 필수 의존성이나 실행 경로로 추가하지 않는다.

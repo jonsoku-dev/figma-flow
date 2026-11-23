@@ -22,11 +22,9 @@ export const assetStatuses = Object.freeze(assetStatusRows.map(({ value }) => va
 export const assetProblemStatuses = Object.freeze(assetStatusRows.filter(({ severity }) => severity === 'problem').map(({ value }) => value));
 export const operationDetailContract = Object.freeze(contractNode(panelGraph, 'operation-detail-v1'));
 const chatErrors = contractNode(panelGraph, 'chat-error-codes').codes;
-export const chatErrorFallbackCode = contractNode(panelGraph, 'chat-error-codes').fallbackCode;
 if (new Set(chatErrors.map(({ code }) => code)).size !== chatErrors.length) {
   throw new Error('Panel chat error codes must be unique');
 }
-export const chatErrorCodes = Object.freeze(new Set(chatErrors.map(({ code }) => code)));
 export const chatErrorMessageKeys = Object.freeze(Object.fromEntries(chatErrors.map(({ code, messageKey }) => [code, messageKey])));
 export const workspaceActivityContract = Object.freeze(contractNode(activityGraph, 'CONTRACT-ACTIVITY-01'));
 const { message: chatMessageInput, preview: chatPreviewInput } = chatInputGraph;

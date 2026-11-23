@@ -2,10 +2,13 @@
 
 const fs = require('node:fs');
 const path = require('node:path');
+const { isBuiltin } = require('node:module');
 const acorn = require('../vendor/acorn/acorn.js');
 const { transformSync } = require('esbuild');
 const { panelBoundaries } = require('../tools/maintenance-contract.json');
-const networkGlobals = new Set(['fetch', 'XMLHttpRequest', 'WebSocket', 'EventSource', 'sendBeacon']);
+const networkGlobals = new Set(panelBoundaries.networkApis);
+const blockedPackages = new Set(panelBoundaries.blockedPackages);
+const sourceNodes = new Set(['ImportDeclaration', 'ImportExpression', 'ExportNamedDeclaration', 'ExportAllDeclaration']);
 
 function checkSource(file, source) {
   const loader = file.endsWith('.jsx') ? 'jsx' : 'js';
@@ -16,18 +19,20 @@ function checkSource(file, source) {
     if (!node || typeof node !== 'object') return;
     const name = node.type === 'Identifier' ? node.name : node.type === 'Literal' ? node.value : null;
     if (networkGlobals.has(name) && file !== panelBoundaries.networkOwner) {
-      findings.add('Network access bypasses local pairing. Use reviewTransport.mjs for prepared review delivery.');
+      findings.add(`Network access bypasses local pairing. Use ${panelBoundaries.networkOwner} for prepared review delivery.`);
     }
-    if (name === 'postMessage' && file !== panelBoundaries.bridgeOwner) {
-      findings.add('Direct host messages bypass panel routing. Use the send callback supplied by app.jsx.');
+    if (name === panelBoundaries.bridgeApi && file !== panelBoundaries.bridgeOwner) {
+      findings.add(`Direct host messages bypass panel routing. Use the send callback supplied by ${panelBoundaries.bridgeOwner}.`);
     }
-    if ((node.type === 'ImportDeclaration' || node.type === 'ImportExpression' ||
-        node.type === 'ExportNamedDeclaration' || node.type === 'ExportAllDeclaration') && node.source) {
-      const target = node.source.value;
+    const dependency = node.type === 'CallExpression' && node.callee.name === 'require'
+      ? (node.arguments[0] ?? {}) : sourceNodes.has(node.type) && node.source;
+    if (dependency) {
+      const target = dependency.value;
+      const packageName = typeof target === 'string' ? target.split('/').slice(0, target.startsWith('@') ? 2 : 1).join('/') : null;
       const outside = typeof target === 'string' && target.startsWith('.') &&
         path.posix.normalize(path.posix.join(path.posix.dirname(file), target)).startsWith('../');
-      if (typeof target !== 'string' || target.startsWith('node:') || /^https?:/.test(target) ||
-          ['fs','http','https','net','child_process','axios','undici'].includes(target) ||
+      if (typeof target !== 'string' || isBuiltin(target) || target.startsWith('node:') || /^https?:/.test(target) ||
+          blockedPackages.has(packageName) ||
           (outside && !(panelBoundaries.externalImports[file] || []).includes(target))) {
         findings.add('Panel dependency crosses its source boundary. Use a local view module or a declared panel contract.');
       }

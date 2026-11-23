@@ -1,0 +1,45 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "env": {
+    "node": true
+  },
+  "categories": {
+    "correctness": "off"
+  },
+  "rules": {
+    "eslint/no-cond-assign": "error",
+    "eslint/no-constant-condition": "error",
+    "eslint/no-dupe-keys": "error",
+    "eslint/no-duplicate-case": "error",
+    "eslint/no-empty-pattern": "error",
+    "eslint/no-func-assign": "error",
+    "eslint/no-import-assign": "error",
+    "eslint/no-invalid-regexp": "error",
+    "eslint/no-new-native-nonconstructor": "error",
+    "eslint/no-obj-calls": "error",
+    "eslint/no-setter-return": "error",
+    "eslint/no-shadow-restricted-names": "error",
+    "eslint/no-sparse-arrays": "error",
+    "eslint/no-unreachable": "error",
+    "eslint/no-unsafe-finally": "error",
+    "eslint/no-unsafe-negation": "error",
+    "eslint/no-unused-vars": "error",
+    "eslint/use-isnan": "error",
+    "eslint/valid-typeof": "error"
+  },
+  "overrides": [
+    {
+      "files": ["src/**/*.{js,jsx,mjs,cjs}"],
+      "env": {
+        "browser": true,
+        "node": false
+      },
+      "plugins": ["react"],
+      "rules": {
+        "react/jsx-key": "error",
+        "react/rules-of-hooks": "error",
+        "react/jsx-no-duplicate-props": "error"
+      }
+    }
+  ]
+}

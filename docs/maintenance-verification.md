@@ -58,3 +58,41 @@ python3 -B tests/test_journal_properties.py --seed 562 --count 4000 --case 0
 ## 새 교정의 절차
 
 관측 가능한 실패를 먼저 고정한다. 검사에서 실제 오류가 잡히면 제품 경계를 고치고 같은 입력을 다시 실행한다. 오래된 지시를 교체할 때는 구현을 통해 강제할 수 있는 문장부터 코드와 검사 이름으로 연결한다. 자료나 권한이 없어서 진행할 수 없는 검사는 그 이유와 실제 필요한 환경을 기록한다.
+
+## Figma 패널 Graph 검증
+
+[Figma Flow 제품 헌법](../CONSTITUTION.md)에서 채택한 [Graph SSoT and Code Quality Constitution 1.0.0](graph-governance-constitution.md)을 패널에 먼저 적용한다. [패널 Graph](../library/panel-design/governance.json)는 관리 대상 ID, 방향, 영향 전파와 검증 책임을 선언한다. [유지보수 계약](../tools/maintenance-contract.json)의 `panelBoundaries`가 번들 진입점, 네트워크 어댑터, 네이티브 메시지 경계 및 소스 외부 import를 소유한다. [경계 표](generated/panel-boundaries.md)는 이 정의에서 생성된다. 이 절의 정책 검토는 [검토 기록](graph-governance-review.json)의 입력과 문서 지문으로 추적한다.
+
+```sh
+npm --prefix panel-ui install --ignore-scripts --no-package-lock --no-audit --no-fund
+python3 -B tools/graph_governance.py observe
+python3 -B tools/graph_governance.py impact --base origin/main
+python3 -B tools/graph_governance.py verify --base origin/main
+python3 -B tools/graph_governance.py verify --base origin/main --json
+```
+
+| 검사 책임 | 담당과 적용 범위 |
+| --- | --- |
+| 패널 의존성·정적 경계 | esbuild 0.28.2 해석과 동봉 Acorn 8.15.0 관측. 기존 구조 검사가 네트워크·호스트 우회를 막고 관측 결과는 바인딩·수입 관계·진입점 도달성을 구분한다. |
+| 계약과 타입 | Node의 패널 경계·디자인 계약 테스트. TypeScript 5.9.3은 기존 SDK 선언과 컴파일 확인에서 사용한다. 패널 프로젝트 전체 타입 검사나 타입 기반 린트는 설정되어 있지 않다. |
+| 생성물과 CI | 깨끗한 디렉터리의 생산용 패널 빌드와 워크플로 템플릿을 제출된 파일 집합과 비교한다. `Test Figma Flow`의 `test` 잡이 로컬과 같은 집계 명령을 실행한다. |
+| 포맷·비 JS 정적 검사 | Biome 2.6.8이 패널 JSON 포맷과 CSS·JSON 규칙을 담당한다. import 정렬은 명시적인 로컬 명령으로 실행한다. |
+| JS·React 정적 검사 | Oxlint 1.94.0이 패널 JavaScript 정확성, 로컬 미사용 바인딩, Hook 호출 순서와 JSX 키·속성을 검사한다. |
+| 프로젝트 미사용 검사 | Knip 6.48.0이 실제 패널 진입점과 화면 등록부를 사용해 생산 파일·export·의존성을 분석하고, 개발 모드에서 유지보수 도구 의존성을 확인한다. |
+
+Graph 소유 값을 바꿀 때 값의 원본과 구현 소비 경로를 확인한다. 패널 번들은 `npm --prefix panel-ui run build`, 경계 표는 `python3 -B tools/graph_governance.py write-doc`, CI 투영은 `python3 -B tools/delivery_config.py --write`에서 갱신한다. 생성물을 재현한 후 비교 기준을 명시하여 집계를 실행한다. 관련 정책이나 설명을 바꾼 경우 이 절을 검토하고 `graph-governance-review.json`에 검토한 입력과 내용의 근거를 기록한다. 검토 결과가 그대로여도 이유가 필요하다.
+
+- 집계는 Graph, 구조, 도달성, 생성, 계약, 도구, 문서, 영향, 입력 최신성의 결과를 요구한다. 입력을 확인하고, 이름이 지정된 계약 테스트의 실행이 없거나 건너뛰면 집계에서 실패한다. Git 인덱스·미커밋 파일과 전후 Graph를 대조한다.
+- 실제 앱 진입점에서의 정적 도달성은 모듈 수준 후보다. 알려진 작업 리포트 CLI 소비 경계, 도달 가능한 코드와 동적 연결을 구분한다. 함수별 호출 대상이나 DB, 외부 시스템의 사용 여부는 별도 증거가 필요하다. 후보를 자동 삭제하지 않는다.
+- Graph 검사·생성기·워크플로·ignore·판정 예외는 `.github/CODEOWNERS` 지정 범위에서 검토한다. GitHub에서 실제 실행된 커밋의 결과, 필수 체크 및 우회 금지, 코드 소유자 리뷰 설정을 각각 확인한다. 이 파일들만으로 브랜치 보호가 활성화되지는 않는다.
+
+### 독립 도구 실행
+
+```sh
+npm --prefix panel-ui run format:check
+npm --prefix panel-ui run lint:biome
+npm --prefix panel-ui run lint:oxlint
+npm --prefix panel-ui run lint:knip -- --json
+```
+
+Biome의 JSON 검사와 Oxlint의 JS 검사는 파일 형식에 따라 역할을 나눈다. Knip의 파일·export·패키지 판단에는 전체 분석 대상과 진입점이 필요하다. 현재 테스트가 직접 호출하는 생산 export의 유지 근거는 Graph에 각 심볼과 소비자 경로로 둔다. 임시 가상 진입점과 검사 로그는 실행이 종료될 때 정리한다. Oxlint 타입 기반 규칙과 실험적 React Compiler 규칙은 이 범위에서 활성화하지 않았다. 도구는 직접 버전을 고정하며 npm의 전이 의존성은 기존 lockfile 정책을 따른다.

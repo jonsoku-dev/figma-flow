@@ -1,0 +1,490 @@
+#!/usr/bin/env python3
+"""Reconcile the declared Figma panel Graph with the submitted source snapshot."""
+import argparse
+from collections import Counter
+from hashlib import sha256
+import json
+import os
+from pathlib import Path
+import posixpath
+import re
+import subprocess
+import sys
+import tempfile
+
+import delivery_config
+import graph_impact
+from graph_document import decode_json, read_json
+from graph_generated import check_generated, write_policy_doc
+
+ROOT = Path(__file__).resolve().parents[1]
+GRAPH = 'library/panel-design/governance.json'
+POLICY = 'tools/maintenance-contract.json'
+SOURCE = 'panel-ui/src/'
+EMPTY_GRAPH = {'schema': 1, 'nodes': [], 'relations': [], 'relationTypes': {}}
+STAGES = ('graph', 'structure', 'usage', 'generation', 'contract', 'quality', 'documentation', 'impact', 'freshness')
+PROOF_FOR_ACTION = {
+    'validate-graph': 'graph',
+    'verify-structure': 'structure',
+    'verify-usage': 'usage',
+    'regenerate': 'generation',
+    'verify-contract': 'contract',
+    'verify-quality': 'quality',
+    'review-documentation': 'documentation',
+}
+IMPORT_EDGES = {'IMPORTS', 'REEXPORTS'}
+
+
+def digest(value):
+    return sha256(json.dumps(value, sort_keys=True, ensure_ascii=False, separators=(',', ':')).encode()).hexdigest()
+
+
+def git(root, *args):
+    return subprocess.check_output(['git', '--no-replace-objects', *args], cwd=root)
+
+
+def finding(rule, status, message, **evidence):
+    return {'rule': rule, 'status': status, 'severity': 'error' if status != 'agrees' else 'info',
+            'message': message, **evidence}
+
+
+def parts_are_safe(path):
+    return isinstance(path, str) and bool(path) and all(
+        part not in ('', '.', '..') for part in path.split('/')
+    ) and not any(char in path for char in '\\:\0')
+
+
+def bind_graph(graph, policy):
+    graph_impact.validate_graph(graph)
+    panel = policy['panelBoundaries']
+    for key in ('entry', 'networkOwner', 'bridgeOwner'):
+        if not parts_are_safe(panel[key]):
+            raise ValueError(f'{POLICY}: specify a path under {SOURCE} for {key}')
+    for key in ('networkApis', 'blockedPackages'):
+        if (not isinstance(panel[key], list) or not panel[key] or
+                any(not isinstance(item, str) or not item for item in panel[key]) or
+                len(set(panel[key])) != len(panel[key])):
+            raise ValueError(f'{POLICY}: declare unique, nonempty strings for {key}')
+    if not isinstance(panel['bridgeApi'], str) or not panel['bridgeApi']:
+        raise ValueError(f'{POLICY}: declare the native bridge API')
+    for source, imports in panel['externalImports'].items():
+        if (not parts_are_safe(source) or not isinstance(imports, list) or not imports or
+                any(not isinstance(spec, str) or not spec.startswith('../')
+                    or not parts_are_safe(posixpath.normpath(posixpath.join(SOURCE, posixpath.dirname(source), spec)))
+                    or posixpath.normpath(posixpath.join(SOURCE, posixpath.dirname(source), spec)).startswith(SOURCE)
+                    for spec in imports) or len(set(imports)) != len(imports)):
+            raise ValueError(f'{POLICY}: declare unique repository-local external imports for {source}')
+    nodes = []
+    for node in graph['nodes']:
+        if node['action'] not in PROOF_FOR_ACTION:
+            raise ValueError(f'No verification for action {node["action"]} on {node["id"]}')
+        binding = node.get('binding')
+        if binding is not None and binding not in ('networkOwner', 'bridgeOwner'):
+            raise ValueError(f'Unknown panel policy binding on {node["id"]}: {binding}')
+        paths = [SOURCE + panel[binding]] if binding else node['paths']
+        nodes.append({**node, 'paths': paths})
+    return {**graph, 'nodes': nodes}
+
+
+def snapshot(root, graph):
+    paths = set(git(root, 'ls-files', '-co', '--exclude-standard', '-z').decode().split('\0')) - {''}
+    patterns = {pattern for node in graph['nodes'] for pattern in node['paths']}
+    wanted = sorted(path for path in paths if any(graph_impact.matches_path(path, pattern) for pattern in patterns))
+    content = {}
+    for name in wanted:
+        path = root / name
+        if path.is_symlink():
+            content[name] = {'symlink': str(path.readlink())}
+        elif path.is_file():
+            content[name] = {'sha256': sha256(path.read_bytes()).hexdigest(), 'executable': bool(path.stat().st_mode & 0o111)}
+    return {'sha256': digest(content), 'paths': len(content)}
+
+
+def run(root, argv, **kwargs):
+    return subprocess.run(argv, cwd=root, check=False, capture_output=True, text=True, timeout=180, **kwargs)
+
+
+def observe(root, graph, policy):
+    process = run(root, ['node', 'panel-ui/observed-graph.cjs', '--options-stdin'], input=json.dumps({
+        'entries': [SOURCE + policy['panelBoundaries']['entry']],
+        'externalConsumers': graph['externalConsumers'],
+    }))
+    if process.returncode != 0:
+        raise ValueError(f'Extract the observed panel Graph: {process.stderr.strip()}')
+    report = decode_json(process.stdout)
+    if report.get('schema') != 'figma-flow-observed-panel-v1' or not report.get('sourceFingerprint'):
+        raise ValueError('The panel observer did not produce current source evidence')
+    return report
+
+
+def structure(graph, panel, observation):
+    issues = []
+    observed = {node['path'] for node in observation['nodes']}
+    by_id = {node['id']: node for node in graph['nodes']}
+    binding_evidence = []
+    for node in graph['nodes']:
+        exact = node['paths'][0] if node['kind'] == 'implementation' and len(node['paths']) == 1 else None
+        if not exact or any(char in exact for char in '*?[') or node['status'] != 'active':
+            continue
+        present = exact in observed
+        binding_evidence.append({'target': node['id'], 'path': exact, 'status': 'bound' if present else 'unbound'})
+        if not present:
+            issues.append(finding('implementation-binding', 'unbound', 'Bind the active implementation to observed panel source.',
+                                  target=node['id'], path=exact, action='supply-mapping'))
+
+    imports = [edge for edge in observation['edges'] if edge['type'] in IMPORT_EDGES]
+    for relation in graph['relations']:
+        kind = relation['type']
+        if kind not in IMPORT_EDGES | {'CALLS', 'READS', 'WRITES'}:
+            continue
+        origin, destination = (by_id[relation[key]] for key in ('from', 'to'))
+        if 'planned' in (origin['status'], destination['status']):
+            continue
+        state = relation['state']
+        if kind in {'CALLS', 'READS', 'WRITES'}:
+            if state != 'optional':
+                issues.append(finding('relation-target-resolution', 'unknown', 'The observer cannot resolve this required or forbidden relationship. Supply a verifier for the declared type.',
+                                      relation=relation, target=origin['id'], path=GRAPH, action='supply-mapping'))
+            continue
+        witnesses = [edge['location'] for edge in imports if edge.get('to') and edge['type'] == kind
+                     and ('mode' not in relation or edge['mode'] == relation['mode'])
+                     and any(graph_impact.matches_path(edge['from'], pattern) for pattern in origin['paths'])
+                     and any(graph_impact.matches_path(edge['to'], pattern) for pattern in destination['paths'])]
+        if witnesses and state == 'forbidden':
+            status, reason = 'prohibited', 'Remove the prohibited dependency or use the owning adapter.'
+        elif not witnesses and state == 'required':
+            status, reason = 'missing', 'Restore the required source relationship or amend the approved Graph.'
+        elif witnesses:
+            status, reason = 'agrees', 'The declared relationship is present in the observed source.'
+        else:
+            continue
+        issues.append(finding('declared-relationship', status, reason, relation=relation, target=origin['id'],
+                              path=GRAPH, evidence=witnesses, action='verify-structure'))
+
+    allowed = {(SOURCE + source, spec) for source, values in panel['externalImports'].items() for spec in values}
+    observed_outside = {}
+    for edge in imports:
+        if edge.get('resolution') == 'external-file':
+            key = (edge['from'], edge['specifier'])
+            observed_outside.setdefault(key, []).append(edge['location'])
+    for origin, spec in sorted(allowed | observed_outside.keys()):
+        locations = observed_outside.get((origin, spec), [])
+        if (origin, spec) not in allowed:
+            status, reason = 'prohibited', 'Route this external import through its declared panel contract.'
+        elif not locations:
+            status, reason = 'missing', 'Restore this contract consumer or retire the declared import with owner review.'
+        else:
+            status, reason = 'agrees', 'The panel consumes a declared external module.'
+        issues.append(finding('external-import', status, reason, path=origin, target=spec,
+                              evidence=locations, action='verify-structure'))
+    for row in observation['findings']:
+        issues.append(finding(row['rule'], 'unknown', 'Resolve the panel dependency so the boundary can be verified.',
+                              path=row['path'], evidence=row.get('location'), action='supply-mapping'))
+    return binding_evidence, issues
+
+
+def usage_findings(graph, observation):
+    rules = {}
+    for row in graph['dispositions']:
+        path = row['path']
+        if (not parts_are_safe(path) or path in rules or
+                not all(isinstance(row.get(key), str) and row[key].strip()
+                        for key in ('reason', 'approval', 'reviewCondition')) or
+                not re.fullmatch(r'[0-9a-f]{64}', row.get('sha256', ''))):
+            raise ValueError('An unused disposition needs a unique path, source SHA, reason, approval and review condition')
+        rules[path] = row
+    hashes = {node['path']: node['sha256'] for node in observation['nodes']}
+    issues = []
+    applied = set()
+    for row in observation['usage']:
+        path = row['path']
+        if row['status'] == 'unknown':
+            issues.append(finding('usage-evidence', 'unknown', 'Resolve dynamic usage before classifying this module.',
+                                  path=path, action='investigate-usage'))
+        elif row['status'] == 'unused-candidate':
+            if path in rules and hashes[path] == rules[path]['sha256']:
+                applied.add(path)
+            else:
+                issues.append(finding('unused-module', 'needs-review', 'Review the candidate and record evidence before removing or retaining it.',
+                                      path=path, action='investigate-usage'))
+    for path in sorted(rules.keys() - applied):
+        issues.append(finding('stale-disposition', 'needs-review', 'Remove an obsolete disposition or review it against the actual source.',
+                              path=path, action='investigate-usage'))
+    return issues
+
+
+def doc_findings(root, graph, policy):
+    review = graph['guideReview']
+    if review['inputs'] != ['panel-boundary-policy'] or not all(parts_are_safe(review[key]) for key in ('path', 'receipt')):
+        raise ValueError('The maintenance guide review must identify the panel boundary policy and portable document paths')
+    receipt = read_json(root / review['receipt'])
+    fields = {'inputs': {review['inputs'][0]: digest(policy['panelBoundaries'])},
+              'documentSha256': sha256((root / review['path']).read_bytes()).hexdigest()}
+    if (any(receipt.get(key) != value for key, value in fields.items()) or
+            not isinstance(receipt.get('reason'), str) or not receipt['reason'].strip() or
+            receipt.get('decision') not in ('updated', 'reviewed-no-change')):
+        return [finding('documentation-review', 'needs-review', 'Review the named policy change and update the guide or record a reasoned no-change decision.',
+                        path=review['path'], target=review['node'], evidence=fields, action='review-documentation')]
+    return []
+
+
+def contract_proof(root, tests):
+    if not tests or any(not parts_are_safe(path) or not cases or not isinstance(cases, list) for path, cases in tests.items()):
+        raise ValueError('Declare the named panel contract tests and source paths in the Graph')
+    command = ['node', '--test', '--test-reporter=tap', *tests.keys()]
+    checks = run(root, command)
+    proof = tap_proof(checks.stdout, checks.returncode, {name for cases in tests.values() for name in cases})
+    proof.update(command=command, outputSha256=sha256((checks.stdout + checks.stderr).encode()).hexdigest())
+    if proof['status'] != 'passed':
+        proof['diagnostic'] = '\n'.join((checks.stdout + checks.stderr).splitlines()[-35:])
+    return proof
+
+
+def quality_proof(root):
+    project = root / 'panel-ui'
+    pins = read_json(project / 'package.json')['devDependencies']
+    versions = {name: read_json(project / 'node_modules' / name / 'package.json')['version']
+                for name in ('@biomejs/biome', 'oxlint', 'knip')}
+    errors = [finding('tool-version', 'missing-or-drift', f'Install {name}@{pins[name]} in panel-ui.', target=name)
+              for name, version in versions.items() if pins[name] != version]
+    steps = {}
+    commands = {
+        'format:check': ['node_modules/.bin/biome', 'format', '.'],
+        'lint:biome': ['node_modules/.bin/biome', 'lint', '.'],
+        'lint:oxlint': ['node_modules/.bin/oxlint', '--max-warnings', '0', '--format', 'json', '.'],
+        'lint:knip': ['node', 'knip.config.mjs', '--json'],
+    }
+    with tempfile.TemporaryDirectory(prefix='figma-flow-quality-') as scratch:
+        environment = {**os.environ, **dict.fromkeys(('TMPDIR', 'TMP', 'TEMP'), scratch)}
+        results = {task: run(project, command, env=environment) for task, command in commands.items()}
+    for task, completed in results.items():
+        output = completed.stdout + completed.stderr
+        status = 'passed' if completed.returncode == 0 else 'failed'
+        steps[task] = {'status': status, 'command': commands[task], 'exit': completed.returncode,
+                       'outputSha256': sha256(output.encode()).hexdigest()}
+        if status != 'passed':
+            errors.append(finding('quality-command', status, f'{task} failed. {output.strip()[-1700:]}', target=task))
+        elif task == 'lint:knip':
+            receipt = decode_json(completed.stdout)
+            if (receipt.get('schema') != 'figma-flow-panel-knip-v1' or receipt.get('status') != 'passed' or
+                    {row['mode'] for row in receipt['runs']} != {'production', 'development'}):
+                errors.append(finding('quality-evidence', 'unknown', 'Knip must report both production and tooling analysis.', target=task))
+            steps[task]['evidence'] = receipt
+        elif task == 'lint:oxlint':
+            receipt = decode_json(completed.stdout)
+            if not receipt['number_of_files'] or not receipt['number_of_rules'] or receipt['diagnostics']:
+                errors.append(finding('quality-evidence', 'unknown', 'Oxlint must report active rules and a clean file scan.', target=task))
+            steps[task].update(files=receipt['number_of_files'], rules=receipt['number_of_rules'])
+        else:
+            count = re.search(r'\bChecked ([1-9]\d*) files?\b', output)
+            if not count:
+                errors.append(finding('quality-evidence', 'unknown', 'The checker did not report a positive file count.', target=task))
+            else:
+                steps[task]['files'] = int(count[1])
+    return {'versions': versions, 'steps': steps}, errors
+
+
+def tap_proof(output, returncode, required=()):
+    counts = {key: [int(value) for value in re.findall(rf'^# {key} (\d+)$', output, re.M)]
+              for key in ('tests', 'pass', 'fail', 'skipped', 'cancelled', 'todo')}
+    cases = set(re.findall(r'^ok \d+ - (.+)$', output, re.M))
+    missing = sorted(set(required) - cases)
+    ok = (not missing and all(len(values) == 1 for values in counts.values()) and counts['tests'][0] > 0 and
+          counts['tests'] == counts['pass'] and all(counts[key] == [0] for key in ('fail', 'skipped', 'cancelled', 'todo')))
+    if not ok or returncode:
+        return {'status': 'incomplete' if not returncode else 'failed', 'counts': counts, 'missingCases': missing}
+    return {'status': 'passed', 'counts': {key: values[0] for key, values in counts.items()}, 'cases': sorted(cases)}
+
+
+def aggregate(stages):
+    return ('passed' if set(stages) == set(STAGES) and all(
+        stage.get('status') == 'passed' and stage.get('evidence') for stage in stages.values()
+    ) else 'incomplete')
+
+
+def read_base(root, ref):
+    if not git(root, 'ls-tree', '--name-only', ref, '--', GRAPH).strip():
+        # The first adoption deliberately has no prior governance declaration.
+        return EMPTY_GRAPH
+    return bind_graph(decode_json(git(root, 'show', f'{ref}:{GRAPH}')),
+                      decode_json(git(root, 'show', f'{ref}:{POLICY}')))
+
+
+def changed_symbols(root, base, paths):
+    modules = []
+    for name, change in paths.items():
+        if not name.startswith(SOURCE) or Path(name).suffix not in ('.js', '.mjs', '.jsx'):
+            continue
+        source = {'path': name}
+        for revision, read in (
+            ('before', lambda: git(root, 'show', f'{base}:{name}')),
+            ('after', lambda: (root / name).read_bytes()),
+        ):
+            info = change[revision]
+            if info is None:
+                source[revision] = None
+                continue
+            if info['mode'] not in ('100644', '100755'):
+                raise ValueError(f'Cannot extract symbols from non-regular source {name} ({revision})')
+            content = read()
+            if sha256(content).hexdigest() != info['sha256']:
+                raise ValueError(f'Panel source changed while extracting symbols: {name}')
+            source[revision] = content.decode()
+        modules.append(source)
+    if not modules:
+        return {'files': []}
+    result = run(root, ['node', 'panel-ui/observed-graph.cjs', '--symbols-stdin'], input=json.dumps(modules))
+    if result.returncode:
+        raise ValueError('Symbol extraction failed: ' + result.stderr.strip())
+    evidence = decode_json(result.stdout)
+    if (evidence.get('schema') != 'figma-flow-observed-panel-symbol-diff-v1' or
+            {row['path'] for row in evidence['files']} != {row['path'] for row in modules}):
+        raise ValueError('Symbol evidence is missing for a changed panel module')
+    return evidence
+
+
+def compare(root, graph, base):
+    if base is None:
+        raise ValueError('Supply an explicit comparison base for impact verification')
+    base_sha = git(root, 'rev-parse', '--verify', '--end-of-options', f'{base}^{{commit}}').decode().strip()
+    paths = graph_impact.changed_paths(root, base_sha)
+    return {'base': base_sha, 'symbols': changed_symbols(root, base_sha, paths),
+            **graph_impact.analyze_impact(read_base(root, base_sha), graph, paths)}
+
+
+def verify(root, graph, policy, base):
+    start = snapshot(root, graph)
+    stages = {'graph': {'status': 'passed', 'evidence': {'path': GRAPH, 'sha256': digest(graph)}}}
+    report = {'schema': 'figma-flow-governance-report-v1', 'version': git(root, 'rev-parse', 'HEAD').decode().strip(),
+              'scope': graph['scope'], 'snapshot': start, 'stages': stages}
+
+    def checked(name, callback):
+        try:
+            evidence, issues = callback()
+            stages[name] = {'status': 'failed' if any(row['severity'] == 'error' for row in issues) else 'passed',
+                            'evidence': evidence, 'findings': issues}
+        except (OSError, ValueError, KeyError, TypeError, subprocess.SubprocessError) as error:
+            stages[name] = {'status': 'unknown', 'findings': [
+                finding(name, 'unknown', str(error), action='supply-evidence')]}
+
+    observation = {}
+    def verify_structure():
+        observation.update(observe(root, graph, policy))
+        bindings, issues = structure(graph, policy['panelBoundaries'], observation)
+        return {'bindings': bindings, 'sourceFingerprint': observation['sourceFingerprint'],
+                'extractor': observation['extractor'], 'packages': observation['packages'],
+                'externalEvidence': observation['externalEvidence'], 'observedModules': len(observation['nodes']),
+                'observedEdges': len(observation['edges'])}, issues
+
+    def verify_usage():
+        return {'usage': observation['usage'], 'cycles': observation['cycles'],
+                'dispositions': graph['dispositions']}, usage_findings(graph, observation)
+
+    def verify_generation():
+        paths = check_generated(root, policy)
+        ci = delivery_config.check(root)
+        return {'panel': 'clean production rebuild', 'delivery': 'rendered workflow file inventory'}, [
+            finding('generated-drift', 'missing-or-drift', str(item), action='regenerate') for item in [*paths, *ci]
+        ]
+
+    checked('structure', verify_structure)
+    checked('usage', verify_usage)
+    checked('generation', verify_generation)
+
+    def verify_contract():
+        proof = contract_proof(root, graph['contractTests'])
+        return proof, [] if proof['status'] == 'passed' else [
+            finding('behavioral-evidence', 'needs-review', 'Run all required panel contract scenarios without failures or skips.',
+                    action='verify-contract')]
+
+    checked('contract', verify_contract)
+    checked('quality', lambda: quality_proof(root))
+    checked('documentation', lambda: ({'path': graph['guideReview']['receipt']}, doc_findings(root, graph, policy)))
+
+    def verify_impact():
+        impact = compare(root, graph, base)
+        issues = [finding('impact-symbols', 'unknown', 'Resolve the changed panel source before relying on symbol impact.',
+                          path=row['path'], evidence=row['unknown'], action='supply-evidence')
+                  for row in impact['symbols']['files'] if row['status'] == 'unknown']
+        for item in impact['impacts']:
+            proof = PROOF_FOR_ACTION[item['action']]
+            if item['removed']:
+                item['status'] = 'retired' if all(
+                    relation['to'] != item['id'] and relation['from'] != item['id'] for relation in graph['relations']
+                ) else 'needs-review'
+            elif item['status'] == 'planned':
+                item['status'] = 'not-applicable'
+            else:
+                item['status'] = 'action-checked' if stages[proof]['status'] == 'passed' else 'needs-review'
+            item['evidence'] = proof
+            if item['status'] == 'needs-review':
+                issues.append(finding('impact-incomplete', 'needs-review', 'Complete the required action for this affected target.',
+                                      target=item['id'], action=item['action'], evidence=item['traces']))
+        return impact, issues
+
+    checked('impact', verify_impact)
+
+    def verify_freshness():
+        current = snapshot(root, graph)
+        current_policy = read_json(root / POLICY)
+        same_authority = current_policy == policy and bind_graph(read_json(root / GRAPH), current_policy) == graph
+        return current, [] if current == start and same_authority else [
+            finding('snapshot-changed', 'unknown', 'Source changed during verification. Recheck the actual submitted snapshot.',
+                    evidence={'before': start, 'after': current}, action='supply-evidence')]
+
+    checked('freshness', verify_freshness)
+    report['status'] = aggregate(stages)
+    return report
+
+
+def summary(report):
+    print(f'Panel Graph {report["status"]} for {report["version"][:12]} / {report["snapshot"]["sha256"][:12]}')
+    for name, stage in report['stages'].items():
+        print(f'  {name}: {stage["status"]}')
+        for issue in stage.get('findings', []):
+            if issue['severity'] == 'error':
+                print(f'    {issue.get("path", issue.get("target", ""))} {issue["rule"]}: {issue["message"]}')
+    evidence = report['stages']['impact'].get('evidence')
+    if evidence:
+        print(f'  {len(evidence["impacts"])} affected Graph targets, {len(evidence["unmappedPaths"])} paths outside declared mappings')
+
+
+def test_other_suites(root, contract_tests):
+    suites = sorted(path.relative_to(root).as_posix() for path in (root / 'tests').glob('*.cjs'))
+    pending = [path for path in suites if path not in contract_tests]
+    if not pending:
+        raise ValueError('The remaining Node test suites are missing')
+    return subprocess.run(['node', '--test', *pending], cwd=root, check=False).returncode
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('command', choices=('observe', 'impact', 'verify', 'write-doc', 'test-other-suites'))
+    parser.add_argument('--base', help='Git commit or ref for the before/after comparison')
+    parser.add_argument('--json', action='store_true', help='Print structured evidence')
+    args = parser.parse_args()
+    try:
+        policy = read_json(ROOT / POLICY)
+        graph = bind_graph(read_json(ROOT / GRAPH), policy)
+        if args.command == 'write-doc':
+            write_policy_doc(ROOT, policy)
+            return 0
+        if args.command == 'test-other-suites':
+            return test_other_suites(ROOT, graph['contractTests'])
+        if args.command == 'observe':
+            result = observe(ROOT, graph, policy)
+        elif args.command == 'impact':
+            result = compare(ROOT, graph, args.base)
+        else:
+            result = verify(ROOT, graph, policy, args.base)
+            if not args.json:
+                summary(result)
+        if args.json or args.command != 'verify':
+            print(json.dumps(result, indent=2, ensure_ascii=False))
+        return int(args.command == 'verify' and result['status'] != 'passed')
+    except (OSError, ValueError, KeyError, TypeError, subprocess.SubprocessError) as error:
+        parser.exit(1, f'Graph governance: {error}\n')
+
+
+if __name__ == '__main__':
+    sys.exit(main())

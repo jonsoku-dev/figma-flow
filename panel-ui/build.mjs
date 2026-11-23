@@ -1,15 +1,30 @@
 import { build } from 'esbuild';
-import { execFileSync } from 'node:child_process';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { panelViewRegistryModule } from './view-registry.mjs';
+import { panelViewRegistry, panelViewRegistryModule } from './view-registry.mjs';
 import { checkPanel } from './architecture.cjs';
+import { panelTokenCss } from './build-tokens.mjs';
+import maintenance from '../tools/maintenance-contract.json' with { type: 'json' };
+
+const [flag, destination, ...unexpected] = process.argv.slice(2);
+if (flag !== undefined && (flag !== '--output-root' || !destination || unexpected.length)) {
+  throw new Error('Usage: node panel-ui/build.mjs [--output-root <directory>]');
+}
+const outputRoot = destination ? resolve(destination) : fileURLToPath(new URL('../', import.meta.url));
+const panelSource = fileURLToPath(new URL('src/', import.meta.url));
+const sourceTokenCss = join(panelSource, 'styles/tokens.css');
+const generatedTokenCss = join(outputRoot, 'panel-ui/src/styles/tokens.css');
+const out = join(outputRoot, 'figma-bridge/assets');
+
 const boundaryFailures = checkPanel();
 if (boundaryFailures.length) throw new Error(boundaryFailures.join('\n'));
 
 const plugin = JSON.parse(await readFile(new URL('../plugin.json', import.meta.url), 'utf8'));
 const viewRegistrySource = await panelViewRegistryModule();
-execFileSync(process.execPath, [fileURLToPath(new URL('build-tokens.mjs', import.meta.url))], { stdio: 'inherit' });
+const viewRegistryFilter = new RegExp('^' + panelViewRegistry.specifier.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '$');
+await mkdir(dirname(generatedTokenCss), { recursive: true });
+await writeFile(generatedTokenCss, panelTokenCss, 'utf8');
 const readLimits = JSON.parse(await readFile(new URL('../library/figma-profile/read-limits.json', import.meta.url), 'utf8'));
 if (!Number.isSafeInteger(readLimits.maxNodes) || readLimits.maxNodes < 1) {
   throw new Error('Panel selection limit must be a positive safe integer');
@@ -27,6 +42,10 @@ const metric = (name) => {
 const resolvePanelTokens = {
   name: 'resolve-panel-media-tokens',
   setup(build) {
+    build.onResolve({ filter: /^\.\/tokens\.css$/ }, (args) => {
+      if (resolve(args.resolveDir, args.path) === sourceTokenCss) return { path: generatedTokenCss };
+      return null;
+    });
     build.onLoad({ filter: /\.css$/ }, async (args) => {
       const source = await readFile(args.path, 'utf8');
       const used = [...source.matchAll(/__PANEL_TOKEN_([a-z][a-z0-9-]*)__/g)];
@@ -47,10 +66,9 @@ const resolvePanelTokens = {
 const common = JSON.parse(await readFile(new URL('../figma-bridge/locales/common.json', import.meta.url), 'utf8'));
 const displayName = plugin.extensions['com.openai'].interface.displayName;
 const localeCodes = Object.keys(Object.values(common)[0]);
-const out = fileURLToPath(new URL('../figma-bridge/assets/', import.meta.url));
 await mkdir(out, { recursive: true });
 await build({
-  entryPoints: [fileURLToPath(new URL('src/app.jsx', import.meta.url))],
+  entryPoints: [join(panelSource, maintenance.panelBoundaries.entry)],
   bundle: true,
   outfile: out + '/panels.js',
   minify: true,
@@ -61,11 +79,11 @@ await build({
   plugins: [{
     name: 'panel-view-graph',
     setup(build) {
-      build.onResolve({ filter: /^\.\/view-registry\.generated\.js$/ }, () => ({
+      build.onResolve({ filter: viewRegistryFilter }, () => ({
         path: 'panel-view-registry', namespace: 'panel-view-graph',
       }));
       build.onLoad({ filter: /.*/, namespace: 'panel-view-graph' }, () => ({
-        contents: viewRegistrySource, loader: 'js', resolveDir: fileURLToPath(new URL('src/', import.meta.url)),
+        contents: viewRegistrySource, loader: 'js', resolveDir: panelSource,
       }));
     },
   }, resolvePanelTokens],

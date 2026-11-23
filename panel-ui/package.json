@@ -5,7 +5,13 @@
   "type": "module",
   "scripts": {
     "build": "node build.mjs",
-    "check:tokens": "node build-tokens.mjs --check"
+    "check:tokens": "node build-tokens.mjs --check",
+    "lint:biome": "biome lint .",
+    "lint:oxlint": "oxlint --max-warnings 0 .",
+    "lint:knip": "node knip.config.mjs",
+    "format:check": "biome format .",
+    "format": "biome format --write .",
+    "organize:imports": "biome check --formatter-enabled=false --linter-enabled=false --write"
   },
   "dependencies": {
     "@tanstack/react-query": "5.108.2",
@@ -15,7 +21,10 @@
     "react-dom": "19.3.1"
   },
   "devDependencies": {
-    "esbuild": "0.28.2"
+    "@biomejs/biome": "2.6.8",
+    "knip": "6.48.0",
+    "esbuild": "0.28.2",
+    "oxlint": "1.94.0"
   },
   "overrides": {
     "scheduler": "0.28.0",

@@ -22,6 +22,8 @@ Figma Flow 전용 격리 브라우저는 [브라우저 설정](skills/figma-flow
 
 반복된 교정은 API·타입·의존성 경계 또는 위반을 재현하는 검사에 반영한다. 현재 검사는 `python3 -B tools/maintenance.py check`로 실행한다. 실행 근거와 PR 형식은 [유지보수 검증 절차](docs/maintenance-verification.md)를 따른다.
 
+패널 Graph·구현·검증 정책을 변경하면 [Graph SSoT 품질 계약과 검사](docs/maintenance-verification.md#figma-패널-graph-검증)를 적용하고 `python3 -B tools/graph_governance.py verify --base <기준 커밋>`을 실행한다.
+
 검증 결과를 Git 기록에 연결한 뒤 실행이 만든 원본 산출물은 그 실행에서 정리한다. [검증 산출물의 수명](CONSTITUTION.md#검증-산출물의-수명)의 소유 범위와 예외를 사용한다.
 
 ## 패치 기록과 개선 완료 조건
