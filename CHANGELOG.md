@@ -2,6 +2,8 @@
 
 ## 미출시
 
+- Figma Design 페이지로 전환하면 로딩을 마친 뒤 변경 감지를 연결합니다. 이전 페이지에서 보낸 이벤트의 확인 응답도 원래 범위에서 처리합니다. [수정과 검증](docs/llm-wiki/patches/e2c2ab6071bc7513d3b22b472b607b57054e6bcb.md)
+
 ## 1.0.0 · 2026-11-23
 
 - 작업 요청·승인·프로필·결과를 Codex에서 관리하고 Figma Design 플러그인에서 페이지와 실행 상태를 확인합니다. 등록 플러그인과 작업공간을 업그레이드할 때는 기존 ID·작업 버전을 대조하세요. [1.0.0 배포 기록](docs/llm-wiki/releases.md#v1.0.0) · [업그레이드 절차](skills/figma-plugin-setup/SKILL.md)

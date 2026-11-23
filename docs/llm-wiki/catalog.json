@@ -16887,6 +16887,189 @@
           "version": "1.0.0"
         }
       ]
+    },
+    {
+      "commit": "e8855f9227d3487fb427339323527060ea32be8d",
+      "diff_sha256": "1fe4c911966e6d054565757c85a8df6554f3a62424c5c428cc46a9a0cfa5c9de",
+      "files": [
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/6e7b2174eac971cf8fb391edabeaee07866a83a7.md",
+        "docs/llm-wiki/releases.md"
+      ],
+      "parents": [
+        "6e7b2174eac971cf8fb391edabeaee07866a83a7"
+      ],
+      "subject": "docs: record the verified 1.0.0 release tag and archive",
+      "tree": "452edfa14578188f2e611a921735a405ee1f9d7d",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.0.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.0.0"
+        }
+      ]
+    },
+    {
+      "commit": "2c67289ffe5599db2fb5dca835324a3549f340b6",
+      "diff_sha256": "e59aeb8fc1f9bfb724442ec58e7b8c94503af18e391a384ac7b344e67423a54f",
+      "files": [
+        "tests/test_workspace_changes.cjs"
+      ],
+      "parents": [
+        "e8855f9227d3487fb427339323527060ea32be8d"
+      ],
+      "subject": "test: reproduce scoped Figma change-event loss",
+      "tree": "134999e0b0979cab15d5759a54507ec34db61ab4",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.0.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.0.0"
+        }
+      ]
+    },
+    {
+      "commit": "e2c2ab6071bc7513d3b22b472b607b57054e6bcb",
+      "diff_sha256": "4a4faa83ae4133966af7e0864fda378d4d9cb65adb30a202a7bb8327df3efa5f",
+      "files": [
+        "figma-bridge/workspace_changes.js",
+        "figma-bridge/workspace_control.js"
+      ],
+      "parents": [
+        "2c67289ffe5599db2fb5dca835324a3549f340b6"
+      ],
+      "subject": "fix: load and bind Figma change listeners by page scope",
+      "tree": "953ddf16166958d031b44afadca57ccf74a2cc36",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.0.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.0.0"
+        }
+      ]
+    },
+    {
+      "commit": "335679f7f543e354a370cf102d0d2bd88acb9007",
+      "diff_sha256": "abfd6432bc4ed10096eac4472a9c547e146a8498ffb59feaea33fa303f93d01a",
+      "files": [
+        "release/reviews/design-host.json",
+        "release/reviews/evidence/design-host/01-appearance.json",
+        "release/reviews/evidence/design-host/01-graph_board.json",
+        "release/reviews/evidence/design-host/01-graph_card.json",
+        "release/reviews/evidence/design-host/01-graph_refresh.json",
+        "release/reviews/evidence/design-host/02-appearance.json",
+        "release/reviews/evidence/design-host/02-native_handoff.json",
+        "release/reviews/evidence/design-host/02-notes.json",
+        "release/reviews/evidence/design-host/03-appearance.json",
+        "release/reviews/evidence/design-host/03-cta.json",
+        "release/reviews/evidence/design-host/04-appearance.json",
+        "release/reviews/evidence/design-host/04-cta.json",
+        "release/reviews/evidence/design-host/05-appearance.json",
+        "release/reviews/evidence/design-host/05-web_tabs.json",
+        "release/reviews/evidence/design-host/06-web_tabs.json",
+        "release/reviews/evidence/design-host/07-appearance.json",
+        "release/reviews/evidence/design-host/07-native_edit.json",
+        "release/reviews/evidence/design-host/07-native_edit_reject.json",
+        "release/reviews/evidence/design-host/08-native_edit.json",
+        "release/reviews/evidence/design-host/08-native_edit_reject.json",
+        "release/reviews/evidence/design-host/09-appearance.json",
+        "release/reviews/evidence/design-host/09-control_icon.json",
+        "release/reviews/evidence/design-host/09-native_controls.json",
+        "release/reviews/evidence/design-host/10-appearance.json",
+        "release/reviews/evidence/design-host/10-figma_bridge.json",
+        "release/reviews/evidence/design-host/11-appearance.json",
+        "release/reviews/evidence/design-host/11-chat_host.json",
+        "release/reviews/evidence/design-host/11-standalone.json",
+        "release/reviews/evidence/design-host/12-chat_host.json",
+        "release/reviews/evidence/design-host/12-standalone.json",
+        "release/reviews/evidence/design-host/13-standalone.json",
+        "release/reviews/evidence/design-host/14-standalone.json",
+        "release/reviews/evidence/design-host/15-graph_catalog.json",
+        "release/reviews/evidence/design-host/15-standalone.json",
+        "release/reviews/evidence/design-host/16-standalone.json",
+        "release/reviews/evidence/design-host/17-host_locale.json",
+        "release/reviews/evidence/design-host/17-standalone.json",
+        "release/reviews/evidence/design-host/17-workspace_case.json",
+        "release/reviews/evidence/design-host/18-cta.json",
+        "release/reviews/evidence/design-host/18-family.json",
+        "release/reviews/evidence/design-host/19-control_icon.json",
+        "release/reviews/evidence/design-host/19-family.json",
+        "release/reviews/evidence/design-host/20-host_profile.json",
+        "release/reviews/evidence/design-host/20-window.json",
+        "release/reviews/evidence/design-host/21-window.json",
+        "release/reviews/evidence/design-host/22-control_native.json",
+        "release/reviews/evidence/design-host/22-host_profile.json",
+        "release/reviews/evidence/design-host/22-host_scope.json",
+        "release/reviews/evidence/design-host/23-host_profile.json",
+        "release/reviews/evidence/design-host/23-workspace_case.json",
+        "release/reviews/evidence/design-host/24-control_relay.json",
+        "release/reviews/evidence/design-host/24-transport.json",
+        "release/reviews/evidence/design-host/25-host_relay.json",
+        "release/reviews/evidence/design-host/25-read_getters.json",
+        "release/reviews/evidence/design-host/25-read_measure.json",
+        "release/reviews/evidence/design-host/26-audit_log.json",
+        "release/reviews/evidence/design-host/26-changes.json",
+        "release/reviews/evidence/design-host/26-host_locale.json",
+        "release/reviews/evidence/design-host/27-audit_log.json",
+        "release/reviews/evidence/design-host/27-control_native.json",
+        "release/reviews/evidence/design-host/27-host_scope.json",
+        "release/reviews/evidence/design-host/28-control_native.json",
+        "release/reviews/evidence/design-host/28-host_relay.json",
+        "release/reviews/evidence/design-host/29-chat_host.json",
+        "release/reviews/evidence/design-host/29-standalone.json",
+        "release/reviews/evidence/design-host/30-control_relay.json",
+        "release/reviews/evidence/design-host/30-host_relay.json",
+        "release/reviews/evidence/design-host/30-workspace_case.json",
+        "release/reviews/evidence/design-host/31-host_relay.json",
+        "release/reviews/evidence/design-host/31-relay_alignment.json",
+        "release/reviews/evidence/design-host/32-api_fixture.json",
+        "release/reviews/evidence/design-host/32-api_probe.json",
+        "release/reviews/evidence/design-host/33-workspace_recipes.json",
+        "release/reviews/evidence/design-host/34-token_sync.json",
+        "release/reviews/evidence/design-host/35-cta.json",
+        "release/reviews/evidence/design-host/35-token_sync.json",
+        "release/reviews/evidence/design-host/36-native_handoff.json",
+        "release/reviews/evidence/design-host/36-notes.json",
+        "release/reviews/evidence/design-host/37-graph_board.json",
+        "release/reviews/evidence/design-host/37-graph_card.json",
+        "release/reviews/evidence/design-host/38-design_graph.json",
+        "release/reviews/evidence/design-host/38-direction.json",
+        "release/reviews/evidence/design-host/39-panel_components.json",
+        "release/reviews/evidence/design-host/39-panel_locale.json",
+        "release/reviews/evidence/design-host/39-standalone.json",
+        "release/reviews/evidence/design-host/40-panel_components.json",
+        "release/reviews/evidence/design-host/40-standalone.json",
+        "release/reviews/evidence/design-host/41-appearance.json",
+        "release/reviews/evidence/design-host/41-standalone.json",
+        "release/reviews/evidence/design-host/42-changes.json",
+        "release/reviews/evidence/design-host/42-workspace_case.json",
+        "release/reviews/evidence/design-host/app-colors.json",
+        "release/reviews/evidence/page-listener/design-host-1.json"
+      ],
+      "parents": [
+        "e2c2ab6071bc7513d3b22b472b607b57054e6bcb"
+      ],
+      "subject": "verify: bind page listener behavior to Design host review",
+      "tree": "aa2ccbc40e01dd84e229ff50c3affab47836ab4a",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.0.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.0.0"
+        }
+      ]
     }
   ],
   "pages": {
@@ -16974,6 +17157,7 @@
     "2ae6c2aed4c6c45e79d92b10e46b0d3cb10e48de": "cb22f107fba474d02cdc48753d883fd717077a495e91cb73f3ac311986495999",
     "2b69e389b2e9eb8d79e808e6dbb30257ce92d2a9": "ec2e99a2fd9f6362e416427808e25928b81c4af151b546f2433956d2084d8a65",
     "2bc687579e5059cba6702bc5c4a2690c9e34b509": "796966b6f514821f1cc81448fbd03ab61403f107ba9f023af2aee13259a44e4f",
+    "2c67289ffe5599db2fb5dca835324a3549f340b6": "606057aaf041ceeaa77c7210d20cfc2e3ddd2afcf589159176199018aa09b9f0",
     "2c762e74fc27db91fc60712405e91a5e83caf5f8": "cdc83144a8cb8ce3b2529fec98df913f25a9c2e4b381942c5ec7db4b0d2c8873",
     "2c7c2928119a080d84270a3a27c635fc5ded4c99": "48f1c3267adafd12eab27e1c9d8f0a77b66cedbd86d4f2eee08cd7a1909e8c66",
     "2cf4ce74557f9a2e65b8bc817b92eb3486067554": "dc74175fc83549d2feb280ebac7ac93c1697a9dcdf91cdf902d23ce579c2afdf",
@@ -16988,6 +17172,7 @@
     "310f6573b4c60a78a4da0099c0f91976430323da": "a961d41b7c9d27ba0726201165f95586ef7d7d40cac201ccb3bb40c6bb9ef376",
     "325e122cb48aebe61663333db337e093bc6a1429": "142955184fdc6dfe7ceb86756da3edaf6e4b1d0d304bb34c5ccf45ef164d8d6b",
     "33287d5e331c454f1d8c0be7363de9edb848df4b": "4373d9e16b08df782a03ea453221eede69cac20bda656a9751bd546072e193eb",
+    "335679f7f543e354a370cf102d0d2bd88acb9007": "6dbc58b1b177359a5a90a52203fcd12b92303d48c12935f633012edde588e1ca",
     "33aff6692660a7c212e576a719dff3709cd9ae01": "d42d82de42015a798fce9f036445b88b9786b549096d5eb1fce66c21b3d930fa",
     "347a1762edc0e6738346f59d34b9a7e749659a71": "684302ae6ac8b1ecff08d0cd5ff08a41230e502d289ff76799eb6d36a1afea8d",
     "3491b7d3d2971826f3f4cba89067cceffb91940d": "818031aaaeb16be08c12fdc8c6bd3aa3c0613361d4e428483bdd9bf99c867a68",
@@ -17336,6 +17521,7 @@
     "e1e228cc1139f48120d32f04dc01362a98e15854": "aa30b05f1be5ebcb4aaeeb36b3169898cde5edce0fad3829d5224b0e27a9f3de",
     "e218e68b9870dde760cb2d5ae27e05b817ee58d9": "b0e98d3ec11700be4794eb854a34f014dd56c869dac1d76868ff08b78f133ebd",
     "e2c05a76e035b0964d3b38ea8d07a8451e1bd79d": "9d43237197abd96e955fb97382b3735b4c63e8724f3f071cabc2071996284b32",
+    "e2c2ab6071bc7513d3b22b472b607b57054e6bcb": "ff44af736cddbed10c9e9860a1927fa144615b8bdc1983a97d430c6de2cb1f35",
     "e30b9a4ffc64f294d1404498f3c9171c313b5faa": "fff018015bad794c8744763d3d6b28f31a902dc8bc5dcaa526f937d6706dcd02",
     "e3634ad2c9254c101b1db93a8ff50aea1ec0598d": "f66fd3eba76f5f86dba342ce68e30a765be28a4e7d1f8f0eb35abded281f354e",
     "e3843766a60d3356cb1964f633609fbe101fdb83": "6d5b5a2f6fc1bd913c9f2a1b1c018f4c88ccc6434270bedc4f4b115dcda64798",
@@ -17351,6 +17537,7 @@
     "e7858484dbe115efb1c744058f46555352349d8c": "f9ea50c16732ea9541a3de9a140fa0007c5667f8cfa91853a595618391da118b",
     "e7b1efbda8fcbe78bec9aa77d480daa0438c1039": "09a8d0ea3bd101bacb9d6bcb8f421dbd22c0931738ca0e771c2e459462631b7e",
     "e86cb81decb3b369f59d4e3799945f996d342eb9": "8499a65c22ddda33e11e16f65487cc0b74524a2c8f5cde7db46889c0399ffda3",
+    "e8855f9227d3487fb427339323527060ea32be8d": "41dc5618d0f588cd0f7c40ee6d6f23a2713a723c5e32f7d7db179b8487f666af",
     "e8a0ba7e7d6ed97c6f9e594114bfc44430e72f58": "f11c95546d483e9c14f6ef1df9b1ba3b6cb3277a639ec5b2d8d5e1c3ab62fc38",
     "e8ada75f03b253aed9ab4d9528872575f7cc8051": "69fc0a6c5fa74eb53a7f7ad58ebd1d0543b9564db9f88047d9a6b74a76b2b407",
     "e92b3ad6e251fc5c2db009036ab8696e45396a38": "6aabcc73c48ea208cbbb35b77713f052a513cd338646b3ea94ed4f4bb963fe13",
@@ -17506,6 +17693,10 @@
     },
     {
       "observed_at_commit": "3101237e7e97c6181416780c94888ba134a005d0",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "335679f7f543e354a370cf102d0d2bd88acb9007",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -18247,7 +18438,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "6e7b2174eac971cf8fb391edabeaee07866a83a7",
+  "source_commit": "335679f7f543e354a370cf102d0d2bd88acb9007",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
