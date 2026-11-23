@@ -1,0 +1,66 @@
+{
+  "status": "passed",
+  "surfaceFingerprint": "5e6d0a83db8dc12b0c0d68a8baa050a462ba71f5bef8c955723ad24b909f2025",
+  "checks": [
+    {
+      "test": "tests/test_workspace_changes.cjs",
+      "case": "page subscription loads first even if early registration would silently succeed",
+      "testSha256": "4f6bac9fc0f3ee3cb8ba1e27d658281a60fa6502647e75e5fc39ee975b2579d6",
+      "covers": [
+        "figma-bridge/workspace_changes.js",
+        "figma-bridge/workspace_control.js"
+      ],
+      "authority": "library/figma-profile/policy.json#/nodeChangeProperties",
+      "assertion": "Active native page listeners wait for dynamic page loading and retain matching change metadata and acknowledgements across page identity and scope transitions.",
+      "observed": "The stated behavior and its failure controls passed when re-executed on the candidate."
+    },
+    {
+      "test": "tests/test_workspace_changes.cjs",
+      "case": "events from an equivalent page wrapper retain their original scope and accept node.id",
+      "testSha256": "4f6bac9fc0f3ee3cb8ba1e27d658281a60fa6502647e75e5fc39ee975b2579d6",
+      "covers": [
+        "figma-bridge/workspace_changes.js",
+        "figma-bridge/workspace_control.js"
+      ],
+      "authority": "library/figma-profile/policy.json#/nodeChangeProperties",
+      "assertion": "Active native page listeners wait for dynamic page loading and retain matching change metadata and acknowledgements across page identity and scope transitions.",
+      "observed": "The stated behavior and its failure controls passed when re-executed on the candidate."
+    },
+    {
+      "test": "tests/test_workspace_changes.cjs",
+      "case": "a late dynamic page load cannot register the former page or change current status",
+      "testSha256": "4f6bac9fc0f3ee3cb8ba1e27d658281a60fa6502647e75e5fc39ee975b2579d6",
+      "covers": [
+        "figma-bridge/workspace_changes.js",
+        "figma-bridge/workspace_control.js"
+      ],
+      "authority": "library/figma-profile/policy.json#/nodeChangeProperties",
+      "assertion": "Active native page listeners wait for dynamic page loading and retain matching change metadata and acknowledgements across page identity and scope transitions.",
+      "observed": "The stated behavior and its failure controls passed when re-executed on the candidate."
+    },
+    {
+      "test": "tests/test_workspace_changes.cjs",
+      "case": "an authenticated poll with briefly missing file scope preserves pending events",
+      "testSha256": "4f6bac9fc0f3ee3cb8ba1e27d658281a60fa6502647e75e5fc39ee975b2579d6",
+      "covers": [
+        "figma-bridge/workspace_changes.js",
+        "figma-bridge/workspace_control.js"
+      ],
+      "authority": "library/figma-profile/policy.json#/nodeChangeProperties",
+      "assertion": "Active native page listeners wait for dynamic page loading and retain matching change metadata and acknowledgements across page identity and scope transitions.",
+      "observed": "The stated behavior and its failure controls passed when re-executed on the candidate."
+    },
+    {
+      "test": "tests/test_workspace_changes.cjs",
+      "case": "an in-flight acknowledgement retires only the source page buffer after navigation",
+      "testSha256": "4f6bac9fc0f3ee3cb8ba1e27d658281a60fa6502647e75e5fc39ee975b2579d6",
+      "covers": [
+        "figma-bridge/workspace_changes.js",
+        "figma-bridge/workspace_control.js"
+      ],
+      "authority": "library/figma-profile/policy.json#/nodeChangeProperties",
+      "assertion": "Active native page listeners wait for dynamic page loading and retain matching change metadata and acknowledgements across page identity and scope transitions.",
+      "observed": "The stated behavior and its failure controls passed when re-executed on the candidate."
+    }
+  ]
+}

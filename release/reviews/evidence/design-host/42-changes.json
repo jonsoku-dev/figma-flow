@@ -1,12 +1,12 @@
 {
   "schema": "figma-flow-major-witness-v1",
-  "surfaceFingerprint": "105c6bd746fc77484ec7d69ee4375a59643b543f0a5f1b0b8015e6231d4c7efe",
+  "surfaceFingerprint": "5e6d0a83db8dc12b0c0d68a8baa050a462ba71f5bef8c955723ad24b909f2025",
   "status": "passed",
   "checks": [
     {
       "test": "tests/test_workspace_changes.cjs",
       "case": "authenticated poll piggybacks events and retires only the acknowledged cursor",
-      "testSha256": "88eb129b52e24a584a0aee4e462af917de9dafe1891ce80f3e2cd35c6ecbaa59",
+      "testSha256": "4f6bac9fc0f3ee3cb8ba1e27d658281a60fa6502647e75e5fc39ee975b2579d6",
       "authority": "library/figma-profile/policy.json#/nodeChangeProperties",
       "covers": [
         "figma-bridge/workspace_changes.js",
