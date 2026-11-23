@@ -290,6 +290,7 @@ async function workspaceControlTick() {
       ? {context:relayContext, ...(controlRelayProfileResult ? {profile_result:controlRelayProfileResult} : {})}
       : undefined;
     if (typeof workspaceBindChangePage === 'function') workspaceBindChangePage();
+    if (typeof workspaceSampleSelectionChanges === 'function') workspaceSampleSelectionChanges();
     const changeScope = typeof workspaceChangeScope === 'function' ? workspaceChangeScope() : null;
     const changeFeed = typeof workspaceChangeFeed === 'undefined' ? null : workspaceChangeFeed;
     const changeBatch = changeScope && changeFeed
@@ -355,6 +356,9 @@ async function workspaceControlTick() {
       receipt.status = 'error';
       receipt.error = String(error.message || error).slice(0,1900);
       if (error.nativeReadback) receipt.readback_json = JSON.stringify(error.nativeReadback);
+    } finally {
+      if (typeof workspaceSampleSelectionChanges === 'function' &&
+          WORKSPACE_PROFILE_POLICY.operations[cmd.operation] === 'designEdit') workspaceSampleSelectionChanges(true);
     }
     await controlRequest('result', receipt, cmd.operation === 'read');
     if (relayMode) {

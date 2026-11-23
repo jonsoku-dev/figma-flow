@@ -1170,7 +1170,10 @@ function workspaceInstallHomeListener() {
       workspaceHandleScopeChange();
     }); } catch (_) {}
     if (workspaceRelayViewer) {
-      try {figma.on('selectionchange', () => workspaceRelayViewerState());} catch (_) {}
+      try {figma.on('selectionchange', () => {
+        if (typeof workspaceSampleSelectionChanges === 'function') workspaceSampleSelectionChanges();
+        workspaceRelayViewerState();
+      });} catch (_) {}
       try {figma.on('currentpagechange', () => workspaceRelayViewerState());} catch (_) {}
     }
   }

@@ -2,6 +2,10 @@
 const WORKSPACE_CHANGE_MAX_EVENTS = 256;
 const WORKSPACE_CHANGE_MAX_BATCH = 64;
 const WORKSPACE_CHANGE_PROPERTIES = new Set(WORKSPACE_PROFILE_POLICY.nodeChangeProperties);
+const WORKSPACE_CHANGE_PROBE_FIELDS = Object.entries(WORKSPACE_PROFILE_POLICY.inspectFields)
+  .filter(([field, kind]) => kind !== 'text' && field !== 'name' && WORKSPACE_CHANGE_PROPERTIES.has(field))
+  .map(([field]) => field);
+const WORKSPACE_CHANGE_ECHO_WINDOW_MS = 2000;
 function workspaceChangeRandomEpoch() {
   let value = '';
   while (value.length < 32) value += Math.floor(Math.random() * 0x100000000).toString(16).padStart(8, '0');
@@ -106,6 +110,55 @@ function workspaceChangeScope() {
       typeof WORKSPACE_RUNTIME === 'undefined' || !WORKSPACE_RUNTIME?.generation || typeof controlRunSession !== 'string') return null;
   return {file_key:figma.fileKey,page_id:figma.currentPage.id,generation:WORKSPACE_RUNTIME.generation,session_id:controlRunSession};
 }
+function workspaceChangeProbeValue(node, field) {
+  const observation = workspaceReadNodeField(node,field);
+  return observation.unavailable ? undefined : JSON.stringify(observation.value);
+}
+function workspaceSampleSelectionChanges(seedOnly = false) {
+  const binding = workspaceChangeBinding;
+  if (!binding?.listener || !sameWorkspaceChangeScope(binding.scope,workspaceChangeScope()) ||
+      typeof workspaceReadNodeField !== 'function' || typeof WORKSPACE_READ_LIMITS === 'undefined') return;
+  let selection;
+  try {selection = figma.currentPage.selection;} catch (_) {return;}
+  if (!Array.isArray(selection)) return;
+  const now = Date.now();
+  const next = new Map();
+  for (const node of selection.slice(0,WORKSPACE_READ_LIMITS.maxNodes)) {
+    const previous = binding.selection.get(node.id);
+    const fields = new Map(), echoes = new Map(), changed = [];
+    for (const field of WORKSPACE_CHANGE_PROBE_FIELDS) {
+      const value = workspaceChangeProbeValue(node,field);
+      if (value === undefined) continue;
+      const before = previous?.fields.get(field);
+      if (!seedOnly && before !== undefined && before !== value) {
+        changed.push(field);
+        echoes.set(field, {value, until:now + WORKSPACE_CHANGE_ECHO_WINDOW_MS});
+      } else {
+        const echo = previous?.echoes.get(field);
+        if (!seedOnly && echo && echo.until >= now) echoes.set(field,echo);
+      }
+      fields.set(field,value);
+    }
+    next.set(node.id,{node,fields,echoes});
+    if (changed.length) binding.feed.record({id:node.id,type:'PROPERTY_CHANGE',properties:changed});
+  }
+  binding.selection = next;
+}
+function workspaceReconcileNativeChange(binding, change) {
+  if (change?.type !== 'PROPERTY_CHANGE' || !Array.isArray(change.properties)) return change;
+  const id = workspaceChangedNodeId(change), selected = binding.selection.get(id);
+  if (!selected) return change;
+  const properties = change.properties.filter(field => {
+    if (!WORKSPACE_CHANGE_PROBE_FIELDS.includes(field)) return true;
+    const value = workspaceChangeProbeValue(change.node ?? selected.node,field);
+    const echo = selected.echoes.get(field);
+    selected.echoes.delete(field);
+    if (value === undefined) selected.fields.delete(field);
+    else selected.fields.set(field,value);
+    return !echo || echo.until < Date.now() || echo.value !== value;
+  });
+  return properties.length || !change.properties.length ? {id,type:change.type,properties} : null;
+}
 function workspaceBindChangePage() {
   const page = typeof figma === 'undefined' ? null : figma.currentPage;
   const scope = workspaceChangeScope();
@@ -115,7 +168,7 @@ function workspaceBindChangePage() {
     try {previous.page.off('nodechange', previous.listener);} catch (_) {}
   }
   const feed = workspaceChangeFeedForScope(scope);
-  const binding = {scope, page, listener:null};
+  const binding = {scope, page, feed, listener:null, selection:new Map()};
   workspaceChangeBinding = binding;
   workspaceChangeFeed = feed;
   workspaceChangeFeedStatus = {status:'unavailable',reason:'page-listener-unavailable'};
@@ -135,7 +188,8 @@ function workspaceBindChangePage() {
     if (!isCurrent()) {retry(); return;}
     const listener = event => {
       if (!isCurrent()) {workspaceBindChangePage(); return;}
-      if (!feed.recordMany(event?.nodeChanges)) return;
+      if (!Array.isArray(event?.nodeChanges) || !feed.recordMany(
+        event.nodeChanges.map(change => workspaceReconcileNativeChange(binding,change)).filter(Boolean))) return;
       if (workspaceChangeFlushTimer !== null) clearTimeout(workspaceChangeFlushTimer);
       workspaceChangeFlushTimer = setTimeout(() => {
         workspaceChangeFlushTimer = null;
@@ -146,6 +200,7 @@ function workspaceBindChangePage() {
       page.on('nodechange',listener);
       binding.listener = listener;
       workspaceChangeFeedStatus = {status:'available'};
+      workspaceSampleSelectionChanges();
     } catch (_) {retry();}
   };
   if (typeof page.loadAsync !== 'function') return subscribe();
