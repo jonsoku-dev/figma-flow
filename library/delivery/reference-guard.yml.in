@@ -24,7 +24,12 @@ jobs:
           if node -e "process.exit(Number(require('./plugin.json').version.split('.')[0]) > 0 ? 0 : 1)"; then
             {{delivery.panelInstall}}
             python -m pip install -r requirements-optional.txt -r library/figma-rest/requirements.txt
-            brew install {{delivery.appCi.mysqlFormula}} pkgconf {{delivery.nativeFontShapingFormula}}
+            brew install {{delivery.appCi.mysqlFormula}} pkgconf {{delivery.nativeFontShapingFormula}} docker docker-compose
+            export DOCKER_CONFIG="$RUNNER_TEMP/figma-flow-compose"
+            mkdir -p "$DOCKER_CONFIG/cli-plugins"
+            ln -s "$(brew --prefix docker-compose)/bin/docker-compose" "$DOCKER_CONFIG/cli-plugins/docker-compose"
+            docker compose version
+            echo "DOCKER_CONFIG=$DOCKER_CONFIG" >> "$GITHUB_ENV"
             font_shaping_lib="$(brew --prefix {{delivery.nativeFontShapingFormula}})/lib"
             echo "FIGMA_FLOW_FONT_SHAPING_LIB=$font_shaping_lib" >> "$GITHUB_ENV"
             mysql_prefix="$(brew --prefix {{delivery.appCi.mysqlFormula}})"
@@ -71,7 +76,7 @@ jobs:
         run: python -B tools/reference_distribution_guard.py --ref HEAD --format text
       - name: Run the release graph mutation checks
         run: python -B tools/maintenance.py verify --profile release --out "$RUNNER_TEMP/figma-flow-graph-evidence"
-      - name: Check packaged app quality and relay transport
+      - name: Check packaged app quality, Compose projection and relay transport
         if: env.FIGMA_FLOW_ARCHIVE_VALIDATION == '1'
         run: |
           export DYLD_LIBRARY_PATH="$FIGMA_FLOW_FONT_SHAPING_LIB"
@@ -83,7 +88,7 @@ jobs:
             python -c 'import json,sys; report=json.load(open(sys.argv[1])); print(report["summary"]); print(report["errors"][:6])' "$quality"
             exit 1
           fi
-          python -B -m unittest -v tests.test_control_transport_authority
+          python -B -m unittest -v tests.test_booking_deployment_files tests.test_control_transport_authority
       - name: Check version and SSOT before packaging this Git tree
         env:
           RELEASE_REF: ${{ github.ref_type == 'tag' && github.ref_name || github.sha }}
@@ -110,4 +115,4 @@ jobs:
               "$LH_CI_MYSQL_PREFIX/bin/mysqladmin" --no-defaults --protocol=socket \
                 --socket="$LH_CI_MYSQL_SOCKET" --user=root shutdown
           fi
-          rm -rf "$RUNNER_TEMP/figma-flow-mysql"
+          rm -rf "$RUNNER_TEMP/figma-flow-mysql" "$RUNNER_TEMP/figma-flow-compose"
