@@ -17303,10 +17303,100 @@
           "version": "1.0.0"
         }
       ]
+    },
+    {
+      "commit": "799e29de98b386f548dea4ecbdbdac415dbecf94",
+      "diff_sha256": "a2020ece0e00c1d283e554bfc665ce175f8370710f78ad35e8ecab7a82597606",
+      "files": [
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/03ea89ed384360d3a6f7e70e4d3fa249bdc1ed93.md",
+        "docs/llm-wiki/patches/531365b4f23774444cdee1440f8756b6cd2068ff.md",
+        "docs/llm-wiki/patches/6124588d6975f572630cb72a9e5a4b8872406169.md",
+        "docs/llm-wiki/patches/6deaaf123c4f65d436fe5bb75a8f9f5711ee72f7.md",
+        "docs/llm-wiki/patches/82d765f67af47070bc787efc8dcb167c28ff2465.md",
+        "docs/llm-wiki/patches/b7c4de81869b8b5ba05bcf6a86b0707884adcecf.md",
+        "docs/llm-wiki/verification.md"
+      ],
+      "parents": [
+        "82d765f67af47070bc787efc8dcb167c28ff2465"
+      ],
+      "subject": "docs: record native P1 detection and graph verification scope",
+      "tree": "afefe03199a320e7d172ffa8d84edcf5d3cb7d59",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.0.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.0.0"
+        }
+      ]
+    },
+    {
+      "commit": "014095da897ccb87cac5e439910ad053c1f64720",
+      "diff_sha256": "1f30cd763c2ce0e9a9acb471eecc7df6a716a7b953ba076e53da1c1d1e251cf3",
+      "files": [
+        ".github/CODEOWNERS",
+        ".github/pull_request_template.md",
+        ".github/workflows/test.yml",
+        "AGENTS.md",
+        "CONSTITUTION.md",
+        "CONTRIBUTING.md",
+        "docs/generated/panel-boundaries.md",
+        "docs/graph-governance-constitution.md",
+        "docs/graph-governance-review.json",
+        "docs/maintenance-verification.md",
+        "figma-bridge/assets/panels.js",
+        "library/delivery/test.yml.in",
+        "library/panel-design/governance.json",
+        "panel-ui/.oxlintrc.json",
+        "panel-ui/architecture.cjs",
+        "panel-ui/biome.json",
+        "panel-ui/build-tokens.mjs",
+        "panel-ui/build.mjs",
+        "panel-ui/knip.config.mjs",
+        "panel-ui/observed-graph.cjs",
+        "panel-ui/package.json",
+        "panel-ui/src/ChatPanel.jsx",
+        "panel-ui/src/GraphPanel.jsx",
+        "panel-ui/src/ReviewPanel.jsx",
+        "panel-ui/src/operationDetail.mjs",
+        "panel-ui/src/panelContracts.mjs",
+        "panel-ui/view-registry.mjs",
+        "skills/patch-knowledge/SKILL.md",
+        "tests/test_graph_generated.py",
+        "tests/test_graph_governance.py",
+        "tests/test_graph_impact_migration.py",
+        "tests/test_observed_graph_migration.cjs",
+        "tests/test_panel_knip.cjs",
+        "tests/test_panel_maintenance_boundary.cjs",
+        "tools/graph_generated.py",
+        "tools/graph_governance.py",
+        "tools/graph_impact.py",
+        "tools/maintenance-contract.json",
+        "tools/runtime_authority.py"
+      ],
+      "parents": [
+        "799e29de98b386f548dea4ecbdbdac415dbecf94"
+      ],
+      "subject": "Enforce panel graph governance and quality checks",
+      "tree": "831e368ad393cf1c8b827f363d1baf118d279f5c",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.0.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.0.0"
+        }
+      ]
     }
   ],
   "pages": {
     "008c01c64e41b255c43b7e81e4029f4368b1f797": "0786fd05695bb51303a051b0c3c3b66acdca4d4e6309a6616c67c847362974ef",
+    "014095da897ccb87cac5e439910ad053c1f64720": "3f1bc43691145e9011738d94ee761afeeb850346cae3b4a56674453368d0f4ad",
     "0145921ca4ed5d22187b9e259cb8d8224b4a7d86": "8409151bca6c8159ae0a54504ec87862bb192df5b350700b260b1d6099b78747",
     "015f440ee635d817f033dddabb504acaea69895f": "f93c2b26a34b0ef631052e746b4779ecbaed228c48b0ad2e0e374c18fe3bb2d8",
     "016a777e0bc582414c2062a122dfae553851eefc": "92b634f5f68391e92944c1dbfb2ebd8b155c94a3397d56fb8a08fc6443c0f4f9",
@@ -17531,6 +17621,7 @@
     "78fd03a27d4d81d1e024d8874d5467a568b8418e": "9677b5f96bb30d1dabec45446d4fb77172f3afa51576c24dce111622c7a74e4e",
     "791378c941b08d1cd6274b690a756fa3a5c8f45e": "3f590efcefd7fee5e3353423ed1ddd02277c8a41a7c56ee114b5e61de6c18d15",
     "798361b6c9d3c9d1049500eba911b64547d8d435": "65274712d789b463547dc6308139bbd3d14117bb28e67d3acd47fcc75ad4c38d",
+    "799e29de98b386f548dea4ecbdbdac415dbecf94": "e0fd092d77e2006197a51eda46b236a6718526141c2de85d1671ed4d1b2c0e7a",
     "79ba8f68c9d95d035b28e4fe78fa68a9a8a73207": "df6219fc56955719ee63dd7bd105466d5f7e8f3b80052825cb9fbfac2c23026f",
     "7a1bb8345246b0c0aafd3c30ee9e21557366c4f2": "7a5e215a27e95b67ae81256716454d07ea247d5a7cca3d83583e8cc76b336f0e",
     "7aef05e416b625ccab46122d8d0720e45e9471a5": "a58774684a8c8dd7c1fb3d3226d068c52a3f401c9b7444ddd3cd6732b38b1ad3",
@@ -17826,6 +17917,10 @@
     "ffcde43350120941afad855b159ee3785f45619c": "0694d4315c2136e4f54c46e55bffd538a46dcb95b7af6bfcd311b3873bfa1603"
   },
   "provenance_remotes": [
+    {
+      "observed_at_commit": "014095da897ccb87cac5e439910ad053c1f64720",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
     {
       "observed_at_commit": "06a40a1b83fac2f94b540d24e081ee87779e79ae",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
@@ -18681,7 +18776,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "82d765f67af47070bc787efc8dcb167c28ff2465",
+  "source_commit": "014095da897ccb87cac5e439910ad053c1f64720",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",

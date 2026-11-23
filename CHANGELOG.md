@@ -2,6 +2,8 @@
 
 ## 미출시
 
+- Figma 패널의 Graph·실제 import·생성 파일·변경 영향을 한 명령으로 검사합니다. Biome·Oxlint·Knip을 패널 품질 검사에 연결했습니다. [마이그레이션과 검증](docs/llm-wiki/patches/014095da897ccb87cac5e439910ad053c1f64720.md)
+
 - Figma Design 페이지로 전환하면 로딩을 마친 뒤 변경 감지를 연결합니다. 이전 페이지에서 보낸 이벤트의 확인 응답도 원래 범위에서 처리합니다. [수정과 검증](docs/llm-wiki/patches/e2c2ab6071bc7513d3b22b472b607b57054e6bcb.md)
 
 ## 1.0.0 · 2026-11-23
