@@ -1,6 +1,6 @@
 {
   "status": "passed",
-  "surfaceFingerprint": "7051eb407eea0ba1d251abbd10a1011c72f909d25f0e8b88208d45f6da886947",
+  "surfaceFingerprint": "26fcfd3bb55c45e8d7068456525a039bf0ece98c23ade0d6cfc27a9a58217ddc",
   "checks": [
     {
       "test": "tests/test_graph_input_boundary.py",
