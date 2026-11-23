@@ -1,11 +1,11 @@
 {
   "status": "passed",
-  "surfaceFingerprint": "5e6d0a83db8dc12b0c0d68a8baa050a462ba71f5bef8c955723ad24b909f2025",
+  "surfaceFingerprint": "7bac999302cb8fed000298c4ed84dc0eef3a8f208182048c8652eba81361407e",
   "checks": [
     {
       "test": "tests/test_workspace_changes.cjs",
       "case": "page subscription loads first even if early registration would silently succeed",
-      "testSha256": "4f6bac9fc0f3ee3cb8ba1e27d658281a60fa6502647e75e5fc39ee975b2579d6",
+      "testSha256": "f9b61e08e289c8125b7620c71c4d3994370f062bbf7ed122ffd2d87eb6c8df3c",
       "covers": [
         "figma-bridge/workspace_changes.js",
         "figma-bridge/workspace_control.js"
@@ -17,7 +17,7 @@
     {
       "test": "tests/test_workspace_changes.cjs",
       "case": "events from an equivalent page wrapper retain their original scope and accept node.id",
-      "testSha256": "4f6bac9fc0f3ee3cb8ba1e27d658281a60fa6502647e75e5fc39ee975b2579d6",
+      "testSha256": "f9b61e08e289c8125b7620c71c4d3994370f062bbf7ed122ffd2d87eb6c8df3c",
       "covers": [
         "figma-bridge/workspace_changes.js",
         "figma-bridge/workspace_control.js"
@@ -29,7 +29,7 @@
     {
       "test": "tests/test_workspace_changes.cjs",
       "case": "a late dynamic page load cannot register the former page or change current status",
-      "testSha256": "4f6bac9fc0f3ee3cb8ba1e27d658281a60fa6502647e75e5fc39ee975b2579d6",
+      "testSha256": "f9b61e08e289c8125b7620c71c4d3994370f062bbf7ed122ffd2d87eb6c8df3c",
       "covers": [
         "figma-bridge/workspace_changes.js",
         "figma-bridge/workspace_control.js"
@@ -41,7 +41,7 @@
     {
       "test": "tests/test_workspace_changes.cjs",
       "case": "an authenticated poll with briefly missing file scope preserves pending events",
-      "testSha256": "4f6bac9fc0f3ee3cb8ba1e27d658281a60fa6502647e75e5fc39ee975b2579d6",
+      "testSha256": "f9b61e08e289c8125b7620c71c4d3994370f062bbf7ed122ffd2d87eb6c8df3c",
       "covers": [
         "figma-bridge/workspace_changes.js",
         "figma-bridge/workspace_control.js"
@@ -53,7 +53,7 @@
     {
       "test": "tests/test_workspace_changes.cjs",
       "case": "an in-flight acknowledgement retires only the source page buffer after navigation",
-      "testSha256": "4f6bac9fc0f3ee3cb8ba1e27d658281a60fa6502647e75e5fc39ee975b2579d6",
+      "testSha256": "f9b61e08e289c8125b7620c71c4d3994370f062bbf7ed122ffd2d87eb6c8df3c",
       "covers": [
         "figma-bridge/workspace_changes.js",
         "figma-bridge/workspace_control.js"

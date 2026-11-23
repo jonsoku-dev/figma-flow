@@ -1,0 +1,32 @@
+{
+  "status": "passed",
+  "surfaceFingerprint": "7bac999302cb8fed000298c4ed84dc0eef3a8f208182048c8652eba81361407e",
+  "checks": [
+    {
+      "test": "tests/test_workspace_changes.cjs",
+      "case": "selected edits enter the feed when a loaded page delivers no native callback",
+      "testSha256": "f9b61e08e289c8125b7620c71c4d3994370f062bbf7ed122ffd2d87eb6c8df3c",
+      "covers": [
+        "figma-bridge/workspace_changes.js",
+        "figma-bridge/workspace_control.js",
+        "figma-bridge/workspace_host.js"
+      ],
+      "authority": "library/figma-profile/policy.json#/inspectFields",
+      "assertion": "The selected-node fallback emits only supported metadata and reconciles native event duplicates and admitted writes.",
+      "observed": "The stated behavior and its failure controls passed when re-executed on the candidate."
+    },
+    {
+      "test": "tests/test_workspace_changes.cjs",
+      "case": "native events and selected sampling share a baseline without removing unrelated fields",
+      "testSha256": "f9b61e08e289c8125b7620c71c4d3994370f062bbf7ed122ffd2d87eb6c8df3c",
+      "covers": [
+        "figma-bridge/workspace_changes.js",
+        "figma-bridge/workspace_control.js",
+        "figma-bridge/workspace_host.js"
+      ],
+      "authority": "library/figma-profile/policy.json#/inspectFields",
+      "assertion": "The selected-node fallback emits only supported metadata and reconciles native event duplicates and admitted writes.",
+      "observed": "The stated behavior and its failure controls passed when re-executed on the candidate."
+    }
+  ]
+}

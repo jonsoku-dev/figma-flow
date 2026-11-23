@@ -1,7 +1,7 @@
 {
   "schema": "figma-flow-major-review-v1",
   "surface": "design-host",
-  "fingerprint": "5e6d0a83db8dc12b0c0d68a8baa050a462ba71f5bef8c955723ad24b909f2025",
+  "fingerprint": "7bac999302cb8fed000298c4ed84dc0eef3a8f208182048c8652eba81361407e",
   "status": "complete",
   "openFindings": [],
   "bindings": [
@@ -15,19 +15,19 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/01-appearance.json",
-          "sha256": "7ce85ec6a198cc73af1b8d2e42c33b8bccc1fcf99cfbd3cf91e5e11f8a153d69"
+          "sha256": "64d445dcc3a7e8bd764463e6d3869293dfffb88173e0d4e675dab9c7e73c2602"
         },
         {
           "path": "release/reviews/evidence/design-host/01-graph_card.json",
-          "sha256": "1b624e859759110f53f828678253a22ea98fe9344489b68ae7dbe5ceee5c71df"
+          "sha256": "cd45d76fe6c91cc7333094831e26b101afa67575b45479c8f28226cbf932a1ce"
         },
         {
           "path": "release/reviews/evidence/design-host/01-graph_board.json",
-          "sha256": "a5c92a62e14ec2463123cd761a425c398b698c87fcd3acaf89fb285c5488f9ac"
+          "sha256": "bfb32cb30fcd64d4aa23e36b4d62ce66b5968d86b5ad6d89a675dc45632ca60e"
         },
         {
           "path": "release/reviews/evidence/design-host/01-graph_refresh.json",
-          "sha256": "7c8d82ef9476903b8b0d968b1d56f9d6dc26db79871fe3e269803eadff984c06"
+          "sha256": "7ff6d315f5d593d2cbdf5b7ae394b578706a5407dfd3b2476deb836bef9359a5"
         }
       ]
     },
@@ -43,15 +43,15 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/02-appearance.json",
-          "sha256": "f95b23024c090f9c360b9935589abacc54baf3a485aebd080207f666a26f7801"
+          "sha256": "f790c6bea4845a0d8fa04e202dbdde22a235ea9c9a3b026b0f715f6420320a19"
         },
         {
           "path": "release/reviews/evidence/design-host/02-notes.json",
-          "sha256": "9be7a5ec7baf25ce7097a1cd435d331080ef1c94489ebfe24b3a3a4065126eb3"
+          "sha256": "bd0a550cccbdd03fe4c3402eb0bf4dddd0d42bae49e956573f943af34c432711"
         },
         {
           "path": "release/reviews/evidence/design-host/02-native_handoff.json",
-          "sha256": "734f35f5912f4cc8139801bfa5e66faa4f6f87b86977474983e8d302d181e347"
+          "sha256": "f286a8904b4b1bfadd2c0400f166947b8cd3f65b20b0f6e15e7af1120761532e"
         }
       ]
     },
@@ -65,11 +65,11 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/03-appearance.json",
-          "sha256": "532bd4d9c1e0242b5385943cf107b54fa18f07bf15ef197a482e7572854d365d"
+          "sha256": "6a9f6d0c1687451e1175d9a83c8f81673884a5fb331942d3ff093b9515ca0127"
         },
         {
           "path": "release/reviews/evidence/design-host/03-cta.json",
-          "sha256": "f03c4063a5567dc70b036acce92fb8e2bf96b9b4570fdf3100f27301e44aaf99"
+          "sha256": "b49fe10f4c48194c1c94a898a735559357dd740b87efa65c6cf40ea8d000e269"
         }
       ]
     },
@@ -83,11 +83,11 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/04-appearance.json",
-          "sha256": "18e540676fb548b6cefbfcd6c2db44cbdf79cb80ea0a2ae5da0a167f07c2137f"
+          "sha256": "d2a2121e1809046b39837b21f1cda8eca4f0e5aed72624aefad49917926cc7cc"
         },
         {
           "path": "release/reviews/evidence/design-host/04-cta.json",
-          "sha256": "39a3c3924e324653b35eda4e48743666719c23b7d22a1b0d64b7fd509fbae80d"
+          "sha256": "4a97ac74af89b7def6e07bbd4ac5bff0d0a7905a1a60f03ef7aabfd7e0b6d1fa"
         }
       ]
     },
@@ -101,11 +101,11 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/05-appearance.json",
-          "sha256": "240f857e9aeba00c75d8126666277f77098228d4d0366d3fc878ad756a439fac"
+          "sha256": "d411892deee5f0a452ddc244ed6c152861670581d7977661e49ab04df8d9b2a7"
         },
         {
           "path": "release/reviews/evidence/design-host/05-web_tabs.json",
-          "sha256": "00476a89b0c3fcc8e64b37feace29091e413b666cb3425d1f2e8a0abb9037a29"
+          "sha256": "712e3832b2bc3c93e28be78f38c17c19cd69d1c60d208e16ab4409d457eb145f"
         }
       ]
     },
@@ -119,7 +119,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/06-web_tabs.json",
-          "sha256": "cb5580f245022861710ef6368ef8f9f459981a693937bc765c59abfd7eb6c21d"
+          "sha256": "ed1c6f7a30c418a58e32cb10f774017c821d1eba04ea2d234c5377621ec81125"
         }
       ]
     },
@@ -133,15 +133,15 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/07-appearance.json",
-          "sha256": "c37377648d5d9e1b622c03390e4f7211a3d5a80fabb862aa3c95f73371958a7f"
+          "sha256": "6a5246d06a0fea8130a2fbbee591a45f27a43d820d4ef69cc0721fed619493e5"
         },
         {
           "path": "release/reviews/evidence/design-host/07-native_edit.json",
-          "sha256": "433cb31bb78422957c282abd1f512cb540c2e7f7ce1671dcc4aaf4de313b974c"
+          "sha256": "5dd233e148c0e1ef57ae42bd7bc3593193da297411737f85328bd2443938d849"
         },
         {
           "path": "release/reviews/evidence/design-host/07-native_edit_reject.json",
-          "sha256": "b1b90f49762aa67bd2adb0030499862b702466841d861e828fdc801b4947f6ef"
+          "sha256": "bb40b96e2e4c64aae4e522387c957d153b400fe732688f2a0da0a0b2a5254937"
         }
       ]
     },
@@ -156,11 +156,11 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/08-native_edit.json",
-          "sha256": "50623cc4ccf3b31972cc6ca9957a55442cdc1acf06f2b1c932f0feaa0c295e14"
+          "sha256": "1ea432feabbe5499e27d407347ca05e16bfa121505e119403bbbdc9708432442"
         },
         {
           "path": "release/reviews/evidence/design-host/08-native_edit_reject.json",
-          "sha256": "d0cdf85529942582b4dc9e8d5a006be6ace01e78af356a65173056d0439cf421"
+          "sha256": "3e9d314bf30922afa76238b705d1c7b643df27efae14b1c64e53993f3f54970b"
         }
       ]
     },
@@ -174,15 +174,15 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/09-appearance.json",
-          "sha256": "f94880ffd3972097acbf77ccad6ada43cc8b7a4ebd53a79c50bab12e13103fb0"
+          "sha256": "a66880a6915b5ccc82b1de38373874e7f7eea46d8f54c5a6176019f4a565f04b"
         },
         {
           "path": "release/reviews/evidence/design-host/09-native_controls.json",
-          "sha256": "ceb5ab89577b2f309d07b421c4460be781e4e6a7b0007dc07155f4f8fd215f4e"
+          "sha256": "f8d77f072c77e44f6e9aaa00058b40b32b36192eab9efb76dce827a17ef662c6"
         },
         {
           "path": "release/reviews/evidence/design-host/09-control_icon.json",
-          "sha256": "95793cfcd7cfc502f618fc3dfd86d469314369e4efc94810fbb3b2e2c8fab685"
+          "sha256": "265debb9f3b5d4525ef13bb4d56b9d09866a10c955e471ccd9eaf1425427dd28"
         }
       ]
     },
@@ -196,11 +196,11 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/10-appearance.json",
-          "sha256": "ec22f653a9f24731ca3b1c2f919aaafd94fccf384a4f7c6ea6271201b5d55e81"
+          "sha256": "cbc5f7d4d60c4a13fb7d1a47a2a6e6d7676815434d87634d7f3f3204c086a068"
         },
         {
           "path": "release/reviews/evidence/design-host/10-figma_bridge.json",
-          "sha256": "8c6368c446a85f37f9deddd0d493ea2cbd419bc7d42fd39d8d463472bbf4b5d2"
+          "sha256": "19d0f42b8a7b38c336329311b9f32d0b2e7cda5e5114d5813afb69ec73174893"
         }
       ]
     },
@@ -215,15 +215,15 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/11-appearance.json",
-          "sha256": "3b2a7ad405a4e5c6056bba7401ee3fa62c286d59940bc92262959e2d39f4bf0d"
+          "sha256": "66f05b6bc477b08dd0b66e57b4f647049683edb7af270661ad8281feb198a003"
         },
         {
           "path": "release/reviews/evidence/design-host/11-chat_host.json",
-          "sha256": "0bf5d33d2733207a50134b748d3373a9960e5c0e25becf0b9c0422bcd0246d41"
+          "sha256": "a5d146fa193e09ec4d7b4c73a8c64f45823a8b7320f4f1b152ce5063665d0602"
         },
         {
           "path": "release/reviews/evidence/design-host/11-standalone.json",
-          "sha256": "87944b71a828ee32323ccfa53afaace4f6cdbaa89d64c904fc534323fbd37414"
+          "sha256": "733527e84876b1c44f99de7a05aeac586cac4a00e15ebddd4f0f2ae91a92b65a"
         }
       ]
     },
@@ -238,11 +238,11 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/12-chat_host.json",
-          "sha256": "28576bd94b3c563dabacde583df06905331f3e108c3e8e6a84fd63c45df1f388"
+          "sha256": "a922819cac6bcd868432a50d6f59b5cf9d770eed5326ed8a1fb2823fe597a6c0"
         },
         {
           "path": "release/reviews/evidence/design-host/12-standalone.json",
-          "sha256": "2a79ef2aed3df998759d472f8b4d73e6915bee7403d213d130b4e8e51f2b4847"
+          "sha256": "9f171c355307aa3001a104c7c2a0e74100c6bea21079859c129a1859a7261b7a"
         }
       ]
     },
@@ -256,7 +256,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/13-standalone.json",
-          "sha256": "0b3a339d79b59cb86c3ef4ea89e47e656473d081230aa9f44a091340f606800c"
+          "sha256": "60ff56dec806958e667d2c2646fe31467eca8a263d8522fb72fccef0c6e35bde"
         }
       ]
     },
@@ -270,7 +270,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/14-standalone.json",
-          "sha256": "c18bffbd0fe9b593e3d959c8d684b9ee31281d7f0500b617800ed0ee8411ed0d"
+          "sha256": "df5ce73157e4f763ce5393064d9000734e062fb007baff9e1043d3f566eea298"
         }
       ]
     },
@@ -284,11 +284,11 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/15-standalone.json",
-          "sha256": "304c8dd3ab7e28272576f354c0524264010e2b56d7615e5b0e3f98b5aea4993c"
+          "sha256": "120666e25eccb90ba7ef03eb5d8823dabcfa499fe64130abb37604bcd31df8ac"
         },
         {
           "path": "release/reviews/evidence/design-host/15-graph_catalog.json",
-          "sha256": "1113e9108311ad8f6010a5bc1b44023dfa5de20d9cce601a9a84c386543e1ec2"
+          "sha256": "0470271fb7069938e7be2593caa0825756410166bd73320ef4ce5eee8babd7b2"
         }
       ]
     },
@@ -302,7 +302,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/16-standalone.json",
-          "sha256": "9ff002d673bc6febdedee79938315f0b016e63deef90e9986a4a05d5de43d46a"
+          "sha256": "07a313704444df917db808c456c20d124b5238869b466b59cabd0d0bbc217f47"
         }
       ]
     },
@@ -316,15 +316,15 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/17-standalone.json",
-          "sha256": "4f67f055671ce35893fb3ba7e7d187567d710bb289b0dd2eef2c87f3606a9f11"
+          "sha256": "48ab91afec9e246e4dc3ddf813c3c16255a54c6f1cf9ab14e82cecd8ca8d6fe9"
         },
         {
           "path": "release/reviews/evidence/design-host/17-host_locale.json",
-          "sha256": "d9a8fdf43a1402a5704b85e548c45f8e6a6c5ac9665e6bdd0f79ec3b4622c130"
+          "sha256": "2fa5863d3fa7929469cb3d3298daaf4d6d03fcae844644d76b5de8ca44a19f07"
         },
         {
           "path": "release/reviews/evidence/design-host/17-workspace_case.json",
-          "sha256": "180ae27cb97a1d851a53b47216ea2e8d7861aa5ca030531e4015af2a08ee7761"
+          "sha256": "e0b6b1484087024661f5153e9334d4d2f27288fd53fdeb42759283ff6ac38cc3"
         }
       ]
     },
@@ -338,11 +338,11 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/18-family.json",
-          "sha256": "e0af5ecd83fefecb85a294876abeff3170338f0ad6f4984c196bd0f79dcc415d"
+          "sha256": "b605a35c7035e74cd2e3eb9ba05f346ed6b8360b593e1ea25b5b70b47876227f"
         },
         {
           "path": "release/reviews/evidence/design-host/18-cta.json",
-          "sha256": "ebb56d58412fa9c55491ffc93deff0fc948b993a243cb3109a6f28cad52c5bc4"
+          "sha256": "4d260aa3f2b8ebcc745f94e4e67e1f3485a30b403a9b5a86d003407ae93b7f6d"
         }
       ]
     },
@@ -355,11 +355,11 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/19-family.json",
-          "sha256": "d3a8564227ee6a3d2478e16a1b9a63c963f6b966ff76b6283aa95e61871f1fd9"
+          "sha256": "e9357d42ec2973c057272c7770dfe5f86481606d1d9f83d5d3207533f430eed3"
         },
         {
           "path": "release/reviews/evidence/design-host/19-control_icon.json",
-          "sha256": "1e511265a7b4edd0d76beb20bc6c0c33b7db9efe8b729f64e2397fdcf390025b"
+          "sha256": "2d454342f20d5d98858e71d12086484c46989f07cbb1fe11e5b48635e9a0c1a4"
         }
       ]
     },
@@ -378,11 +378,11 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/20-window.json",
-          "sha256": "ba475b384a6956735379c9829dc9ae6c874507ca6378e19571b5640a36608586"
+          "sha256": "30b927090c6a5e092e107788aaeb356bb1c9934fa40d5c06dba8ad3e4bb4ed82"
         },
         {
           "path": "release/reviews/evidence/design-host/20-host_profile.json",
-          "sha256": "abed64adc5d771a56ae60d8e0b164f1d32cfa28da1725110818459754bc70b9d"
+          "sha256": "8a43700ec69cf5d50890fcda590933182ae4a913a27eaf31be1c4bf32b41925c"
         }
       ]
     },
@@ -401,7 +401,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/21-window.json",
-          "sha256": "3053706191ad3779c0c46ad9b5eee1a40405d7772cc17b4e3208f2c5f2159007"
+          "sha256": "17c1712280b901422564e9f572150a0704943c2aa7999613336621f0ce13a638"
         }
       ]
     },
@@ -417,15 +417,15 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/22-host_profile.json",
-          "sha256": "a75b21f7ef5b2d3a15e8a3c702bd7b55c1869b053a78bf1391e3212277bc2ac7"
+          "sha256": "1034ee7fb158005b221b15178decd8660cab7a64ca22f72cd1c9d9446c8fbe03"
         },
         {
           "path": "release/reviews/evidence/design-host/22-host_scope.json",
-          "sha256": "817507d828ecefd5997878e460821dc243e868f9e3f9e711b5fa8f5f79dec961"
+          "sha256": "8b6e493c6d94c025a84d4c92d1e0bff0191a5fab6e57d93ccf41b6a2cdd1d590"
         },
         {
           "path": "release/reviews/evidence/design-host/22-control_native.json",
-          "sha256": "d0fa7d40b64ef21c56c05fb220aedbeb36f3ecfad0122fafe1754d97fa4d0024"
+          "sha256": "850e32637af93fa9a4f7928805b4309c779ed72f9cd03b4e15eb7b82c0de774d"
         }
       ]
     },
@@ -440,11 +440,11 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/23-host_profile.json",
-          "sha256": "c88d19b03846ae8e860f7dafd9a026a4f288ccf66bacfc2316b869d41bef7316"
+          "sha256": "b901b5dd3a9452d7fc67261ce0dcdb239ac7486376d8d72346bd8861cd96c981"
         },
         {
           "path": "release/reviews/evidence/design-host/23-workspace_case.json",
-          "sha256": "04f029af3031ed67c028a8897c5dc92008880b5e10d7059d7fcdeae369a11dfa"
+          "sha256": "d75bb69bb95890aa7a83ed4f412b55896116c374188c673a7469918a9d4805e3"
         }
       ]
     },
@@ -459,11 +459,11 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/24-transport.json",
-          "sha256": "235b90d154466d9b3ecf061eaa103f39194bc994c45521dbd13384f5d1340804"
+          "sha256": "f1ead4a838c2c412b82839c4eb0149c80973b95315262ec3cbd7702409c3a49d"
         },
         {
           "path": "release/reviews/evidence/design-host/24-control_relay.json",
-          "sha256": "3b05040b9f77f79e4427b1401dd8125a624e88d2d1980ec52051afee5b3e1324"
+          "sha256": "d665359d502e733246c7a19c00853736e21fbdc5b946a6187d784d1306a95be2"
         }
       ]
     },
@@ -480,15 +480,15 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/25-host_relay.json",
-          "sha256": "a115eabf9300957f7cc5afd1c46ff5ba2ede4e76165fae8d0bf81e87ff1ab731"
+          "sha256": "44f475d4ec0f4577906169ba6c1f011dadb0b8905446255627df05b8a1ccd626"
         },
         {
           "path": "release/reviews/evidence/design-host/25-read_measure.json",
-          "sha256": "8a9b0a9f41796230a6c42f6a325732b1d42d4ea3647e969bb2a6b0d32b756168"
+          "sha256": "a01ed398dfe880f8769cd41b66313a766c8b21a7436daa8113e80dce6393d79c"
         },
         {
           "path": "release/reviews/evidence/design-host/25-read_getters.json",
-          "sha256": "c64bfaa4c505eef710894d2b774e75c6fa7ebe2549b3301b4c5dd79773c1cf90"
+          "sha256": "acad560d3f35383f4dc7dd05d37835aa2b29be3209e67b85c2aa1505032b3364"
         }
       ]
     },
@@ -503,15 +503,15 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/26-host_locale.json",
-          "sha256": "51fb3158611bf73fa4baa479e4928dfc79a1c2561364657153f9d269f8ffa252"
+          "sha256": "a081948c0abf25ebbe8667a3bfee786c66827492bf5f850c7caddd480e7f7450"
         },
         {
           "path": "release/reviews/evidence/design-host/26-changes.json",
-          "sha256": "70e07a00e09239d0b7d98db1eb43850180a46ac40eaf352b37d6a1f80347e654"
+          "sha256": "0625b27b6dc255f2de9801264e4375be96d0c88a6b7ff18d3bde2e9bb16269a4"
         },
         {
           "path": "release/reviews/evidence/design-host/26-audit_log.json",
-          "sha256": "170e852a6255638c9d251481194b419422f8e9eeee1f95be057241b9491c3190"
+          "sha256": "0e303f151bf5ae3dff4caa6e7829b57258f143d361ff41fc004f4b19c0cbead1"
         }
       ]
     },
@@ -526,15 +526,15 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/27-host_scope.json",
-          "sha256": "24c0bba5a4b78d41e63b3d389747c16b43aad1bcb1bb50eea1d68f0a0c5d8670"
+          "sha256": "87c38ce5f6ccdf9920ecad711c2db960a3d804a52b065f01d492d35b95240443"
         },
         {
           "path": "release/reviews/evidence/design-host/27-control_native.json",
-          "sha256": "0701c0af01b9eee0a48fee5a624d4c8870e07b4cab80d81da0267732f344e037"
+          "sha256": "00a8264be8da62e771cec6e3ccb0f0974ece20d2266957a3129cf558082e154d"
         },
         {
           "path": "release/reviews/evidence/design-host/27-audit_log.json",
-          "sha256": "b9e36581783712b76079b9b140ce97680e5c9d35ae183d1cbdcbdac2cb7d4005"
+          "sha256": "23fb1b9b086737351517dd078d5056a21062b9ce55ab739408c7c29bd3e9dbca"
         }
       ]
     },
@@ -548,11 +548,11 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/28-host_relay.json",
-          "sha256": "c25bad93ba6d6a3f4e1bb158c82e4423da38db9f09d9bc582486084e11604beb"
+          "sha256": "807b5490524475659d3761ce9a00bf500a783124136f0090216072f95ffc9aeb"
         },
         {
           "path": "release/reviews/evidence/design-host/28-control_native.json",
-          "sha256": "9bac5f4837fb8a971a9d7ca20bf1d51679b09aee455a92c6c73880f140333c3a"
+          "sha256": "daffdc6a9e73d1483501b7085228385212cf7c19772e2c3d73dfe93bf85bdc3a"
         }
       ]
     },
@@ -566,11 +566,11 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/29-chat_host.json",
-          "sha256": "d2a5ca24e26bc814552f98775dc229f522b6f7b256c4e3bd9ae9c75453973f59"
+          "sha256": "ef4312870965cf086e162162175d4cb7ce4b65e3ac6ab67f34cf2562affeb49e"
         },
         {
           "path": "release/reviews/evidence/design-host/29-standalone.json",
-          "sha256": "078c7e058a1c1cfef919b62c32476ac81fa9ffd9629cdcca07d1ffba0b9fe6cb"
+          "sha256": "c7cf250907ec5255585713ab8797b6dbf7c64d6619264ebb1c081e702e8c7a97"
         }
       ]
     },
@@ -586,15 +586,15 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/30-host_relay.json",
-          "sha256": "c0e35d611295fa62b5a316c5c7498b4b6b2453e2ecb8d3f7001918314cc176c3"
+          "sha256": "6bd861fc66b091395302652c6be5da37b26936409aa0a97e3084ccf71c78c3ab"
         },
         {
           "path": "release/reviews/evidence/design-host/30-control_relay.json",
-          "sha256": "91666918888b7d1a21faf414af51e057caff18180dffdb7cc4b7687157c6249b"
+          "sha256": "caa5d30c43445bdd684578547b34f4b889ea8e0be530259d686b3c654327642d"
         },
         {
           "path": "release/reviews/evidence/design-host/30-workspace_case.json",
-          "sha256": "eb1d3e43623f9226c43359ecd447a56ecd85a51e14c4ac61e411f59f8675425b"
+          "sha256": "5fb84fd347d5a72fbdecd7b9eba425b02d345a8d4b1fa50601964e202aa16a15"
         }
       ]
     },
@@ -608,11 +608,11 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/31-relay_alignment.json",
-          "sha256": "90df428f3dd98d70e588f5dcb78e22c98eaafdbf34784d77ab9472ceba50177b"
+          "sha256": "d972b9ff5c33e7797ff5e959cb7b3c41c83e4ca4b93e4fe1f75b969d48507db4"
         },
         {
           "path": "release/reviews/evidence/design-host/31-host_relay.json",
-          "sha256": "97c9cf5630139be8d4c6ed985afb912918f2111bb23a6b296162763b54d8501e"
+          "sha256": "62cfc65fec7f99217e98849e35f338ebd0d37f93c7e8a489ff9f202194130ecc"
         }
       ]
     },
@@ -626,11 +626,11 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/32-api_probe.json",
-          "sha256": "8c1e710b4aa16e39c3b5a682c297114226c7d162b24010bbb938dc1187c8d84d"
+          "sha256": "3e0da693f876380340328bddaf582cf0a49ef93d9725cf328997bd47e58565f1"
         },
         {
           "path": "release/reviews/evidence/design-host/32-api_fixture.json",
-          "sha256": "b25bd9e15d54995378f4c3ce69912953bcea451ad2885c50872623cc1732ed83"
+          "sha256": "fa680725dbc3b072a1627406c23ddb20c743d7297b5330f392bc35fede5b9031"
         }
       ]
     },
@@ -643,7 +643,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/33-workspace_recipes.json",
-          "sha256": "45e164c3a326759880ca3b92de0fc8889cb120e68d920c34e82aeb04c15771d8"
+          "sha256": "6ea52fbb36c5ec17b3f81d1dd30fb13cb6d270c40df8e858709dd54211db82e8"
         }
       ]
     },
@@ -657,7 +657,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/34-token_sync.json",
-          "sha256": "8377d1bd2f80e43c5600d3376425d3c71898f130937f8510533c43f29d1a427e"
+          "sha256": "656618ffa9d4eaa57163371c5e2d67d113af653f0795a6076e9f7823c80a9e34"
         }
       ]
     },
@@ -672,11 +672,11 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/35-token_sync.json",
-          "sha256": "7032a6b409297a0c2f3d9c638e72532e98f0d44783c656c3ceee248ca752fb64"
+          "sha256": "dd6f67f8bd7e7c1c3e8b3864864b07ca978e9253532499654358d518bd68dd2b"
         },
         {
           "path": "release/reviews/evidence/design-host/35-cta.json",
-          "sha256": "3df8f5f852f4388fabd810de1775b24fede4cfe07567ee7996ffff1e4a864866"
+          "sha256": "e5421783935fb0cf013ef41353830c6b52fe4c680373d11e8bf1e967557fd6b9"
         }
       ]
     },
@@ -691,11 +691,11 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/36-notes.json",
-          "sha256": "25342aa5e096c768d3c6931f15c7f2ff1fefe1d18dcb8f0647655dd02fc8d85f"
+          "sha256": "7e4c252b2e7bc2932efbb83cf8c6114c481e83fab11caa4531f542c8f04bd3e5"
         },
         {
           "path": "release/reviews/evidence/design-host/36-native_handoff.json",
-          "sha256": "10d2b3c30b92b2d6473fd6bbac3f81429f770c5921454f0c1ff08d1e7bfb67b8"
+          "sha256": "c0a27768fcd56f9d0de2bae1936130240127922a6064a7849a04a080a00d5d03"
         }
       ]
     },
@@ -709,11 +709,11 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/37-graph_board.json",
-          "sha256": "f3d1240727feb56eceedbdb9e8b511ed3988bebd237088f47a69d783c1930535"
+          "sha256": "10ca8d4b8e7f7e0aca905b06eed28430f329b677d25daa978ca1bd364f76be27"
         },
         {
           "path": "release/reviews/evidence/design-host/37-graph_card.json",
-          "sha256": "fd3aa0c8001879424339d8f582ccb4e265aab6b84935ae5ffbdcfdf3080ddc40"
+          "sha256": "e7c6ff45c1ade718224f8398ee8e8953508f8aa9d75c7d1ee85de8481f7f6274"
         }
       ]
     },
@@ -727,11 +727,11 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/38-design_graph.json",
-          "sha256": "58d8dcf748cac1f83b9284fe2fe37ec9cd3a3f385e353efaf02604dac0d6f741"
+          "sha256": "13eaae4ffa938cf79364f9a04771919618a7c39f227d59634b2cb0cd06e182f3"
         },
         {
           "path": "release/reviews/evidence/design-host/38-direction.json",
-          "sha256": "6603f34d9d3d7736d08eb322047d6a4c8f9b0be47835e648bdcd5058627a8fa2"
+          "sha256": "ab44fadabf9b25cc4a7473dacb72d472a94bc7214cd0fbb86c1caba2449e7c69"
         }
       ]
     },
@@ -753,15 +753,15 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/39-panel_components.json",
-          "sha256": "7032cd598f4dcb77d358cbb5dc4a618fd739ea6f7062d8a038a2ee011dae1bb1"
+          "sha256": "0fa46d69fc8a8a4847d53868d202fc54a57ff65cb8a9e689e8d6b859b648f20b"
         },
         {
           "path": "release/reviews/evidence/design-host/39-panel_locale.json",
-          "sha256": "fd3c9f26c463dfa15c9cba113f432daa6ee2192240f3b4789b5577014fef9adf"
+          "sha256": "f604cbadb9bb4821287d2c485c0d212fb1c1cb2be9a4f80682f6335e49e09fb2"
         },
         {
           "path": "release/reviews/evidence/design-host/39-standalone.json",
-          "sha256": "37742d50afb08c080a89cfb2c694356f0cc3bda00ed75fae21747f166c49d1de"
+          "sha256": "c3f1c507fb1dcc9cff029a0ba762aeba831b75ae8e44d3fa64d844364ad4abf9"
         }
       ]
     },
@@ -778,11 +778,11 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/40-panel_components.json",
-          "sha256": "b6127475ea434b3fb23a70fae11e8febf80ddbe2bdd9ca3c56259e0d77d7ca0f"
+          "sha256": "e221930f6fe9309af6e4ce00cd6f9ae2e110fc0d5d457100a258dab7cd3c4e76"
         },
         {
           "path": "release/reviews/evidence/design-host/40-standalone.json",
-          "sha256": "d0b45da6dc84d6839b6b1a29496c424ecc65eedb8b1de8a5044f216f2a701944"
+          "sha256": "e30098dcbe131dde6b30376937b4b0b583457a0ab28cace97da7926d954a9f8e"
         }
       ]
     },
@@ -795,11 +795,11 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/41-appearance.json",
-          "sha256": "5bd7e317b544ac4607581ab255092373e8789f930d1bf1aed1b05a35e476a9cd"
+          "sha256": "b54c42bc65393e8e6c3d802c9d3a9d29ed02a6e66a0ec52f4dc1ab91840ea317"
         },
         {
           "path": "release/reviews/evidence/design-host/41-standalone.json",
-          "sha256": "e70b30d11dd0eebda78b9ad900bce67040ae91943b5c61b23175ac075e7cc044"
+          "sha256": "a28b08efb36d6e509262a95fb5f248a7df7d8ae1015d52aa3e0a0048cd44b8a7"
         }
       ]
     },
@@ -813,11 +813,11 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/42-changes.json",
-          "sha256": "503c4773db218bafb59b9f0fecb70ec97557c8003d3ac14ff2dd133d0eb7c1ac"
+          "sha256": "04669783c6dd54f8e29b200511cdb89b1fc72e92eaec3ae3b6d03c367c37970b"
         },
         {
           "path": "release/reviews/evidence/design-host/42-workspace_case.json",
-          "sha256": "05d9601ef568430ec78b734dc99bc2821b1b8c08f1f62f2dbdde99421fa82cf7"
+          "sha256": "dba8688ec9ab6112b73a02115e1468581ffe69e67e2f2cbf14c4d3db4839b532"
         }
       ]
     },
@@ -831,7 +831,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/design-host/app-colors.json",
-          "sha256": "bdff88fc3e2f44637f901d90bcb4cc1bd787bc9d58ca401a9a02ac8929b5d644"
+          "sha256": "a3179d2c99df73674f02561d213c98391494876d604041b1c44a640ef5217d28"
         }
       ]
     },
@@ -845,7 +845,22 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/page-listener/design-host-1.json",
-          "sha256": "0030761d8eef7014b8406df9da541740e91a932db41e094515e89a72df74e005"
+          "sha256": "c616a088a9e7e866b0db8c011ec28fb0248c6baddbfd04aac72a0712ecd2fc05"
+        }
+      ]
+    },
+    {
+      "files": [
+        "figma-bridge/workspace_changes.js",
+        "figma-bridge/workspace_control.js",
+        "figma-bridge/workspace_host.js"
+      ],
+      "authority": "library/figma-profile/policy.json#/inspectFields",
+      "reason": "The selected-node fallback emits only supported metadata and reconciles native event duplicates and admitted writes.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/selected-change/design-host-1.json",
+          "sha256": "7386a653bd9e0f7034a062b5bae96f9f08f697253dfa63e58dbede597a15568f"
         }
       ]
     }
