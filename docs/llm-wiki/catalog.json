@@ -17516,6 +17516,61 @@
           "version": "1.0.0"
         }
       ]
+    },
+    {
+      "commit": "9e507ecb3915c8c9002d27073a9c0aff72cf6b1e",
+      "diff_sha256": "ccb89357d04966f607e1f75644f113fef807b56e2ab13e46cfc32f46e96d6bbc",
+      "files": [
+        "CHANGELOG.md",
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/6efda0fe6fb092f0f0672817101610194d90f400.md",
+        "docs/llm-wiki/patches/be3fabecccac9df9b4d5f867b832842844012dd0.md"
+      ],
+      "parents": [
+        "6efda0fe6fb092f0f0672817101610194d90f400"
+      ],
+      "subject": "Record development Graph analysis evidence",
+      "tree": "0da838d5742f10d9ad7a6cf7f4b64d54119b4622",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.0.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.0.0"
+        }
+      ]
+    },
+    {
+      "commit": "f219eba38aab407a4c8da21695748db62cc8e17c",
+      "diff_sha256": "976a1b2be02e8fbdc1a3ff8afa8b38ff7f3f088fb2823f80b5554d59e1694d53",
+      "files": [
+        ".github/CODEOWNERS",
+        "docs/development-changes.md",
+        "tests/test_development_changes.py",
+        "tests/test_development_git_evidence.py",
+        "tests/test_development_witnesses.py",
+        "tools/development_changes.py",
+        "tools/development_witnesses.py",
+        "tools/graph_governance.py",
+        "tools/graph_impact.py"
+      ],
+      "parents": [
+        "9e507ecb3915c8c9002d27073a9c0aff72cf6b1e"
+      ],
+      "subject": "Close development Graph evidence and offline Git gaps",
+      "tree": "cc3940c23612175c8dc1bf4d37b97d0c63dca4b2",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.0.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.0.0"
+        }
+      ]
     }
   ],
   "pages": {
@@ -17827,6 +17882,7 @@
     "9d7eb0288d3a60097bf958d8d77692e3e2df3979": "7295453001f7dbb037024ec63534f711904aa620263ff03b552ce4aa04d3da6d",
     "9e3968dfcdfa3bc01e887e64619b6a40094d498e": "a1eaf17821139af9f1d18b74567a3b700bc23e95c932c54e23fe6f4b9e0308f1",
     "9e4c2d2342a9465b2d94dc857a12f9b3a667d322": "19170cae0d92a18248c1611bd8f51425d9fb34777d27e702ea2a56f271cdebc4",
+    "9e507ecb3915c8c9002d27073a9c0aff72cf6b1e": "0f7ca5617544e686cc50127a0ca0da796245d8c72826eb9e619a73589f86d893",
     "9e6f1df55b28c6a89de19e1c28c2f52b835ebe14": "b6b97f262885d333bdf3b8889febb384dc678a2f42c57ffe0f332f88b4410683",
     "9eba48a5015dc991389e0c5aa3b95cd8597b5f2c": "c1b1da598cfb2b69ccfcd4896af4cf1759d9a07b5857f05b9a21296c1f5220db",
     "9efb50c3e8106e47f2608202b681929512a507ff": "79ec343cdc945ea3da9fc036e4e6fee212722cbeff2face7dd1e9051cd1e8e9a",
@@ -18017,6 +18073,7 @@
     "ef624aadc2e99029e227c62d57d7b6b56df21c5e": "8da8b1455770bcd64701268884d8e45da7cf4db6792f6b00facd25b794273074",
     "f12b84f03a916c2aed744db43eb7699c95094034": "ab5ee0914d24e7b70820e5654fea4f1fbda2a7e9bc31e6faef3eab0bd3b96787",
     "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c": "55a7613010888d5a2589706f04b8f62b98a1042fbc9a43a92ac7f0590e675459",
+    "f219eba38aab407a4c8da21695748db62cc8e17c": "125828e2d13e54c5f4a6ead34b0a7a9144c120a3d5386a129ac7587d2ad476ca",
     "f27863defeab1367eb4e74a9ecf5c2fa553e5b1a": "7eb372c438b550cab7c8cc820d4e5cce01b6779ca59f39ed6d54dfb13bf32a2a",
     "f290f48aba0bbabe12a8eda3f315d8cf2205457b": "e7f236ee01f526a36361927398d796f430a1f0336b91ebf48d3c2815ac0720f5",
     "f30bd55957a7a9edb294a786e225ada8b3598ceb": "29021fb21efbcd377f4b0983be026a2795c5c0b90a9c55acd5c971e8fe519e9e",
@@ -18566,6 +18623,10 @@
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
+      "observed_at_commit": "f219eba38aab407a4c8da21695748db62cc8e17c",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
       "observed_at_commit": "f30bd55957a7a9edb294a786e225ada8b3598ceb",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
@@ -18912,7 +18973,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "6efda0fe6fb092f0f0672817101610194d90f400",
+  "source_commit": "f219eba38aab407a4c8da21695748db62cc8e17c",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
