@@ -64,6 +64,61 @@ test('unavailable listener batches expose status without acknowledging pending e
   assert.equal(feed.getState().pending,1);
 });
 
+test('page subscription loads first even if early registration would silently succeed',async()=>{
+  let loaded=false, handler, release, loadCount=0;
+  const page={id:'page-A',loadAsync(){loadCount++;return new Promise(resolve=>{release=()=>{loaded=true;resolve();};});},
+    on(type,fn){if(loaded)handler=fn;},off(){}};
+  const e=load({figma:{fileKey:'file-A',currentPage:page},WORKSPACE_RUNTIME:{generation:scope.generation},
+    controlRunSession:scope.session_id,setTimeout:()=>1,clearTimeout(){}});
+  const binding=e.workspaceBindChangePage();
+  assert.equal(e.workspaceChangeFeedStatus.status,'unavailable');
+  e.workspaceBindChangePage();
+  assert.equal(loadCount,1);
+  release();
+  await binding;
+  assert.equal(e.workspaceChangeFeedStatus.status,'available');
+  handler({nodeChanges:[{id:'0:2',type:'PROPERTY_CHANGE',properties:['opacity']}]});
+  assert.equal(e.workspaceChangeFeed.batch(scope).events[0].node_id,'0:2');
+});
+
+test('events from an equivalent page wrapper retain their original scope and accept node.id',()=>{
+  let handler;
+  const page={id:'page-A',on(type,fn){handler=fn;},off(){}};
+  const e=load({figma:{fileKey:'file-A',currentPage:page},WORKSPACE_RUNTIME:{generation:scope.generation},
+    controlRunSession:scope.session_id,setTimeout:()=>1,clearTimeout(){}});
+  e.workspaceBindChangePage();
+  e.figma.currentPage={...page};
+  handler({nodeChanges:[
+    {type:'PROPERTY_CHANGE',node:{id:'0:2',characters:'private'},properties:['opacity']},
+    {type:'PROPERTY_CHANGE',id:'0:2',properties:['opacity']},
+  ]});
+  const events=e.workspaceChangeFeed.batch(scope).events;
+  assert.equal(events.length,1);
+  assert.equal(events[0].node_id,'0:2');
+  assert.equal(JSON.stringify(events).includes('private'),false);
+  e.figma.currentPage={...page,id:'page-B'};
+  handler({nodeChanges:[{id:'0:3',type:'CREATE'}]});
+  assert.equal(e.workspaceChangeFeed.batch({...scope,page_id:'page-B'}).events.length,0);
+});
+
+test('a late dynamic page load cannot register the former page or change current status',async()=>{
+  let loaded, oldRegistrations=0, newRegistrations=0;
+  const pageA={id:'page-A',loadAsync(){return new Promise(resolve=>{loaded=resolve;});},on(){oldRegistrations++;},off(){}};
+  const pageB={id:'page-B',on(){newRegistrations++;},off(){}};
+  const e=load({figma:{fileKey:'file-A',currentPage:pageA},WORKSPACE_RUNTIME:{generation:scope.generation},
+    controlRunSession:scope.session_id,setTimeout:()=>1,clearTimeout(){}});
+  const binding=e.workspaceBindChangePage();
+  e.figma.currentPage=pageB;
+  e.workspaceBindChangePage();
+  assert.equal(typeof loaded,'function');
+  loaded();
+  await binding;
+  assert.equal(oldRegistrations,0);
+  assert.equal(newRegistrations,1);
+  assert.equal(e.workspaceChangeFeedStatus.status,'available');
+  assert.equal(e.workspaceChangeFeed.getState().scope.page_id,'page-B');
+});
+
 test('scope changes reset cursor and reject events from the former page',()=>{
   const e=load();const feed=e.createWorkspaceChangeFeed({randomEpoch:()=>Math.random().toString(16).slice(2).padEnd(32,'0').slice(0,32)});
   feed.reset(scope);feed.record({id:'old',type:'CREATE'});
@@ -95,10 +150,10 @@ test('failed page listener registration is reported and retried after loading th
   let retry,attempts=0,loads=0;const page={id:'page-A',on(){if(++attempts===1)throw Error('not loaded');},off(){},async loadAsync(){loads++;}};
   const e=load({figma:{fileKey:'file-A',currentPage:page},WORKSPACE_RUNTIME:{generation:scope.generation},controlRunSession:scope.session_id,
     setTimeout(fn){retry=fn;return 1;},clearTimeout(){}});
-  e.workspaceBindChangePage();
+  await e.workspaceBindChangePage();
   assert.equal(e.workspaceChangeFeedStatus.status,'unavailable');
   await retry();
-  assert.equal(loads,1);assert.equal(e.workspaceChangeFeedStatus.status,'available');
+  assert.equal(loads,2);assert.equal(e.workspaceChangeFeedStatus.status,'available');
 });
 
 test('authenticated poll piggybacks events and retires only the acknowledged cursor',async()=>{
@@ -116,4 +171,45 @@ test('authenticated poll piggybacks events and retires only the acknowledged cur
   assert.deepEqual(Object.keys(calls[0].body.change_batch.scope).sort(),['file_key','generation','page_id','session_id']);
   assert.equal(calls[0].body.change_batch.events[0].node_id,'0:1');
   assert.equal(env.workspaceChangeFeed.getState().pending,0);
+});
+
+test('an authenticated poll with briefly missing file scope preserves pending events',async()=>{
+  const page={id:'page-A',on(){},off(){}};
+  const env=load({figma:{fileKey:'file-A',currentPage:page},WORKSPACE_RUNTIME:{generation:scope.generation},
+    WORKSPACE_CONTROL_CONFIG:{url:'http://localhost:1234',token:'fixture'},workspaceActive:null,workspaceHomeSession:'home',
+    workspaceState:{history:[]},workspaceServerHistory:[],workspaceJournalUnavailable:false,workspaceInputFreshness:[],
+    async controlRequest(){return {operation:null};}});
+  vm.runInNewContext(controlSource,env);
+  const initial=env.workspaceChangeScope();
+  env.workspaceBindChangePage();
+  env.workspaceChangeFeed.record({id:'0:2',type:'CREATE'});
+  env.figma.fileKey=null;
+  await env.workspaceControlTick();
+  env.figma.fileKey='file-A';
+  env.workspaceBindChangePage();
+  assert.equal(env.workspaceChangeFeed.batch(initial).events[0]?.node_id,'0:2');
+});
+
+test('an in-flight acknowledgement retires only the source page buffer after navigation',async()=>{
+  let finish;
+  const pageA={id:'page-A',on(){},off(){}};
+  const pageB={...pageA,id:'page-B'};
+  const env=load({figma:{fileKey:'file-A',currentPage:pageA},WORKSPACE_RUNTIME:{generation:scope.generation},
+    WORKSPACE_CONTROL_CONFIG:{url:'http://localhost:1234',token:'fixture'},workspaceActive:null,workspaceHomeSession:'home',
+    workspaceState:{history:[]},workspaceServerHistory:[],workspaceJournalUnavailable:false,workspaceInputFreshness:[],
+    controlRequest(route,{change_batch:batch}){return new Promise(resolve=>{
+      finish=()=>resolve({operation:null,changes:{scope:batch.scope,status:'available',accepted_cursor:batch.cursor}});
+    });}});
+  vm.runInNewContext(controlSource,env);
+  env.workspaceBindChangePage();
+  const previous=env.workspaceChangeFeed;
+  previous.record({id:'0:2',type:'CREATE'});
+  const sent=env.workspaceControlTick();
+  env.figma.currentPage=pageB;
+  env.workspaceBindChangePage();
+  env.workspaceChangeFeed.record({id:'0:3',type:'CREATE'});
+  finish();
+  await sent;
+  assert.equal(previous.getState().pending,0);
+  assert.equal(env.workspaceChangeFeed.batch(env.workspaceChangeScope()).events[0]?.node_id,'0:3');
 });
