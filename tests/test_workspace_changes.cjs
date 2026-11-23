@@ -213,3 +213,50 @@ test('an in-flight acknowledgement retires only the source page buffer after nav
   assert.equal(previous.getState().pending,0);
   assert.equal(env.workspaceChangeFeed.batch(env.workspaceChangeScope()).events[0]?.node_id,'0:3');
 });
+
+test('selected edits enter the feed when a loaded page delivers no native callback',()=>{
+  const changes=[];
+  const node={id:'0:2',opacity:1,characters:'private'};
+  const page={id:'page-A',selection:[node],on(){},off(){}};
+  const e=load({figma:{fileKey:'file-A',currentPage:page},WORKSPACE_RUNTIME:{generation:scope.generation},
+    WORKSPACE_READ_LIMITS:{maxNodes:1},controlRunSession:scope.session_id,
+    workspaceReadNodeField(n,field){changes.push(field);return Object.hasOwn(n,field)?{value:n[field]}:{unavailable:true};}});
+  e.workspaceBindChangePage();
+  assert.equal(e.workspaceChangeFeed.getState().pending,0);
+  node.opacity=.92;
+  node.characters='different private text';
+  page.selection.push({id:'0:3',opacity:.2});
+  e.workspaceSampleSelectionChanges();
+  const events=e.workspaceChangeFeed.batch(scope).events;
+  assert.equal(events.length,1);
+  assert.equal(events[0].node_id,'0:2');
+  assert.deepEqual(Array.from(events[0].properties),['opacity']);
+  assert.equal(changes.includes('characters'),false);
+  assert.equal(JSON.stringify(events).includes('private'),false);
+});
+
+test('native events and selected sampling share a baseline without removing unrelated fields',()=>{
+  let callback;
+  const node={id:'0:2',opacity:1};
+  const page={id:'page-A',selection:[node],on(_type,fn){callback=fn;},off(){}};
+  const e=load({figma:{fileKey:'file-A',currentPage:page},WORKSPACE_RUNTIME:{generation:scope.generation},
+    WORKSPACE_READ_LIMITS:{maxNodes:20},controlRunSession:scope.session_id,setTimeout:()=>1,clearTimeout(){},
+    workspaceReadNodeField(n,field){return Object.hasOwn(n,field)?{value:n[field]}:{unavailable:true};}});
+  e.workspaceBindChangePage();
+  node.opacity=.9;
+  callback({nodeChanges:[{id:node.id,type:'PROPERTY_CHANGE',properties:['opacity']}]});
+  e.workspaceSampleSelectionChanges();
+  assert.equal(e.workspaceChangeFeed.getState().pending,1);
+  node.opacity=.8;
+  e.workspaceSampleSelectionChanges();
+  callback({nodeChanges:[{id:node.id,type:'PROPERTY_CHANGE',properties:['opacity','characters']}]});
+  assert.deepEqual(e.workspaceChangeFeed.batch(scope).events.map(item=>item.properties.join(',')).join(';'),
+    'opacity;opacity;characters');
+  node.opacity=.7;
+  e.workspaceSampleSelectionChanges(true);
+  e.workspaceSampleSelectionChanges();
+  assert.equal(e.workspaceChangeFeed.getState().pending,3);
+  node.opacity=.6;
+  e.workspaceSampleSelectionChanges();
+  assert.equal(e.workspaceChangeFeed.getState().pending,4);
+});
