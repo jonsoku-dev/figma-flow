@@ -94,6 +94,7 @@ sys.exit(0 if result.wasSuccessful() and result.testsRun == 1 and not result.ski
            'PYTHONPATH':os.pathsep.join(str(p.resolve()) for p in (root, root/'tests', root/'tools'))}
     deps = Path(panel_deps or os.environ.get('FIGMA_FLOW_PANEL_DEPENDENCIES') or root/'panel-ui/node_modules').resolve()
     env['NODE_PATH'] = str(deps) if deps.is_dir() else ''
+    env['FIGMA_FLOW_PANEL_DEPENDENCIES'] = env['NODE_PATH']
     result = subprocess.run(args,cwd=root,env=env,stdin=subprocess.DEVNULL,capture_output=True,text=True,timeout=120)
     if args[0] == 'node':
         # A file without registered cases can report one passing file-level subtest.
@@ -380,6 +381,29 @@ def inspect_archive(archive, root):
     return files
 
 
+def audit_archived_tree(tree, files, deps):
+    """Supply installed dependencies inside the disposable archive during witness replay."""
+    before = scope_digest(tree, files)
+    dependency_link = tree / 'panel-ui/node_modules'
+    deps = Path(deps).resolve()
+    linked = dependency_link.parent.is_dir() and deps.is_dir()
+    if linked:
+        if dependency_link.exists() or dependency_link.is_symlink():
+            raise ValueError('The candidate archive contains its own panel dependency directory.')
+        dependency_link.symlink_to(deps, target_is_directory=True)
+    try:
+        report = audit(tree, files, deps)
+    finally:
+        if linked:
+            if not dependency_link.is_symlink() or dependency_link.resolve() != deps:
+                raise ValueError('A release check modified the temporary panel dependency link.')
+            dependency_link.unlink()
+    remaining = {p.relative_to(tree).as_posix() for p in tree.rglob('*') if p.is_file()}
+    if remaining != files or scope_digest(tree, files) != before:
+        raise ValueError('A release check modified the inspected candidate tree.')
+    return report
+
+
 def run(args):
     repo = Path(args.repo).resolve()
     target = commit_id(repo,args.ref)
@@ -438,11 +462,7 @@ def run(args):
                 report = {'status':'blocked','blockerCount':len(mismatch),
                           'findings':[finding('checker-version-drift',n,'Use the release checker from this candidate.') for n in mismatch]}
             else:
-                before = scope_digest(tree,files)
-                report = audit(tree,files,repo/'panel-ui/node_modules')
-                remaining = {p.relative_to(tree).as_posix() for p in tree.rglob('*') if p.is_file()}
-                if remaining != files or scope_digest(tree,files) != before:
-                    raise ValueError('A release check modified the inspected candidate tree.')
+                report = audit_archived_tree(tree, files, repo/'panel-ui/node_modules')
         if args.archive and report['status'] in {'passed','not-applicable'}:
             dest = Path(args.archive)
             with tempfile.NamedTemporaryFile(dir=dest.parent,delete=False) as staged:
