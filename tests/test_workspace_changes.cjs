@@ -249,6 +249,7 @@ test('native events and selected sampling share a baseline without removing unre
   assert.equal(e.workspaceChangeFeed.getState().pending,1);
   node.opacity=.8;
   e.workspaceSampleSelectionChanges();
+  e.workspaceSampleSelectionChanges(true);
   callback({nodeChanges:[{id:node.id,type:'PROPERTY_CHANGE',properties:['opacity','characters']}]});
   assert.deepEqual(e.workspaceChangeFeed.batch(scope).events.map(item=>item.properties.join(',')).join(';'),
     'opacity;opacity;characters');
