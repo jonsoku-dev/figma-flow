@@ -319,10 +319,18 @@ def analyze_observed_impact(base_observation, current_observation, changed_paths
     }
 
 
-def _git(root, *args):
+def _git_execution(root, *args):
+    return (
+        ['git', '--no-optional-locks', '--no-replace-objects', '-c', 'core.fsmonitor=false', '-C', str(root), *args],
+        {**os.environ, 'GIT_NO_LAZY_FETCH': '1', 'GIT_ALLOW_PROTOCOL': ''},
+    )
+
+
+def read_git(root, *args, input=None):
+    """Read Git with local objects and no optional index writes."""
+    command, env = _git_execution(root, *args)
     return subprocess.run(
-        ['git', '--no-optional-locks', '--no-replace-objects', '-C', str(root), *args],
-        capture_output=True, check=True,
+        command, env=env, input=input, capture_output=True, check=True,
     ).stdout
 
 
@@ -350,12 +358,14 @@ def _digest_stream(source, size=None):
 
 
 def _visit_blobs(root, items, read):
-    command = ['git', '--no-optional-locks', '--no-replace-objects', '-C', str(root), 'cat-file', '--batch']
-    with subprocess.Popen(command, stdin=subprocess.PIPE, stdout=subprocess.PIPE) as process:
+    command, env = _git_execution(root, 'cat-file', '--batch')
+    with subprocess.Popen(command, env=env, stdin=subprocess.PIPE, stdout=subprocess.PIPE) as process:
         for key, object_id in items:
             process.stdin.write(object_id + b'\n')
             process.stdin.flush()
             header = process.stdout.readline().split()
+            if header == [object_id, b'missing']:
+                raise ValueError(f'Local Git blob {object_id.decode("ascii")} is unavailable')
             if len(header) != 3 or header[:2] != [object_id, b'blob']:
                 raise ValueError(f'Expected a Git blob for {object_id.decode("ascii")}')
             value = read(key, process.stdout, int(header[2]))
@@ -365,6 +375,18 @@ def _visit_blobs(root, items, read):
         process.stdin.close()
         if process.wait() != 0:
             raise subprocess.CalledProcessError(process.returncode, command)
+
+
+def read_git_blobs(root, object_ids):
+    """Read exact local blobs by the object IDs from Git tree or index records."""
+    ids = set(object_ids)
+    if any(not isinstance(value, str) or len(value) not in (40, 64) or
+           any(char not in '0123456789abcdef' for char in value) for value in ids):
+        raise ValueError('Expected lowercase Git object IDs')
+    if not ids:
+        return {}
+    return dict(_visit_blobs(root, ((value, value.encode('ascii')) for value in sorted(ids)),
+                             lambda _, source, size: b''.join(_read_chunks(source, size))))
 
 
 def _blobs(root, items):
@@ -380,7 +402,7 @@ def _blobs(root, items):
 
 
 def _tree_entries(root, base):
-    for entry in _nul_items(_git(root, 'ls-tree', '-rz', base)):
+    for entry in _nul_items(read_git(root, 'ls-tree', '-rz', base)):
         fields, name = entry.split(b'\t', 1)
         mode, kind, object_id = fields.split()
         yield os.fsdecode(name), mode, kind, object_id
@@ -396,7 +418,7 @@ def _tree_blobs(root, base, paths):
 def panel_base_snapshot(root, base, paths):
     """Stage selected regular files from an exact Git commit for the panel observer."""
     root = Path(root).resolve(strict=True)
-    ref = _git(root, 'rev-parse', '--verify', '--end-of-options', base + '^{commit}').strip().decode('ascii')
+    ref = read_git(root, 'rev-parse', '--verify', '--end-of-options', base + '^{commit}').strip().decode('ascii')
     patterns = set(paths)
     if not patterns or not all(_relative_path(path) for path in patterns):
         raise ValueError('Panel baseline requires repository-relative input paths')
@@ -429,7 +451,7 @@ def panel_base_snapshot(root, base, paths):
 
 def _index_blobs(root, paths):
     items = {}
-    for entry in _nul_items(_git(root, 'ls-files', '-sz')):
+    for entry in _nul_items(read_git(root, 'ls-files', '-sz')):
         fields, name = entry.split(b'\t', 1)
         mode, object_id, stage = fields.split()
         path = os.fsdecode(name)
@@ -478,24 +500,36 @@ def _move_candidates(changes):
                 }
 
 
-def changed_paths(root, base_ref):
+def intent_to_add_paths(root):
+    """Identify index placeholders without confusing them with staged empty files."""
+    empty_tree = read_git(root, 'hash-object', '-t', 'tree', '--stdin', input=b'').strip().decode('ascii')
+    options = ('--name-only', '--no-renames', '--no-ext-diff', '--no-textconv', '-z')
+    visible = read_git(root, 'diff', '--cached', *options, '--ita-visible-in-index', empty_tree, '--')
+    invisible = read_git(root, 'diff', '--cached', *options, '--ita-invisible-in-index', empty_tree, '--')
+    return {os.fsdecode(path) for path in set(_nul_items(visible)) - set(_nul_items(invisible))}
+
+
+def changed_paths(root, base_ref, *, intent_to_add=None):
     """Compare the base commit, index and working tree using actual source bytes."""
     root = Path(root).resolve(strict=True)
-    base = _git(root, 'rev-parse', '--verify', '--end-of-options', base_ref + '^{commit}').strip().decode('ascii')
-    options = ('--name-only', '--no-renames', '--no-ext-diff', '--no-textconv', '-z', base, '--')
-    worktree = _git(root, '-c', 'core.fileMode=true', '-c', 'diff.autoRefreshIndex=false', 'diff', *options)
-    staged = _git(root, 'diff', '--cached', *options)
-    untracked = _git(root, 'ls-files', '--others', '--exclude-standard', '-z')
-    names = {os.fsdecode(path) for data in (worktree, staged, untracked) for path in _nul_items(data)}
+    base = read_git(root, 'rev-parse', '--verify', '--end-of-options', base_ref + '^{commit}').strip().decode('ascii')
+    intent = intent_to_add_paths(root) if intent_to_add is None else set(intent_to_add)
+    options = ('--name-only', '--no-renames', '--no-ext-diff', '--no-textconv', '--ita-invisible-in-index', '-z', base, '--')
+    worktree = read_git(root, '-c', 'core.fileMode=true', '-c', 'diff.autoRefreshIndex=false', 'diff', *options)
+    staged = read_git(root, 'diff', '--cached', *options)
+    untracked = read_git(root, 'ls-files', '--others', '--exclude-standard', '-z')
+    names = {os.fsdecode(path) for data in (worktree, staged, untracked) for path in _nul_items(data)} | intent
     previous = _tree_blobs(root, base, names)
-    index = _index_blobs(root, names)
+    index = _index_blobs(root, names - intent)
     changes = {}
     for path in sorted(names):
         before, after = previous.get(path), _working_blob(root, path)
         staged = index.get(path)
-        if before == after == staged:
+        if before == after == staged and path not in intent:
             continue
-        if after == before:
+        if before is None and after is None and path in intent:
+            kind = 'intent-to-add'
+        elif after == before:
             kind = 'staged-only'
         elif before is None:
             kind = 'added'
@@ -504,5 +538,7 @@ def changed_paths(root, base_ref):
         else:
             kind = 'modified'
         changes[path] = {'kind': kind, 'before': before, 'after': after, 'staged': staged}
+        if path in intent:
+            changes[path]['intentToAdd'] = True
     _move_candidates(changes)
     return changes

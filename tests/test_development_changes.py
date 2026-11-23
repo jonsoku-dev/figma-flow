@@ -55,6 +55,10 @@ def initialize(root, graph, policy=None):
     write(root, 'docs/policy.json', {'mode': 'baseline'} if policy is None else policy)
     write(root, 'tests/test_tool.py',
           b'from pathlib import Path\nPath(__file__).with_name("check-ran.txt").touch()\n')
+    commit_fixture(root)
+
+
+def commit_fixture(root):
     git(root, 'add', '.')
     git(root, '-c', 'user.name=Fixture', '-c', 'user.email=fixture@example.invalid',
         '-c', 'commit.gpgsign=false', '-c', 'core.hooksPath=/dev/null', 'commit', '-qm', 'fixture')
@@ -66,7 +70,169 @@ def report(root):
     return result, json.loads(result.stdout) if result.stdout else {}
 
 
+def add_witness(root):
+    test = 'tests/historical.py'
+    body = b'def test_feature():\n    assert True\n'
+    source = write(root, test, body)
+    witness = 'release/reviews/evidence/tools/example.json'
+    review = 'release/reviews/tools.json'
+    covered = 'tools/mixed.txt'
+    authority = 'docs/policy.json#/mode'
+    fingerprint = 'a' * 64
+    receipt = write(root, witness, {'surfaceFingerprint': fingerprint, 'status': 'passed', 'checks': [{
+        'test': test, 'case': 'test_feature', 'testSha256': sha256(source.read_bytes()).hexdigest(),
+        'covers': [covered], 'authority': authority, 'assertion': 'Check the feature contract', 'observed': True,
+    }]})
+    write(root, review, {'schema': 'figma-flow-major-review-v1', 'surface': 'tools', 'fingerprint': fingerprint,
+                        'openFindings': [], 'bindings': [{'files': [covered], 'authority': authority,
+                        'witnesses': [{'path': witness, 'sha256': sha256(receipt.read_bytes()).hexdigest()}]}]})
+    commit_fixture(root)
+    return test, witness, covered
+
+
 class DevelopmentChangesTests(unittest.TestCase):
+    def test_deleted_authority_and_check_are_review_required_even_with_an_owner(self):
+        with TemporaryDirectory() as directory:
+            root = Path(directory)
+            initialize(root, authorities())
+            (root / 'docs/policy.json').unlink()
+            (root / 'tests/test_tool.py').unlink()
+            result, plan = report(root)
+            self.assertEqual(result.returncode, 1, result.stderr)
+            self.assertEqual('review-required', plan['status'])
+            self.assertEqual([], plan['unmapped'])
+            self.assertEqual({('docs/policy.json', 'missing-authority-source'), ('tests/test_tool.py', 'missing-check-source')},
+                             {(row['path'], row['rule']) for row in plan['findings']['working']})
+
+    def test_test_change_and_removal_reach_covered_files(self):
+        with TemporaryDirectory() as directory:
+            root = Path(directory)
+            initialize(root, authorities())
+            test, _, covered = add_witness(root)
+            for body in (b'def test_feature():\n    assert False\n', None):
+                with self.subTest(removed=body is None):
+                    if body is None:
+                        (root / test).unlink()
+                    else:
+                        write(root, test, body)
+                    result, plan = report(root)
+                    self.assertEqual(result.returncode, 1, result.stderr)
+                    routes = plan['changes'][test]['witnessDependents']
+                    self.assertEqual('historical-candidates', routes['base'][0]['status'])
+                    self.assertEqual('needs-review', routes['working'][0]['status'])
+                    self.assertEqual([covered], routes['working'][0]['coveredPaths'])
+                    self.assertIn(test, plan['surfaces']['working']['tools']['reasons'])
+                    self.assertNotIn(covered, plan['changes'])
+
+    def test_corrupted_evidence_reports_previous_dependents_and_exits_nonzero(self):
+        with TemporaryDirectory() as directory:
+            root = Path(directory)
+            initialize(root, authorities())
+            test, witness, covered = add_witness(root)
+            write(root, witness, b'{}')
+            write(root, test, b'changed test\n')
+            write(root, covered, b'changed implementation\n')
+            result, plan = report(root)
+            self.assertEqual(result.returncode, 1, result.stderr)
+            self.assertEqual('needs-review', plan['changes'][covered]['revisions']['working']['witnesses']['status'])
+            row = plan['changes'][test]['witnessDependents']['working'][0]
+            self.assertEqual('prior-witness', row['basis'])
+            self.assertEqual('index', row['basisRevision'])
+            self.assertEqual([covered], row['coveredPaths'])
+            self.assertEqual('needs-review', row['status'])
+
+    def test_working_only_test_cannot_appear_as_earlier_revision_witness(self):
+        with TemporaryDirectory() as directory:
+            root = Path(directory)
+            initialize(root, authorities())
+            _, witness, covered = add_witness(root)
+            expected = json.loads((root / witness).read_bytes())
+            write(root, witness, b'{}')
+            git(root, 'add', witness)
+            new_test = 'tests/new_test.py'
+            body = b'def test_feature():\n    assert True\n'
+            write(root, new_test, body)
+            expected['checks'][0].update(test=new_test, testSha256=sha256(body).hexdigest())
+            receipt = write(root, witness, expected)
+            review = 'release/reviews/tools.json'
+            declaration = json.loads((root / review).read_bytes())
+            declaration['bindings'][0]['witnesses'][0]['sha256'] = sha256(receipt.read_bytes()).hexdigest()
+            write(root, review, declaration)
+            result, plan = report(root)
+            self.assertEqual(result.returncode, 1, result.stderr)
+            routes = plan['changes'][new_test]['witnessDependents']
+            self.assertEqual(['working'], list(routes))
+            self.assertEqual([covered], routes['working'][0]['coveredPaths'])
+
+    def test_human_output_lists_all_three_check_revisions(self):
+        with TemporaryDirectory() as directory:
+            root = Path(directory)
+            graph = authorities()
+            initialize(root, graph)
+            write(root, 'tests/staged.py', b'# staged\n')
+            graph['nodes'][-1]['source'] = 'tests/staged.py'
+            write(root, 'release/authority.json', graph)
+            git(root, 'add', 'release/authority.json', 'tests/staged.py')
+            write(root, 'tests/working.py', b'# working\n')
+            graph['nodes'][-1]['source'] = 'tests/working.py'
+            write(root, 'release/authority.json', graph)
+            result = subprocess.run([sys.executable, '-B', str(PLANNER), '--repo', str(root)],
+                                    capture_output=True, text=True)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            for rev, path in [('base', 'tests/test_tool.py'), ('index', 'tests/staged.py'), ('working', 'tests/working.py')]:
+                self.assertIn(f'{rev} tools: {path} (surface-declaration)', result.stdout)
+
+    def test_intent_placeholder_is_not_a_staged_revision(self):
+        with TemporaryDirectory() as directory:
+            root = Path(directory)
+            initialize(root, authorities())
+            write(root, 'tools/intent.txt', b'future change\n')
+            git(root, 'add', '-N', 'tools/intent.txt')
+            result, plan = report(root)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            row = plan['changes']['tools/intent.txt']
+            self.assertTrue(row['intentToAdd'])
+            self.assertIsNone(row['staged'])
+            self.assertEqual(['working'], list(row['revisions']))
+
+    def test_visibility_flags_changing_during_analysis_require_a_fresh_read(self):
+        with TemporaryDirectory() as directory:
+            root = Path(directory)
+            initialize(root, authorities())
+            original = planner.panel_tools
+
+            def mask_during(root, run_tools):
+                git(root, 'update-index', '--assume-unchanged', 'tools/mixed.txt')
+                return original(root, run_tools)
+
+            with patch.object(planner, 'panel_tools', side_effect=mask_during):
+                with self.assertRaisesRegex(ValueError, 'drifted'):
+                    planner.analyze(root, 'HEAD')
+
+    def test_transient_authority_edit_cannot_pass_when_git_state_recovers(self):
+        with TemporaryDirectory() as directory:
+            root = Path(directory)
+            graph = authorities()
+            initialize(root, graph)
+            original = planner.working_bytes
+            edited = False
+
+            def transient_read(root, name):
+                nonlocal edited
+                snapshot = original(root, name)
+                if name == 'release/authority.json' and not edited:
+                    edited = True
+                    graph['nodes'][1]['roots'].append('tools/mixed.txt')
+                    path = write(root, name, graph)
+                    changing = original(root, name)
+                    path.write_bytes(snapshot)
+                    return changing
+                return snapshot
+
+            with patch.object(planner, 'working_bytes', side_effect=transient_read):
+                with self.assertRaisesRegex(ValueError, 'Working evidence drifted.*release/authority.json'):
+                    planner.analyze(root, 'HEAD')
+
     def test_git_visible_nested_repository_is_reported_without_traversal(self):
         with TemporaryDirectory() as directory:
             root = Path(directory)
@@ -150,9 +316,9 @@ class DevelopmentChangesTests(unittest.TestCase):
             capture = planner.changed_paths
             later = False
 
-            def edit_during(root, base):
+            def edit_during(root, base, **options):
                 nonlocal later
-                state = capture(root, base)
+                state = capture(root, base, **options)
                 if not later:
                     graph['nodes'][1]['roots'].append('tools/mixed.txt')
                     write(root, 'release/authority.json', graph)

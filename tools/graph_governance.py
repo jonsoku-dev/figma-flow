@@ -16,6 +16,7 @@ import delivery_config
 import graph_impact
 from graph_document import decode_json, read_json
 from graph_generated import DOC_DIR, POLICY_DOC, TOKEN_CSS, check_generated, managed_files, write_policy_doc
+from graph_impact import read_git as git
 from panel_artifacts import ASSET_DIR, artifact_paths
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -39,10 +40,6 @@ RELATION_DECLARATIONS = {'GENERATED_FROM', 'DOCUMENTS', 'IMPLEMENTS', 'VERIFIES'
 
 def digest(value):
     return sha256(json.dumps(value, sort_keys=True, ensure_ascii=False, separators=(',', ':')).encode()).hexdigest()
-
-
-def git(root, *args):
-    return subprocess.check_output(['git', '--no-replace-objects', *args], cwd=root)
 
 
 def finding(rule, status, message, **evidence):
