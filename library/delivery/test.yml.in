@@ -92,6 +92,8 @@ jobs:
           python -B -m unittest discover -s apps/little-hands/design -p 'test_*.py'
       - name: Check graph decoding ownership
         run: python -B tools/maintenance.py check
+      - name: Verify responsive relay colors in Chromium
+        run: python -B -m unittest -v tests.test_relay_palette_browser
       - name: Run full product suites with native text shaping
         run: |
           export DYLD_LIBRARY_PATH="$FIGMA_FLOW_FONT_SHAPING_LIB"

@@ -14,7 +14,7 @@ const server = createServer((_, response) => {
   response.end(html);
 });
 await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
-async function openRelay(command, evaluate, scheme) {
+async function openRelay(command, evaluate, scheme, width) {
   await command('Page.enable');
   await command('Network.enable');
   await command('Page.addScriptToEvaluateOnNewDocument', {source: `
@@ -27,6 +27,7 @@ async function openRelay(command, evaluate, scheme) {
     });
   `});
   await command('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-color-scheme', value: scheme }] });
+  await command('Emulation.setDeviceMetricsOverride', { width, height: 900, deviceScaleFactor: 1, mobile: false });
   await command('Page.navigate', { url: 'http://127.0.0.1:' + server.address().port });
   const requestId = await until(() => evaluate('window.relayReady'), Date.now() + 8000,
     'relay viewer did not request its initial state');
@@ -60,20 +61,17 @@ async function openRelay(command, evaluate, scheme) {
       panel.append(element);
     }
   })()`);
-  const query = JSON.stringify('(prefers-color-scheme: ' + scheme + ')');
-  await until(() => evaluate('matchMedia(' + query + ').matches'), Date.now() + 8000,
-    'browser did not apply the ' + scheme + ' color scheme');
+  const media = JSON.stringify('(prefers-color-scheme: ' + scheme + ') and (width: ' + width + 'px)');
+  await until(() => evaluate('matchMedia(' + media + ').matches'), Date.now() + 8000,
+    'browser did not apply the ' + scheme + ' theme at ' + width + 'px');
 }
 
 try {
-  const samples = await withChromiumPage(binary, async ({ command, evaluate }) => {
-    await openRelay(command, evaluate, 'light');
-    const results = [];
-    for (const width of [320, 400]) {
-      await command('Emulation.setDeviceMetricsOverride', {
-        width, height: 900, deviceScaleFactor: 1, mobile: false,
-      });
-      results.push(await evaluate(`(() => {
+  const samples = [];
+  for (const width of [320, 400]) {
+    samples.push(await withChromiumPage(binary, async ({ command, evaluate }) => {
+      await openRelay(command, evaluate, 'light', width);
+      return evaluate(`(() => {
         const left = selector => document.querySelector(selector).getBoundingClientRect().left;
         const computed = selector => getComputedStyle(document.querySelector(selector));
         const table = document.querySelector('.relay-layers');
@@ -134,15 +132,11 @@ try {
             ...Object.fromEntries(rowCells.map((edge, index) => ['tableRow' + index, edge])),
           },
         };
-      })()`));
-    }
-    return results;
-  });
+      })()`);
+    }));
+  }
   const { darkPalette, darkMetrics } = await withChromiumPage(binary, async ({ command, evaluate }) => {
-    await openRelay(command, evaluate, 'dark');
-    await command('Emulation.setDeviceMetricsOverride', {
-      width: 400, height: 900, deviceScaleFactor: 1, mobile: false,
-    });
+    await openRelay(command, evaluate, 'dark', 400);
     const darkPalette = await evaluate(`(() => ({
       text: getComputedStyle(document.querySelector('.relay-view')).color,
       canvas: getComputedStyle(document.querySelector('.relay-view')).backgroundColor,
