@@ -2,6 +2,8 @@
 
 ## 미출시
 
+- 개발 중 기준·스테이징·작업 트리의 변경을 Graph 소유 영역과 검사 후보에 연결합니다. [개발 변경 분석과 검증](docs/llm-wiki/patches/6efda0fe6fb092f0f0672817101610194d90f400.md)
+
 - 패널 변경의 전후 실제 소비 경로를 비교하고, 호출 근거·계약 테스트의 실행 파일·사용 경로가 빠지면 Graph 검사를 차단합니다. [검증 보강](docs/llm-wiki/patches/edaaf32817fecf6df4172798054b7ab4d113c671.md)
 
 - Figma 패널의 Graph·실제 import·생성 파일·변경 영향을 한 명령으로 검사합니다. Biome·Oxlint·Knip을 패널 품질 검사에 연결했습니다. [마이그레이션과 검증](docs/llm-wiki/patches/014095da897ccb87cac5e439910ad053c1f64720.md)

@@ -17461,6 +17461,61 @@
           "version": "1.0.0"
         }
       ]
+    },
+    {
+      "commit": "be3fabecccac9df9b4d5f867b832842844012dd0",
+      "diff_sha256": "e1bba310d51f274d9cbaf8086d0a5f6f8ddc05886c19304d0d8952663d236e3d",
+      "files": [
+        "CHANGELOG.md",
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/cdb9cc8a3fdae7114ba1bcc49901e7ea7911ad65.md",
+        "docs/llm-wiki/patches/edaaf32817fecf6df4172798054b7ab4d113c671.md"
+      ],
+      "parents": [
+        "edaaf32817fecf6df4172798054b7ab4d113c671"
+      ],
+      "subject": "Record panel graph evidence follow-up",
+      "tree": "aea3bb67139617163e3f30da96219e54440ffa3a",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.0.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.0.0"
+        }
+      ]
+    },
+    {
+      "commit": "6efda0fe6fb092f0f0672817101610194d90f400",
+      "diff_sha256": "51503e2e2a444670d4f1acb3bbc9f7302674b16ab88fa5b937d5b442d9be0cff",
+      "files": [
+        ".github/CODEOWNERS",
+        "AGENTS.md",
+        "CONTRIBUTING.md",
+        "docs/development-changes.md",
+        "tests/test_development_changes.py",
+        "tools/development_changes.py",
+        "tools/graph_impact.py",
+        "tools/major_release.py",
+        "tools/release_ownership.py"
+      ],
+      "parents": [
+        "be3fabecccac9df9b4d5f867b832842844012dd0"
+      ],
+      "subject": "Trace repository development changes through Graph ownership",
+      "tree": "220fb12859e649b6410f6c42a6517c020790c15a",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.0.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.0.0"
+        }
+      ]
     }
   ],
   "pages": {
@@ -17679,6 +17734,7 @@
     "6deaaf123c4f65d436fe5bb75a8f9f5711ee72f7": "d5e87c8db6e51c1c83dc220a58edc95b52bbf61d3172b6b17fe39f4f239ce3a7",
     "6df3d7849b82bd36526022e47a276e49f9e0faeb": "5de4e85f36ca52686ae7655313ac78e326c7dff764261b32834030f500b91ebb",
     "6e7b2174eac971cf8fb391edabeaee07866a83a7": "0057d00e26f588355c7c8c7ffc173b63a2efed64d02cba968d48a45702174a16",
+    "6efda0fe6fb092f0f0672817101610194d90f400": "ab1adc325e57ddc7e1d27ad5b0ee6dea01a8eb0beade3d284276781ba06bee40",
     "709f11042d3aa621dd47a064168828f6aa4f828d": "d54437dbbde2e4f42c8b83d2b46aa7db79c0cffa48eeaea18e1a3bd8386ce0b3",
     "721627bcc9a6eca2e283f879026d942a93a05a20": "6ba953710de7f712d7774c957971f57ee2c54a29c1f9b69b59924ad851c4014d",
     "7260d2995764d65d736aed031ddc63323ecf4e0c": "3c2912216f47082ac4fa83dc881cbae70237231b90a1b4b6b14adba6c0de81a8",
@@ -17842,6 +17898,7 @@
     "bd20be5bdb1d5822b68b314067d912eb8ad7f43c": "1bc8a9afbdbc99720da37bd4644b607d0e565d8c935874ddf4273c8f495a11bf",
     "bd511d743a228b0a71ea4a0fc5e2a92e8c0920ff": "3d7da603626d4a85ca81dd3a2ff07b1a3fc0deecdc169da323bcb29d20e8273f",
     "bd53b61a4da349e5857b01f5abfd47ed80e378bd": "070abfe7b746107f34ab02650009a09b463e88a99cf3d17fbfe29aa79279352d",
+    "be3fabecccac9df9b4d5f867b832842844012dd0": "62509e59af9e1b85d8b61651e2df700ae37e130216a7b308755077844cb00228",
     "be4e79f2e9a6cdc4495dc0874e60b6261ddbce39": "99d5023ac74faa40c0b6db4a319ac656aba753b26a7fed36c4059d82fe6260e3",
     "be68110615269481f97b2867e3d12ab3eb1442a6": "cc9a9fbd12e64882bc64eef8112fda41f043f62e08efee939da5bbbd6a8c5ca4",
     "bea537dd386fdd26ebeaa4d7a2a6b1a7ddbeea94": "d03d7d8041827c7f67d85423f0c992df401f1fcecc7a4e21d91a3e963752872b",
@@ -18254,6 +18311,10 @@
     },
     {
       "observed_at_commit": "6e7b2174eac971cf8fb391edabeaee07866a83a7",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "6efda0fe6fb092f0f0672817101610194d90f400",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -18851,7 +18912,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "edaaf32817fecf6df4172798054b7ab4d113c671",
+  "source_commit": "6efda0fe6fb092f0f0672817101610194d90f400",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
