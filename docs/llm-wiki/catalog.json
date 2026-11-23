@@ -16615,6 +16615,164 @@
           "version": "1.0.0"
         }
       ]
+    },
+    {
+      "commit": "ef21c1b47e63649a54d9b1aad2d1ae0409d8f1ac",
+      "diff_sha256": "5f00cc6d98d3e872cd36fc24e78804cc5070db517a445c11782fa7318e6d8552",
+      "files": [
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/1713898a4682f94302b2a042cd764497cf083629.md",
+        "docs/llm-wiki/patches/503a532696a7c9f912824d80c3157ee11eaefcd0.md"
+      ],
+      "parents": [
+        "503a532696a7c9f912824d80c3157ee11eaefcd0"
+      ],
+      "subject": "docs: record browser palette verification timing",
+      "tree": "a981f4e386698abf137d2e897c8bad2023b9f919",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.0.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.0.0"
+        }
+      ]
+    },
+    {
+      "commit": "79ba8f68c9d95d035b28e4fe78fa68a9a8a73207",
+      "diff_sha256": "825c135dae70cf6d6f9f81530200ad56e0e39acdcc825d7cee8a03b010284ee8",
+      "files": [
+        ".github/workflows/reference-guard.yml",
+        "library/delivery/reference-guard.yml.in"
+      ],
+      "parents": [
+        "ef21c1b47e63649a54d9b1aad2d1ae0409d8f1ac"
+      ],
+      "subject": "fix: provide Compose inspection for the hosted archive gate",
+      "tree": "17608b9d3b5f6d0b5dc1b593133e6fed5e0eb5c1",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.0.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.0.0"
+        }
+      ]
+    },
+    {
+      "commit": "b0c4ba2e97e33cdfed6dda1d02ec25bc6edb79a2",
+      "diff_sha256": "bb59bbb2180e8347d8fb9feda2fbe2322da3b1ae12b9ce9153786be34b56c05e",
+      "files": [
+        "tests/helpers/relay_palette.mjs",
+        "tools/chromium_pipe.mjs"
+      ],
+      "parents": [
+        "79ba8f68c9d95d035b28e4fe78fa68a9a8a73207"
+      ],
+      "subject": "fix: verify relay themes in separate Chromium sessions",
+      "tree": "c353401a55557387efd54f0ae371bef1938f8b85",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.0.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.0.0"
+        }
+      ]
+    },
+    {
+      "commit": "d6bbffe1e59e69184d2188e84ab694b736516f01",
+      "diff_sha256": "9b4258b54f0e32a6b903798ff5d6d5b3eeba2fd26c13c025502a5abbae7fc74d",
+      "files": [
+        "release/reviews/delivery.json",
+        "release/reviews/evidence/delivery/1.json",
+        "release/reviews/evidence/delivery/10.json",
+        "release/reviews/evidence/delivery/11.json",
+        "release/reviews/evidence/delivery/12.json",
+        "release/reviews/evidence/delivery/13.json",
+        "release/reviews/evidence/delivery/2.json",
+        "release/reviews/evidence/delivery/3.json",
+        "release/reviews/evidence/delivery/4.json",
+        "release/reviews/evidence/delivery/5.json",
+        "release/reviews/evidence/delivery/6.json",
+        "release/reviews/evidence/delivery/7.json",
+        "release/reviews/evidence/delivery/8.json",
+        "release/reviews/evidence/delivery/9.json",
+        "release/reviews/evidence/maintenance-retention/delivery-1.json",
+        "release/reviews/evidence/maintenance-retention/tooling-1.json",
+        "release/reviews/evidence/maintenance-retention/tooling-2.json",
+        "release/reviews/evidence/maintenance/delivery-1.json",
+        "release/reviews/evidence/maintenance/tooling-1.json",
+        "release/reviews/evidence/maintenance/tooling-2.json",
+        "release/reviews/evidence/mysql-example/delivery-1.json",
+        "release/reviews/evidence/mysql-example/tooling-1.json",
+        "release/reviews/evidence/tooling/1.json",
+        "release/reviews/evidence/tooling/10.json",
+        "release/reviews/evidence/tooling/11.json",
+        "release/reviews/evidence/tooling/12.json",
+        "release/reviews/evidence/tooling/13.json",
+        "release/reviews/evidence/tooling/14.json",
+        "release/reviews/evidence/tooling/15.json",
+        "release/reviews/evidence/tooling/16.json",
+        "release/reviews/evidence/tooling/17.json",
+        "release/reviews/evidence/tooling/18.json",
+        "release/reviews/evidence/tooling/19.json",
+        "release/reviews/evidence/tooling/2.json",
+        "release/reviews/evidence/tooling/20.json",
+        "release/reviews/evidence/tooling/21.json",
+        "release/reviews/evidence/tooling/22.json",
+        "release/reviews/evidence/tooling/23.json",
+        "release/reviews/evidence/tooling/24.json",
+        "release/reviews/evidence/tooling/25.json",
+        "release/reviews/evidence/tooling/26.json",
+        "release/reviews/evidence/tooling/27.json",
+        "release/reviews/evidence/tooling/28.json",
+        "release/reviews/evidence/tooling/29.json",
+        "release/reviews/evidence/tooling/3.json",
+        "release/reviews/evidence/tooling/30.json",
+        "release/reviews/evidence/tooling/31.json",
+        "release/reviews/evidence/tooling/32.json",
+        "release/reviews/evidence/tooling/33.json",
+        "release/reviews/evidence/tooling/34.json",
+        "release/reviews/evidence/tooling/35.json",
+        "release/reviews/evidence/tooling/36.json",
+        "release/reviews/evidence/tooling/37.json",
+        "release/reviews/evidence/tooling/38.json",
+        "release/reviews/evidence/tooling/39.json",
+        "release/reviews/evidence/tooling/4.json",
+        "release/reviews/evidence/tooling/40.json",
+        "release/reviews/evidence/tooling/41.json",
+        "release/reviews/evidence/tooling/42.json",
+        "release/reviews/evidence/tooling/43.json",
+        "release/reviews/evidence/tooling/44.json",
+        "release/reviews/evidence/tooling/5.json",
+        "release/reviews/evidence/tooling/6.json",
+        "release/reviews/evidence/tooling/7.json",
+        "release/reviews/evidence/tooling/8.json",
+        "release/reviews/evidence/tooling/9.json",
+        "release/reviews/tooling.json"
+      ],
+      "parents": [
+        "b0c4ba2e97e33cdfed6dda1d02ec25bc6edb79a2"
+      ],
+      "subject": "verify: bind Compose and browser session review evidence",
+      "tree": "afbb7caab3241718ccf51d6084c43855fe7db1ce",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.0.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.0.0"
+        }
+      ]
     }
   ],
   "pages": {
@@ -16835,6 +16993,7 @@
     "78fd03a27d4d81d1e024d8874d5467a568b8418e": "9677b5f96bb30d1dabec45446d4fb77172f3afa51576c24dce111622c7a74e4e",
     "791378c941b08d1cd6274b690a756fa3a5c8f45e": "3f590efcefd7fee5e3353423ed1ddd02277c8a41a7c56ee114b5e61de6c18d15",
     "798361b6c9d3c9d1049500eba911b64547d8d435": "65274712d789b463547dc6308139bbd3d14117bb28e67d3acd47fcc75ad4c38d",
+    "79ba8f68c9d95d035b28e4fe78fa68a9a8a73207": "df6219fc56955719ee63dd7bd105466d5f7e8f3b80052825cb9fbfac2c23026f",
     "7a1bb8345246b0c0aafd3c30ee9e21557366c4f2": "7a5e215a27e95b67ae81256716454d07ea247d5a7cca3d83583e8cc76b336f0e",
     "7aef05e416b625ccab46122d8d0720e45e9471a5": "a58774684a8c8dd7c1fb3d3226d068c52a3f401c9b7444ddd3cd6732b38b1ad3",
     "7b5ae4091641430d891e0c110c8efdb9a845a6ce": "063e8f7c15bd7989ed403013c467c8da048f725858a1473274172f3a6ca8492f",
@@ -16949,6 +17108,7 @@
     "af2a027d7bebe176de697878f3b36d191ef35fe9": "81dd5da7e6cb4b778181d765efb93d92386dda1f5972a281a2c86c0a662bc513",
     "b05f2c444105fa3cf261eabb6f79db5e2ec89675": "55d81975928aaec85692c9952fb6bb53c8e962b8cdbfec212a8b8bd889b84609",
     "b08a778410917942eae007572834688bfd60d1cc": "90a324ce599816398e41a22ba8a9b01f3bcff329d16b406ec16332be2566a920",
+    "b0c4ba2e97e33cdfed6dda1d02ec25bc6edb79a2": "5b9d60b8c4e48550b32c4f7649ae468d59dbc402ccfaea2f5b4da28471af20a7",
     "b170f11568364a8c1e4494613f717ad87519ec83": "69f9aa3d96e239653e8b7c63deee1d2bed850119e86df545fc426731a6a6eefe",
     "b1a87fc477fe5d8dfea69eaeee996f8cbf1d7e61": "04e19af69d0f55c105a2c995ee53f3744dec4223cd9fb25e6d731c37c26750fe",
     "b1c3824d810a143b6c7eb5e1f6951828e950dfee": "940cfac82c1f43f42d34716af750730c232f4f2a2db4864fd20d313bb0d0da2b",
@@ -17026,6 +17186,7 @@
     "d44a2a6f2eb4051dc8dceb4f1db1bc1f8336462a": "d4e9b6a58dcf1004b438375ccf1a77267a208edc7e63c24c70a791156ffc9503",
     "d5b26f079e3b2a38ba141877eca8b5782a1bd895": "51e3737b69e692203b3793ec87ac79b7a59adcf0c7c97a42c63e848340ce1a9a",
     "d6b32a64bffc0004267f1b09fbc456443862f967": "40d2ca9ed18e54c11fde41a4276d3a8c27f2e531afa9ee6b359f37dd6fdc9016",
+    "d6bbffe1e59e69184d2188e84ab694b736516f01": "6330d2d1e557456f41e35af3042b74cf5a3a3f0277a68dcd687f6bf0c5fefb7f",
     "d6e35da1559f20ba25c443f8c4bb5e387211652b": "7b607f99cb3837cbc31550dd6a0c76a3c55cc1dd08bfb1c2431ddd57034953a5",
     "d7b345b57af0ae0ed73b50db0740696fe2bd46b2": "02507fa7a2d48264c260d43b982a205a13e3c7490511faa642eb5f715eb836b4",
     "d85d6388ae1c50a853278af33ca790a411b1e59e": "bd097342130b482c55505a0541bea97bd013bdddd5446538f808cc527558975a",
@@ -17089,6 +17250,7 @@
     "ee61c93b47d9938c6379d1ea1b638d449338b48a": "3d6591e46d44e765c244ec83a173aa347fc7a6a5aa78c5bb71206738fdcd632f",
     "eeeeae315cca7b193a791969123ce09343c165e1": "2efefee67d35baf3de35e3af7ac0428c281a53b8ab96ea62a99f44f5787c5984",
     "ef00dddce6ed5d06701b2c6c870762f9e14f6029": "8bc84fddc14d567fae61668f0f0cffcd7b9a4172af968361749ab8a885196c8e",
+    "ef21c1b47e63649a54d9b1aad2d1ae0409d8f1ac": "a3ace5e77b9438ec44ca8ecc63dd09bc19c75ad61048148d728096eaa9bf5655",
     "ef624aadc2e99029e227c62d57d7b6b56df21c5e": "8da8b1455770bcd64701268884d8e45da7cf4db6792f6b00facd25b794273074",
     "f12b84f03a916c2aed744db43eb7699c95094034": "ab5ee0914d24e7b70820e5654fea4f1fbda2a7e9bc31e6faef3eab0bd3b96787",
     "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c": "55a7613010888d5a2589706f04b8f62b98a1042fbc9a43a92ac7f0590e675459",
@@ -17549,6 +17711,10 @@
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
+      "observed_at_commit": "d6bbffe1e59e69184d2188e84ab694b736516f01",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
       "observed_at_commit": "d85d6388ae1c50a853278af33ca790a411b1e59e",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
@@ -17942,7 +18108,7 @@
     },
     {
       "source_commits": [
-        "503a532696a7c9f912824d80c3157ee11eaefcd0"
+        "d6bbffe1e59e69184d2188e84ab694b736516f01"
       ],
       "tagged": false,
       "tags": [],
@@ -17953,7 +18119,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "503a532696a7c9f912824d80c3157ee11eaefcd0",
+  "source_commit": "d6bbffe1e59e69184d2188e84ab694b736516f01",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
