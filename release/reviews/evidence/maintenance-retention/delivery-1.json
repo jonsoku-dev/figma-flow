@@ -1,6 +1,6 @@
 {
   "status": "passed",
-  "surfaceFingerprint": "ba7d88d7298a13c256f64d8a67ccd039c6ddf4fe0bef68530876752ff55ca567",
+  "surfaceFingerprint": "382cedee6d5ffa61b5e22e62f2b8d35cad8600c3a09fcb5267a22292a5ddcb74",
   "checks": [
     {
       "test": "tests/test_maintenance_contract.py",
