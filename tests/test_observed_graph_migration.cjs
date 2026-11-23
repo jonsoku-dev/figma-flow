@@ -44,6 +44,15 @@ test('observes the built panel entry and its generated view registry with direct
     edge.type === 'IMPORTS' && edge.from === registry.path && edge.to === panel('RelayViewer.jsx')));
   assert.ok(result.edges.some((edge) => edge.type === 'IMPORTS' && edge.mode === 'static' &&
     edge.from === panel('ReviewPanel.jsx') && edge.to === panel('reviewTransport.mjs')));
+  const reviewCall = result.edges.find((edge) => edge.type === 'CALLS' && edge.mode === 'static-import-binding' &&
+    edge.from === panel('ReviewPanel.jsx') && edge.to === panel('reviewTransport.mjs'));
+  assert.equal(reviewCall.targetSymbol, 'postDraftReceipt');
+  assert.equal(reviewCall.certainty, 'extracted');
+  const reviewLines = fs.readFileSync(path.join(root, reviewCall.from), 'utf8').split('\n');
+  assert.ok(reviewLines[reviewCall.location.line - 1].slice(reviewCall.location.column - 1)
+    .startsWith('postDraftReceipt('));
+  assert.ok(reviewLines[reviewCall.importLocation.line - 1].slice(reviewCall.importLocation.column - 1)
+    .startsWith('postDraftReceipt'));
   const exportImport = result.edges.find((edge) =>
     edge.type === 'IMPORTS' && edge.from === panel('DiagnosticExport.jsx') && edge.resolution === 'external-file');
   assert.equal(exportImport.to, 'figma-bridge/audit_log.js');
@@ -89,8 +98,9 @@ test('retains source positions and differentiates static, dynamic, bundled and s
   assert.ok(result.edges.some((edge) => edge.type === 'REEXPORTS' && edge.to === panel('tools.mjs')));
   assert.ok(result.edges.some((edge) => edge.resolution === 'asset' && edge.to === panel('style.css')));
   assert.deepEqual(result.edges.find((edge) => edge.type === 'CALLS' && edge.symbol === 'load'), {
-    type: 'CALLS', from: panel('app.jsx'), to: null, symbol: 'load', certainty: 'syntactic',
-    location: { path: panel('app.jsx'), line: 5, column: 3 },
+    type: 'CALLS', from: panel('app.jsx'), to: panel('loader.js'), symbol: 'load', certainty: 'extracted',
+    location: { path: panel('app.jsx'), line: 5, column: 3 }, targetSymbol: 'load',
+    importLocation: { path: panel('app.jsx'), line: 1, column: 10 }, mode: 'static-import-binding',
   });
   assert.deepEqual(result.usage.find((entry) => entry.path === panel('lazy.js')).evidence, {
     path: ['app.jsx', 'loader.js', 'tools.mjs', 'lazy.js'].map(panel),
@@ -99,6 +109,41 @@ test('retains source positions and differentiates static, dynamic, bundled and s
   assert.deepEqual(await observePanel(options), result);
   fs.appendFileSync(path.join(root, panel('style.css')), '\n');
   assert.notEqual((await observePanel(options)).sourceFingerprint, result.sourceFingerprint);
+});
+
+test('call proof excludes shadowing, imports without calls and unresolved member or wildcard targets', async (context) => {
+  const root = fixture(context, {
+    [panel('app.mjs')]: [
+      'import defaultCall, { named as localAlias, unused, wildcard } from "./adapter.mjs";',
+      'import * as adapter from "./adapter.mjs";',
+      'export function run(app) {',
+      '  localAlias(); defaultCall(); adapter.named(); wildcard();',
+      '  return ({ localAlias }) => localAlias();',
+      '}',
+    ].join('\n'),
+    [panel('adapter.mjs')]: 'export default function useDefault() {}\n' +
+      'export function named() {} export function unused() {}\nexport * from "./reexports.mjs";',
+    [panel('reexports.mjs')]: 'export function wildcard() {}',
+  });
+  const result = await observePanel({ root, entries: [panel('app.mjs')] });
+  assert.deepEqual(result.findings, []);
+  const calls = result.edges.filter((edge) => edge.type === 'CALLS' && edge.from === panel('app.mjs'));
+  assert.equal(calls.find((edge) => edge.symbol === 'defaultCall').targetSymbol, 'default');
+  assert.equal(calls.find((edge) => edge.symbol === 'defaultCall').mode, 'static-import-binding');
+  for (const shadowed of calls.filter((edge) => edge.symbol === 'localAlias')) {
+    assert.equal(shadowed.to, null);
+    assert.equal(shadowed.importCandidate.reason, 'possible-lexical-shadow');
+    assert.equal(shadowed.importCandidate.targetSymbol, 'named');
+  }
+  assert.equal(calls.find((edge) => edge.symbol === 'adapter.named').to, null);
+  assert.equal(calls.find((edge) => edge.symbol === 'wildcard').importCandidate.reason, 'unverified-export');
+  assert.equal(calls.some((edge) => edge.symbol === 'unused'), false);
+  assert.ok(result.edges.some((edge) => edge.type === 'IMPORTS' && edge.to === panel('adapter.mjs')));
+  const main = path.join(root, panel('app.mjs'));
+  fs.writeFileSync(main, fs.readFileSync(main, 'utf8').replace('({ localAlias }) => localAlias()', '() => localAlias()'));
+  const unshadowed = await observePanel({ root, entries: [panel('app.mjs')] });
+  assert.ok(unshadowed.edges.some((edge) => edge.symbol === 'localAlias' && edge.targetSymbol === 'named' &&
+    edge.mode === 'static-import-binding'));
 });
 
 test('reports only initialization cycles separately from dynamic connections', async (context) => {
@@ -112,6 +157,38 @@ test('reports only initialization cycles separately from dynamic connections', a
   assert.deepEqual(result.cycles, [['app.js', 'peer.js'].map(panel)]);
   assert.deepEqual(result.cyclesIncludingDynamic, [['app.js', 'lazy.js', 'peer.js'].map(panel)]);
   assert.equal(result.usage.find((record) => record.path === panel('unused.js')).status, 'unused-candidate');
+});
+
+test('a staged linked package tree produces portable evidence and source symlinks stay unscanned', async (context) => {
+  const installed = fixture(context, {
+    'node_modules/fixture-package/package.json': '{"name":"fixture-package","version":"1.0.0","main":"index.js"}',
+    'node_modules/fixture-package/index.js': 'export const item = 1;',
+    'external.mjs': 'export const outside = 1;',
+  });
+  const source = {
+    [panel('app.mjs')]: 'import "fixture-package";\nimport "./linked.mjs";',
+  };
+  const records = [];
+  for (let index = 0; index < 2; index++) {
+    const root = fixture(context, source);
+    fs.symlinkSync(path.join(installed, 'node_modules'), path.join(root, 'panel-ui/node_modules'), 'junction');
+    fs.symlinkSync(path.join(installed, 'external.mjs'), path.join(root, panel('linked.mjs')));
+    records.push(await observePanel({ root, entries: [panel('app.mjs')] }));
+  }
+  const [first, second] = records;
+  const manifest = 'panel-ui/node_modules/fixture-package/package.json';
+  assert.deepEqual(first.packages, [{ name: 'fixture-package', version: '1.0.0', manifest }]);
+  assert.match(first.inputFiles[manifest], /^[a-f0-9]{64}$/);
+  assert.ok(first.edges.some((edge) => edge.specifier === 'fixture-package' && edge.resolution === 'package'));
+  assert.ok(first.findings.some((issue) => issue.path === panel('linked.mjs') && issue.rule === 'source-symlink'));
+  assert.ok(first.findings.some((issue) => issue.specifier === './linked.mjs' && issue.rule === 'unscanned-source'));
+  assert.equal(Object.hasOwn(first.inputFiles, panel('linked.mjs')), false);
+  assert.equal(first.sourceFingerprint, second.sourceFingerprint);
+  assert.equal(JSON.stringify(first).includes(fs.realpathSync(installed)), false);
+  const redirected = fixture(context, { 'panel-ui/package.json': '{}' });
+  fs.symlinkSync(path.join(installed, 'node_modules'), path.join(redirected, 'panel-ui/src'), 'junction');
+  await assert.rejects(observePanel({ root: redirected, entries: [panel('app.mjs')] }),
+    /requires a physical source directory/);
 });
 
 test('reports missing imports, nonliteral connections, and parser limits without claiming dead code', async (context) => {

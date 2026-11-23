@@ -1,8 +1,10 @@
 {
   "decision": "updated",
-  "reason": "패널 통신 경계는 현재 정본에서 생성한 표로 안내하고, 유지보수 절차에는 구현·관측·생성 비교와 정책 변경 시 문서 재검토 방법을 기록했다.",
+  "reason": "패널 산출물 역할의 단일 원천, 기준과 현재의 관측 영향, 확대된 Knip 검사와 독립 CI 잡을 대조하여 유지보수 절차를 갱신했다.",
   "inputs": {
-    "panel-boundary-policy": "dc0378528c26013b77a7c4c648e5874ce9d9895ffc08657543d987fdec3c40e1"
+    "panel-boundary-policy": "f26cfaaaacf318e58c78ee2a80ee6e64b9a7c3a7279ede5cb2b5863e7cb54b18",
+    "panel-governance": "4f74763a2464367b2b5b77ac6b69d773cbbb9eec280044cc40dd3b05c7734dc7",
+    "panel-static-quality": "19624e882e323e30f9be88d29fe237f0d46f3b78c2ec83d06a992f5b5aa6b23d"
   },
-  "documentSha256": "1c2d2970bd29632596eb01c9971d7ae0e5c89524e22d0187f043a7097dd9b0d9"
+  "documentSha256": "25913cd245fd6235da899fb52383d12539f53684e4edcbeae5b64dec472f2dc5"
 }

@@ -16,6 +16,12 @@ const panelSource = fileURLToPath(new URL('src/', import.meta.url));
 const sourceTokenCss = join(panelSource, 'styles/tokens.css');
 const generatedTokenCss = join(outputRoot, 'panel-ui/src/styles/tokens.css');
 const out = join(outputRoot, 'figma-bridge/assets');
+const artifacts = maintenance.panelArtifacts;
+for (const [role, extension] of [['script', 'js'], ['shellStyle', 'css'], ['licenses', 'txt']]) {
+  if (typeof artifacts?.[role] !== 'string' || !new RegExp(`^[A-Za-z0-9][A-Za-z0-9_.-]*\\.${extension}$`).test(artifacts[role])) {
+    throw new Error(`Invalid panel artifact filename for ${role}`);
+  }
+}
 
 const boundaryFailures = checkPanel();
 if (boundaryFailures.length) throw new Error(boundaryFailures.join('\n'));
@@ -70,7 +76,7 @@ await mkdir(out, { recursive: true });
 await build({
   entryPoints: [join(panelSource, maintenance.panelBoundaries.entry)],
   bundle: true,
-  outfile: out + '/panels.js',
+  outfile: join(out, artifacts.script),
   minify: true,
   format: 'iife',
   target: 'chrome109',
@@ -106,7 +112,7 @@ const shellStyles = fileURLToPath(new URL('src/styles/panel-shell.css', import.m
 await build({
   entryPoints: [shellStyles],
   bundle: true,
-  outfile: out + '/panel-shell.css',
+  outfile: join(out, artifacts.shellStyle),
   minify: true,
   target: 'chrome109',
   charset: 'utf8',
@@ -122,4 +128,4 @@ const licenses = await Promise.all(
       (await readFile(new URL('node_modules/' + name + '/LICENSE', import.meta.url), 'utf8')),
   ),
 );
-await writeFile(out + '/LICENSES.txt', licenses.join('\n\n'));
+await writeFile(join(out, artifacts.licenses), licenses.join('\n\n'));

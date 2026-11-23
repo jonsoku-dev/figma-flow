@@ -15,7 +15,8 @@ import tempfile
 import delivery_config
 import graph_impact
 from graph_document import decode_json, read_json
-from graph_generated import check_generated, write_policy_doc
+from graph_generated import DOC_DIR, POLICY_DOC, TOKEN_CSS, check_generated, managed_files, write_policy_doc
+from panel_artifacts import ASSET_DIR, artifact_paths
 
 ROOT = Path(__file__).resolve().parents[1]
 GRAPH = 'library/panel-design/governance.json'
@@ -33,6 +34,7 @@ PROOF_FOR_ACTION = {
     'review-documentation': 'documentation',
 }
 IMPORT_EDGES = {'IMPORTS', 'REEXPORTS'}
+RELATION_DECLARATIONS = {'GENERATED_FROM', 'DOCUMENTS', 'IMPLEMENTS', 'VERIFIES'}
 
 
 def digest(value):
@@ -89,9 +91,11 @@ def bind_graph(graph, policy):
 def snapshot(root, graph):
     paths = set(git(root, 'ls-files', '-co', '--exclude-standard', '-z').decode().split('\0')) - {''}
     patterns = {pattern for node in graph['nodes'] for pattern in node['paths']}
-    wanted = sorted(path for path in paths if any(graph_impact.matches_path(path, pattern) for pattern in patterns))
+    wanted = {path for path in paths if any(graph_impact.matches_path(path, pattern) for pattern in patterns)}
+    for directory in (Path(SOURCE), ASSET_DIR, DOC_DIR):
+        wanted.update(path.as_posix() for path in managed_files(root, directory))
     content = {}
-    for name in wanted:
+    for name in sorted(wanted):
         path = root / name
         if path.is_symlink():
             content[name] = {'symlink': str(path.readlink())}
@@ -104,8 +108,10 @@ def run(root, argv, **kwargs):
     return subprocess.run(argv, cwd=root, check=False, capture_output=True, text=True, timeout=180, **kwargs)
 
 
-def observe(root, graph, policy):
+def observe(root, graph, policy, *, checkout=None):
+    checkout = root if checkout is None else checkout
     process = run(root, ['node', 'panel-ui/observed-graph.cjs', '--options-stdin'], input=json.dumps({
+        'root': str(checkout),
         'entries': [SOURCE + policy['panelBoundaries']['entry']],
         'externalConsumers': graph['externalConsumers'],
     }))
@@ -114,6 +120,13 @@ def observe(root, graph, policy):
     report = decode_json(process.stdout)
     if report.get('schema') != 'figma-flow-observed-panel-v1' or not report.get('sourceFingerprint'):
         raise ValueError('The panel observer did not produce current source evidence')
+    expected = {
+        path.relative_to(checkout).as_posix() for path in (checkout / SOURCE).rglob('*')
+        if path.suffix in ('.jsx', '.mjs', '.js', '.cjs') and path.is_file() and not path.is_symlink()
+    }
+    sources = [row['path'] for row in report['nodes'] if row['origin'] == 'source']
+    if expected != set(sources) or len(sources) != len(set(sources)):
+        raise ValueError(f'Observation omitted or duplicated panel sources: {sorted(expected.symmetric_difference(sources))}')
     return report
 
 
@@ -123,43 +136,53 @@ def structure(graph, panel, observation):
     by_id = {node['id']: node for node in graph['nodes']}
     binding_evidence = []
     for node in graph['nodes']:
-        exact = node['paths'][0] if node['kind'] == 'implementation' and len(node['paths']) == 1 else None
-        if not exact or any(char in exact for char in '*?[') or node['status'] != 'active':
+        if node['kind'] != 'implementation' or node['status'] != 'active':
             continue
-        present = exact in observed
-        binding_evidence.append({'target': node['id'], 'path': exact, 'status': 'bound' if present else 'unbound'})
-        if not present:
-            issues.append(finding('implementation-binding', 'unbound', 'Bind the active implementation to observed panel source.',
-                                  target=node['id'], path=exact, action='supply-mapping'))
+        for pattern in node['paths'] or [None]:
+            paths = sorted(path for path in observed if pattern and graph_impact.matches_path(path, pattern))
+            binding_evidence.append({'target': node['id'], 'path': pattern, 'observedPaths': paths,
+                                     'status': 'bound' if paths else 'unbound'})
+            if not paths:
+                issues.append(finding('implementation-binding', 'unbound', 'Bind the active implementation to observed panel source.',
+                                      target=node['id'], path=pattern, action='supply-mapping'))
 
     imports = [edge for edge in observation['edges'] if edge['type'] in IMPORT_EDGES]
     for relation in graph['relations']:
         kind = relation['type']
-        if kind not in IMPORT_EDGES | {'CALLS', 'READS', 'WRITES'}:
+        if kind in RELATION_DECLARATIONS:
             continue
         origin, destination = (by_id[relation[key]] for key in ('from', 'to'))
         if 'planned' in (origin['status'], destination['status']):
             continue
         state = relation['state']
-        if kind in {'CALLS', 'READS', 'WRITES'}:
+        call_binding = kind == 'CALLS' and relation.get('mode') == 'static-import-binding' and relation.get('symbol')
+        if kind not in IMPORT_EDGES and not call_binding:
             if state != 'optional':
                 issues.append(finding('relation-target-resolution', 'unknown', 'The observer cannot resolve this required or forbidden relationship. Supply a verifier for the declared type.',
                                       relation=relation, target=origin['id'], path=GRAPH, action='supply-mapping'))
             continue
-        witnesses = [edge['location'] for edge in imports if edge.get('to') and edge['type'] == kind
+        def endpoint(path, node):
+            return path and any(graph_impact.matches_path(path, pattern) for pattern in node['paths'])
+
+        edges = [edge for edge in observation['edges'] if edge['type'] == kind and endpoint(edge['from'], origin)]
+        witnesses = [edge['location'] for edge in edges if endpoint(edge.get('to'), destination)
                      and ('mode' not in relation or edge['mode'] == relation['mode'])
-                     and any(graph_impact.matches_path(edge['from'], pattern) for pattern in origin['paths'])
-                     and any(graph_impact.matches_path(edge['to'], pattern) for pattern in destination['paths'])]
+                     and (not call_binding or edge.get('targetSymbol') == relation['symbol'])]
+        uncertain = [edge['location'] for edge in edges if call_binding and (candidate := edge.get('importCandidate'))
+                     and endpoint(candidate['to'], destination) and candidate['targetSymbol'] == relation['symbol']]
         if witnesses and state == 'forbidden':
             status, reason = 'prohibited', 'Remove the prohibited dependency or use the owning adapter.'
         elif not witnesses and state == 'required':
-            status, reason = 'missing', 'Restore the required source relationship or amend the approved Graph.'
+            status, reason = ('unknown', 'Resolve the possible imported call binding before using it as evidence.') if uncertain else (
+                'missing', 'Restore the required source relationship or amend the approved Graph.')
+        elif uncertain and state == 'forbidden':
+            status, reason = 'unknown', 'Resolve the possible prohibited imported call binding.'
         elif witnesses:
             status, reason = 'agrees', 'The declared relationship is present in the observed source.'
         else:
             continue
         issues.append(finding('declared-relationship', status, reason, relation=relation, target=origin['id'],
-                              path=GRAPH, evidence=witnesses, action='verify-structure'))
+                              path=GRAPH, evidence=witnesses or uncertain, action='verify-structure'))
 
     allowed = {(SOURCE + source, spec) for source, values in panel['externalImports'].items() for spec in values}
     observed_outside = {}
@@ -194,10 +217,27 @@ def usage_findings(graph, observation):
             raise ValueError('An unused disposition needs a unique path, source SHA, reason, approval and review condition')
         rules[path] = row
     hashes = {node['path']: node['sha256'] for node in observation['nodes']}
+    records = Counter(row['path'] for row in observation['usage'])
+    if len(hashes) != len(observation['nodes']) or set(records) != hashes.keys() or any(count != 1 for count in records.values()):
+        raise ValueError('Usage evidence must cover every observed module exactly once.')
+    local_edges = {(edge['from'], edge['to'], edge['mode']) for edge in observation['edges'] if edge.get('resolution') == 'local'}
+    external_roots = {(row['path'], row['consumer']) for row in observation['externalEvidence']
+                      if row.get('certainty') == 'extracted'}
     issues = []
     applied = set()
     for row in observation['usage']:
         path = row['path']
+        if row['status'] not in ('used', 'external', 'unknown', 'unused-candidate'):
+            raise ValueError(f'Unknown usage status for {path}: {row["status"]}')
+        if row['status'] in ('used', 'external'):
+            evidence = row.get('evidence', {})
+            route, modes = evidence.get('path'), evidence.get('modes')
+            if (not isinstance(route, list) or not route or route[-1] != path or not isinstance(modes, list)
+                    or len(modes) != len(route) - 1
+                    or any(edge not in local_edges for edge in zip(route, route[1:], modes))
+                    or (row['status'] == 'used' and route[0] not in observation['entries'])
+                    or (row['status'] == 'external' and (route[0], evidence.get('consumer')) not in external_roots)):
+                raise ValueError(f'Usage evidence for {path} does not trace to its runtime or verified external entry.')
         if row['status'] == 'unknown':
             issues.append(finding('usage-evidence', 'unknown', 'Resolve dynamic usage before classifying this module.',
                                   path=path, action='investigate-usage'))
@@ -213,13 +253,22 @@ def usage_findings(graph, observation):
     return issues
 
 
+def guide_inputs(root, graph, policy):
+    pins = read_json(root / 'panel-ui/package.json')['devDependencies']
+    return {
+        'panel-boundary-policy': digest({'boundaries': policy['panelBoundaries'], 'artifacts': policy['panelArtifacts']}),
+        'panel-governance': digest({key: graph[key] for key in ('scope', 'relationTypes', 'relations', 'externalConsumers')}),
+        'panel-static-quality': digest({name: pins[name] for name in ('@biomejs/biome', 'oxlint', 'knip')}),
+    }
+
+
 def doc_findings(root, graph, policy):
     review = graph['guideReview']
-    if review['inputs'] != ['panel-boundary-policy'] or not all(parts_are_safe(review[key]) for key in ('path', 'receipt')):
+    inputs = guide_inputs(root, graph, policy)
+    if set(review['inputs']) != inputs.keys() or not all(parts_are_safe(review[key]) for key in ('path', 'receipt')):
         raise ValueError('The maintenance guide review must identify the panel boundary policy and portable document paths')
     receipt = read_json(root / review['receipt'])
-    fields = {'inputs': {review['inputs'][0]: digest(policy['panelBoundaries'])},
-              'documentSha256': sha256((root / review['path']).read_bytes()).hexdigest()}
+    fields = {'inputs': inputs, 'documentSha256': sha256((root / review['path']).read_bytes()).hexdigest()}
     if (any(receipt.get(key) != value for key, value in fields.items()) or
             not isinstance(receipt.get('reason'), str) or not receipt['reason'].strip() or
             receipt.get('decision') not in ('updated', 'reviewed-no-change')):
@@ -231,13 +280,17 @@ def doc_findings(root, graph, policy):
 def contract_proof(root, tests):
     if not tests or any(not parts_are_safe(path) or not cases or not isinstance(cases, list) for path, cases in tests.items()):
         raise ValueError('Declare the named panel contract tests and source paths in the Graph')
-    command = ['node', '--test', '--test-reporter=tap', *tests.keys()]
-    checks = run(root, command)
-    proof = tap_proof(checks.stdout, checks.returncode, {name for cases in tests.values() for name in cases})
-    proof.update(command=command, outputSha256=sha256((checks.stdout + checks.stderr).encode()).hexdigest())
-    if proof['status'] != 'passed':
-        proof['diagnostic'] = '\n'.join((checks.stdout + checks.stderr).splitlines()[-35:])
-    return proof
+    results = {}
+    for source, names in tests.items():
+        command = ['node', '--test', '--test-reporter=tap', source]
+        checks = run(root, command)
+        proof = tap_proof(checks.stdout, checks.returncode, names)
+        proof.update(command=command, outputSha256=sha256((checks.stdout + checks.stderr).encode()).hexdigest())
+        if proof['status'] != 'passed':
+            proof['diagnostic'] = '\n'.join((checks.stdout + checks.stderr).splitlines()[-24:])
+        results[source] = proof
+    return {'status': 'passed' if all(row['status'] == 'passed' for row in results.values()) else 'incomplete',
+            'suites': results}
 
 
 def quality_proof(root):
@@ -313,7 +366,7 @@ def read_base(root, ref):
 def changed_symbols(root, base, paths):
     modules = []
     for name, change in paths.items():
-        if not name.startswith(SOURCE) or Path(name).suffix not in ('.js', '.mjs', '.jsx'):
+        if not name.startswith(SOURCE) or Path(name).suffix not in ('.js', '.mjs', '.jsx', '.cjs'):
             continue
         source = {'path': name}
         for revision, read in (
@@ -343,13 +396,54 @@ def changed_symbols(root, base, paths):
     return evidence
 
 
-def compare(root, graph, base):
+def baseline_observation(root, base, old_graph, current_graph, current, changes):
+    old_policy = decode_json(git(root, 'show', f'{base}:{POLICY}'))
+    panel = old_policy['panelBoundaries']
+    if not panel.get('entry'):
+        old_build = git(root, 'show', f'{base}:panel-ui/build.mjs').decode()
+        matches = re.findall(r"entryPoints:\s*\[fileURLToPath\(new URL\(['\"]src/([^'\"]+)['\"]", old_build)
+        if len(matches) != 1 or not parts_are_safe(matches[0]):
+            raise ValueError('The historical panel entry cannot be established from its build configuration.')
+        panel['entry'] = matches[0]
+    external = old_graph.get('externalConsumers', current_graph['externalConsumers'])
+    paths = {SOURCE + '**', POLICY, 'panel-ui/package.json', 'panel-ui/build.mjs',
+             'panel-ui/view-registry.mjs', 'library/panel-design/views.json'}
+    paths.update(path for path in current['inputFiles'] if not path.startswith('panel-ui/node_modules/'))
+    paths.update(row['consumer'] for row in external)
+    paths.update(posixpath.normpath(posixpath.join(SOURCE, posixpath.dirname(source), spec))
+                 for source, specs in panel['externalImports'].items() for spec in specs)
+    if not any(graph_impact.matches_path(path, pattern) for path in changes for pattern in paths) and external == current_graph['externalConsumers']:
+        return current
+    with graph_impact.panel_base_snapshot(root, base, paths) as checkout:
+        report = observe(root, {'externalConsumers': external}, old_policy, checkout=checkout)
+        previous = read_json(checkout / 'panel-ui/package.json')
+    for package in report['packages']:
+        pin = previous['dependencies'].get(package['name'])
+        if pin and pin != package['version']:
+            report['findings'].append({'rule': 'baseline-package-version-unavailable', 'path': package['manifest'],
+                                       'expected': pin, 'observed': package['version']})
+    return report
+
+
+def compare(root, graph, base, *, policy=None, current=None):
     if base is None:
         raise ValueError('Supply an explicit comparison base for impact verification')
     base_sha = git(root, 'rev-parse', '--verify', '--end-of-options', f'{base}^{{commit}}').decode().strip()
     paths = graph_impact.changed_paths(root, base_sha)
+    previous = read_base(root, base_sha)
+    current = current or observe(root, graph, policy or read_json(root / POLICY))
+    baseline = baseline_observation(root, base_sha, previous, graph, current, paths)
+    impact = graph_impact.analyze_observed_impact(
+        baseline, current, paths, base_types=previous['relationTypes'] or graph['relationTypes'],
+        current_types=graph['relationTypes'],
+    )
+    for row in impact['targets']:
+        row['bindings'] = {revision: sorted(node['id'] for node in revision_graph['nodes']
+                                            if any(graph_impact.matches_path(row['path'], pattern) for pattern in node['paths']))
+                           for revision, revision_graph in (('base', previous), ('current', graph))}
     return {'base': base_sha, 'symbols': changed_symbols(root, base_sha, paths),
-            **graph_impact.analyze_impact(read_base(root, base_sha), graph, paths)}
+            'observedImpact': impact,
+            **graph_impact.analyze_impact(previous, graph, paths, observed_targets=impact['targets'])}
 
 
 def verify(root, graph, policy, base):
@@ -383,9 +477,14 @@ def verify(root, graph, policy, base):
     def verify_generation():
         paths = check_generated(root, policy)
         ci = delivery_config.check(root)
-        return {'panel': 'clean production rebuild', 'delivery': 'rendered workflow file inventory'}, [
-            finding('generated-drift', 'missing-or-drift', str(item), action='regenerate') for item in [*paths, *ci]
-        ]
+        issues = [finding('generated-drift', 'missing-or-drift', str(item), action='regenerate') for item in [*paths, *ci]]
+        evidence = {}
+        if not paths:
+            outputs = set(artifact_paths(policy).values()) | {POLICY_DOC, TOKEN_CSS}
+            evidence['panel'] = {path.as_posix(): sha256((root / path).read_bytes()).hexdigest() for path in sorted(outputs)}
+        if not ci:
+            evidence['delivery'] = [path.as_posix() for path in sorted(delivery_config.templates(root))]
+        return evidence, issues
 
     checked('structure', verify_structure)
     checked('usage', verify_usage)
@@ -402,10 +501,13 @@ def verify(root, graph, policy, base):
     checked('documentation', lambda: ({'path': graph['guideReview']['receipt']}, doc_findings(root, graph, policy)))
 
     def verify_impact():
-        impact = compare(root, graph, base)
+        impact = compare(root, graph, base, policy=policy, current=observation)
         issues = [finding('impact-symbols', 'unknown', 'Resolve the changed panel source before relying on symbol impact.',
                           path=row['path'], evidence=row['unknown'], action='supply-evidence')
                   for row in impact['symbols']['files'] if row['status'] == 'unknown']
+        issues.extend(finding('impact-observation', 'unknown', 'Resolve missing historical or current dependency evidence.',
+                              path=row['path'], evidence=row, action='supply-evidence')
+                      for row in impact['observedImpact']['unknown'])
         for item in impact['impacts']:
             proof = PROOF_FOR_ACTION[item['action']]
             if item['removed']:
@@ -416,7 +518,8 @@ def verify(root, graph, policy, base):
                 item['status'] = 'not-applicable'
             else:
                 item['status'] = 'action-checked' if stages[proof]['status'] == 'passed' else 'needs-review'
-            item['evidence'] = proof
+            evidence = stages[proof].get('evidence')
+            item['evidence'] = {'stage': proof, 'sha256': digest(evidence) if evidence else None}
             if item['status'] == 'needs-review':
                 issues.append(finding('impact-incomplete', 'needs-review', 'Complete the required action for this affected target.',
                                       target=item['id'], action=item['action'], evidence=item['traces']))
@@ -446,7 +549,8 @@ def summary(report):
                 print(f'    {issue.get("path", issue.get("target", ""))} {issue["rule"]}: {issue["message"]}')
     evidence = report['stages']['impact'].get('evidence')
     if evidence:
-        print(f'  {len(evidence["impacts"])} affected Graph targets, {len(evidence["unmappedPaths"])} paths outside declared mappings')
+        print(f'  {len(evidence["impacts"])} declared and {len(evidence["observedImpact"]["targets"])} observed affected targets')
+        print(f'  {len(evidence["unmappedPaths"])} changed paths outside declared mappings')
 
 
 def test_other_suites(root, contract_tests):

@@ -27,6 +27,7 @@
       }
     },
     "panelInstall": "npm --prefix panel-ui install --ignore-scripts --no-package-lock --no-audit --no-fund",
+    "panelGovernanceCheck": "Panel Graph Governance",
     "appCi": {
       "root": "apps/little-hands",
       "user": "root",

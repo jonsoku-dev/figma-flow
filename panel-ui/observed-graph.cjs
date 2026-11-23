@@ -70,6 +70,19 @@ function literalSource(node) {
   return null;
 }
 
+function declaredNames(ast) {
+  const names = new Set();
+  walk(ast, (node) => {
+    if (['FunctionDeclaration', 'FunctionExpression', 'ClassDeclaration', 'ClassExpression'].includes(node.type) && node.id) {
+      names.add(node.id.name);
+    }
+    const patterns = node.type === 'VariableDeclarator' ? [node.id]
+      : node.type === 'CatchClause' && node.param ? [node.param] : node.params ?? [];
+    for (const pattern of patterns) for (const binding of exportBindings(pattern)) names.add(binding.name);
+  });
+  return names;
+}
+
 function moduleSyntax(file, source, captureSymbols = false) {
   const transformed = file.endsWith('.jsx')
     ? esbuild.transformSync(source, { loader: 'jsx', jsx: 'automatic', sourcemap: 'external', sourcefile: file })
@@ -87,6 +100,21 @@ function moduleSyntax(file, source, captureSymbols = false) {
   const ast = acorn.parse(transformed?.code ?? source, {
     ecmaVersion: 'latest', sourceType: 'module', locations: true,
   });
+  const authoredImport = (node, site = location(node)) => !sourceMap ||
+    (site && /^import\b/.test(sourceLines[site.line - 1].slice(site.column - 1)));
+  const importedBindings = new Map();
+  for (const node of ast.body) {
+    if (node.type !== 'ImportDeclaration' || !authoredImport(node)) continue;
+    for (const binding of node.specifiers) {
+      if (binding.type === 'ImportNamespaceSpecifier') continue;
+      importedBindings.set(binding.local.name, {
+        specifier: literalSource(node.source),
+        targetSymbol: binding.type === 'ImportDefaultSpecifier' ? 'default' : symbol(binding.imported),
+        importLocation: location(binding.local),
+      });
+    }
+  }
+  const shadowed = importedBindings.size ? declaredNames(ast) : new Set();
   const edges = [];
   const exports = [];
   const exportSyntax = [];
@@ -102,8 +130,7 @@ function moduleSyntax(file, source, captureSymbols = false) {
     });
     switch (node.type) {
       case 'ImportDeclaration': {
-        const authored = !sourceMap || (site && /^import\b/.test(sourceLines[site.line - 1].slice(site.column - 1)));
-        addDependency('IMPORTS', authored ? 'static' : 'implicit', node.source);
+        addDependency('IMPORTS', authoredImport(node, site) ? 'static' : 'implicit', node.source);
         break;
       }
       case 'ImportExpression':
@@ -132,9 +159,12 @@ function moduleSyntax(file, source, captureSymbols = false) {
       case 'CallExpression': {
         const name = callName(node.callee);
         if (name === 'require') addDependency('IMPORTS', 'commonjs', node.arguments[0]);
-        if (name && site) edges.push({
-          type: 'CALLS', from: file, to: null, symbol: name, location: site, certainty: 'syntactic',
-        });
+        if (name && site) {
+          const edge = { type: 'CALLS', from: file, to: null, symbol: name, location: site, certainty: 'syntactic' };
+          const binding = node.callee.type === 'Identifier' && importedBindings.get(name);
+          if (binding) edge.importBinding = { ...binding, shadowed: shadowed.has(name) };
+          edges.push(edge);
+        }
         break;
       }
       default:
@@ -400,6 +430,7 @@ async function resolveDependencies(root, files, edges, inputs, virtual) {
   const packages = new Map();
   await esbuild.build({
     absWorkingDir: root, stdin: { contents: '' }, bundle: true, write: false, logLevel: 'silent',
+    preserveSymlinks: true,
     plugins: [{
       name: 'observe-panel-resolution',
       setup(build) {
@@ -420,7 +451,8 @@ async function resolveDependencies(root, files, edges, inputs, virtual) {
               to = specifier;
             } else if (!result.errors.length && result.path) {
               const target = relativePath(root, result.path);
-              if (!specifier.startsWith('.') && !path.isAbsolute(specifier) && target.split('/').includes('node_modules')) {
+              if (isRepoPath(target) && !specifier.startsWith('.') && !path.isAbsolute(specifier) &&
+                  target.split('/').includes('node_modules')) {
                 resolution = 'package';
                 to = specifier;
                 const name = specifier.split('/').slice(0, specifier.startsWith('@') ? 2 : 1).join('/');
@@ -437,10 +469,13 @@ async function resolveDependencies(root, files, edges, inputs, virtual) {
               } else if (isRepoPath(target)) {
                 to = target;
                 if (files.has(target)) resolution = 'local';
+                else if (fs.realpathSync(result.path) !== result.path) resolution = 'unscanned-source';
                 else if (!within(target, sourceDirectory)) resolution = 'external-file';
                 else if (isModule(target)) resolution = 'unscanned-source';
                 else resolution = 'asset';
-                if (resolution !== 'local' && !inputs.has(target)) inputs.set(target, digest(fs.readFileSync(result.path)));
+                if (['external-file', 'asset'].includes(resolution) && !inputs.has(target)) {
+                  inputs.set(target, digest(fs.readFileSync(result.path)));
+                }
               }
             }
             resolutions.set(id, { resolution, to });
@@ -455,6 +490,29 @@ async function resolveDependencies(root, files, edges, inputs, virtual) {
     else Object.assign(edge, resolutions.get(key(edge)));
   }
   return [...packages.keys()].sort().map((manifest) => packages.get(manifest));
+}
+
+function linkImportedCalls(nodes, edges) {
+  const moduleExports = new Map(nodes.map(({ path: file, exports }) => [file, new Set(exports.map(({ name }) => name))]));
+  const importKey = (from, specifier) => JSON.stringify([from, specifier]);
+  const localImports = new Map(edges.filter((edge) =>
+    edge.type === 'IMPORTS' && edge.mode === 'static' && edge.resolution === 'local')
+    .map((edge) => [importKey(edge.from, edge.specifier), edge.to]));
+  for (const edge of edges) {
+    if (!edge.importBinding) continue;
+    const { specifier, targetSymbol, importLocation, shadowed } = edge.importBinding;
+    delete edge.importBinding;
+    const to = localImports.get(importKey(edge.from, specifier));
+    if (!to) continue;
+    if (shadowed || !moduleExports.get(to).has(targetSymbol)) {
+      edge.importCandidate = {
+        to, targetSymbol, importLocation,
+        reason: shadowed ? 'possible-lexical-shadow' : 'unverified-export',
+      };
+      continue;
+    }
+    Object.assign(edge, { to, targetSymbol, importLocation, mode: 'static-import-binding', certainty: 'extracted' });
+  }
 }
 
 function closure(roots, outgoing) {
@@ -525,7 +583,11 @@ async function observePanel({ root = path.resolve(__dirname, '..'), entries, ext
   const files = new Map();
   const inputs = new Map();
   const findings = [];
-  sourceFiles(path.join(root, sourceDirectory), sourceDirectory, files, findings);
+  const sourceRoot = path.join(root, sourceDirectory);
+  if (fs.realpathSync(sourceRoot) !== sourceRoot) {
+    throw new Error(`Panel observation requires a physical source directory: ${sourceDirectory}`);
+  }
+  sourceFiles(sourceRoot, sourceDirectory, files, findings);
   for (const file of ['panel-ui/package.json', 'panel-ui/package-lock.json', 'panel-ui/build.mjs',
     'panel-ui/view-registry.mjs', virtual.graph, buildPolicy]) {
     if (fs.existsSync(path.join(root, file))) inputs.set(file, digest(fs.readFileSync(path.join(root, file))));
@@ -561,6 +623,7 @@ async function observePanel({ root = path.resolve(__dirname, '..'), entries, ext
     }
   }
   const packages = await resolveDependencies(root, files, edges, inputs, virtual);
+  linkImportedCalls(nodes, edges);
   const outgoing = new Map(nodes.map(({ path: file }) => [file, []]));
   for (const edge of edges) {
     if (edge.resolution === 'local') outgoing.get(edge.from).push(edge);
@@ -639,4 +702,4 @@ if (require.main === module) {
   });
 }
 
-module.exports = { compareModuleSymbols, inspectPanelExternalConsumers, observePanel };
+module.exports = { inspectPanelExternalConsumers, observePanel };

@@ -16,3 +16,13 @@ Change [the maintenance contract](../../tools/maintenance-contract.json) to upda
 | `panelContracts.mjs` | `../../library/panel-design/contracts.json` |
 | `panelContracts.mjs` | `../../library/panel-design/tokens.json` |
 | `panelContracts.mjs` | `../../specs/workspace-activity/graph.json` |
+
+## Offline panel artifacts
+
+| Role | Generated file |
+| --- | --- |
+| `bundleStyle` | `figma-bridge/assets/panels.css` |
+| `legalComments` | `figma-bridge/assets/panels.js.LEGAL.txt` |
+| `licenses` | `figma-bridge/assets/LICENSES.txt` |
+| `script` | `figma-bridge/assets/panels.js` |
+| `shellStyle` | `figma-bridge/assets/panel-shell.css` |

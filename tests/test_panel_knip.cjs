@@ -15,12 +15,16 @@ test('Knip resolves the real registry and blocks new or stale production usage f
     await writeFile(target, typeof content === 'string' ? content : JSON.stringify(content));
   }
 
-  const graph = { externalConsumers: [], exportDispositions: [] };
+  const graph = { nodes: [], contractTests: {}, externalConsumers: [], exportDispositions: [] };
   const packageManifest = {
     name: 'panel-knip-fixture', type: 'module', private: true, scripts: { build: 'node build.mjs' },
   };
   await write('panel-ui/package.json', packageManifest);
-  await write('panel-ui/build.mjs', 'console.log("fixture build");');
+  const build = 'import { buildOutput } from "./tooling.mjs"; console.log(buildOutput());';
+  await write('panel-ui/build.mjs', build);
+  await write('panel-ui/tooling.mjs', 'export const buildOutput = () => "build"; export const testOnlyOutput = () => 1;');
+  await write('tests/tooling.cjs', 'const assert = require("node:assert/strict"); const { testOnlyOutput } = require("../panel-ui/tooling.mjs"); assert.equal(testOnlyOutput(), 1);');
+  graph.contractTests['tests/tooling.cjs'] = ['tooling checks local output'];
   await symlink(resolve(__dirname, '../panel-ui/node_modules'), join(root, 'panel-ui/node_modules'), 'junction');
   await write('tools/maintenance-contract.json', {
     panelBoundaries: { entry: 'app.jsx', externalImports: {} },
@@ -42,6 +46,8 @@ test('Knip resolves the real registry and blocks new or stale production usage f
   assert.equal((await check({ root })).status, 'passed');
 
   await write('panel-ui/src/Orphan.mjs', 'export default 42;');
+  await write('panel-ui/orphan-tooling.mjs', 'export default 42;');
+  await write('panel-ui/build.mjs', build + 'import "./missing-tooling.mjs";');
   await write('panel-ui/package.json', {
     ...packageManifest, dependencies: { react: '*' }, devDependencies: { picomatch: '*' },
   });
@@ -54,11 +60,18 @@ test('Knip resolves the real registry and blocks new or stale production usage f
   assert(violations.findings.some((row) => row.type === 'devDependencies' && row.name === 'picomatch'));
   assert(violations.findings.some((row) => row.type === 'exports' && row.name === 'testSurface'));
   assert(violations.findings.some((row) => row.type === 'unresolved' && row.name === './missing-module.js'));
+  assert.equal(violations.findings.filter((row) => row.type === 'files' && row.path === 'panel-ui/src/Orphan.mjs').length, 1);
+  const development = violations.runs.find((run) => run.mode === 'development');
+  assert(development.issues.some((row) => row.type === 'files' && row.path === 'panel-ui/orphan-tooling.mjs'));
+  assert(development.issues.some((row) => row.type === 'unresolved' && row.name === './missing-tooling.mjs'));
+  assert(!violations.runs.find((run) => run.mode === 'production').issues.some((row) => row.path === 'panel-ui/orphan-tooling.mjs'));
 
   await rm(join(root, 'panel-ui/src/Orphan.mjs'));
+  await rm(join(root, 'panel-ui/orphan-tooling.mjs'));
+  await write('panel-ui/build.mjs', build);
   await write('panel-ui/src/app.jsx', appSource);
   await write('panel-ui/package.json', packageManifest);
-  await write('tests/acceptance.cjs', 'let testSurface; // fixture acceptance reference');
+  await write('tests/acceptance.cjs', '// assert.equal(testSurface, 42);');
   graph.exportDispositions = [{
     path: 'panel-ui/src/View.jsx',
     symbol: 'testSurface',
@@ -68,6 +81,11 @@ test('Knip resolves the real registry and blocks new or stale production usage f
     evidence: ['tests/acceptance.cjs'],
   }];
   await write('library/panel-design/governance.json', graph);
+  const comment = await check({ root });
+  assert.equal(comment.status, 'failed');
+  assert(comment.findings.some((row) => row.type === 'stale-export-evidence' && row.name === 'testSurface'));
+
+  await write('tests/acceptance.cjs', 'const assert = require("node:assert/strict"); const {testSurface} = require("../panel-ui/src/View.jsx"); assert.equal(testSurface, 42);');
   const retained = await check({ root });
   assert.equal(retained.status, 'passed');
   assert.equal(retained.dispositions[0].applied, true);

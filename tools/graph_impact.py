@@ -1,6 +1,7 @@
 """Compare declared dependencies and source evidence for a Graph change."""
 
 from collections import defaultdict, deque
+from contextlib import contextmanager
 from fnmatch import fnmatchcase
 from functools import lru_cache
 from graphlib import CycleError, TopologicalSorter
@@ -10,6 +11,7 @@ import os
 from pathlib import Path
 import stat
 import subprocess
+from tempfile import TemporaryDirectory
 
 
 def _identifier(value):
@@ -133,26 +135,33 @@ def _node_change(before, after, source_paths):
     return {'kind': kind, 'before': before, 'after': after, 'sourcePaths': source_paths}
 
 
-def _dependency_traces(graph, revision, seeds):
+def _reverse_traces(relations, revision, seeds):
     dependents = defaultdict(list)
-    for relation in sorted(graph['relations'], key=_relation_key):
-        if relation['state'] != 'forbidden' and graph['relationTypes'][relation['type']]['impact']:
-            dependents[relation['to']].append(relation)
-    for seed in sorted(set(seeds).intersection(node['id'] for node in graph['nodes'])):
+    for relation in relations:
+        dependents[relation['to']].append(relation)
+    for seed in sorted(seeds):
         visited = {seed}
         queue = deque([(seed, [])])
         while queue:
             node, path = queue.popleft()
             yield node, {'root': seed, 'revision': revision, 'relations': path}
-            for declared in dependents[node]:
-                dependent = declared['from']
+            for relation in dependents[node]:
+                dependent = relation['from']
                 if dependent in visited:
                     continue
                 visited.add(dependent)
-                queue.append((dependent, path + [declared]))
+                queue.append((dependent, path + [relation]))
 
 
-def analyze_impact(base, current, changed_paths):
+def _dependency_traces(graph, revision, seeds):
+    relations = [
+        relation for relation in sorted(graph['relations'], key=_relation_key)
+        if relation['state'] != 'forbidden' and graph['relationTypes'][relation['type']]['impact']
+    ]
+    return _reverse_traces(relations, revision, seeds.intersection(node['id'] for node in graph['nodes']))
+
+
+def analyze_impact(base, current, changed_paths, *, observed_targets=()):
     """Return stable-ID changes, revision-local reverse traces and actions."""
     validate_graph(base)
     validate_graph(current)
@@ -186,9 +195,19 @@ def analyze_impact(base, current, changed_paths):
             })
 
     seeds = node_changes.keys() | {change['id'] for change in relation_changes}
+    observed = {'base': defaultdict(set), 'current': defaultdict(set)}
+    for target in observed_targets:
+        for trace in target['traces']:
+            revision = trace['revision']
+            for node_id in target['bindings'][revision]:
+                observed[revision][node_id].add((target['path'], trace['root']))
+
     traces = defaultdict(list)
     for graph, revision in ((base, 'base'), (current, 'current')):
-        for node_id, trace in _dependency_traces(graph, revision, seeds):
+        for node_id, trace in _dependency_traces(graph, revision, seeds | observed[revision].keys()):
+            origins = observed[revision].get(trace['root'], ())
+            if origins:
+                trace['observedOrigins'] = [{'path': path, 'root': root} for path, root in sorted(origins)]
             traces[node_id].append(trace)
     impacts = []
     for node_id, paths in sorted(traces.items()):
@@ -209,6 +228,97 @@ def analyze_impact(base, current, changed_paths):
     }
 
 
+def _observed_index(observation, types):
+    if observation.get('schema') != 'figma-flow-observed-panel-v1' or not observation.get('sourceFingerprint'):
+        raise ValueError('Observed impact needs source-pinned panel observations')
+    sources = {
+        path: {'path': path, 'origin': 'input', 'sha256': digest}
+        for path, digest in observation['inputFiles'].items()
+    }
+    sources.update((node['path'], node) for node in observation['nodes'])
+    edges = {}
+
+    def include(origin, target, kind, mode, resolution, evidence, symbol=''):
+        if (not types.get(kind, {}).get('impact') or origin not in sources or target not in sources):
+            return
+        key = (origin, target, kind, mode, symbol)
+        if key not in edges:
+            edges[key] = {'from': origin, 'to': target, 'type': kind, 'mode': mode,
+                          'resolution': resolution, 'evidence': []}
+            if symbol:
+                edges[key]['targetSymbol'] = symbol
+        edges[key]['evidence'].append(evidence)
+
+    for edge in observation['edges']:
+        if edge.get('certainty') != 'extracted':
+            continue
+        if (edge['type'] == 'CALLS' and edge.get('mode') == 'static-import-binding' and
+                _identifier(edge.get('targetSymbol'))):
+            include(edge['from'], edge['to'], edge['type'], edge['mode'], 'local',
+                    {'location': edge.get('location'), 'importLocation': edge.get('importLocation'),
+                     'calledAs': edge.get('symbol')}, edge['targetSymbol'])
+        elif edge.get('resolution') in ('local', 'external-file', 'asset'):
+            include(edge['from'], edge['to'], edge['type'], edge['mode'], edge['resolution'],
+                    {'location': edge.get('location'), 'specifier': edge.get('specifier')})
+    for row in observation['externalEvidence']:
+        if row.get('certainty') == 'extracted':
+            include(row['consumer'], row['path'], 'IMPORTS', 'external-consumer', 'external-file', row)
+    for node in observation['nodes']:
+        graph_input = node.get('generatedFrom')
+        if node.get('origin') == 'generated' and graph_input in sources:
+            include(node['path'], graph_input, 'GENERATED_FROM', 'projection', 'local',
+                    {'path': graph_input, 'inputSha256': sources[graph_input]['sha256'],
+                     'generatedSha256': node['sha256']})
+    return sources, edges
+
+
+def _observed_unknowns(observation, revision):
+    yield from ({'revision': revision, **finding} for finding in observation['findings'])
+    for edge in observation['edges']:
+        if edge.get('importCandidate'):
+            yield {
+                'revision': revision, 'rule': 'call-target-unknown', 'path': edge['from'],
+                'location': edge.get('location'), 'candidate': edge['importCandidate'],
+            }
+
+
+def analyze_observed_impact(base_observation, current_observation, changed_paths, *, base_types, current_types):
+    """Explain observed file impact and keep each trace within one revision."""
+    old_sources, old_edges = _observed_index(base_observation, base_types)
+    new_sources, new_edges = _observed_index(current_observation, current_types)
+    relation_changes = []
+    seeds = set(changed_paths)
+    for key in sorted(old_edges.keys() ^ new_edges.keys()):
+        before, after = old_edges.get(key), new_edges.get(key)
+        relation_changes.append({
+            'kind': 'added' if after is not None else 'removed',
+            'before': before, 'after': after,
+        })
+        seeds.add(key[0])
+
+    traces = defaultdict(list)
+    for revision, sources, edges in (('base', old_sources, old_edges), ('current', new_sources, new_edges)):
+        for target, trace in _reverse_traces(
+            (edges[key] for key in sorted(edges)), revision, seeds.intersection(sources)
+        ):
+            traces[target].append(trace)
+    return {
+        'base': {key: base_observation[key] for key in ('sourceFingerprint', 'extractor')},
+        'current': {key: current_observation[key] for key in ('sourceFingerprint', 'extractor')},
+        'relationChanges': relation_changes,
+        'targets': [
+            {'path': target, 'before': old_sources.get(target), 'after': new_sources.get(target),
+             'traces': paths}
+            for target, paths in sorted(traces.items())
+        ],
+        'unknown': [
+            finding
+            for revision, observation in (('base', base_observation), ('current', current_observation))
+            for finding in _observed_unknowns(observation, revision)
+        ],
+    }
+
+
 def _git(root, *args):
     return subprocess.run(
         ['git', '--no-replace-objects', '-C', str(root), *args], capture_output=True, check=True,
@@ -219,53 +329,101 @@ def _nul_items(raw):
     return raw.removesuffix(b'\0').split(b'\0') if raw else []
 
 
-def _digest_stream(source, size=None):
-    digest = sha256()
+def _read_chunks(source, size=None):
     while size is None or size > 0:
         chunk = source.read(65536 if size is None else min(size, 65536))
         if not chunk:
             if size is not None:
                 raise ValueError('Git blob ended before the declared size')
             break
-        digest.update(chunk)
+        yield chunk
         if size is not None:
             size -= len(chunk)
+
+
+def _digest_stream(source, size=None):
+    digest = sha256()
+    for chunk in _read_chunks(source, size):
+        digest.update(chunk)
     return digest.hexdigest()
 
 
-def _blobs(root, items):
-    if not items:
-        return {}
-    objects = {}
+def _visit_blobs(root, items, read):
     command = ['git', '--no-replace-objects', '-C', str(root), 'cat-file', '--batch']
     with subprocess.Popen(command, stdin=subprocess.PIPE, stdout=subprocess.PIPE) as process:
-        for object_id in sorted({object_id for _, object_id in items.values()}):
+        for key, object_id in items:
             process.stdin.write(object_id + b'\n')
             process.stdin.flush()
             header = process.stdout.readline().split()
             if len(header) != 3 or header[:2] != [object_id, b'blob']:
                 raise ValueError(f'Expected a Git blob for {object_id.decode("ascii")}')
-            objects[object_id] = _digest_stream(process.stdout, int(header[2]))
+            value = read(key, process.stdout, int(header[2]))
             if process.stdout.read(1) != b'\n':
                 raise ValueError('Missing delimiter after Git blob')
+            yield key, value
         process.stdin.close()
         if process.wait() != 0:
             raise subprocess.CalledProcessError(process.returncode, command)
+
+
+def _blobs(root, items):
+    if not items:
+        return {}
+    object_ids = sorted({object_id for _, object_id in items.values()})
+    objects = dict(_visit_blobs(root, ((value, value) for value in object_ids),
+                               lambda _, source, size: _digest_stream(source, size)))
     return {
         path: {'mode': mode.decode('ascii'), 'sha256': objects[object_id]}
         for path, (mode, object_id) in items.items()
     }
 
 
-def _tree_blobs(root, base, paths):
-    items = {}
+def _tree_entries(root, base):
     for entry in _nul_items(_git(root, 'ls-tree', '-rz', base)):
         fields, name = entry.split(b'\t', 1)
         mode, kind, object_id = fields.split()
-        path = os.fsdecode(name)
-        if path in paths and kind == b'blob':
-            items[path] = (mode, object_id)
+        yield os.fsdecode(name), mode, kind, object_id
+
+
+def _tree_blobs(root, base, paths):
+    items = {path: (mode, object_id) for path, mode, kind, object_id in _tree_entries(root, base)
+             if path in paths and kind == b'blob'}
     return _blobs(root, items)
+
+
+@contextmanager
+def panel_base_snapshot(root, base, paths):
+    """Stage selected regular files from an exact Git commit for the panel observer."""
+    root = Path(root).resolve(strict=True)
+    ref = _git(root, 'rev-parse', '--verify', '--end-of-options', base + '^{commit}').strip().decode('ascii')
+    patterns = set(paths)
+    if not patterns or not all(_relative_path(path) for path in patterns):
+        raise ValueError('Panel baseline requires repository-relative input paths')
+    items = {}
+    for name, mode, kind, object_id in _tree_entries(root, ref):
+        if any(matches_path(name, pattern) for pattern in patterns):
+            if not _relative_path(name) or kind != b'blob' or mode not in (b'100644', b'100755'):
+                raise ValueError(f'Cannot observe a non-regular panel baseline input: {name}')
+            items[name] = object_id
+
+    with TemporaryDirectory(prefix='figma-flow-panel-base-') as directory:
+        checkout = Path(directory).resolve()
+
+        def copy_blob(name, source, size):
+            path = checkout / name
+            path.parent.mkdir(parents=True, exist_ok=True)
+            with path.open('xb') as sink:
+                for chunk in _read_chunks(source, size):
+                    sink.write(chunk)
+
+        for _ in _visit_blobs(root, sorted(items.items()), copy_blob):
+            pass
+        modules = Path('panel-ui/node_modules')
+        if (root / modules).is_dir():
+            target = checkout / modules
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.symlink_to(root / modules, target_is_directory=True)
+        yield checkout
 
 
 def _index_blobs(root, paths):

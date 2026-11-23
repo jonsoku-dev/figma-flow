@@ -4,6 +4,8 @@ import { copyFile, cp, lstat, mkdir, mkdtemp, readFile, readdir, realpath, rm, s
 import { tmpdir } from 'node:os';
 import { dirname, isAbsolute, join, relative, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { transformSync } from 'esbuild';
+import acorn from '../vendor/acorn/acorn.js';
 import { inspectPanelExternalConsumers } from './observed-graph.cjs';
 import { panelViewRegistry, panelViewRegistryModule } from './view-registry.mjs';
 
@@ -13,9 +15,11 @@ const panelDirectory = 'panel-ui';
 const sourceDirectory = panelDirectory + '/src';
 const sourceFiles = 'src/**/*.{js,mjs,cjs,jsx,ts,mts,cts,tsx}';
 const productionChecks = 'files,dependencies,unlisted,unresolved,exports,nsExports,types,nsTypes';
+const developmentChecks = productionChecks + ',devDependencies,binaries';
 
 const parseJson = async (file) => JSON.parse(await readFile(file, 'utf8'));
 const sha256 = (content) => createHash('sha256').update(content).digest('hex');
+const fromTo = (source, target) => relative(dirname(source), target).split(sep).join('/');
 
 function repositoryRelative(root, path) {
   const name = relative(root, path);
@@ -40,7 +44,7 @@ async function stageFile(root, scratch, name) {
   await writeFile(destination, bytes);
 }
 
-async function stagePanel(root, scratch, policy) {
+async function stagePanel(root, scratch, policy, graph) {
   const current = join(root, panelDirectory);
   const panel = join(scratch, panelDirectory);
   await mkdir(panel, { recursive: true });
@@ -60,16 +64,37 @@ async function stagePanel(root, scratch, policy) {
   }
   await symlink(join(current, 'node_modules'), join(panel, 'node_modules'), 'junction');
   await stageFile(root, scratch, 'tools/maintenance-contract.json');
+  const buildImports = graph.nodes.filter(({ kind }) => kind === 'generator')
+    .flatMap(({ paths }) => paths)
+    .filter((path) => !path.startsWith(panelDirectory + '/') && /\.(?:[cm]?js|json)$/.test(path));
+  for (const name of new Set(buildImports)) await stageFile(root, scratch, name);
   for (const [importer, specifiers] of Object.entries(policy.externalImports)) {
     const source = dirname(resolve(root, sourceDirectory, importer));
     for (const specifier of specifiers) await stageFile(root, scratch, repositoryRelative(root, resolve(source, specifier)));
   }
   const registry = await panelViewRegistryModule({ root });
   await writeFile(resolve(panel, 'src', panelViewRegistry.specifier), registry, { flag: 'wx' });
-  return { panel, tooling };
+  return panel;
 }
 
-async function runKnip(panel, cli, mode, issueTypes, entry) {
+async function stageContractTests(root, panel, tests) {
+  const staged = new Map();
+  for (const path of tests) {
+    const content = (await readRegular(root, path)).toString('utf8');
+    const relativeTest = 'contract-tests/' + path;
+    const output = join(panel, relativeTest);
+    const before = fromTo(join(root, path), join(root, panelDirectory)) + '/';
+    const after = fromTo(output, panel) + '/';
+    const projected = ['"', "'", '`'].reduce((source, quote) =>
+      source.replaceAll(quote + before, quote + after), content);
+    await mkdir(dirname(output), { recursive: true });
+    await writeFile(output, projected, { flag: 'wx' });
+    staged.set(panelDirectory + '/' + relativeTest, path);
+  }
+  return staged;
+}
+
+async function runKnip(panel, cli, mode, issueTypes, entry, stagePaths = new Map()) {
   const reportName = 'knip-' + mode + '-report.json';
   const args = ['--no-progress', '--reporter', 'symbols', '--reporter', 'json',
     '--output-file', 'json=' + reportName, '--include', issueTypes, '--treat-config-hints-as-errors'];
@@ -86,12 +111,43 @@ async function runKnip(panel, cli, mode, issueTypes, entry) {
   if (!Array.isArray(report.issues)) throw new Error('Knip omitted its findings');
   const issues = report.issues.flatMap(({ file, ...groups }) => {
     const path = repositoryRelative(dirname(panel), resolve(panel, file));
-    return Object.entries(groups).flatMap(([type, values]) => values.map((item) => ({ ...item, type, path })));
+    const original = stagePaths.get(path);
+    return Object.entries(groups).flatMap(([type, values]) => values.map(({ line, col, pos, ...item }) => (
+      original
+        ? { ...item, type, path: original, line, projection: { path, col, pos } }
+        : { ...item, type, path, line, col, pos }
+    )));
   });
   if (Boolean(issues.length) !== (result.status === 1) || result.stderr.trim()) {
     throw new Error('Knip ' + mode + ' reported an incomplete analysis: ' + (result.stderr || result.stdout).trim());
   }
   return { mode, entry, issueTypes: issueTypes.split(','), exitStatus: result.status, issues };
+}
+
+function testReference(source, name, embedded = false) {
+  let syntax;
+  try {
+    const code = embedded ? transformSync(source, { loader: 'jsx', logLevel: 'silent' }).code : source;
+    syntax = acorn.parse(code, { ecmaVersion: 'latest', sourceType: 'module' });
+  } catch {
+    return false;
+  }
+  const named = (node) => node?.type === 'Identifier' && node.name === name ||
+    node?.type === 'MemberExpression' && (node.computed ? node.property.value : node.property.name) === name;
+  const nodes = [syntax];
+  while (nodes.length) {
+    const node = nodes.pop();
+    if (node.type === 'CallExpression' && (named(node.callee) || node.arguments.some(named))) return true;
+    if (!embedded && node.type === 'TemplateLiteral' && !node.expressions.length) {
+      const snippet = node.quasis[0].value.cooked;
+      if (snippet?.includes(name) && testReference(snippet, name, true)) return true;
+    }
+    for (const child of Object.values(node)) {
+      if (Array.isArray(child)) nodes.push(...child.filter((item) => item?.type));
+      else if (child?.type) nodes.push(child);
+    }
+  }
+  return false;
 }
 
 async function reviewExports(root, scratch, graph, issues) {
@@ -107,13 +163,12 @@ async function reviewExports(root, scratch, graph, issues) {
     const key = JSON.stringify([row.path, row.symbol]);
     if (dispositions.has(key)) throw new Error('Duplicate export disposition: ' + key);
     const evidence = [];
-    const name = new RegExp('(?<![\\w$])' + RegExp.escape(row.symbol) + '(?![\\w$])');
     for (const path of row.evidence) {
       const bytes = await readRegular(root, path);
-      if (!name.test(bytes.toString('utf8'))) {
+      if (!testReference(bytes.toString('utf8'), row.symbol)) {
         findings.push({ type: 'stale-export-evidence', path, name: row.symbol });
       }
-      evidence.push({ path, sha256: sha256(bytes) });
+      evidence.push({ path, sha256: sha256(bytes), proof: 'call-or-argument-syntax' });
     }
     const sourceSha256 = sha256(await readRegular(scratch, row.path));
     dispositions.set(key, { ...row, evidence, sourceSha256, applied: false });
@@ -152,20 +207,25 @@ async function check({ root = repository } = {}) {
       await readRegular(root, row.path);
       external.push(row.path.slice(panelDirectory.length + 1));
     }
-    const { panel, tooling } = await stagePanel(root, scratch, panelBoundaries);
-    const panelManifest = await parseJson(join(panel, 'package.json'));
-    const scriptEntrypoints = new Set(Object.values(panelManifest.scripts).map((command) => /^node (\S+)/.exec(command)?.[1]));
-    const development = tooling.filter((name) => !scriptEntrypoints.has(name));
+    const panel = await stagePanel(root, scratch, panelBoundaries, graph);
+    const testEntries = Object.keys(graph.contractTests);
+    const stagePaths = await stageContractTests(root, panel, testEntries);
     await writeFile(join(panel, 'knip.json'), JSON.stringify({
-      entry: [...new Set([...entry, ...external])].map((path) => path + '!').concat(development),
+      entry: [...new Set([...entry, ...external])].map((path) => path + '!')
+        .concat([...stagePaths.keys()].map((path) => path.slice(panelDirectory.length + 1))),
       project: [sourceFiles + '!', '*.{js,mjs,cjs}'],
     }));
     const cli = new URL(manifest.bin.knip, knipManifest);
     const runs = [
       await runKnip(panel, cli, 'production', productionChecks, { runtime: entry, external }),
-      await runKnip(panel, cli, 'development', 'devDependencies,binaries', { tooling }),
+      await runKnip(panel, cli, 'development', developmentChecks, {
+        runtime: entry, external, tests: testEntries, scripts: 'package.json',
+      }, stagePaths),
     ];
-    const { findings, dispositions } = await reviewExports(root, scratch, graph, runs.flatMap(({ issues }) => issues));
+    const issueKey = ({ type, path, name, pos }) => JSON.stringify([type, path, name, pos]);
+    const productionIssues = new Set(runs[0].issues.map(issueKey));
+    const { findings, dispositions } = await reviewExports(root, scratch, graph, runs[0].issues);
+    findings.push(...runs[1].issues.filter((issue) => !productionIssues.has(issueKey(issue))));
     return {
       schema: 'figma-flow-panel-knip-v1',
       status: findings.length ? 'failed' : 'passed',

@@ -60,9 +60,14 @@ class PanelGovernanceTests(unittest.TestCase):
 
     def test_new_unused_candidate_and_unknown_require_distinct_actions(self):
         observation = {
-            'nodes': [{'path': 'a', 'sha256': 'a' * 64}, {'path': 'b', 'sha256': 'b' * 64}],
+            'nodes': [{'path': 'a', 'sha256': 'a' * 64}, {'path': 'b', 'sha256': 'b' * 64},
+                      {'path': 'external', 'sha256': 'e' * 64}],
             'usage': [{'path': 'a', 'status': 'unused-candidate'},
-                      {'path': 'b', 'status': 'unknown'}, {'path': 'external', 'status': 'external'}],
+                      {'path': 'b', 'status': 'unknown'},
+                      {'path': 'external', 'status': 'external',
+                       'evidence': {'path': ['external'], 'modes': [], 'consumer': 'report.py'}}],
+            'edges': [],
+            'externalEvidence': [{'path': 'external', 'consumer': 'report.py', 'certainty': 'extracted'}],
         }
         rows = gate.usage_findings(self.graph, observation)
         self.assertEqual([('a', 'needs-review'), ('b', 'unknown')], [(row['path'], row['status']) for row in rows])
@@ -74,6 +79,34 @@ class PanelGovernanceTests(unittest.TestCase):
         observation['nodes'][0]['sha256'] = 'c' * 64
         self.assertEqual(['unused-module', 'usage-evidence', 'stale-disposition'],
                          [row['rule'] for row in gate.usage_findings(graph, observation)])
+
+    def test_an_import_without_use_does_not_satisfy_the_required_call(self):
+        observation = copy.deepcopy(self.observed)
+        observation['edges'] = [edge for edge in observation['edges'] if edge.get('targetSymbol') != 'postDraftReceipt']
+        self.assertTrue(any(row['relation']['type'] == 'CALLS' and row['status'] == 'missing'
+                            for row in self.structure(self.graph, observation)[1] if 'relation' in row))
+
+    def test_usage_receipt_rejects_omitted_duplicate_and_unknown_results(self):
+        cases = [
+            [],
+            [*self.observed['usage'], self.observed['usage'][0]],
+            [{**row, 'status': 'indeterminate'} for row in self.observed['usage']],
+            [{key: value for key, value in row.items() if key != 'evidence'} for row in self.observed['usage']],
+            [{**row, 'evidence': {'path': [row['path']], 'modes': []}} for row in self.observed['usage']],
+        ]
+        for usage in cases:
+            with self.subTest(count=len(usage)), self.assertRaises(ValueError):
+                gate.usage_findings(self.graph, {**self.observed, 'usage': usage})
+
+    def test_contract_case_cannot_move_to_a_different_file(self):
+        with tempfile.TemporaryDirectory() as scratch:
+            root = Path(scratch)
+            (root / 'original.cjs').write_text("require('node:test')('leftover check', () => {});")
+            (root / 'other.cjs').write_text("require('node:test')('required proof', () => {});")
+            report = gate.contract_proof(root, {'original.cjs': ['required proof'], 'other.cjs': ['required proof']})
+            self.assertEqual('incomplete', report['status'])
+            self.assertEqual(['required proof'], report['suites']['original.cjs']['missingCases'])
+            self.assertEqual('passed', report['suites']['other.cjs']['status'])
 
     def test_guide_review_binds_real_text_and_declared_policy(self):
         self.assertEqual([], gate.doc_findings(ROOT, self.graph, self.policy))
@@ -88,6 +121,8 @@ class PanelGovernanceTests(unittest.TestCase):
                 relative = guide[name]
                 (root / relative).parent.mkdir(parents=True, exist_ok=True)
                 (root / relative).write_bytes((ROOT / relative).read_bytes())
+            (root / 'panel-ui').mkdir()
+            (root / 'panel-ui/package.json').write_bytes((ROOT / 'panel-ui/package.json').read_bytes())
             (root / guide['path']).write_text('Hypothetical unfinished edit')
             self.assertEqual('needs-review', gate.doc_findings(root, self.graph, self.policy)[0]['status'])
 

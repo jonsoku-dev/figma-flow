@@ -23,6 +23,28 @@ jobs:
         run: |
           npm install --prefix "$RUNNER_TEMP/figma-audit" --ignore-scripts --no-audit --no-fund --no-package-lock typescript@5.9.3
           python -B tools/figma_api_audit.py verify --typescript "$RUNNER_TEMP/figma-audit/node_modules/typescript/lib/typescript.js"
+  panel_graph:
+    name: Panel Graph Governance
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0
+        with:
+          python-version: '3.13'
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1
+        with:
+          node-version-file: .nvmrc
+      - name: Verify the Figma panel Graph and impact evidence
+        shell: bash
+        env:
+          COMPARE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: |
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          base=$(git merge-base HEAD "$COMPARE_SHA")
+          npm --prefix panel-ui install --ignore-scripts --no-package-lock --no-audit --no-fund
+          python -B tools/graph_governance.py verify --base "$base"
   test:
     runs-on: macos-15
     steps:
@@ -74,13 +96,8 @@ jobs:
           python -B tools/figma_widget_project.py check "$widget_dir" --typescript "$FIGMA_SDK_TEST_TYPESCRIPT"
           python -B tools/figma_widget_project.py build "$widget_dir" --typescript "$FIGMA_SDK_TEST_TYPESCRIPT"
           node library/figma-recipes/test-rollback.cjs
-      - name: Verify the Figma panel Graph and impact evidence
-        env:
-          COMPARE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
-        run: |
-          npm --prefix panel-ui install --ignore-scripts --no-package-lock --no-audit --no-fund
-          base=$(git merge-base HEAD "$COMPARE_SHA")
-          python -B tools/graph_governance.py verify --base "$base"
+      - name: Install the offline panel dependencies for product tests
+        run: npm --prefix panel-ui install --ignore-scripts --no-package-lock --no-audit --no-fund
       - name: Rebuild typed regression components
         run: |
           node examples/regression-program/design-system/build.mjs

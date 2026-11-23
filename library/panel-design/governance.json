@@ -25,12 +25,13 @@
     {"id":"panel-boundary-reference","kind":"generated","paths":["docs/generated/**"],"action":"regenerate","status":"active"},
     {"id":"panel-maintenance-guide","kind":"documentation","paths":["docs/maintenance-verification.md","docs/graph-governance-review.json"],"action":"review-documentation","status":"active"},
     {"id":"panel-static-quality","kind":"verification","paths":["panel-ui/biome.json","panel-ui/.oxlintrc.json","panel-ui/knip.config.mjs","panel-ui/package.json"],"action":"verify-quality","status":"active"},
-    {"id":"panel-evidence","kind":"verification","paths":["tools/graph_governance.py","tools/graph_impact.py","tools/graph_generated.py","tools/graph_document.py","tools/delivery_config.py","tools/panel_authority.py","tools/runtime_authority.py","tools/workspace_report.py","tools/figma_workspace.py","panel-ui/observed-graph.cjs","tests/test_graph_governance.py","tests/test_graph_impact_migration.py","tests/test_graph_generated.py","tests/test_observed_graph_migration.cjs","tests/test_panel_knip.cjs","tests/test_panel_maintenance_boundary.cjs","tests/test_panel_contract_ownership.cjs","library/delivery/**",".github/workflows/**",".github/CODEOWNERS",".gitignore",".gitattributes"],"action":"verify-contract","status":"active"}
+    {"id":"panel-evidence","kind":"verification","paths":["tools/graph_governance.py","tools/graph_impact.py","tools/graph_generated.py","tools/panel_artifacts.py","tools/plugin_panel.py","tools/graph_document.py","tools/delivery_config.py","tools/panel_authority.py","tools/runtime_authority.py","tools/workspace_report.py","tools/figma_workspace.py","panel-ui/observed-graph.cjs","tests/test_graph_governance.py","tests/test_graph_impact_migration.py","tests/test_graph_generated.py","tests/test_observed_graph_migration.cjs","tests/test_panel_knip.cjs","tests/test_panel_maintenance_boundary.cjs","tests/test_panel_contract_ownership.cjs","library/delivery/**",".github/workflows/**",".github/CODEOWNERS",".gitignore",".gitattributes"],"action":"verify-contract","status":"active"}
   ],
   "relations": [
     {"from":"panel-host-bridge","to":"panel-boundary-policy","type":"IMPLEMENTS","state":"required"},
     {"from":"panel-review-transport","to":"panel-boundary-policy","type":"IMPLEMENTS","state":"required"},
     {"from":"panel-review-view","to":"panel-review-transport","type":"IMPORTS","mode":"static","state":"required"},
+    {"from":"panel-review-view","to":"panel-review-transport","type":"CALLS","mode":"static-import-binding","symbol":"postDraftReceipt","state":"required"},
     {"from":"panel-runtime","to":"panel-governance","type":"IMPLEMENTS","state":"required"},
     {"from":"panel-runtime","to":"panel-host-bridge","type":"IMPLEMENTS","state":"required"},
     {"from":"panel-runtime","to":"panel-review-view","type":"IMPLEMENTS","state":"required"},
@@ -49,9 +50,13 @@
     "node": "panel-maintenance-guide",
     "path": "docs/maintenance-verification.md",
     "receipt": "docs/graph-governance-review.json",
-    "inputs": ["panel-boundary-policy"]
+    "inputs": ["panel-boundary-policy", "panel-governance", "panel-static-quality"]
   },
   "contractTests": {
+    "tests/test_observed_graph_migration.cjs": [
+      "observes the built panel entry and its generated view registry with direct source evidence",
+      "call proof excludes shadowing, imports without calls and unresolved member or wildcard targets"
+    ],
     "tests/test_panel_maintenance_boundary.cjs": [
       "panel build flags transport and native bridge bypasses",
       "review pairing posts only the approved payload to the prepared local receiver"

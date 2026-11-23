@@ -61,7 +61,7 @@ python3 -B tests/test_journal_properties.py --seed 562 --count 4000 --case 0
 
 ## Figma 패널 Graph 검증
 
-[Figma Flow 제품 헌법](../CONSTITUTION.md)에서 채택한 [Graph SSoT and Code Quality Constitution 1.0.0](graph-governance-constitution.md)을 패널에 먼저 적용한다. [패널 Graph](../library/panel-design/governance.json)는 관리 대상 ID, 방향, 영향 전파와 검증 책임을 선언한다. [유지보수 계약](../tools/maintenance-contract.json)의 `panelBoundaries`가 번들 진입점, 네트워크 어댑터, 네이티브 메시지 경계 및 소스 외부 import를 소유한다. [경계 표](generated/panel-boundaries.md)는 이 정의에서 생성된다. 이 절의 정책 검토는 [검토 기록](graph-governance-review.json)의 입력과 문서 지문으로 추적한다.
+[Figma Flow 제품 헌법](../CONSTITUTION.md)에서 채택한 [Graph SSoT and Code Quality Constitution 1.0.0](graph-governance-constitution.md)을 패널에 먼저 적용한다. [패널 Graph](../library/panel-design/governance.json)는 관리 대상 ID, 방향, 영향 전파와 검증 책임을 선언한다. [유지보수 계약](../tools/maintenance-contract.json)은 소스 경계와 오프라인 산출물의 역할별 경로를 소유한다. [경계 표](generated/panel-boundaries.md)와 번들 생성기, 실제 Figma 패널 로더가 이 경로를 사용한다. [검토 기록](graph-governance-review.json)은 경계, Graph 관계, 고정 도구 버전과 이 문서의 지문을 담는다.
 
 ```sh
 npm --prefix panel-ui install --ignore-scripts --no-package-lock --no-audit --no-fund
@@ -75,14 +75,16 @@ python3 -B tools/graph_governance.py verify --base origin/main --json
 | --- | --- |
 | 패널 의존성·정적 경계 | esbuild 0.28.2 해석과 동봉 Acorn 8.15.0 관측. 기존 구조 검사가 네트워크·호스트 우회를 막고 관측 결과는 바인딩·수입 관계·진입점 도달성을 구분한다. |
 | 계약과 타입 | Node의 패널 경계·디자인 계약 테스트. TypeScript 5.9.3은 기존 SDK 선언과 컴파일 확인에서 사용한다. 패널 프로젝트 전체 타입 검사나 타입 기반 린트는 설정되어 있지 않다. |
-| 생성물과 CI | 깨끗한 디렉터리의 생산용 패널 빌드와 워크플로 템플릿을 제출된 파일 집합과 비교한다. `Test Figma Flow`의 `test` 잡이 로컬과 같은 집계 명령을 실행한다. |
+| 생성물과 CI | 깨끗한 디렉터리의 생산용 패널 빌드와 워크플로 템플릿을 제출된 파일 집합과 비교한다. `Panel Graph Governance` 잡이 제출 커밋과 비교 기준을 고정하고 로컬과 같은 집계 명령을 실행한다. |
 | 포맷·비 JS 정적 검사 | Biome 2.6.8이 패널 JSON 포맷과 CSS·JSON 규칙을 담당한다. import 정렬은 명시적인 로컬 명령으로 실행한다. |
 | JS·React 정적 검사 | Oxlint 1.94.0이 패널 JavaScript 정확성, 로컬 미사용 바인딩, Hook 호출 순서와 JSX 키·속성을 검사한다. |
-| 프로젝트 미사용 검사 | Knip 6.48.0이 실제 패널 진입점과 화면 등록부를 사용해 생산 파일·export·의존성을 분석하고, 개발 모드에서 유지보수 도구 의존성을 확인한다. |
+| 프로젝트 미사용 검사 | Knip 6.48.0이 실제 패널 진입점과 화면 등록부를 사용해 생산 파일·export·의존성을 분석한다. 기본 모드는 도구 명령과 지정된 검사 파일을 진입점으로 삼아 개발 파일·export·의존성 및 해석 실패를 확인한다. |
 
 Graph 소유 값을 바꿀 때 값의 원본과 구현 소비 경로를 확인한다. 패널 번들은 `npm --prefix panel-ui run build`, 경계 표는 `python3 -B tools/graph_governance.py write-doc`, CI 투영은 `python3 -B tools/delivery_config.py --write`에서 갱신한다. 생성물을 재현한 후 비교 기준을 명시하여 집계를 실행한다. 관련 정책이나 설명을 바꾼 경우 이 절을 검토하고 `graph-governance-review.json`에 검토한 입력과 내용의 근거를 기록한다. 검토 결과가 그대로여도 이유가 필요하다.
 
-- 집계는 Graph, 구조, 도달성, 생성, 계약, 도구, 문서, 영향, 입력 최신성의 결과를 요구한다. 입력을 확인하고, 이름이 지정된 계약 테스트의 실행이 없거나 건너뛰면 집계에서 실패한다. Git 인덱스·미커밋 파일과 전후 Graph를 대조한다.
+- 집계는 Graph, 구조, 도달성, 생성, 계약, 도구, 문서, 영향, 입력 최신성의 결과를 요구한다. 관측한 모든 모듈의 사용 판정과 지정된 파일에서 실행된 개별 계약 테스트를 검증한다. 증거가 빠지거나 테스트를 건너뛰면 집계에서 실패한다.
+- 영향 보고서는 Git 인덱스·미커밋 파일, 이전과 현재의 선언 관계 및 실제 정적 소비 경로를 표시한다. 이전 관측은 기준 커밋의 관리 소스를 임시 위치에 꺼내 확인한다. 현재와 이전의 검증 입력이 모두 같으면 현재 관측을 사용한다.
+- 검토 패널과 로컬 전송 사이에 필요한 직접 호출은 import 위치와 호출 위치가 함께 있어야 한다. 정적 분석이 지역 선언과 실제 호출 대상을 구분할 수 없으면 분석 불가로 남긴다. 선언된 정책·생성·문서 관계는 각 단계의 실행 증거로 대조한다.
 - 실제 앱 진입점에서의 정적 도달성은 모듈 수준 후보다. 알려진 작업 리포트 CLI 소비 경계, 도달 가능한 코드와 동적 연결을 구분한다. 함수별 호출 대상이나 DB, 외부 시스템의 사용 여부는 별도 증거가 필요하다. 후보를 자동 삭제하지 않는다.
 - Graph 검사·생성기·워크플로·ignore·판정 예외는 `.github/CODEOWNERS` 지정 범위에서 검토한다. GitHub에서 실제 실행된 커밋의 결과, 필수 체크 및 우회 금지, 코드 소유자 리뷰 설정을 각각 확인한다. 이 파일들만으로 브랜치 보호가 활성화되지는 않는다.
 

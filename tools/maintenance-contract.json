@@ -1,7 +1,7 @@
 {
   "schema": "figma-flow-maintenance-v1",
   "artifactRetention": {"receiptBytes": 65536},
-  "panelArtifacts": ["LICENSES.txt", "panel-shell.css", "panels.css", "panels.js", "panels.js.LEGAL.txt"],
+  "panelArtifacts": {"script": "panels.js", "shellStyle": "panel-shell.css", "licenses": "LICENSES.txt"},
   "panelBoundaries": {
     "entry": "app.jsx",
     "networkOwner": "reviewTransport.mjs",

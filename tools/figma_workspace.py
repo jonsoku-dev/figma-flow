@@ -22,6 +22,7 @@ import uuid
 
 from relay_limits import control_transport, read_limits
 from plugin_panel import display_name, registered_home_view, render_app, supported_locales
+from panel_artifacts import read_panel_artifact
 import input_effect
 import workspace_recipes
 
@@ -780,10 +781,9 @@ def publish(workspace, catalogue, *, expected_implementation=None):
     code += 'const FLOW_LOCALES = ' + json.dumps(list(supported_locales()), ensure_ascii=True) + ';\n'
     code += 'const FLOW_TASKS = [' + ',\n'.join(tasks) + '];\n'
     code += 'const FLOW_RETIRED = ' + json.dumps(tombstones, ensure_ascii=True) + ';\n'
-    assets = bridge / 'assets'
-    react_js = re.sub(r'</script', lambda _match: r'<\/script', (assets / 'panels.js').read_text(), flags=re.I)
+    react_js = re.sub(r'</script', lambda _match: r'<\/script', read_panel_artifact(bridge.parent, 'script'), flags=re.I)
     code += 'const packagedReact = ' + json.dumps(react_js) + ';\n'
-    code += 'const packagedCSS = ' + json.dumps((assets / 'panels.css').read_text()) + ';\n'
+    code += 'const packagedCSS = ' + json.dumps(read_panel_artifact(bridge.parent, 'bundleStyle')) + ';\n'
     code += "function workspaceAppHtml(template){return template.replace('/* FLOW_SHARED_PANEL_STYLES */',()=>packagedCSS).replace('/* FLOW_SHARED_REACT_APPLICATION */',()=>packagedReact);}" + '\n'
     code += 'const WORKSPACE_CONTROL_CONFIG = ' + json.dumps(control, ensure_ascii=True) + ';\n'
     policy = read(ROOT / 'library' / 'figma-profile' / 'policy.json')

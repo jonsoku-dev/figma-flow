@@ -1,11 +1,13 @@
 import json
 from pathlib import Path
 import shutil
+import subprocess
 import tempfile
 import unittest
 from unittest.mock import patch
 
 from tools.graph_generated import ASSET_DIR, POLICY_DOC, TOKEN_CSS, check_generated, write_policy_doc
+from tools.panel_artifacts import read_panel_artifact
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -96,6 +98,21 @@ class GeneratedPanelTests(unittest.TestCase):
         self.assertIn('@fixture/direct-transport', (self.root / POLICY_DOC).read_text())
         self.assertEqual([], check_generated(self.root, self.contract))
         self.assertEqual([], list(self.scratch.iterdir()))
+
+    def test_script_rename_propagates_to_bundle_css_legal_comments_and_runtime_reader(self):
+        self.contract['panelArtifacts']['script'] = 'design-panel.js'
+        (self.root / CONTRACT).write_text(json.dumps(self.contract))
+        stale = ('panels.js', 'panels.css', 'panels.js.LEGAL.txt')
+        before = check_generated(self.root, self.contract)
+        for name in stale:
+            self.assertIn(f'Unexpected generated file {ASSET_DIR / name}.', before)
+        subprocess.run(['node', 'panel-ui/build.mjs'], cwd=self.root, check=True, capture_output=True)
+        for name in stale:
+            (self.root / ASSET_DIR / name).unlink()
+        write_policy_doc(self.root, self.contract)
+        self.assertEqual([], check_generated(self.root, self.contract))
+        for role, name in [('script', 'design-panel.js'), ('bundleStyle', 'design-panel.css')]:
+            self.assertEqual(read_panel_artifact(self.root, role), (self.root / ASSET_DIR / name).read_text())
 
 
 if __name__ == '__main__':

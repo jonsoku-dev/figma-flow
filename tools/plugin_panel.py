@@ -1,5 +1,6 @@
 """Build an offline Figma panel with only its own messages and shared navigation."""
 from html import escape
+from panel_artifacts import read_panel_artifact
 from relay_limits import read_limits
 import json
 import re
@@ -167,7 +168,7 @@ def render_panel(html):
     marker = '/* FIGMA_FLOW_PANEL_CSS */'
     if html.count(marker) != 1:
         raise ValueError('Figma panel requires exactly one shared stylesheet marker')
-    html = html.replace(marker, (BRIDGE / 'assets/panel-shell.css').read_text(encoding='utf-8'))
+    html = html.replace(marker, read_panel_artifact(BRIDGE.parent, 'shellStyle'))
     view = re.search(r'<html\b[^>]*\bdata-flow-view=["\']([^"\']+)["\']', html, re.I)
     if not view:
         return html
@@ -199,12 +200,13 @@ def render_app(view, model=None, *, chat_context=False, shared=False, view_regis
         return json.dumps(value, ensure_ascii=True, allow_nan=False, separators=(',', ':')).replace('<', r'\u003c')
     messages = panel_messages(registry[view]['locale'])
     runtime = (BRIDGE / 'panel_i18n.js').read_text(encoding='utf-8').replace('__FLOW_MESSAGES__', inline_data(messages))
-    script = (BRIDGE / 'assets/panels.js').read_text(encoding='utf-8')
-    script = re.sub(r'</script', lambda _match: r'<\/script', script, flags=re.I)
-    css = (BRIDGE / 'assets/panels.css').read_text(encoding='utf-8')
     if shared:
         script = '/* FLOW_SHARED_REACT_APPLICATION */'
         css = '/* FLOW_SHARED_PANEL_STYLES */'
+    else:
+        script = read_panel_artifact(BRIDGE.parent, 'script')
+        script = re.sub(r'</script', lambda _match: r'<\/script', script, flags=re.I)
+        css = read_panel_artifact(BRIDGE.parent, 'bundleStyle')
     data = '/* WORKSPACE_CHAT_CONTEXT */' if chat_context else inline_data(model or {})
     return (f'<!doctype html><html lang="ko" data-flow-view="{view}"><head><meta charset="utf-8">'
             '<meta name="viewport" content="width=device-width,initial-scale=1"><title>' + escape(display_name()) + '</title>'

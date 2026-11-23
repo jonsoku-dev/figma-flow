@@ -16,6 +16,9 @@
 /tools/graph_governance.py @jonsoku-dev
 /tools/graph_impact.py @jonsoku-dev
 /tools/graph_generated.py @jonsoku-dev
+/tools/panel_artifacts.py @jonsoku-dev
+/tools/plugin_panel.py @jonsoku-dev
+/tools/figma_workspace.py @jonsoku-dev
 /tools/graph_document.py @jonsoku-dev
 /tools/delivery_config.py @jonsoku-dev
 /tools/panel_authority.py @jonsoku-dev

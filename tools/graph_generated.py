@@ -3,8 +3,11 @@ from pathlib import Path
 import subprocess
 import tempfile
 
+if __package__:
+    from .panel_artifacts import ASSET_DIR, artifact_paths
+else:
+    from panel_artifacts import ASSET_DIR, artifact_paths
 
-ASSET_DIR = Path('figma-bridge/assets')
 TOKEN_CSS = Path('panel-ui/src/styles/tokens.css')
 DOC_DIR = Path('docs/generated')
 POLICY_DOC = DOC_DIR / 'panel-boundaries.md'
@@ -32,6 +35,9 @@ def render_policy_doc(contract):
     for importer, targets in sorted(policy['externalImports'].items()):
         for target in sorted(targets):
             lines.append(f'| `{importer}` | `{target}` |')
+    lines.extend(('', '## Offline panel artifacts', '', '| Role | Generated file |', '| --- | --- |'))
+    for role, artifact in sorted(artifact_paths(contract).items()):
+        lines.append(f'| `{role}` | `{artifact.as_posix()}` |')
     return ('\n'.join(lines) + '\n').encode('utf-8')
 
 
@@ -91,9 +97,7 @@ def check_generated(root, contract):
 
         expected = managed_files(scratch, ASSET_DIR)
         actual = managed_files(root, ASSET_DIR)
-        required = {ASSET_DIR / name for name in contract['panelArtifacts']}
-        if not required or any(path.parent != ASSET_DIR for path in required):
-            raise ValueError('Declare the required panel artifact filenames in the maintenance contract.')
+        required = set(artifact_paths(contract).values())
         findings.extend(f'Build did not produce a required panel artifact {path}.' for path in sorted(required - expected))
         findings.extend(f'Unexpected panel build output {path}; update the artifact contract if this output is intentional.'
                         for path in sorted(expected - required))
