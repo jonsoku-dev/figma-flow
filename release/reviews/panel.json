@@ -1,7 +1,7 @@
 {
   "schema": "figma-flow-major-review-v1",
   "surface": "panel",
-  "fingerprint": "4109103b4bd47794fbdeff3fd5cc5c18228b78a9906d7022edec094ef81aabeb",
+  "fingerprint": "9f8365c184e223d524143eeb30e56a2a470c0be696e9a38146a9b5c7290522c5",
   "status": "complete",
   "openFindings": [],
   "bindings": [
@@ -24,7 +24,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/panel/01-css.json",
-          "sha256": "d65130dc3454b1c55f3b58e12a3f14c82f1e042a960d2ee30d8bd7267d9b75d9"
+          "sha256": "1544ae0a56f131915d3b6541ab987c4ee43794367dc7b206a6166f988b0a9c8e"
         }
       ]
     },
@@ -38,7 +38,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/panel/02-mutation.json",
-          "sha256": "fe1c3ed4ecb55c977b14ee997200b37a48dc468d2a3e3f99935afb41ba0e193f"
+          "sha256": "2e43d1b9b9d7d5e62e8343fdd9b48056c14a4abd4fd7fc72f136a89089ea6296"
         }
       ]
     },
@@ -59,11 +59,11 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/panel/03-metrics.json",
-          "sha256": "19674d42280a96490bf18fc9bfc2e2b6e9d3e975505118b66d38165a2f663e1e"
+          "sha256": "7e3369e1c4118693858684eadc8926d55cee1b90bf00640fc24b4c673afd0c3d"
         },
         {
           "path": "release/reviews/evidence/panel/03-browser.json",
-          "sha256": "1605be274079a0d7f7702071a5f1816b9cb77b54978d65c42ed772ccb18caf57"
+          "sha256": "6093284b2bbe22b481df8ef69b250416841a66e8963d3803aff3f466482455ac"
         }
       ]
     },
@@ -78,11 +78,11 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/panel/04-metrics.json",
-          "sha256": "7b045da85d097fd7be1a23de2911a7350d13ddcf8fd96cd05c77ec7fbfbf9020"
+          "sha256": "c7412e83f4d44b74a000be5ffeb86ea76a186098e974a5587d5fea2a29752a62"
         },
         {
           "path": "release/reviews/evidence/panel/04-domain.json",
-          "sha256": "d0f54f7bb92af379885986507a5af930de42ef275b9cdc9f4fe783df7935d08e"
+          "sha256": "7e5b24b077ed8a6e3cd39cd26d0dc545f56463402eb43592e4692773d1faf729"
         }
       ]
     },
@@ -97,15 +97,15 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/panel/05-contracts.json",
-          "sha256": "32089a38ff7b8ffdf60600fc89881ea5ded01fb766497b2a1b735d8d56513867"
+          "sha256": "651987aada9de270d4137e678e2de6bfe3fabee091de7d99168962011260b6e1"
         },
         {
           "path": "release/reviews/evidence/panel/05-domain.json",
-          "sha256": "70d1f9043854e1c72bf2711ce749d3aa47c0e6736de1b20c66758c5750843b25"
+          "sha256": "22342a2f8a88828433b3a5c767d4af9b776a97159af0fb69b1b3e4c987b0cca4"
         },
         {
           "path": "release/reviews/evidence/panel/05-fresh.json",
-          "sha256": "7cf8541b8a28b8b6433b74b7418c6f621794b7046000cc6168ec7142b44efd07"
+          "sha256": "aa82f00b57e55b517fb95281ced6a074e149ed3e0a8fc0879e54f3180f57e460"
         }
       ]
     },
@@ -120,11 +120,11 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/panel/06-contracts.json",
-          "sha256": "649f57d4fd15d5c557335d174793f05db3fc1907410287f7a6c3b99a314087e2"
+          "sha256": "e0b38d5e4087fec211997e1aee68dfaa2b12bb18e66bb4bad338d2f7dd906d30"
         },
         {
           "path": "release/reviews/evidence/panel/06-browser.json",
-          "sha256": "37d30d6db7a21517063cd37dbb2fd4cca95b31f18aba0dc3b771009e77432eed"
+          "sha256": "a897215fb9886c3e39549b2c969d313aaf76c5e08546961b56d4c749e56fc565"
         }
       ]
     },
@@ -139,11 +139,11 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/panel/07-contracts.json",
-          "sha256": "87d341f1120fe54a9c1110b2b9a9a11ff1f977c99f70b93a2acde205310d64ac"
+          "sha256": "f524fa96b442ed4a4b4049c01548a898f797a3b5d74c1b919eccb060a1254164"
         },
         {
           "path": "release/reviews/evidence/panel/07-domain.json",
-          "sha256": "b2dc075f74ca5b150d8170d025ce7ca24fb0bebab38ee64ab007a2629206f206"
+          "sha256": "e003544c2b158f3776ab56a0b8793f05aa142920a727e18b54c7f29f6bd6fbae"
         }
       ]
     },
@@ -157,15 +157,15 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/panel/08-contracts.json",
-          "sha256": "b85aa9a269870065db8cd913aecaa35c2daba96b1eb760bd865541bc851c85b5"
+          "sha256": "2329ef9d9309985376f2839dcfba881cb49ded0e575ee101ddd4f9a05c5f37ac"
         },
         {
           "path": "release/reviews/evidence/panel/08-chat.json",
-          "sha256": "3f1660aba640cf9847c6033dae8d5136d28e0e8f489ae81713036bfaa38461b9"
+          "sha256": "a9855bf1077a9e431c3702eb9f9b8723bce4c8f4c1eae82ef069aa28183aaa99"
         },
         {
           "path": "release/reviews/evidence/panel/08-browser.json",
-          "sha256": "f11e5889f02ce2d60e3b8ec56862aed29e39a361bdd74107e2af30efcb96dd61"
+          "sha256": "8b10b0903fb986dd1ae5b40014721a707846a51cbc20c76cbcecff49554256bf"
         }
       ]
     },
@@ -203,11 +203,11 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/panel/09-routes.json",
-          "sha256": "ca0c0b45ed04a820c0abff2fa3c3ebafd223bbd32efe0165aa2c79147dcb9f44"
+          "sha256": "de4c931a84a1cd6018a0ba789b93f480a00a8a4d90d800dba669ce6c616d9c2e"
         },
         {
           "path": "release/reviews/evidence/panel/09-browser.json",
-          "sha256": "fee61e23357f6a42b143e71c31af3a806d6b9e69839e68426e646a6b252c9002"
+          "sha256": "96a83f5dd314b613ded01ae2a5ffe68833af2d4190df2276bc552452bbd2be6a"
         }
       ]
     },
@@ -222,11 +222,11 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/panel/10-relay.json",
-          "sha256": "89172a1517f288f9716aac3cc6b121ec4e55b3e4f78d4834bb597168e7aa7d05"
+          "sha256": "dc72cd3bbe13189a0c16e79a67bcc5d2ec223a857f2d2d69963d4f30c78ce19c"
         },
         {
           "path": "release/reviews/evidence/panel/10-browser.json",
-          "sha256": "1e77a92ebcac24fd6c4594cd19c4958486514665f8790a52c4caddbff66b7d60"
+          "sha256": "2b47b65daf162072c5dca1502b4b61cc18d60a007238cdfefbf6cda6e3c00d21"
         }
       ]
     },
@@ -240,11 +240,11 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/panel/11-relay.json",
-          "sha256": "8b8b01f3614aa95b6396d400354551fc1119b385509595c292bb840d7a0e41d6"
+          "sha256": "4e02dc3b1d7123caa9e8511d5db770bd3950539ef33530d1d4839536a68e5b35"
         },
         {
           "path": "release/reviews/evidence/panel/11-browser.json",
-          "sha256": "4195821accf24b0d136dd9a13e8ca8690a1f9479d8026ab8d518fff7072d90c8"
+          "sha256": "9b92b2db1b6660d2ddb7038674f5f3ba0be85da8e91ef7ab9d1c97fa582bbd33"
         }
       ]
     },
@@ -258,7 +258,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/panel/chat-input-message.json",
-          "sha256": "6943b59b799d78b859499f715c31372001ec17f0014fe1f0f2c959bae3b224fd"
+          "sha256": "bf756e3822a885cfe8cf973c5000f8420c1ab5fccc15c4e7532090aabab9498a"
         }
       ]
     },
@@ -272,7 +272,7 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/panel/chat-input-preview.json",
-          "sha256": "1d03a4b018479de8bb56faa1bb9babd7c8af4519cd44b2f29164f46a44c2a84f"
+          "sha256": "27a75c3363f93357d6da47643fef5da6928b8920d3aee6cd0918481a1bdb397a"
         }
       ]
     },
@@ -288,36 +288,82 @@
       "witnesses": [
         {
           "path": "release/reviews/evidence/maintenance-retention/panel-1.json",
-          "sha256": "fd0883b6765175e185053311c167efedfad03b74214eab33a833c3fca05dd37b"
+          "sha256": "e3e9930d3a596f0c9068039d293081a4b1a9fc5ee07194f937477493cba35b48"
+        }
+      ]
+    },
+    {
+      "files": [
+        "panel-ui/biome.json"
+      ],
+      "authority": "panel-ui/biome.json#/linter",
+      "reason": "The active Biome configuration validates authored panel CSS and JSON.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/panel-quality/biome.json",
+          "sha256": "9d6712c191138f5b7c9db721f1bd5487b8c9aa9c0902aca3a1204d750a138146"
+        }
+      ]
+    },
+    {
+      "files": [
+        "panel-ui/.oxlintrc.json"
+      ],
+      "authority": "panel-ui/.oxlintrc.json#/overrides/0/rules",
+      "reason": "The active Oxlint panel React configuration requires consistent hook calls.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/panel-quality/oxlint.json",
+          "sha256": "114cb96875e1448fa7d733e4b1c9305560814d18d034d1eaa57b4fd1e8896232"
+        }
+      ]
+    },
+    {
+      "files": [
+        "panel-ui/knip.config.mjs"
+      ],
+      "authority": "library/panel-design/governance.json#/contractTests",
+      "reason": "The Knip projection uses runtime and declared development test entry points and checks unused code.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/panel-quality/knip.json",
+          "sha256": "373fa9d58f6be8af5c72430d5e7ff71f5c7db3b88d8c9bff9cbe532e6fca5160"
+        }
+      ]
+    },
+    {
+      "files": [
+        "panel-ui/observed-graph.cjs"
+      ],
+      "authority": "library/panel-design/governance.json#/relations",
+      "reason": "The observation engine represents the declared panel route and the resolved review transport dependency.",
+      "witnesses": [
+        {
+          "path": "release/reviews/evidence/panel-quality/observed-graph.json",
+          "sha256": "d775e259e234382270daabdf23d665a8c22fe5202bd4294675e5916c8f6dc2d3"
         }
       ]
     }
   ],
-  "scopeLimit": "Figma plugin-host runtime was not executed. Installed Chromium used compiled candidate assets and synthetic host messages.",
+  "scopeLimit": "Compiled panel behavior was tested in Chromium with synthetic host messages. Native Figma acceptance is a separate record.",
   "verification": [
     {
-      "command": "PATH=<Node 26.13.0>/bin:$PATH node --test tests/test_panel_release_witness.cjs tests/test_panel_contract_ownership.cjs tests/test_panel_browser_witness.cjs tests/test_standalone_view_authority.cjs tests/rd06_summary_coverage.cjs tests/test_workspace_chat.cjs tests/test_review_panel.cjs tests/test_graph_panel.cjs tests/test_nf03_panel_ui.cjs tests/test_panel_view_registry.mjs tests/test_carousel_present_link.cjs tests/test_workspace_carousel_ui.cjs",
-      "result": "39/39 named tests passed on pinned Node 26.13.0; installed Chromium Chrome 157 verified React chat limits/rows and all six panel routes; standalone template mutation/browser witness passed."
+      "command": "major_release.audit_archived_tree with panel-scoped verify_review on the frozen Git archive",
+      "result": "45 panel files, 18 bindings and 18 unique named cases verified with disposable panel dependencies."
     },
     {
-      "command": "python3 -B -m unittest tests.test_rd03_dependency_view tests.test_rd03_dependency_freshness tests.test_workspace_report tests.test_panel_design_tokens tests.test_panel_view_registry tests.test_panel_components tests.test_rd07_runtime_assembly tests.test_operation_detail",
-      "result": "34/34 passed."
+      "command": "graph_generated.check_generated during the same archive replay",
+      "result": "Clean rebuild matched the exact panel asset file set and bytes, token CSS and generated boundary guide."
     },
     {
-      "command": "node panel-ui/build.mjs",
-      "result": "Passed; generated panels.js, panels.css, panel-shell.css and license output from current sources."
-    },
-    {
-      "command": "python3 -B tools/panel_authority.py",
-      "result": "Passed."
-    },
-    {
-      "command": "major_release.bundle_check on current candidate archive inputs",
-      "result": "Passed; clean candidate output byte-identical to tracked compiled assets."
-    },
-    {
-      "command": "Archive-like tree without panel-ui/node_modules: node --test tests/test_panel_browser_witness.cjs tests/test_standalone_view_authority.cjs tests/rd06_summary_coverage.cjs tests/test_panel_contract_ownership.cjs; python3 -B tools/panel_authority.py",
-      "result": "9/9 Node tests passed with installed Chrome 157; panel-ui/node_modules absent; panel_authority passed."
+      "command": "Pinned Chromium case rerun on the frozen archive with its normal dependency adapter",
+      "result": "Six consecutive passes, counting the case within verify_review. The chat status was awaited and compared exactly in Korean and English."
     }
-  ]
+  ],
+  "evidenceSourceCommit": "06ce2b5439d18b0d0b2483cabce4f097a5b68945",
+  "previousEvidence": {
+    "commit": "e8855f9227d3487fb427339323527060ea32be8d",
+    "fingerprint": "4109103b4bd47794fbdeff3fd5cc5c18228b78a9906d7022edec094ef81aabeb",
+    "reviewSha256": "d03a8e3f2504b5b0df661e11d599949b0a65f31461fd185c780991cb5cd54126"
+  }
 }

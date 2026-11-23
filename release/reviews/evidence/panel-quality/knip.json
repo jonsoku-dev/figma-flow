@@ -1,0 +1,17 @@
+{
+  "status": "passed",
+  "surfaceFingerprint": "9f8365c184e223d524143eeb30e56a2a470c0be696e9a38146a9b5c7290522c5",
+  "checks": [
+    {
+      "test": "tests/test_panel_knip.cjs",
+      "case": "Knip resolves the real registry and blocks new or stale production usage findings",
+      "testSha256": "86d6c96679f46be109e880e96c471b0420bf9611cdf399503432ccdd1ca68dda",
+      "covers": [
+        "panel-ui/knip.config.mjs"
+      ],
+      "authority": "library/panel-design/governance.json#/contractTests",
+      "assertion": "The Knip projection uses runtime and declared development test entry points and checks unused code.",
+      "observed": "The generated view registry and real test imports were recognized. Orphans, missing imports, unused dependencies, comment-only test references and stale dispositions were rejected."
+    }
+  ]
+}

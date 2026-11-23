@@ -1,0 +1,17 @@
+{
+  "status": "passed",
+  "surfaceFingerprint": "9f8365c184e223d524143eeb30e56a2a470c0be696e9a38146a9b5c7290522c5",
+  "checks": [
+    {
+      "test": "tests/test_panel_quality_witness.py",
+      "case": "PanelQualityWitnessTests.test_oxlint_panel_rules_accept_valid_hooks_and_reject_conditional_hooks",
+      "testSha256": "abc3bdd48a313c8dafcdfbaed17646c61563fb3c8816b273da965951724d50ad",
+      "covers": [
+        "panel-ui/.oxlintrc.json"
+      ],
+      "authority": "panel-ui/.oxlintrc.json#/overrides/0/rules",
+      "assertion": "The active Oxlint panel React configuration requires consistent hook calls.",
+      "observed": "An unconditional hook passed. A conditional hook raised the configured rules-of-hooks diagnostic without rewriting the fixture."
+    }
+  ]
+}

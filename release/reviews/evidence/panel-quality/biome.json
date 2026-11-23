@@ -1,0 +1,17 @@
+{
+  "status": "passed",
+  "surfaceFingerprint": "9f8365c184e223d524143eeb30e56a2a470c0be696e9a38146a9b5c7290522c5",
+  "checks": [
+    {
+      "test": "tests/test_panel_quality_witness.py",
+      "case": "PanelQualityWitnessTests.test_biome_panel_rules_accept_valid_inputs_and_reject_css_and_json_defects",
+      "testSha256": "abc3bdd48a313c8dafcdfbaed17646c61563fb3c8816b273da965951724d50ad",
+      "covers": [
+        "panel-ui/biome.json"
+      ],
+      "authority": "panel-ui/biome.json#/linter",
+      "assertion": "The active Biome configuration validates authored panel CSS and JSON.",
+      "observed": "Valid samples passed. The configured unknown-property and duplicate-key rules rejected the two invalid samples without rewriting the JSON fixture."
+    }
+  ]
+}

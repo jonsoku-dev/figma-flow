@@ -1,0 +1,17 @@
+{
+  "status": "passed",
+  "surfaceFingerprint": "9f8365c184e223d524143eeb30e56a2a470c0be696e9a38146a9b5c7290522c5",
+  "checks": [
+    {
+      "test": "tests/test_observed_graph_migration.cjs",
+      "case": "observes the built panel entry and its generated view registry with direct source evidence",
+      "testSha256": "45992e862e977b733c65bb31ca9096e470a6068e72114450cc5a8b25f8e46960",
+      "covers": [
+        "panel-ui/observed-graph.cjs"
+      ],
+      "authority": "library/panel-design/governance.json#/relations",
+      "assertion": "The observation engine represents the declared panel route and the resolved review transport dependency.",
+      "observed": "The candidate entry, generated view registry, provenance and the resolved direct review call were observed at source locations."
+    }
+  ]
+}

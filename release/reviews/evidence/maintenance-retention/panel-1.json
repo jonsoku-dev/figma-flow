@@ -1,34 +1,52 @@
 {
   "status": "passed",
-  "surfaceFingerprint": "4109103b4bd47794fbdeff3fd5cc5c18228b78a9906d7022edec094ef81aabeb",
+  "surfaceFingerprint": "9f8365c184e223d524143eeb30e56a2a470c0be696e9a38146a9b5c7290522c5",
   "checks": [
     {
       "test": "tests/test_panel_maintenance_boundary.cjs",
       "case": "panel build flags transport and native bridge bypasses",
-      "testSha256": "7f19198c46c3876dbbb1ccd1950ff646dde27b76fb11251e789bcec5651b1aa1",
+      "testSha256": "ee58bb427e14b72379bec0ec852e59c61794f4e1d73812d85ef58a3a7177a1db",
       "covers": [
-        "panel-ui/architecture.cjs",
-        "panel-ui/src/reviewTransport.mjs",
-        "panel-ui/src/ReviewPanel.jsx",
-        "panel-ui/build.mjs"
+        "panel-ui/architecture.cjs"
       ],
       "authority": "tools/maintenance-contract.json#/panelBoundaries",
-      "assertion": "The build rejects transport bypasses and the reviewed draft adapter uses only the prepared loopback receiver.",
-      "observed": "The stated behavior and its failure controls passed when re-executed on the candidate."
+      "assertion": "The architecture guard rejects forbidden network, host, module and CommonJS import paths.",
+      "observed": "Seven intentionally forbidden snippets were diagnosed and the current panel source inventory was clean."
     },
     {
       "test": "tests/test_panel_maintenance_boundary.cjs",
       "case": "review pairing posts only the approved payload to the prepared local receiver",
-      "testSha256": "7f19198c46c3876dbbb1ccd1950ff646dde27b76fb11251e789bcec5651b1aa1",
+      "testSha256": "ee58bb427e14b72379bec0ec852e59c61794f4e1d73812d85ef58a3a7177a1db",
       "covers": [
-        "panel-ui/architecture.cjs",
-        "panel-ui/src/reviewTransport.mjs",
-        "panel-ui/src/ReviewPanel.jsx",
-        "panel-ui/build.mjs"
+        "panel-ui/src/reviewTransport.mjs"
       ],
       "authority": "tools/maintenance-contract.json#/panelBoundaries",
-      "assertion": "The build rejects transport bypasses and the reviewed draft adapter uses only the prepared loopback receiver.",
-      "observed": "The stated behavior and its failure controls passed when re-executed on the candidate."
+      "assertion": "The review transport sends only the approved receipt to the exact prepared loopback receiver.",
+      "observed": "The mocked receiver saw the exact URL, body and signal. Three invalid endpoints were rejected and never sent."
+    },
+    {
+      "test": "tests/test_graph_generated.py",
+      "case": "GeneratedPanelTests.test_real_build_rejects_network_access_from_a_view",
+      "testSha256": "b04a63cce2e9220b0c9c091cd19624e2bee918b163e48ffbe8e70522473f3563",
+      "covers": [
+        "panel-ui/build.mjs",
+        "panel-ui/architecture.cjs"
+      ],
+      "authority": "tools/maintenance-contract.json#/panelBoundaries",
+      "assertion": "The production build invokes the boundary guard before producing artifacts.",
+      "observed": "The actual build command rejected a forbidden view fetch in a disposable copy and the verifier reclaimed its scratch files."
+    },
+    {
+      "test": "tests/test_observed_graph_migration.cjs",
+      "case": "observes the built panel entry and its generated view registry with direct source evidence",
+      "testSha256": "45992e862e977b733c65bb31ca9096e470a6068e72114450cc5a8b25f8e46960",
+      "covers": [
+        "panel-ui/src/ReviewPanel.jsx",
+        "panel-ui/src/reviewTransport.mjs"
+      ],
+      "authority": "tools/maintenance-contract.json#/panelBoundaries",
+      "assertion": "The review view imports and directly calls the approved transport binding.",
+      "observed": "Static observation resolved the direct call and its import location to the approved transport export."
     }
   ]
 }
