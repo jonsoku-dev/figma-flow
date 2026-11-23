@@ -16773,6 +16773,95 @@
           "version": "1.0.0"
         }
       ]
+    },
+    {
+      "commit": "7856088f6414f8eae5ddcc8f0bb14c0dc5faf7d8",
+      "diff_sha256": "a7154cfa59d7999fa8cf89138d263ab061fe5a87a32038495c7e49924ce05b40",
+      "files": [
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/79ba8f68c9d95d035b28e4fe78fa68a9a8a73207.md",
+        "docs/llm-wiki/patches/b0c4ba2e97e33cdfed6dda1d02ec25bc6edb79a2.md",
+        "docs/llm-wiki/patches/d6bbffe1e59e69184d2188e84ab694b736516f01.md",
+        "docs/llm-wiki/patches/ef21c1b47e63649a54d9b1aad2d1ae0409d8f1ac.md",
+        "docs/llm-wiki/verification.md"
+      ],
+      "parents": [
+        "d6bbffe1e59e69184d2188e84ab694b736516f01"
+      ],
+      "subject": "docs: record Compose and browser release qualification",
+      "tree": "c599e98578caf52c46485a5b7534f6c348fb0d92",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.0.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.0.0"
+        }
+      ]
+    },
+    {
+      "commit": "c34128f3a59baa20f6d4f07979d4d3ec58d0180d",
+      "diff_sha256": "a829e8da378fbb825a1c8788b54e24493b46d58546482849920b61f78fb51cc8",
+      "files": [
+        ".github/workflows/test.yml",
+        "library/delivery/test.yml.in",
+        "tests/helpers/relay_palette.mjs"
+      ],
+      "parents": [
+        "7856088f6414f8eae5ddcc8f0bb14c0dc5faf7d8"
+      ],
+      "subject": "fix: configure the browser viewport before loading palette fixtures",
+      "tree": "8e61d067fc2887434cd181cee0b81d7c991ba873",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.0.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.0.0"
+        }
+      ]
+    },
+    {
+      "commit": "ba489a8114650d77ae505ff1589d78df666ba4f6",
+      "diff_sha256": "effae5858644e922fbcc21c3939e7abef1a3130260ecaf04d550ed520c78453e",
+      "files": [
+        "release/reviews/delivery.json",
+        "release/reviews/evidence/delivery/1.json",
+        "release/reviews/evidence/delivery/10.json",
+        "release/reviews/evidence/delivery/11.json",
+        "release/reviews/evidence/delivery/12.json",
+        "release/reviews/evidence/delivery/13.json",
+        "release/reviews/evidence/delivery/2.json",
+        "release/reviews/evidence/delivery/3.json",
+        "release/reviews/evidence/delivery/4.json",
+        "release/reviews/evidence/delivery/5.json",
+        "release/reviews/evidence/delivery/6.json",
+        "release/reviews/evidence/delivery/7.json",
+        "release/reviews/evidence/delivery/8.json",
+        "release/reviews/evidence/delivery/9.json",
+        "release/reviews/evidence/maintenance-retention/delivery-1.json",
+        "release/reviews/evidence/maintenance/delivery-1.json",
+        "release/reviews/evidence/mysql-example/delivery-1.json"
+      ],
+      "parents": [
+        "c34128f3a59baa20f6d4f07979d4d3ec58d0180d"
+      ],
+      "subject": "verify: bind the independent responsive viewport preflight",
+      "tree": "08c4a1a427f284ce946edcbf2f5945e3da605e10",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.0.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.0.0"
+        }
+      ]
     }
   ],
   "pages": {
@@ -16990,6 +17079,7 @@
     "73622ea4bd2f2b4392bcb6c75b6a7f7817c97ac2": "503787be10ba57d0d51bb7b06cae6390ccdcfe19dc5b573d040f61e382b12676",
     "76a2d2b73a1d71631abe6f717073d15068c08155": "9b175199e2d70598828dbe899ae02fe5edd29853a3ea47f6a7632ec1f597d132",
     "7842f505eba1676e9151eaf2550086b2fac9175c": "523e0c591618e2920c800f8965956d82cae6d33fcc853840c0161452af24fe67",
+    "7856088f6414f8eae5ddcc8f0bb14c0dc5faf7d8": "fc950fd37649b83bfa042b6c806587951c05c97c24bd09ff9e457ce27468fec2",
     "78fd03a27d4d81d1e024d8874d5467a568b8418e": "9677b5f96bb30d1dabec45446d4fb77172f3afa51576c24dce111622c7a74e4e",
     "791378c941b08d1cd6274b690a756fa3a5c8f45e": "3f590efcefd7fee5e3353423ed1ddd02277c8a41a7c56ee114b5e61de6c18d15",
     "798361b6c9d3c9d1049500eba911b64547d8d435": "65274712d789b463547dc6308139bbd3d14117bb28e67d3acd47fcc75ad4c38d",
@@ -17131,6 +17221,7 @@
     "b9495234cdbc4547f083f5ee21cbd623c67a381f": "75028b56cfb85ace6ecd2576189d8cc27fb19b62522f6dfb181818c4670470e7",
     "b9f440fb0fd4d16dce800cd10813e16d39ce4c07": "846f7b9fe4defbfd90cf5a95feccb9a512b903b9b4a99663e19f3370eb87718b",
     "ba390f93a7da8d74a4cd5cd1993c8a9244c91467": "1c088036c784d10dcc779037d6d5aecf9401e6efc9555002e0a127e2eaaecf2f",
+    "ba489a8114650d77ae505ff1589d78df666ba4f6": "a30d14e597296433509212a5d089a7fd2dcaa2249cf5321068abaf0713fdfa39",
     "baac57eb1582698d4cdfef2cbf63b2c34d3ba9fd": "aa2d3a7e17fc25281aa6de9d0ed537a978c6135d503ea2d102f1f92a57f97ca3",
     "bacb81cbe48f1afdad79bcc135778af4ffe1c2b4": "60e3d7b0291406611a381e27097a75a3491203fda742b22894b8ea8436ddbd35",
     "bb443799f1e91b44f68c4dafc430ac27fb685514": "210fdb8bf826433f4cde1787ad5a8f779ebc26110e821a2c3b810aa627061c8b",
@@ -17152,6 +17243,7 @@
     "c072439ece24499776eb80e9d74f2e600c7461a6": "7a4904de5db87c2d112d20ce022b47886c1cd175bbc53205412cdc1042fddb8c",
     "c1541b8129bdf3e175dd905cddfed39acd52bc2e": "8986a6e93a55e9a8ea388260e2d2dfb6cc4b0fbdfa40d33c503e5989edf50d14",
     "c208a3f3cd8d83266f50b27b7534e9d4274ef900": "c79fa8cf123bbbe1214ecab594ba381a868f9dd317d42bb517c03e4ebbbc54ed",
+    "c34128f3a59baa20f6d4f07979d4d3ec58d0180d": "8aad34b3daa4e94b4314cab94175461f748af13c39bd5dd672ee8427916a67d2",
     "c43b4fc6c3958c233ca403769b4ef255bd6708e5": "39a8450f8747becfbdc6c6d80a44fe877ea51041f8f24b14f0d475fa1858169d",
     "c4b09947d122d1a7fc17db168812835bb857ec52": "635000360be38c4c4330e29e978fc22976a8d41b14aca66cc6620528843a1de6",
     "c4f8338c4803f88807fab96f58607d8e9f2652df": "66354fee2f0e1f98052d7437da64b97dc03f51c545452e4533f9cc6c0423ae69",
@@ -17663,6 +17755,10 @@
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
+      "observed_at_commit": "ba489a8114650d77ae505ff1589d78df666ba4f6",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
       "observed_at_commit": "bacb81cbe48f1afdad79bcc135778af4ffe1c2b4",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
@@ -18108,7 +18204,7 @@
     },
     {
       "source_commits": [
-        "d6bbffe1e59e69184d2188e84ab694b736516f01"
+        "ba489a8114650d77ae505ff1589d78df666ba4f6"
       ],
       "tagged": false,
       "tags": [],
@@ -18119,7 +18215,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "d6bbffe1e59e69184d2188e84ab694b736516f01",
+  "source_commit": "ba489a8114650d77ae505ff1589d78df666ba4f6",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
