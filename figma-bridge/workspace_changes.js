@@ -135,7 +135,7 @@ function workspaceSampleSelectionChanges(seedOnly = false) {
         echoes.set(field, {value, until:now + WORKSPACE_CHANGE_ECHO_WINDOW_MS});
       } else {
         const echo = previous?.echoes.get(field);
-        if (!seedOnly && echo && echo.until >= now) echoes.set(field,echo);
+        if (echo && before === value && echo.until >= now) echoes.set(field,echo);
       }
       fields.set(field,value);
     }

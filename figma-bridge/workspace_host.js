@@ -1171,7 +1171,7 @@ function workspaceInstallHomeListener() {
     }); } catch (_) {}
     if (workspaceRelayViewer) {
       try {figma.on('selectionchange', () => {
-        if (typeof workspaceSampleSelectionChanges === 'function') workspaceSampleSelectionChanges();
+        if (!workspaceActive && typeof workspaceSampleSelectionChanges === 'function') workspaceSampleSelectionChanges();
         workspaceRelayViewerState();
       });} catch (_) {}
       try {figma.on('currentpagechange', () => workspaceRelayViewerState());} catch (_) {}
