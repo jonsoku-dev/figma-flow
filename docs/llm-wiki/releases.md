@@ -10,6 +10,8 @@
 
 ## v1.0.0
 
+최종 버전 태그의 소스는 `6e7b2174eac971cf8fb391edabeaee07866a83a7`이다. 배포 파일 2,573개와 영역 16개를 확인해 차단 0건이었다. ZIP SHA-256은 `d7abe3200c970b24176c7761a3af01089c6c0c891ddd26f98707941cc9250c4b`이며 GitHub 러너에서 검사한 아카이브와 모든 파일 경로 및 파일 바이트가 영역별 지문에서 일치한다. [Patch knowledge](https://github.com/jonsoku-dev/figma-flow/actions/runs/45091119582) · [Reference distribution guard](https://github.com/jonsoku-dev/figma-flow/actions/runs/45091119612) · [Test Figma Flow](https://github.com/jonsoku-dev/figma-flow/actions/runs/45091119637)
+
 초기 후보 `233cc2a408e8e1d7699354ad684e8f08bd7109cc`는 로컬에서 파일 2,549개 및 차단 0건으로 ZIP SHA-256 `890953ba50757f03e5487e2ed65f0a94601215440801ff4b10003d7d87831512`를 생성했다. 이 후보는 GitHub 아카이브 검사에서 차단 3건을 관찰해 공개 태그를 만들지 않았다. 로컬의 임시 태그를 회수하고 원격 검증 환경을 교정했다.
 
 Codex에서 요청·승인·프로필·작업·결과를 관리하고 Figma Design에서 검증된 로컬 중계 경로와 뷰어를 사용한다. 그래프 입력 경계, 배포 파일 소유 권한, 컴파일한 패널과 기록된 실행 증거를 검증한다. 이전 0.x 등록 작업공간은 같은 ID·준비 작업 키를 확인하고 [업그레이드 절차](../../skills/figma-plugin-setup/SKILL.md)에 따른다.

@@ -16862,6 +16862,31 @@
           "version": "1.0.0"
         }
       ]
+    },
+    {
+      "commit": "6e7b2174eac971cf8fb391edabeaee07866a83a7",
+      "diff_sha256": "ca3635d31d363e889c671d9b44d19350511c444b0b3828e7ec78eab568a9184b",
+      "files": [
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/7856088f6414f8eae5ddcc8f0bb14c0dc5faf7d8.md",
+        "docs/llm-wiki/patches/ba489a8114650d77ae505ff1589d78df666ba4f6.md",
+        "docs/llm-wiki/patches/c34128f3a59baa20f6d4f07979d4d3ec58d0180d.md"
+      ],
+      "parents": [
+        "ba489a8114650d77ae505ff1589d78df666ba4f6"
+      ],
+      "subject": "docs: record viewport-qualified release checks",
+      "tree": "3914c201642ddff5322f2c3ccf9208a2f0cdfaa1",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.0.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.0.0"
+        }
+      ]
     }
   ],
   "pages": {
@@ -17072,6 +17097,7 @@
     "6b448d99524804101f37ccf3c4283c5c70e485e4": "ddb4c752a9b18098fef47f03d4c453006631cb2e33c1fe6d3c908d5271c2dafd",
     "6c9c6e454d826347971d4f7e612abcd43b8a306b": "a5619e59333e45a675013515a44153553ef7193116938b5ea0e4de2fd8ded382",
     "6df3d7849b82bd36526022e47a276e49f9e0faeb": "5de4e85f36ca52686ae7655313ac78e326c7dff764261b32834030f500b91ebb",
+    "6e7b2174eac971cf8fb391edabeaee07866a83a7": "0057d00e26f588355c7c8c7ffc173b63a2efed64d02cba968d48a45702174a16",
     "709f11042d3aa621dd47a064168828f6aa4f828d": "d54437dbbde2e4f42c8b83d2b46aa7db79c0cffa48eeaea18e1a3bd8386ce0b3",
     "721627bcc9a6eca2e283f879026d942a93a05a20": "6ba953710de7f712d7774c957971f57ee2c54a29c1f9b69b59924ad851c4014d",
     "7260d2995764d65d736aed031ddc63323ecf4e0c": "3c2912216f47082ac4fa83dc881cbae70237231b90a1b4b6b14adba6c0de81a8",
@@ -17628,6 +17654,10 @@
     },
     {
       "observed_at_commit": "6c9c6e454d826347971d4f7e612abcd43b8a306b",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "6e7b2174eac971cf8fb391edabeaee07866a83a7",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -18204,10 +18234,12 @@
     },
     {
       "source_commits": [
-        "ba489a8114650d77ae505ff1589d78df666ba4f6"
+        "6e7b2174eac971cf8fb391edabeaee07866a83a7"
       ],
-      "tagged": false,
-      "tags": [],
+      "tagged": true,
+      "tags": [
+        "v1.0.0"
+      ],
       "version": "1.0.0"
     }
   ],
@@ -18215,7 +18247,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "ba489a8114650d77ae505ff1589d78df666ba4f6",
+  "source_commit": "6e7b2174eac971cf8fb391edabeaee07866a83a7",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
@@ -18346,6 +18378,11 @@
       "commit": "9d7eb0288d3a60097bf958d8d77692e3e2df3979",
       "tag": "v0.36.0",
       "version": "0.36.0"
+    },
+    {
+      "commit": "6e7b2174eac971cf8fb391edabeaee07866a83a7",
+      "tag": "v1.0.0",
+      "version": "1.0.0"
     }
   ]
 }
