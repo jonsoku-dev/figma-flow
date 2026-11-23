@@ -17392,6 +17392,75 @@
           "version": "1.0.0"
         }
       ]
+    },
+    {
+      "commit": "cdb9cc8a3fdae7114ba1bcc49901e7ea7911ad65",
+      "diff_sha256": "f91783181edc147f06630beb00e36a5e65dfcb49fbc80690bc82aa1f34f3bc25",
+      "files": [
+        "CHANGELOG.md",
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/014095da897ccb87cac5e439910ad053c1f64720.md",
+        "docs/llm-wiki/patches/799e29de98b386f548dea4ecbdbdac415dbecf94.md"
+      ],
+      "parents": [
+        "014095da897ccb87cac5e439910ad053c1f64720"
+      ],
+      "subject": "Record panel governance migration and validation",
+      "tree": "1f35ee9a7e9901fea5fda2b19f82117873679652",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.0.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.0.0"
+        }
+      ]
+    },
+    {
+      "commit": "edaaf32817fecf6df4172798054b7ab4d113c671",
+      "diff_sha256": "9944de933bd7780dc30e06cf9b40461adcd91304539af10a101604121d82913c",
+      "files": [
+        ".github/CODEOWNERS",
+        ".github/workflows/test.yml",
+        "docs/generated/panel-boundaries.md",
+        "docs/graph-governance-review.json",
+        "docs/maintenance-verification.md",
+        "library/delivery/graph.json",
+        "library/delivery/test.yml.in",
+        "library/panel-design/governance.json",
+        "panel-ui/build.mjs",
+        "panel-ui/knip.config.mjs",
+        "panel-ui/observed-graph.cjs",
+        "tests/test_graph_generated.py",
+        "tests/test_graph_governance.py",
+        "tests/test_graph_impact_migration.py",
+        "tests/test_observed_graph_migration.cjs",
+        "tests/test_panel_knip.cjs",
+        "tools/figma_workspace.py",
+        "tools/graph_generated.py",
+        "tools/graph_governance.py",
+        "tools/graph_impact.py",
+        "tools/maintenance-contract.json",
+        "tools/panel_artifacts.py",
+        "tools/plugin_panel.py"
+      ],
+      "parents": [
+        "cdb9cc8a3fdae7114ba1bcc49901e7ea7911ad65"
+      ],
+      "subject": "Verify panel contracts against observed usage and historical impact",
+      "tree": "45834439e113c09de8428879ed189e0dae3258cd",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.0.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.0.0"
+        }
+      ]
     }
   ],
   "pages": {
@@ -17804,6 +17873,7 @@
     "cc53d88e91da49ac33c54c720b1be228b78c93bd": "fec3c731e4ba2bbb82e54b96ae89448a832b5172a869489fced421a481cd83d6",
     "cc676a77849197f90d6f7a57a9aff5e366fa5658": "54f29540d2fe15a1d5807c2cac20ce7455e845f83c84b4eb0534379c90214389",
     "cd4789321dafb40a82277fd1185a3462318f7748": "bf1aaca69565d201eaa42f7315291e7c2eaa0e3026c86097cd1e21fee62e0d0b",
+    "cdb9cc8a3fdae7114ba1bcc49901e7ea7911ad65": "48c3dc140e10ffd6860261885286edeb5075738604f080acaf368a8fb3dd0ea9",
     "cdd7786be9eb7468ed0e5ae3c84d9a50f987d016": "c2cf75832c707c196b382cafb45cc793b9b35849468d2a5ff9840422344bc973",
     "ce0a685244004c5e7632d4a030e7954497dacd94": "b2732ccd44e2c5d1d6841d411ac1ddb8dc6f70659d05e58a1e7d97226d87d611",
     "ce10c8591bda9ad100c5de7a0f5323f20f5827c9": "7f4387b1170b9d096abc81b1d510304f3dd6aabf49fadb3cc7266602f00d4754",
@@ -17878,6 +17948,7 @@
     "eb59c03eb370eaf1effdd10d9ff8f02d3d56abfb": "2dc3defe4fb53fae84e7d6d875b73e00d0e4f010e1ac236d011c11d4160d12e5",
     "ec9eb9ba1610ddad2bf568c8ec528aa44c1fbf43": "b7f9ede927112b6bc2fc91150bb439371a1171bca2f97cedc4a56584fa9decb7",
     "ed846239ebafe20621f61d44517ec0eb8b3737eb": "a648e5f836f0edb32b4244917953ce83478429ace3cc5caab41858f542b8aaa1",
+    "edaaf32817fecf6df4172798054b7ab4d113c671": "85150e6a930439e6ed4d8c07896160d1262032940fb6d098e94bb14fb107d834",
     "ede4614b7cc87ab2ba1bee27d7a180889f022c92": "74c4545b5471ee788fb9d23518d90c7adbd398cea22778ef4c61c69461353bf3",
     "edf83777ae28b6cf771e895073d5d0b6f11bf3f6": "57c9dff95f15adeff5289ca2536ac427c0b296fcdb05a81d50647510fa26a0a7",
     "ee296599d76993f3a8481edddf08ca9643c9301b": "094a8be5b5da5acb3308330f2dfaf833e7874dd65440742d53f238c1e9c47cf2",
@@ -18414,6 +18485,10 @@
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
+      "observed_at_commit": "edaaf32817fecf6df4172798054b7ab4d113c671",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
       "observed_at_commit": "ee4f40a0eb3ceef5b87697a13b2768ae0dc1a67e",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
@@ -18776,7 +18851,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "014095da897ccb87cac5e439910ad053c1f64720",
+  "source_commit": "edaaf32817fecf6df4172798054b7ab4d113c671",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
