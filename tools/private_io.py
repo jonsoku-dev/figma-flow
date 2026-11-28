@@ -1,10 +1,12 @@
 """Single owner of owner-only (0600) atomic file writes."""
 from __future__ import annotations
 
+from contextlib import contextmanager
 import json
 import os
 from pathlib import Path
 import secrets
+import stat
 import tempfile
 
 PRIVATE_FILE_MODE = 0o600
@@ -21,6 +23,33 @@ def ensure_private_parent(path) -> Path:
     else:
         parent.mkdir(parents=True, exist_ok=True)
     return parent
+
+
+@contextmanager
+def locked_update(path: Path):
+    """Serialize read/modify/replace on this path. Keep the lock inode across replacements."""
+    path = Path(path)
+    path.parent.mkdir(mode=PRIVATE_DIR_MODE, parents=True, exist_ok=True)
+    lock_path = path.with_name(path.name + '.lock')
+    if lock_path.is_symlink():
+        raise ValueError('Refusing a symlink lock')
+    flags = os.O_RDWR | os.O_CREAT | getattr(os, 'O_NOFOLLOW', 0) | getattr(os, 'O_NONBLOCK', 0)
+    fd = os.open(lock_path, flags, PRIVATE_FILE_MODE)
+    try:
+        info = os.fstat(fd)
+        if not stat.S_ISREG(info.st_mode):
+            raise ValueError('Private file lock must be a regular file')
+        if os.name == 'posix':
+            import fcntl
+            if info.st_uid != os.getuid() or info.st_mode & 0o077:
+                raise ValueError('Private file lock must be owner-only')
+            fcntl.flock(fd, fcntl.LOCK_EX)
+        else:
+            import msvcrt
+            msvcrt.locking(fd, msvcrt.LK_LOCK, 1)
+        yield
+    finally:
+        os.close(fd)
 
 
 def atomic_write(path, raw: bytes, *, create_parent: bool = False, mode: int = PRIVATE_FILE_MODE) -> None:

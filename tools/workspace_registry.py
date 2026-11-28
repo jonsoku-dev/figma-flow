@@ -68,9 +68,9 @@ def _atomic_write_private(path: Path, data: dict[str, Any]) -> None:
     private_io.atomic_write_json(path, data)
 
 
-def load_registry() -> dict[str, Any]:
+def load_registry(path: Path | None = None) -> dict[str, Any]:
     """Read the PC workspace registry safely; return an empty registry if missing/invalid."""
-    data = _read_private_json(registry_path())
+    data = _read_private_json(path if path is not None else registry_path())
     if not data or data.get('schema') != SCHEMA or not isinstance(data.get('workspaces'), list):
         return _empty_registry()
     rows = []
@@ -135,28 +135,30 @@ def register_workspace(
         if port is not None and not local_endpoint.valid_port(port):
             port = None
 
-        reg = load_registry()
-        now = _now_iso()
-        target_str = str(ws_path)
-        existing = None
-        others: list[dict[str, Any]] = []
-        for row in reg['workspaces']:
-            if row.get('path') == target_str:
-                existing = row
-            else:
-                others.append(row)
+        path = registry_path()
+        with private_io.locked_update(path):
+            reg = load_registry(path)
+            now = _now_iso()
+            target_str = str(ws_path)
+            existing = None
+            others: list[dict[str, Any]] = []
+            for row in reg['workspaces']:
+                if row.get('path') == target_str:
+                    existing = row
+                else:
+                    others.append(row)
 
-        entry = {
-            'path': target_str,
-            'plugin_id': pid,
-            'control_port': port,
-            'registered_at': (existing or {}).get('registered_at') or now,
-            'updated_at': now,
-        }
-        reg['workspaces'] = [entry, *others[:31]]
-        if set_default or not reg.get('default_workspace'):
-            reg['default_workspace'] = target_str
-        _atomic_write_private(registry_path(), reg)
+            entry = {
+                'path': target_str,
+                'plugin_id': pid,
+                'control_port': port,
+                'registered_at': (existing or {}).get('registered_at') or now,
+                'updated_at': now,
+            }
+            reg['workspaces'] = [entry, *others[:31]]
+            if set_default or not reg.get('default_workspace'):
+                reg['default_workspace'] = target_str
+            _atomic_write_private(path, reg)
         return True
     except Exception:
         return False

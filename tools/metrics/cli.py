@@ -11,6 +11,7 @@ import time
 from typing import Any
 
 import local_endpoint
+import private_io
 
 from .config import (
     default_config,
@@ -178,32 +179,25 @@ def register_metrics_subparser(subparsers: argparse._SubParsersAction) -> None:
     p_watch.add_argument('--until-ready', action='store_true')
 
 
-def run_metrics_cli(args: argparse.Namespace, *, live_state_fn: Any = None) -> tuple[int, str]:
-    """Execute a metrics CLI subcommand and return (exit_code, stdout_text)."""
-    registry = default_registry()
+_CONFIG_ACTIONS = {'init', 'enable', 'disable', 'set-source', 'set-pull', 'set-privacy', 'add-sink', 'remove-sink'}
+
+
+def _update_config(args, path, registry):
     schema = registry.schema
     action = args.metrics_action
-
-    if action == 'list-adapters':
-        return 0, json.dumps(registry.describe(), ensure_ascii=True, indent=2) + '\n'
-
     if action == 'init':
-        path = _target_path(args)
         if path.exists() and not args.force:
             raise ValueError('Metrics config already exists; pass --force to overwrite')
         saved = save_config(path, default_config(schema), schema=schema, registry=registry)
         return 0, json.dumps({'path': redact_value(path), 'config': saved}, ensure_ascii=True) + '\n'
 
+    cfg = _load_or_init_target(path, schema)
     if action in {'enable', 'disable'}:
-        path = _target_path(args)
-        cfg = _load_or_init_target(path, schema)
         cfg['enabled'] = (action == 'enable')
         saved = save_config(path, cfg, schema=schema, registry=registry)
         return 0, json.dumps({'path': redact_value(path), 'enabled': saved['enabled']}, ensure_ascii=True) + '\n'
 
     if action == 'set-source':
-        path = _target_path(args)
-        cfg = _load_or_init_target(path, schema)
         sources = dict(cfg.get('sources') or {})
         sources[args.source] = args.enabled
         cfg['sources'] = sources
@@ -211,8 +205,6 @@ def run_metrics_cli(args: argparse.Namespace, *, live_state_fn: Any = None) -> t
         return 0, json.dumps({'path': redact_value(path), 'sources': saved['sources']}, ensure_ascii=True) + '\n'
 
     if action == 'set-pull':
-        path = _target_path(args)
-        cfg = _load_or_init_target(path, schema)
         pull = dict(cfg.get('pull') or {})
         if args.enabled is not None:
             pull['enabled'] = args.enabled
@@ -227,8 +219,6 @@ def run_metrics_cli(args: argparse.Namespace, *, live_state_fn: Any = None) -> t
         return 0, json.dumps({'path': redact_value(path), 'pull': saved['pull']}, ensure_ascii=True) + '\n'
 
     if action == 'set-privacy':
-        path = _target_path(args)
-        cfg = _load_or_init_target(path, schema)
         privacy = dict(cfg.get('privacy') or {})
         if args.scope_labels is not None:
             privacy['scope_labels'] = args.scope_labels
@@ -243,8 +233,6 @@ def run_metrics_cli(args: argparse.Namespace, *, live_state_fn: Any = None) -> t
         return 0, json.dumps({'path': redact_value(path), 'privacy': saved['privacy']}, ensure_ascii=True) + '\n'
 
     if action == 'add-sink':
-        path = _target_path(args)
-        cfg = _load_or_init_target(path, schema)
         sink: dict[str, Any] = {'id': args.id, 'type': args.sink_type, 'enabled': args.enabled}
         if args.url is not None:
             sink['url'] = args.url
@@ -292,8 +280,6 @@ def run_metrics_cli(args: argparse.Namespace, *, live_state_fn: Any = None) -> t
         return 0, json.dumps({'path': redact_value(path), 'sink': stored}, ensure_ascii=True) + '\n'
 
     if action == 'remove-sink':
-        path = _target_path(args)
-        cfg = _load_or_init_target(path, schema)
         before = list(cfg.get('sinks') or [])
         after = [row for row in before if not (isinstance(row, dict) and row.get('id') == args.id)]
         if len(before) == len(after):
@@ -301,6 +287,20 @@ def run_metrics_cli(args: argparse.Namespace, *, live_state_fn: Any = None) -> t
         cfg['sinks'] = after
         save_config(path, cfg, schema=schema, registry=registry)
         return 0, json.dumps({'path': redact_value(path), 'removed': args.id}, ensure_ascii=True) + '\n'
+
+
+def run_metrics_cli(args: argparse.Namespace, *, live_state_fn: Any = None) -> tuple[int, str]:
+    """Execute a metrics CLI subcommand and return (exit_code, stdout_text)."""
+    registry = default_registry()
+    action = args.metrics_action
+
+    if action == 'list-adapters':
+        return 0, json.dumps(registry.describe(), ensure_ascii=True, indent=2) + '\n'
+
+    if action in _CONFIG_ACTIONS:
+        path = _target_path(args)
+        with private_io.locked_update(path):
+            return _update_config(args, path, registry)
 
     if action == 'test':
         hub = MetricsHub(args.workspace, registry=registry, start_workers=False)
