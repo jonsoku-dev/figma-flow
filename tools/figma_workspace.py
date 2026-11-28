@@ -839,7 +839,6 @@ def init(workspace, id_from, chat_port=None):
         catalogue = current(workspace) if (workspace / 'manifest.json').exists() else {'schema': SCHEMA, 'plugin_id': assigned, 'tasks': []}
         if not (workspace / 'manifest.json').exists() or chat_port is not None:
             catalogue = publish(workspace, catalogue)
-        workspace_registry.register_workspace(workspace, plugin_id=assigned)
         return {'manifest': str(workspace / 'manifest.json'), 'plugin_id': assigned, 'tasks': len(catalogue['tasks'])}
 
 
@@ -1247,7 +1246,6 @@ def history_detail(workspace, file_key, page_id, operation_id, task_key, revisio
 def refresh(workspace):
     with locked(workspace) as root:
         updated = publish(root, current(root))
-        workspace_registry.register_workspace(root, plugin_id=updated.get('plugin_id'))
         return {'manifest': str(root / 'manifest.json'), 'generation': updated['generation'], 'tasks': len(updated['tasks'])}
 
 
@@ -1316,6 +1314,9 @@ def main(argv=None):
     create.add_argument('--workspace', required=True)
     create.add_argument('--id-from', required=True)
     create.add_argument('--chat-port', type=int)
+    remember = commands.add_parser('remember', allow_abbrev=False, help='Remember this workspace on this PC')
+    remember.add_argument('--workspace', type=Path, required=True)
+    remember.add_argument('--default', dest='set_default', action='store_true', help='Select it as the PC default')
     build = commands.add_parser('prepare', allow_abbrev=False)
     for option in ('workspace', 'key', 'title', 'kind'):
         build.add_argument('--' + option, required=True)
@@ -1353,6 +1354,12 @@ def main(argv=None):
             if separator != len(values):
                 raise ValueError('init does not accept generator arguments')
             result = init(args.workspace, args.id_from, args.chat_port)
+        elif args.command == 'remember':
+            if separator != len(values):
+                raise ValueError('remember does not accept generator arguments')
+            if not workspace_registry.register_workspace(args.workspace, set_default=args.set_default):
+                raise ValueError('Cannot remember workspace. Check its initialized files and the privacy and validity of the PC registry.')
+            result = {'remembered': True, 'workspace': str(args.workspace.resolve())}
         elif args.command == 'refresh':
             if separator != len(values):
                 raise ValueError('refresh does not accept generator arguments')

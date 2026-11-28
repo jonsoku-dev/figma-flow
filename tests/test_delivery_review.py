@@ -239,6 +239,7 @@ class DeliveryReviewTests(unittest.TestCase):
         # Invoke the real checker against an isolated Git repository, as on a runner.
         tools = graph_dir/'tools'
         tools.mkdir()
+        shutil.copyfile(ROOT/'tools/test_env.py', tools/'test_env.py')
         for name in ('major_release.py','reference_distribution_guard.py'):
             (tools/name).write_text(
                 "import os,sys\n"

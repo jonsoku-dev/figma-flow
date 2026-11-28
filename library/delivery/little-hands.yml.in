@@ -45,7 +45,7 @@ jobs:
           python -m pip install --require-hashes --only-binary=:all: --no-binary=mysqlclient -r requirements.lock
       - run: python -B manage.py check
       - run: python -B manage.py makemigrations --check --dry-run
-      - run: python -B manage.py test booking.tests config.tests --verbosity 1
-      - run: python -B -m unittest discover -s tests
+      - run: python -B "$GITHUB_WORKSPACE/tools/test_env.py" python -B manage.py test booking.tests config.tests --verbosity 1
+      - run: python -B "$GITHUB_WORKSPACE/tools/test_env.py" python -B -m unittest discover -s tests
       - name: Build the production image on amd64
         run: docker build --tag littlehands:ci .

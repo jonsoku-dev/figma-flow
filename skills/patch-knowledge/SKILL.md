@@ -15,6 +15,8 @@ description: Record a Figma Flow patch, audit missing patch history, or use obse
 4. CHANGELOG에는 짧은 사용자 변화를 쓰고 버전 대조표와 연결한다. 태그가 없는 버전과 아직 정하지 않은 버전을 구별한다.
 5. 기록 도구의 `verify --ref HEAD`와 `python3 -B -m unittest discover -s tests -p 'test_patch_knowledge*.py'`를 실행한다. 누락·오래된 출처·깨진 링크·실패가 남으면 완료로 보고하지 않는다. 실제 diff를 읽은 독립 검수 결과를 함께 보고한다.
 
+합성 테스트와 재현 스크립트는 저장소 실행기 `python3 -B tools/test_env.py COMMAND [ARG ...]`로 격리한다. 개선 게이트도 각 보존된 커밋의 검사 프로세스에 임시 XDG 설정 경로를 제공한다.
+
 ## 반복 교정
 
 [유지보수 검증 절차](../../docs/maintenance-verification.md)에서 변경에 맞는 프로필을 실행한다. 기존 검사에서 실제로 빠져나간 입력을 하나 재현하고, API나 정적 검사로 막을 수 있는 경우 해당 경계를 고친다. 고정한 독립 검사는 구현 전 예상 실패와 구현 후 결과를 확인한다. PR에는 실행 결과와 근거 링크, 건너뛴 검사를 먼저 기록한다.

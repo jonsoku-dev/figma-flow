@@ -68,15 +68,15 @@ jobs:
         run: |
           python -B tools/plugin_manifest.py
           python -B tools/delivery_config.py
-          python -B -m unittest tests.test_major_release tests.test_major_policy_boundary tests.test_spec_graph_coverage
+          python -B tools/test_env.py python -B -m unittest tests.test_major_release tests.test_major_policy_boundary tests.test_spec_graph_coverage
       - name: Run synthetic guard behavior tests
-        run: python -B -m unittest -v tests.test_reference_distribution_guard
+        run: python -B tools/test_env.py python -B -m unittest -v tests.test_reference_distribution_guard
       - name: Verify pinned external skill dependencies
         run: python -B tools/skill_dependencies.py --check
       - name: Check tracked ref paths and ephemeral evidence (paths-only; no local reference lists)
         run: python -B tools/reference_distribution_guard.py --ref HEAD --format text
       - name: Run the release graph mutation checks
-        run: python -B tools/maintenance.py verify --profile release --out "$RUNNER_TEMP/figma-flow-graph-evidence"
+        run: python -B tools/test_env.py python -B tools/maintenance.py verify --profile release --out "$RUNNER_TEMP/figma-flow-graph-evidence"
       - name: Check packaged app quality, Compose projection and relay transport
         if: env.FIGMA_FLOW_ARCHIVE_VALIDATION == '1'
         run: |
@@ -89,7 +89,7 @@ jobs:
             python -c 'import json,sys; report=json.load(open(sys.argv[1])); print(report["summary"]); print(report["errors"][:6])' "$quality"
             exit 1
           fi
-          python -B -m unittest -v tests.test_booking_deployment_files tests.test_control_transport_authority
+          python -B tools/test_env.py python -B -m unittest -v tests.test_booking_deployment_files tests.test_control_transport_authority
       - name: Check version and SSOT before packaging this Git tree
         env:
           RELEASE_REF: ${{ github.ref_type == 'tag' && github.ref_name || github.sha }}
@@ -103,7 +103,7 @@ jobs:
           if [[ -n "$PREVIOUS_REF" && ! "$PREVIOUS_REF" =~ ^0+$ ]]; then
             base_args=(--base-ref "$PREVIOUS_REF")
           fi
-          python -B tools/major_release.py --if-major --ref "$RELEASE_REF" "${base_args[@]}" --archive "$RUNNER_TEMP/dist-check.zip"
+          python -B tools/test_env.py python -B tools/major_release.py --if-major --ref "$RELEASE_REF" "${base_args[@]}" --archive "$RUNNER_TEMP/dist-check.zip"
           python -B tools/reference_distribution_guard.py --target-zip "$RUNNER_TEMP/dist-check.zip" --format text
           shasum -a 256 "$RUNNER_TEMP/dist-check.zip"
       - name: Remove the run-owned archive and test database

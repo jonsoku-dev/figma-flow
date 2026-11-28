@@ -73,6 +73,7 @@ class SetupContinuityTests(unittest.TestCase):
         self.assertIsNone(workspace_registry.resolve_workspace())
 
         workspace.init(self.root, self.assigned)
+        self.assertTrue(workspace_registry.register_workspace(self.root, set_default=True))
         control.enable(self.root, 49231)
 
         reg_path = workspace_registry.registry_path()
@@ -99,6 +100,7 @@ class SetupContinuityTests(unittest.TestCase):
         assigned_deleted = self.dir / 'deleted-assigned.json'
         assigned_deleted.write_text('{"id":"111222"}', encoding='utf-8')
         workspace.init(deleted_ws, assigned_deleted)
+        self.assertTrue(workspace_registry.register_workspace(deleted_ws))
         import shutil
         shutil.rmtree(deleted_ws)
         found_after = workspace_registry.discover_workspaces()
@@ -160,8 +162,9 @@ class SetupContinuityTests(unittest.TestCase):
         self.assertFalse(s0['already_configured'])
         self.assertEqual(s0['next_action'], 'init-workspace')
 
-        # Step 1: init only
+        # Step 1: initialize and explicitly choose the reusable PC workspace.
         workspace.init(self.root, self.assigned)
+        self.assertTrue(workspace_registry.register_workspace(self.root, set_default=True))
         s1 = control.setup_status()
         self.assertTrue(s1['workspace_initialized'])
         self.assertFalse(s1['control_enabled'])

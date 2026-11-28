@@ -18,6 +18,8 @@ import tarfile
 import tempfile
 import time
 
+from test_env import private_test_config
+
 SCHEMA = "figma-flow-improvement-v1"
 HASH = re.compile(r"^[0-9a-f]{40}$")
 FIELDS = {"schema", "base", "target", "problem", "result", "rationale", "compatibility", "limits", "follow_up", "related", "scope", "criteria", "reproduction", "checks"}
@@ -258,10 +260,11 @@ def run(argv, cwd, timeout):
     if not executable:
         raise GateError(f"executable not found on PATH: {argv[0]}")
     args = [executable, *argv[1:]]
-    with tempfile.TemporaryFile() as out, tempfile.TemporaryFile() as err:
+    with private_test_config() as xdg, tempfile.TemporaryFile() as out, tempfile.TemporaryFile() as err:
         try:
             p = subprocess.Popen(args, cwd=cwd, stdout=out, stderr=err, start_new_session=True,
-                                 env={"PATH": os.environ.get("PATH", ""), "PYTHONDONTWRITEBYTECODE": "1", "PYTHONNOUSERSITE": "1"})
+                                 env={"PATH": os.environ.get("PATH", ""), "PYTHONDONTWRITEBYTECODE": "1", "PYTHONNOUSERSITE": "1",
+                                      "XDG_CONFIG_HOME": xdg})
         except OSError as e:
             raise GateError(f"could not start command: {e}")
         try:

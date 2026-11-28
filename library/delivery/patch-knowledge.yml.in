@@ -16,7 +16,7 @@ jobs:
         with:
           python-version: '{{delivery.python}}'
       - name: Test history and improvement gates
-        run: python -B -m unittest discover -s tests -p 'test_patch_knowledge*.py'
+        run: python -B tools/test_env.py python -B -m unittest discover -s tests -p 'test_patch_knowledge*.py'
       - name: Verify full patch knowledge coverage
         run: python tools/patch_knowledge.py verify --ref HEAD
       - name: Verify preserved lineage records

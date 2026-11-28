@@ -25,6 +25,8 @@ Figma Flow의 **Codex 설치**, 한 번 등록하는 고정 workspace와 수동 
 가장 먼저 작업공간 경로를 사용자에게 다시 묻거나 초기 등록을 안내하기 전에 `python3 -B tools/figma_control.py setup-status`를 실행해 이 PC에 이미 등록된 작업공간(`workspaces.json`)과 서버·플러그인(`connected_session_count`, `connected_sessions`)·프로필 상태를 확인한다. `already_configured: true`이면 **새 플러그인 생성, `init`, `manifest.json` 재등록, `enable`을 다시 요구하지 말고** `next_action`에 나온 단일 단계(`start-serve`, `reopen-plugin`, `confirm-profile`)만 수행한다. `ready_for_work: true`이면 설정 안내 없이 바로 요청된 작업으로 진행한다.
 
 > **1회 설정 vs 세션 사용 구분 & 중복 플러그인 방지:**
+PC에 경로를 기억해 달라는 요청이 있을 때 `figma_workspace.py remember --workspace WORKSPACE`를 사용한다. 기본값 지정을 요청한 경우에만 `--default`를 붙인다. 등록된 유효 후보가 여러 개이고 기본값이 없으면 `setup-status --workspace PATH`로 선택한 경로를 확인한다. 설치 검수 및 합성 프로브는 `python3 -B tools/test_env.py COMMAND [ARG ...]`로 실행하고 테스트용 workspace만 지정한다.
+
 > - **처음 1회만:** ID 발급용 임시 `Custom UI` 템플릿 생성 → `figma_workspace.py init` → `figma_control.py enable --port 43180 --refresh` → Figma 개발 메뉴에서 임시 템플릿은 제거하고 고정 `WORKSPACE/manifest.json` **하나만** 등록한다. (최소 연결 확인 시 `demo.py` 워크숍 생성은 생략 가능)
 > - **세션마다:** `setup-status` 확인 → `serve` 유지 → 사용자는 작업할 Figma 탭에서 등록한 `Figma Flow` 한 번 열기(멀티탭 동시 실행 지원).
 > - **갱신 시에만:** 새 작업을 `prepare`·`refresh`해 패널에 "작업공간이 갱신되었습니다" 안내가 뜨면 창을 닫고 같은 플러그인을 한 번 다시 연다.

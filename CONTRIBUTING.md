@@ -25,10 +25,12 @@ Node는 `.nvmrc`에 고정된 LTS를 사용합니다. 회사 npm 레지스트리
 저장소 밖의 가상환경에 `requirements-optional.txt`를 설치합니다. Python 3.13, Node.js 26, Codex CLI 0.165.0을 사용한 검사 명령입니다. 코드 실행 격리 테스트는 실제 `codex sandbox` 실행 파일을 필요로 합니다. 공개 CI는 macOS에서 공식 Codex 네이티브 바이너리의 SHA-256을 확인하고 읽기 전용 OS 샌드박스를 실행합니다. Ubuntu hosted runner에서는 bubblewrap의 루프백 설정이 거부됐습니다.
 
 ```sh
-python -B -m unittest discover -s tests
-node --test tests/*.cjs
-python -B -m unittest discover -s examples/native-direction-review -p test_demo.py
+python -B tools/test_env.py python -B -m unittest discover -s tests
+python -B tools/test_env.py node --test tests/*.cjs
+python -B tools/test_env.py python -B -m unittest discover -s examples/native-direction-review -p test_demo.py
 ```
+
+표준 테스트 실행기 `tools/test_env.py`는 명령마다 권한 0700인 임시 XDG 설정 경로를 만들고 자식 프로세스에 전달합니다. 정상 종료와 실패 뒤에 임시 경로를 정리합니다. 로컬 재현과 별도 프로브도 같은 실행기를 사용하세요. 영구 등록을 시험할 때는 그 안에서 만든 합성 workspace와 레지스트리를 사용합니다.
 
 검사 명령을 파이프로 연결하면 마지막 명령의 종료 코드만 보일 수 있습니다. 명령별 종료 코드와 skip 사유를 확인하세요. 깨끗한 클론에는 외부 캠페인의 회귀 레이아웃과 운영자가 제공하는 네이티브 읽기 자료가 없습니다. `FIGMA_DRAFT_LIVE_MANIFEST`와 `FIGMA_DRAFT_LIVE_READBACK`에 제공 권한이 있는 실제 시안 자료를 지정해 선택적 검사를 실행할 수 있습니다. 증거·실행 출력은 저장소 바깥에 둡니다.
 

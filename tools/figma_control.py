@@ -1371,7 +1371,6 @@ def enable(root, port, *, refresh=False):
         workspace.refresh(root)
         needs_refresh = not control_embedded_in_manifest(root, value)
         did_refresh = True
-    workspace_registry.register_workspace(root, control_port=port)
     return {'enabled': True, 'port': port, 'refresh_required': needs_refresh, 'refreshed': did_refresh}
 
 
@@ -2101,9 +2100,13 @@ class Handler(BaseHTTPRequestHandler):
 # Ordered setup steps: the first step whose `blocked_by` fact is false is the next action.
 # This tuple is the single owner of the setup action vocabulary (see tools/ssot-scan.json).
 SETUP_STEPS = (
-    {'action': 'init-workspace', 'blocked_by': 'workspace_initialized',
+    {'action': 'init-workspace', 'blocked_by': 'workspace_available',
      'command': 'python3 -B tools/figma_workspace.py init --workspace {workspace} --id-from <MANIFEST>',
      'guidance': 'Initialize the private workspace once with your Figma plugin manifest ID.'},
+    {'action': 'select-workspace', 'blocked_by': 'workspace_choice_resolved',
+     'command': 'python3 -B tools/figma_control.py setup-status --workspace {workspace}',
+     'guidance': 'Choose a registered path with --workspace. To select a PC default, run '
+                 'figma_workspace.py remember --workspace PATH --default.'},
     {'action': 'enable-control', 'blocked_by': 'control_enabled',
      'command': 'python3 -B tools/figma_control.py enable --workspace {workspace} --port {control_port} --refresh',
      'guidance': 'Enable local control once and embed it into the existing workspace.'},
@@ -2131,7 +2134,10 @@ SETUP_ACTIONS = tuple(step['action'] for step in SETUP_STEPS)
 
 def next_setup_step(result):
     """Pick the first incomplete setup step from observed facts (pure; no I/O)."""
-    facts = {**result, 'no_uncertain_operations': not result.get('uncertain_operations')}
+    needs_choice = not result.get('workspace') and len(result.get('registered_workspaces', [])) > 1
+    facts = {**result, 'no_uncertain_operations': not result.get('uncertain_operations'),
+             'workspace_available': result.get('workspace_initialized') or needs_choice,
+             'workspace_choice_resolved': not needs_choice}
     values = {'workspace': result.get('workspace') or '<WORKSPACE>',
               'control_port': result.get('control_port') or local_endpoint.DEFAULT_PORTS['control'],
               'context_fingerprint': result.get('context_fingerprint') or '<CONTEXT_FINGERPRINT>'}
@@ -2144,7 +2150,7 @@ def next_setup_step(result):
 def setup_status(root=None):
     """Strictly read-only setup continuity check across PC workspace registry and live server."""
     discovered = workspace_registry.discover_workspaces()
-    target = workspace_registry.resolve_workspace(root)
+    target = workspace_registry.resolve_workspace(root, discovered=discovered)
     result = {
         'schema': 'figma-flow-setup-status-v1',
         'registered_workspaces': discovered,
@@ -2166,10 +2172,14 @@ def setup_status(root=None):
         'ready_for_work': False,
     }
     if target is None:
-        result.update(next_setup_step(result), guidance='No registered Figma Flow workspace was found on this PC.')
+        result.update(next_setup_step(result))
+        if not discovered:
+            result['guidance'] = 'No registered Figma Flow workspace was found on this PC.'
         return result
 
-    info = workspace_registry._inspect_workspace_dir(target)
+    info = next((row for row in discovered if row['path'] == str(target)), None)
+    if info is None:
+        info = workspace_registry.inspect_workspace_dir(target)
     if info.get('valid'):
         result['workspace'] = info['path']
         result['workspace_initialized'] = True
@@ -2244,7 +2254,6 @@ def serve(root):
         workspace.current(root)
         value = config(root)
         directory = state_dir(root)
-    workspace_registry.register_workspace(root, control_port=value['port'])
     fd = os.open(directory / 'server.lock', os.O_RDWR | os.O_CREAT | os.O_NOFOLLOW, 0o600)
     with os.fdopen(fd, 'a+b') as lock:
         if os.fstat(lock.fileno()).st_mode & 0o077 or os.fstat(lock.fileno()).st_uid != os.getuid():

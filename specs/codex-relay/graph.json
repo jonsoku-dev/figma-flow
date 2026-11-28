@@ -148,6 +148,27 @@
       "source": "../../tests/test_legacy_slot_recovery.py",
       "title": "Persisted RC1 displacement and drain regressions",
       "status": "unverified"
+    },
+    {
+      "id": "AC-PC-REGISTRY",
+      "type": "acceptance",
+      "title": "Explicit PC registration, default selection and isolated tests",
+      "source": "spec.md",
+      "status": "unverified"
+    },
+    {
+      "id": "PC-REGISTRY",
+      "type": "code",
+      "title": "PC workspace registry",
+      "source": "../../tools/workspace_registry.py",
+      "status": "unverified"
+    },
+    {
+      "id": "TEST-PC-REGISTRY",
+      "type": "test",
+      "title": "Explicit intent and isolated process verification",
+      "source": "../../tests/test_registry_intent.py",
+      "status": "unverified"
     }
   ],
   "edges": [
@@ -280,6 +301,21 @@
       "from": "AC-LEGACY-SLOTS",
       "type": "exercised through",
       "to": "CODEX"
+    },
+    {
+      "from": "REQ-CODEX",
+      "type": "accepted by",
+      "to": "AC-PC-REGISTRY"
+    },
+    {
+      "from": "AC-PC-REGISTRY",
+      "type": "exercised through",
+      "to": "PC-REGISTRY"
+    },
+    {
+      "from": "AC-PC-REGISTRY",
+      "type": "checked by",
+      "to": "TEST-PC-REGISTRY"
     }
   ]
 }

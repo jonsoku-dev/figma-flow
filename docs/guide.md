@@ -199,7 +199,7 @@ Codex는 플러그인의 읽기 전용 문맥을 확인하고 프로필 선언�
 "$PY" -B "$PLUGIN_ROOT/tools/figma_control.py" serve --workspace "$WORKSPACE"
 ```
 
-`init`·`refresh`·`enable`·`serve`를 실행한 작업공간은 이 PC의 `~/.config/figma-flow/workspaces.json`에 경로와 플러그인 ID만 비공개(`0600`)로 기억되므로 다음 대화에서도 `setup-status`로 바로 재사용할 수 있습니다. `enable`은 `manifest.json`과 생성된 `code.js`에 제어 설정이 아직 없으면 `refresh_required: true`를 반환하고(`--refresh`로 자동 반영), 이미 반영돼 있으면 `refresh_required: false`를 반환해 불필요한 재시작을 만들지 않습니다. `serve`는 Figma Desktop과 같은 컴퓨터에서 유지합니다. `run`과 `status`는 Codex가 사용합니다. relay와 Figma Desktop은 localhost 연결을 사용합니다. 현재 연결 결과를 확인하고 원격 Codex에서는 Desktop 머신에 명령을 전달할 경로를 준비합니다.
+다음 대화에서 작업공간을 경로 없이 재사용하려면 `figma_workspace.py remember --workspace "$WORKSPACE"`로 PC에 기억시킵니다. 여러 공간 중 기본값을 지정하려면 같은 명령에 `--default`를 추가합니다. `setup-status`는 유효한 기본값 또는 유일한 후보를 찾고, 선택이 필요하면 `--workspace`로 지정할 경로를 안내합니다. 기존 등록은 계속 사용되며 포트 등 현재 상태는 해당 작업공간에서 읽습니다. `enable`은 `manifest.json`과 생성된 `code.js`에 제어 설정이 아직 없으면 `refresh_required: true`를 반환하고(`--refresh`로 자동 반영), 이미 반영돼 있으면 `refresh_required: false`를 반환해 불필요한 재시작을 만들지 않습니다. `serve`는 Figma Desktop과 같은 컴퓨터에서 유지합니다. `run`과 `status`는 Codex가 사용합니다. relay와 Figma Desktop은 localhost 연결을 사용합니다. 현재 연결 결과를 확인하고 원격 Codex에서는 Desktop 머신에 명령을 전달할 경로를 준비합니다.
 
 ```sh
 "$PY" -B "$PLUGIN_ROOT/tools/figma_control.py" run --workspace "$WORKSPACE" \
@@ -347,7 +347,7 @@ PROJECT="$(cd ../workshop-run && pwd)"
 
 ## 5. 고정 작업공간 등록과 검토 작업 준비
 
-아래 경로는 자신의 템플릿·비공개 작업공간으로 바꿉니다. `WORKSPACE`는 Git·공유 ZIP 밖에 두고 이후에도 같은 경로를 사용합니다. (`init`을 마치면 `$WORKSPACE` 경로가 이 PC의 `~/.config/figma-flow/workspaces.json`에 자동 저장됩니다.)
+아래 경로는 자신의 템플릿·비공개 작업공간으로 바꿉니다. `WORKSPACE`는 Git·공유 ZIP 밖에 두고 이후에도 같은 경로를 사용합니다. PC의 기본 작업공간으로 명시적으로 선택할 때는 초기화 뒤 `python3 -B tools/figma_workspace.py remember --workspace "$WORKSPACE" --default`를 실행합니다.
 
 ```sh
 WORKSPACE="/내/비공개/Figma-Flow-Workspace"
