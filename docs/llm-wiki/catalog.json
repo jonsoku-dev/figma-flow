@@ -18243,6 +18243,97 @@
           "version": "1.1.0"
         }
       ]
+    },
+    {
+      "commit": "c6b2c7c9f70128e4fccfde5df3edbb841a31c268",
+      "diff_sha256": "6a55cafdf2fd51892215bf76c9f2d04747c1c3c458feb19a6745bda0b81463f9",
+      "files": [
+        "CHANGELOG.md",
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/44ffbe810f042ed5b2b0cc31a88a2732df2b6883.md",
+        "docs/llm-wiki/patches/8006a765c56bdd1be3adf8ac6eb4a0bc7990e93f.md",
+        "docs/llm-wiki/patches/e69e7ac27bb2e9305de644e1a5930f92f8943b5d.md",
+        "docs/llm-wiki/releases.md"
+      ],
+      "parents": [
+        "44ffbe810f042ed5b2b0cc31a88a2732df2b6883"
+      ],
+      "subject": "docs: freeze RC2 with verified legacy queue recovery",
+      "tree": "15a3671de85d7b26c805664bdcd76d03b1c7e42a",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.1.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.1.0"
+        }
+      ]
+    },
+    {
+      "commit": "13ddf9a3ad3d4419ca7f873e41ff549b24659b4d",
+      "diff_sha256": "15e55546ffadee8b495fd90f55827815ca90edac7200bf34edd8547cf83a85b3",
+      "files": [
+        "tests/test_registry_intent.py"
+      ],
+      "parents": [
+        "c6b2c7c9f70128e4fccfde5df3edbb841a31c268"
+      ],
+      "subject": "test(registry): pin workspace consent and child isolation contracts",
+      "tree": "447ff799d07019421ba039d5ec20b3290cab79e0",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.1.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.1.0"
+        }
+      ]
+    },
+    {
+      "commit": "a49dd1d1b5794a295aa7e71a3983c5777adc5dc5",
+      "diff_sha256": "a08ba189c7c6bf593d67d6175e7509e704a937dfd7ed245971729baf1b4d5de0",
+      "files": [
+        ".github/workflows/little-hands.yml",
+        ".github/workflows/patch-knowledge.yml",
+        ".github/workflows/reference-guard.yml",
+        ".github/workflows/test.yml",
+        "CONTRIBUTING.md",
+        "docs/guide.md",
+        "library/delivery/little-hands.yml.in",
+        "library/delivery/patch-knowledge.yml.in",
+        "library/delivery/reference-guard.yml.in",
+        "library/delivery/test.yml.in",
+        "skills/figma-plugin-setup/SKILL.md",
+        "skills/patch-knowledge/SKILL.md",
+        "specs/codex-relay/graph.json",
+        "specs/codex-relay/spec.md",
+        "tests/test_delivery_review.py",
+        "tests/test_setup_continuity.py",
+        "tools/figma_control.py",
+        "tools/figma_workspace.py",
+        "tools/patch_knowledge_check.py",
+        "tools/test_env.py",
+        "tools/workspace_registry.py"
+      ],
+      "parents": [
+        "13ddf9a3ad3d4419ca7f873e41ff549b24659b4d"
+      ],
+      "subject": "fix(registry): require explicit workspace registration and isolate test configuration",
+      "tree": "4605f12b2f3864910ef0b004e8b01c43683be28d",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.1.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.1.0"
+        }
+      ]
     }
   ],
   "pages": {
@@ -18291,6 +18382,7 @@
     "1273bb3365947986b98b66a0b3e012d7a53b6e47": "862ebed33a277a141a87a0cc5756f62a6f7ed36329028e2b7d57a79f6c4b8055",
     "13551acbd622510721c128bcfea14f5be1c78d6c": "d0a53a30400b223fa5b465a5ef237c25f32d5d862d796bb5a9021989fc9d3193",
     "13c36f870bcca606cde9ba15a5cb238e2c3cc9b6": "3ffdca7760ca4f88f10a2cf6a370576e55e95837e337d0cc80590ea10d56678e",
+    "13ddf9a3ad3d4419ca7f873e41ff549b24659b4d": "220ef794e4d0463522a91db2aa4292da26ed6796c329a819f6a65ad98ac75aa1",
     "13ebd029c7d197cb7a0c6fbfbcd6cac7063a527b": "7d82331242eb5d70c0dda5ee11eaa07b672e9b2410a9ba879a18810400b8ab51",
     "142dfd97ed5bba73e787d99924a2693a3a86b61a": "ae48f7155217b25723041dbb94a637420e942ecb927b253dc65a16aebbee5c00",
     "1430fdfbed0cc7862ff2bbf9648c2faf468cf3de": "5f2b7a311e12c35569029d1556b3dd2842d65940a30d79ce1aeca5046864c300",
@@ -18583,6 +18675,7 @@
     "a1ede2a37a03f631dbad93047488031f661a29ca": "f88c676103d3f5b834186eec7e1b1179133e11c3d2877056da20059505bc05f6",
     "a447283ab18da87a078dbacb2b9ea937f820d100": "1c4c1b923809036605a83d8ea4cee8a57dcca82c67c309e4e8baa34865b04288",
     "a46a608d94731afdf0af5f1214d6e7b00dd495af": "bbf9829a5ee582ccafd43f5f4177b56e714794e9ca5cc7f5a21b944f13153132",
+    "a49dd1d1b5794a295aa7e71a3983c5777adc5dc5": "bfeac968a5f411fa9fe1d03c0cfeac469b78ac1f0a9209c22e163db7225b520d",
     "a5e4a098726872e9953e92da36065f4789f22811": "80e2d8e8721bb5f034c7077ee2e006c2bdc7766a7c9684c3664fc708731e138e",
     "a60f977b0093ea35f98d731c197e09f1667dbc75": "042be96fc647eb926e4a73c7b8cd0abab87342c59956acb1ad1d2f3e8e6d250d",
     "a7378b827b74e34a6a1129f4c172303242ec73ed": "80779eb5cc8b9f49377f958bc6c0f91ff6b36ce02cee0826b88dd8453e81f5ed",
@@ -18660,6 +18753,7 @@
     "c4b09947d122d1a7fc17db168812835bb857ec52": "635000360be38c4c4330e29e978fc22976a8d41b14aca66cc6620528843a1de6",
     "c4f8338c4803f88807fab96f58607d8e9f2652df": "66354fee2f0e1f98052d7437da64b97dc03f51c545452e4533f9cc6c0423ae69",
     "c5b37301ab91987b07ec317b28ee9ecb27c1fc7a": "f3348ee3c4abba04e80ae60f0064807fe07151955dc28031e28a4852aeab6b4e",
+    "c6b2c7c9f70128e4fccfde5df3edbb841a31c268": "77c41a3f1da1f5a950c065f9f6c0cf2296113c8248e1372788abba139f3df3ec",
     "c71aabb35f06b4ce860b36837be44d17b8bd2d6c": "8d0feebaee0b371f243474a9cea17cbe0dfcee8d4f0a9a461d466bf7ab2ce623",
     "c7327603e61a28342f6ebb1338e6758360f75251": "ef5ec8cef119175a450f8ef8ce4af21eea5cdb4502d9a2ca87f6e96f79e85f2b",
     "c7542812a50647435b8236c22e96ced91a422b2c": "3b53b0a4e27ca06be7e0519450a933e9ef1fad379379b204cd036eae2ae5da15",
@@ -19170,6 +19264,10 @@
     },
     {
       "observed_at_commit": "9cc80b26063a49324650aaa8c978079a173cd9b3",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "a49dd1d1b5794a295aa7e71a3983c5777adc5dc5",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -19688,7 +19786,7 @@
     },
     {
       "source_commits": [
-        "44ffbe810f042ed5b2b0cc31a88a2732df2b6883"
+        "a49dd1d1b5794a295aa7e71a3983c5777adc5dc5"
       ],
       "tagged": false,
       "tags": [],
@@ -19699,7 +19797,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "44ffbe810f042ed5b2b0cc31a88a2732df2b6883",
+  "source_commit": "a49dd1d1b5794a295aa7e71a3983c5777adc5dc5",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",

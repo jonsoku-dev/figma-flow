@@ -2,6 +2,8 @@
 
 ## 1.1.0 · 2026-11-28
 
+- PC에서 재사용할 작업공간은 `figma_workspace.py remember --workspace PATH`로 등록하고, 기본값은 `--default`로 선택합니다. 여러 등록 중 기본값이 없으면 경로를 직접 지정할 수 있습니다. 테스트 명령은 임시 XDG 설정으로 실행됩니다. [RC3 등록과 테스트 격리](docs/llm-wiki/patches/a49dd1d1b5794a295aa7e71a3983c5777adc5dc5.md)
+
 - 이전 포화 큐에서 누락된 작업은 원래 ID로 조회해 복구할 수 있습니다. 보류 중에는 같은 파일의 중복 접수를 막고 상태 조회 방법을 표시합니다. [이전 큐 복구](docs/llm-wiki/patches/44ffbe810f042ed5b2b0cc31a88a2732df2b6883.md)
 
 - 작업 파일 64개를 다시 열어 상태를 조회할 수 있습니다. 모두 진행 중이면 새 파일 요청에 혼잡 안내를 표시합니다. 메트릭과 세션 목록에는 같은 진행 상태가 표시됩니다. [파일별 작업 슬롯](docs/llm-wiki/patches/d2035bc66468b51fef14f8e1c7902391cc0a41fa.md)
