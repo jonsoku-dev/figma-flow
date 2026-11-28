@@ -1,6 +1,18 @@
 # 변경 기록
 
-## 미출시
+## 1.1.0 · 2026-11-28
+
+- 여러 Figma Design 탭에서 동시에 파일을 열고 작업해도 서로 상태를 덮어쓰지 않으며, 플러그인 등록·1회 설정·오프라인 원인 진단 안내를 개선했습니다. 1회 설정을 마친 작업공간은 세션이 바뀌어도 재사용할 수 있고, 선택형 메트릭·SSoT 스캐너·패널 품질 게이트를 추가했습니다. [1.1.0 배포 기록](docs/llm-wiki/releases.md#v1.1.0) · [빠른 시작 안내](docs/guide.md)
+
+- 멀티탭 동시 작업을 지원하도록 `tools/figma_control.py`에 `sessions` 부명령과 `--file-key`·`--session-id` 지정 옵션을 추가하고, `active.json`(`by_file`/`active_for_file`)과 `RELAY_STATES`(`sessions`/`active_by_session`) 및 읽기 결과·진행 알림을 파일·세션 단위로 분리했습니다. [멀티탭·패널 진단 기록](docs/llm-wiki/patches/06976347ca2b75b089c99c50d40b30b153d709ff.md)
+
+- Figma 패널 뷰어(`RelayViewer.jsx`, `workspace_control.js`, `workspace_host.js`)가 오프라인·설정 누락·`fileKey` 미확인·구버전 런타임(`missing-control-config`, `file-key-unavailable`, `stale-runtime`, `server-unreachable`)을 구분해 표시하고, 상세 접기 영역에 `플러그인 ID · 제어 포트 · 세대`를 노출합니다. `docs/guide.md`, `skills/figma-plugin-setup/SKILL.md`, `specs/codex-relay/spec.md`, `README.md`의 1회 설정·세션·멀티탭 가이드를 통합·보강했습니다. [사용 안내](docs/guide.md)
+
+- 하드코딩된 호스트·포트·timeout·경로·한도·스키마 ID를 검출하는 SSoT 스캐너(`tools/ssot_scan.py`)를 `maintenance.py check`에 연결하고 기준선을 0건(`entries: {}`)으로 비웠습니다. `policy.json`의 `controlEndpoint`(`tools/local_endpoint.py`), 스키마 ID(`tools/schema_ids.py`), 실행 한도(`tools/runtime_limits.py`), `0600` 쓰기(`tools/private_io.py`)와 JS·패널 `mirrors` 검증을 일원화했습니다. [유지보수 검증 절차](docs/maintenance-verification.md) · [패치 기록](docs/llm-wiki/patches/375988904b40854a90adf8ef9c654beb4e6faa5c.md)
+
+- 이미 설정한 작업공간과 플러그인을 매 세션 다시 설정하라는 반복 안내를 없애기 위해 로컬 작업공간 레지스트리(`~/.config/figma-flow/workspaces.json`, `0600`), 상태 한눈 확인 명령(`figma_control.py setup-status`·연결 탭 수 포함), `enable --refresh` 중복 refresh 방지, `plugin_startup.py` 라이브 확인, `workspace_control.js` 프로필 자동 재로드를 추가했습니다. [연결 스킬](skills/figma-plugin-setup/SKILL.md)
+
+- PC별로 선택해 켜는 양방향 어댑터 기반 메트릭 노출·외부 API 연계 기능(`tools/metrics/`, `library/metrics/schema.json`, `http-json`/`otlp-http`/`jsonl-file`/`statsd-udp`)과 CLI(`figma_control.py metrics`)를 추가했습니다. 기본값은 완전 비활성(`NullRecorder`)이며 외부 수집기 장애 시에도 Figma 제어 흐름을 차단하지 않습니다. [메트릭 스펙](specs/metrics-export/spec.md)
 
 - 현재 패널 45개 파일의 검증 근거를 다시 실행해 개발 비교에 남던 과거 지적을 정리했습니다. [재검증 기록](docs/llm-wiki/patches/7cf6d3813e5ed9efa3a6db9a8d55705e86c89e23.md)
 
