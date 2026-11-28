@@ -18096,6 +18096,80 @@
           "version": "1.1.0"
         }
       ]
+    },
+    {
+      "commit": "42bc1e29f797383fde8861fbced671a9091b7ff5",
+      "diff_sha256": "ace8306571ead36ec12b8606f6578bfc4333d5dae22fbd4ac3e1246ae4bd3d48",
+      "files": [
+        "CHANGELOG.md",
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/163aab118eb134d6fd8d677a1644f2d78dde4532.md",
+        "docs/llm-wiki/patches/97f1e29baba2695995705b8001115f774d31214a.md",
+        "docs/llm-wiki/patches/cae9f166bff0a1e888f55f5e943fec224643bf11.md",
+        "docs/llm-wiki/patches/e34a0b87f2c9b44a6d6f90a79fea37c362731ba3.md",
+        "docs/llm-wiki/releases.md"
+      ],
+      "parents": [
+        "97f1e29baba2695995705b8001115f774d31214a"
+      ],
+      "subject": "docs: record local 1.1.0 concurrency and API release fixes",
+      "tree": "ea64206a87a5167df7644e3961728b6153a53850",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.1.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.1.0"
+        }
+      ]
+    },
+    {
+      "commit": "381a98e8bff21e3272102549101b3c76448c6403",
+      "diff_sha256": "72ce6969e7f1fb528c632f8d6a05c27ba614803641d6f90cb105545ef695f51a",
+      "files": [
+        "tests/test_active_file_index.py"
+      ],
+      "parents": [
+        "42bc1e29f797383fde8861fbced671a9091b7ff5"
+      ],
+      "subject": "test(control): pin active index capacity and observation contracts",
+      "tree": "68f62ba49089c58e48e08170735ee85a7e382a88",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.1.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.1.0"
+        }
+      ]
+    },
+    {
+      "commit": "d2035bc66468b51fef14f8e1c7902391cc0a41fa",
+      "diff_sha256": "295eecf6f2b4bed398250aa68a7d62cb508aa402054133e95b25bc28e3b1b0e4",
+      "files": [
+        "specs/codex-relay/graph.json",
+        "specs/codex-relay/spec.md",
+        "tools/figma_control.py"
+      ],
+      "parents": [
+        "381a98e8bff21e3272102549101b3c76448c6403"
+      ],
+      "subject": "fix(control): admit files without dropping live operations",
+      "tree": "1f6f519c4948851c130417ab86aed069b9c09433",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.1.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.1.0"
+        }
+      ]
     }
   ],
   "pages": {
@@ -18217,6 +18291,7 @@
     "368db1a9826de1455fe1d4598671ddd57bb9aa77": "85c68530537fe7fe3677352ac0a3b80c7e3e9c66353e241572d69cf29d57e5c6",
     "375988904b40854a90adf8ef9c654beb4e6faa5c": "64bc581d0dfce99b695b47a0a972d5a58b3a58d3403a746c59254a2e7baedffe",
     "37f3fde2e8ab54ba82e54bbbba81f82f3956b661": "f4a36ee84c1fe8be3378876d6d78c0a198f93d3b1ff289a9de6f9d9a93de818e",
+    "381a98e8bff21e3272102549101b3c76448c6403": "62f1a0edf3d6665bfc294d2e4814071d95f58026975bbfa684319e1ef2fe6efe",
     "38305137a3623b70efc287b6d9c1fdc3d6197751": "12b69b896fa509b0caec40da21e9644224b42b78942af1c267647205f3bae1c8",
     "389964b782c69b05fc305c094640132a8aea7a44": "f8739bf7409f6ab1342b1883a3c7db1e44c9bf9ce5e2226b7bf62f3f544a4948",
     "3932393cfd5cdb40edf38f0ecbc8f997cf7a9bbf": "b6bc45a4b9ed3a81dd12c2a474172ce272175c1194600e3cc6193171b4ff035f",
@@ -18242,6 +18317,7 @@
     "42752d575ebe17ca5b10a176a29d6525719685b0": "86abf1a25289370752187249e5f15d959da958f30c2dfd80b0aa43ace4e8d421",
     "428a358688a50116956006b734b5ad850c88bbf6": "fe6e2939926d72b3d1b95870813b4be17831db8599445ed3fdc3ff1e389a87a6",
     "42ac878ba11ff3837fb0b5ed52dd38aa8e94304e": "ea8094d041179de501c98c40a98d871d1f98bba2f1a2ac6b4396aa754f5390f7",
+    "42bc1e29f797383fde8861fbced671a9091b7ff5": "4db16a1af405c3f144124d689eacc723e3f6d591bd88e0673b5133f4a3e8872c",
     "42d1c1893bc3325c029ff36dedbe399b04b69bbe": "c9aba5583a679c40c9cb96c775783fb8062204ee58d423008f6daf51303363db",
     "43a8b1ba64d276a79e4d6429b9b2b0a9175c5e2f": "6a04bf9a05de4f803e55d6b64b9335a059ec38355bacf463607f871de2b8aa00",
     "452acf1302bdc37269a31977773a7f277e45d212": "ecda0b5be8b327f47912fb86ffcf62fabc846aa27d23703d7c14cf7a0868c266",
@@ -18535,6 +18611,7 @@
     "d00b3ac9d5ec90137d9a4f5c83c0ee2f2c9f3999": "4d259ce566853681178ec2b80fada97d6fba6ee7b1f1ec6f0b6e5d13183caa1e",
     "d12b467a821bc1984f3166f646f5359b208171fb": "53a719238ee62586ab01c8ecc53269aa5ab60eb84265679cf52597c76052a781",
     "d161ee42784220bf20a3fb0649fcb7d3c3c3af18": "81899b8b791caf981018417dcb41425411a6356308303a68ecfdca51b6322098",
+    "d2035bc66468b51fef14f8e1c7902391cc0a41fa": "9343ed92444ecdee1737b27c9dd5ad9a42cab7fef8962ad84ba51efa1e24bf22",
     "d2122ffbe9ec04470f69dba3010eef0def1fdc6b": "3bd936504f621cb92eafa983678f89bf0f9b38ab7415ca0dd129171d1ffefcbe",
     "d26df89c9f8b0ec5ca704c02acc07c23222e6047": "44136ad2fbad548dccea5a15cc40d7c47852d9494ad54088a7aa094d03828da3",
     "d2de8c2b7c390e259c0535a7ca32d6fea7e83661": "41cc02ea7db9324c6f2e6ccc146d7d02a949f3d0dbd715b051953172933c69e2",
@@ -19104,6 +19181,10 @@
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
+      "observed_at_commit": "d2035bc66468b51fef14f8e1c7902391cc0a41fa",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
       "observed_at_commit": "d26df89c9f8b0ec5ca704c02acc07c23222e6047",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
@@ -19527,7 +19608,7 @@
     },
     {
       "source_commits": [
-        "97f1e29baba2695995705b8001115f774d31214a"
+        "d2035bc66468b51fef14f8e1c7902391cc0a41fa"
       ],
       "tagged": false,
       "tags": [],
@@ -19538,7 +19619,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "97f1e29baba2695995705b8001115f774d31214a",
+  "source_commit": "d2035bc66468b51fef14f8e1c7902391cc0a41fa",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",

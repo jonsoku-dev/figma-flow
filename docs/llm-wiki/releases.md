@@ -10,6 +10,8 @@
 
 ## v1.1.0
 
+두 번째 로컬 후보는 [다중 파일 큐의 용량·영수증·관측 상태](patches/d2035bc66468b51fef14f8e1c7902391cc0a41fa.md)를 보강했다.
+
 로컬 후보에 [설정과 등록의 동시 쓰기 보존](patches/e34a0b87f2c9b44a6d6f90a79fea37c362731ba3.md) 및 [고정 TypeScript의 API 정적 결과](patches/97f1e29baba2695995705b8001115f774d31214a.md)를 포함한다.
 
 로컬 RC는 중복 요청·오래된 revision·불확실한 쓰기를 구분해 복구 절차를 안내한다. [실제 후보 검수와 수정](patches/38305137a3623b70efc287b6d9c1fdc3d6197751.md).
