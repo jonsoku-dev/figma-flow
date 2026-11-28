@@ -622,7 +622,11 @@ def readiness(root=None):
             'operations': {kind: sorted(operations) for kind, operations in OPERATIONS.items()}}
 
 
-class ReadinessError(ValueError):
+class ControlDiagnostic(ValueError):
+    """CLI-safe recovery guidance. Never include request values or private paths."""
+
+
+class ReadinessError(ControlDiagnostic):
     pass
 
 
@@ -707,7 +711,9 @@ def task(root, request):
     catalogue = workspace.current(root)
     matches = [row for row in catalogue['tasks'] if row['key'] == request['key']]
     if len(matches) != 1 or matches[0]['revision'] != request['revision']:
-        raise ValueError('Unknown or stale prepared task')
+        raise ControlDiagnostic(
+            'Unknown or stale prepared task. Run figma_workspace.py list --workspace WORKSPACE, '
+            'review the task and its scope, then use its current --expected-revision.')
     row = matches[0]
     if request['operation'] not in OPERATIONS.get(row['kind'], set()):
         raise ValueError('Operation is not admitted for this task kind')
@@ -1316,9 +1322,14 @@ def enqueue(root, key, operation, file_key, page_id, revision, timeout, *, focus
         directory = state_dir(root)
         previous = active_for_file(directory, file_key)
         if previous and previous['state'] not in TERMINAL:
-            raise ValueError('An operation is already active for this file; inspect its status')
+            raise ControlDiagnostic(
+                'An operation is already active for this file. Run figma_control.py status --workspace WORKSPACE '
+                '--file-key FILE_KEY and wait for the active operation to finish.')
         if uncertainties_for_file(directory, file_key) and operation not in READ_ONLY_OPERATIONS:
-            raise ValueError('Previous claimed operation is uncertain; re-read the native state before starting another command')
+            raise ControlDiagnostic(
+                'Previous claimed operation is uncertain. Run figma_control.py status --workspace WORKSPACE '
+                '--file-key FILE_KEY. Run a prepared --operation read for the affected file and page and reconcile '
+                'the result before submitting another write.')
         if not isinstance(fresh, bool) or (fresh and operation != 'import'):
             raise ValueError('Fresh import is available only for import operations')
         selection = None
@@ -2139,7 +2150,7 @@ def setup_status(root=None):
                 result['profile'] = primary.get('profile')
                 result['context_fingerprint'] = primary.get('context_fingerprint')
                 result['profile_confirmed'] = not unconfirmed
-        except (ReadinessError, OSError, ValueError):
+        except (OSError, ValueError):
             pass
 
     already_configured = result['workspace_initialized'] and result['control_enabled'] and result['manifest_synced']
@@ -2315,7 +2326,7 @@ def main(argv=None):
                     value = status(args.workspace, value['id'])
         print(json.dumps(value, ensure_ascii=True, allow_nan=False))
         return 2 if value.get('state') in {'error', 'uncertain', 'expired', 'scope-changed', 'unconfirmed', 'offline', 'stale-native', 'busy'} else 0
-    except ReadinessError as error:
+    except ControlDiagnostic as error:
         print('figma-control: ' + str(error), file=sys.stderr)
         return 2
     except (ValueError, OSError, KeyError, TypeError):

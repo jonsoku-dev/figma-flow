@@ -113,6 +113,13 @@
       "title": "RelaySelection.jsx",
       "status": "unverified",
       "source": "../../panel-ui/src/RelaySelection.jsx"
+    },
+    {
+      "id": "TEST-RUN-REJECTIONS",
+      "type": "test",
+      "source": "../../tests/test_control_cli_rejections.py",
+      "title": "CLI recovery guidance and private queue preservation",
+      "status": "unverified"
     }
   ],
   "edges": [
@@ -205,6 +212,11 @@
       "from": "PARITY",
       "type": "checked by",
       "to": "TEST-PARITY"
+    },
+    {
+      "from": "CODEX",
+      "type": "verified by",
+      "to": "TEST-RUN-REJECTIONS"
     }
   ]
 }
