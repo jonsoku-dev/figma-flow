@@ -1,13 +1,42 @@
 import copy
+import json
+import os
 from pathlib import Path
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'tools'))
 
 import graph_governance as gate
+
+
+class ContractConfigTests(unittest.TestCase):
+    def test_named_contract_uses_private_config_and_preserves_tap(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            tests = root / 'tests'
+            tests.mkdir()
+            parent = root / 'parent-config'
+            parent.mkdir(mode=0o700)
+            trace = root / 'child.json'
+            script = tests / 'contract.cjs'
+            with patch.dict(os.environ, XDG_CONFIG_HOME=str(parent)):
+                for expected in ('passed', 'incomplete'):
+                    script.write_text("const fs = require('node:fs'); require('node:test')('named case', () => {"
+                                      "const p = process.env.XDG_CONFIG_HOME;"
+                                      f"fs.writeFileSync({json.dumps(str(trace))}, JSON.stringify([p, fs.statSync(p).mode & 0o777]));"
+                                      + ("throw Error('synthetic failure');" if expected == 'incomplete' else "")
+                                      + "});")
+                    proof = gate.contract_proof(root, {'tests/contract.cjs': ['named case']})
+                    self.assertEqual(proof['status'], expected)
+                    child, mode = json.loads(trace.read_bytes())
+                    self.assertNotEqual(Path(child), parent, 'named Node contract must isolate child XDG')
+                    self.assertEqual(mode, 0o700)
+                    self.assertFalse(Path(child).exists())
+                    self.assertEqual(list(parent.iterdir()), [])
 
 
 class PanelGovernanceTests(unittest.TestCase):
