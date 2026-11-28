@@ -183,6 +183,20 @@
       "title": "Named Node contract process uses and cleans a private configuration",
       "source": "../../tests/test_graph_governance.py",
       "status": "unverified"
+    },
+    {
+      "id": "AC-LOCAL-READINESS",
+      "type": "acceptance",
+      "source": "spec.md",
+      "title": "Local control readiness is independent of reverse DNS",
+      "status": "unverified"
+    },
+    {
+      "id": "TEST-LOCAL-READINESS",
+      "type": "test",
+      "source": "../../tests/test_control_loopback_startup.py",
+      "title": "CLI announces the bound port and serves authenticated readiness without reverse lookup",
+      "status": "unverified"
     }
   ],
   "edges": [
@@ -340,6 +354,21 @@
       "from": "AC-PC-REGISTRY",
       "type": "checked by",
       "to": "TEST-NAMED-CONTRACT-CONFIG"
+    },
+    {
+      "from": "REQ-CODEX",
+      "type": "accepted by",
+      "to": "AC-LOCAL-READINESS"
+    },
+    {
+      "from": "AC-LOCAL-READINESS",
+      "type": "exercised through",
+      "to": "CODEX"
+    },
+    {
+      "from": "AC-LOCAL-READINESS",
+      "type": "checked by",
+      "to": "TEST-LOCAL-READINESS"
     }
   ]
 }

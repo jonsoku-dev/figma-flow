@@ -17,6 +17,7 @@ import os
 from pathlib import Path
 import re
 import secrets
+from socketserver import TCPServer
 import sys
 import threading
 import time
@@ -2248,6 +2249,15 @@ def setup_status(root=None):
     return result
 
 
+class LoopbackControlServer(ThreadingHTTPServer):
+    """Bind the local control socket without the HTTP server's reverse DNS lookup."""
+
+    def server_bind(self):
+        TCPServer.server_bind(self)
+        self.server_name = local_endpoint.ORIGIN_HOST
+        self.server_port = self.server_address[1]
+
+
 def serve(root):
     root = workspace.private_dir(root)
     with workspace.locked(root):
@@ -2259,7 +2269,7 @@ def serve(root):
         if os.fstat(lock.fileno()).st_mode & 0o077 or os.fstat(lock.fileno()).st_uid != os.getuid():
             raise ValueError('Control server lock must be owner-only')
         workspace.fcntl.flock(lock, workspace.fcntl.LOCK_EX | workspace.fcntl.LOCK_NB)
-        with ThreadingHTTPServer((local_endpoint.BIND_HOST, value['port']), Handler) as server:
+        with LoopbackControlServer((local_endpoint.BIND_HOST, value['port']), Handler) as server:
             server.workspace, server.token = root, value['token']
             hub = get_metrics_hub(root, start_workers=True)
             print(json.dumps({'serving': True, 'port': value['port']}), flush=True)
