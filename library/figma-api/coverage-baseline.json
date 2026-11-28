@@ -1,7 +1,7 @@
 {
   "counts": {
-    "no-static-reference": 633,
-    "qualified-static-reference": 71,
+    "no-static-reference": 632,
+    "qualified-static-reference": 72,
     "unresolved-receiver-name-reference": 678
   },
   "declaration_sha256": "46685808f4994664397367ff855ff87619f8177370da572f7d3acfd2553dc95a",
@@ -35,7 +35,7 @@
       "id": "PluginAPI.pluginId#4",
       "implementation": "unverified",
       "runtime_acceptance": "unverified",
-      "status": "no-static-reference"
+      "status": "qualified-static-reference"
     },
     {
       "id": "PluginAPI.widgetId#5",
@@ -8401,7 +8401,7 @@
     },
     {
       "path": "figma-bridge/workspace_changes.js",
-      "sha256": "4de4c2bb19094dae42e89701943c12648570b10dcfdf4cd917a086391727ae92"
+      "sha256": "6880a1d0321625b8896dc126c680b28ebab00ae15a950d8cec4b60a78b33043f"
     },
     {
       "path": "figma-bridge/workspace_chat.js",
@@ -8409,11 +8409,11 @@
     },
     {
       "path": "figma-bridge/workspace_control.js",
-      "sha256": "e6d66efcf6edf273f7b065250121c5369b521167d1b1cffa540184693fa53ee1"
+      "sha256": "96b9cfe45f1668cbcdba59927b3aedc5af4c13037c1869e94a820ae97e815118"
     },
     {
       "path": "figma-bridge/workspace_host.js",
-      "sha256": "136edef77914f024c7f2b8e043a8b3b21434fb05a3f0107c20e0717676889ecd"
+      "sha256": "207d924a04006d71cddb1937fe6f06f8e962a953b6fd16c2fd608edbee2fbb47"
     },
     {
       "path": "figma-bridge/workspace_profile.js",
@@ -8421,7 +8421,7 @@
     },
     {
       "path": "figma-bridge/workspace_transport.js",
-      "sha256": "0c2cf2bbc58a1c002331551de5000c1454d1f32bb7fafbb5bad429bdf90e06f9"
+      "sha256": "2a13a0b3b0747bfdcb07ecdba6ab6d7e6f2251976d766912b25bd9bf1b3d3cec"
     },
     {
       "path": "library/figma-recipes/bundled/design-shapes.js",
