@@ -16,7 +16,7 @@
 
 ## 변경 파일과 인터페이스
 
-부모의 제품 내용 이후 CHANGELOG, Wiki 목록 및 패치 페이지를 추가했다.
+부모 제품 커밋 이후 `CHANGELOG.md`와 `docs/llm-wiki/releases.md`에 변경을 기록하고 `docs/llm-wiki/catalog.json` 및 개별 패치 페이지에 근거를 연결했다.
 
 ## 설계 이유와 출처
 
