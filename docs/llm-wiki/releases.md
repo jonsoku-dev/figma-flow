@@ -8,7 +8,13 @@
 
 `catalog.json`과 `patch_knowledge.py inventory`가 실제 커밋·부모·파일·diff 해시·태그·매니페스트를 제공한다. 아래 목록은 본문을 보존하는 사람이 읽는 연결이다. 태그 없는 버전, 겹친 버전, CHANGELOG에만 남은 버전을 명시한다. 과거 테스트 코드의 존재를 당시 성공 실행으로 세지 않는다.
 
+## v1.1.1
+
+macOS 호스트에서 로컬 제어 서버를 시작할 때 시스템 역방향 DNS 조회가 지연되면 기존 20초 준비 검사가 실패했다. 호스트는 이제 주소를 숫자 루프백에 바인딩하고 준비 요청에 현재 구현 지문을 반환한다. 인증 방식과 접속 주소는 같다. [macOS 재현](https://github.com/jonsoku-dev/figma-flow/actions/runs/46141545656) · [회귀 검사](../../tests/test_control_loopback_startup.py)
+
 ## v1.1.0
+
+태그는 `3a58cac5e37bfbf647c494515e62a1069b22bc51`에 보존했다. macOS 제품 검사의 준비 시간 초과로 이 버전의 GitHub Release는 초안에 두고 1.1.1에서 원인을 수정했다.
 
 최종 RC3는 [release 프로필의 독립 패키지 import](patches/150aeeb1fc28b14fec5af09af0b6351f1b709f74.md)를 복구했다.
 
