@@ -10,6 +10,8 @@
 
 ## v1.1.0
 
+최종 RC2는 [RC1의 누락된 활성 요청 인계](patches/44ffbe810f042ed5b2b0cc31a88a2732df2b6883.md)와 기존 슬롯 검사의 직접 인수 간선을 포함한다.
+
 두 번째 로컬 후보는 [다중 파일 큐의 용량·영수증·관측 상태](patches/d2035bc66468b51fef14f8e1c7902391cc0a41fa.md)를 보강했다.
 
 로컬 후보에 [설정과 등록의 동시 쓰기 보존](patches/e34a0b87f2c9b44a6d6f90a79fea37c362731ba3.md) 및 [고정 TypeScript의 API 정적 결과](patches/97f1e29baba2695995705b8001115f774d31214a.md)를 포함한다.

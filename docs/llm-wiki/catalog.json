@@ -18170,6 +18170,79 @@
           "version": "1.1.0"
         }
       ]
+    },
+    {
+      "commit": "e69e7ac27bb2e9305de644e1a5930f92f8943b5d",
+      "diff_sha256": "3e6762fd096820001137a1a9f69281615408032420bc9643c93a915eb3be75cf",
+      "files": [
+        "CHANGELOG.md",
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/381a98e8bff21e3272102549101b3c76448c6403.md",
+        "docs/llm-wiki/patches/42bc1e29f797383fde8861fbced671a9091b7ff5.md",
+        "docs/llm-wiki/patches/d2035bc66468b51fef14f8e1c7902391cc0a41fa.md",
+        "docs/llm-wiki/releases.md"
+      ],
+      "parents": [
+        "d2035bc66468b51fef14f8e1c7902391cc0a41fa"
+      ],
+      "subject": "docs: record local 1.1.0 RC2 file queue acceptance",
+      "tree": "40ac414d343428714912384965673f57d7e18278",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.1.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.1.0"
+        }
+      ]
+    },
+    {
+      "commit": "8006a765c56bdd1be3adf8ac6eb4a0bc7990e93f",
+      "diff_sha256": "0565dcc67424d05bf0d5c8185b5310a095fc045a829cff18affa02a27484d365",
+      "files": [
+        "tests/test_legacy_slot_recovery.py"
+      ],
+      "parents": [
+        "e69e7ac27bb2e9305de644e1a5930f92f8943b5d"
+      ],
+      "subject": "test(control): pin RC1 displaced request upgrade cases",
+      "tree": "8b7f7dc23bd00c4ee5657ebd863fd41d6801878f",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.1.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.1.0"
+        }
+      ]
+    },
+    {
+      "commit": "44ffbe810f042ed5b2b0cc31a88a2732df2b6883",
+      "diff_sha256": "12f7faef79678eaa275467c9227c68750d45e8a895664a935d28a8c0d60c87ed",
+      "files": [
+        "specs/codex-relay/graph.json",
+        "specs/codex-relay/spec.md",
+        "tools/figma_control.py"
+      ],
+      "parents": [
+        "8006a765c56bdd1be3adf8ac6eb4a0bc7990e93f"
+      ],
+      "subject": "fix(control): recover displaced RC1 operations before admitting new work",
+      "tree": "912273af7459c25e571cdf5e4cffd3e3c98a2302",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.1.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.1.0"
+        }
+      ]
     }
   ],
   "pages": {
@@ -18320,6 +18393,7 @@
     "42bc1e29f797383fde8861fbced671a9091b7ff5": "4db16a1af405c3f144124d689eacc723e3f6d591bd88e0673b5133f4a3e8872c",
     "42d1c1893bc3325c029ff36dedbe399b04b69bbe": "c9aba5583a679c40c9cb96c775783fb8062204ee58d423008f6daf51303363db",
     "43a8b1ba64d276a79e4d6429b9b2b0a9175c5e2f": "6a04bf9a05de4f803e55d6b64b9335a059ec38355bacf463607f871de2b8aa00",
+    "44ffbe810f042ed5b2b0cc31a88a2732df2b6883": "0816ac69b8f25dd2e64881c32df2eee9d6a981051e98a010473f0f5b393be3cd",
     "452acf1302bdc37269a31977773a7f277e45d212": "ecda0b5be8b327f47912fb86ffcf62fabc846aa27d23703d7c14cf7a0868c266",
     "456cb515719974311b0051ac86e7e3d764aa18d4": "67b78cce4d3b87d16d9403b9ffb0b21a20bea3c9a1305a45d71b790155a12397",
     "45ea99992ade788ed7d25de89982652e863e44c7": "ff680017620f851353098263e029734d60eb1339b3e2c27a9f11ba91966027b3",
@@ -18427,6 +18501,7 @@
     "7db78d6f3cd8205222288a5e445d06a9c64a8216": "2b77c75395617714d054f885bedd97b313226ed332a4e61944c87e56b7a9a1da",
     "7f37a138bae2b4c4977405352fab16f658dd03cf": "fb2031c9c4d9fcb775334bf5ef16c5441c6360268c479897dfb989fbd04c736b",
     "7f3dcace11483535593ed7a14bddd98314c4e785": "f7a6aeff19716693fb277d3e55574ca00699b709536b8f6483f30a8bcdfb6715",
+    "8006a765c56bdd1be3adf8ac6eb4a0bc7990e93f": "2779efe5c4f25c61a430efcf35b6262e76639b1e468a6955b3a25741263df8a7",
     "80742c55590c46e85ca8289298abc0a58371a9a8": "c446cccd82c9fa35acfcd6885b96461f92ee0dd56a6eb3f46d92f7d1c41c8c15",
     "80e8cf9ea1c9569f24455ffef3688d90d2d544d2": "77c5ecec2f545df888b1783a46dd992ab202912f4258f70b133a934d7e2a9430",
     "81f102ffec9bee7f7af20df9783e883b5b574b63": "eb5deced60add65d630eb2e3c0ba05a53d06fb3280e3e1afd23298593a5dbe4b",
@@ -18661,6 +18736,7 @@
     "e4f2da50dbc3224119d70b99cb687c8951764cb8": "fec51957da5e3bfb168f509c57cc8c0a920d05b6832cf2df0ceb79642564528e",
     "e4f974ffeed2f9509c948141bce42de13027d157": "0fafc04266ee9445ce0675b04c7523ce0f0888af3d5e182ed0b09dd6399ef0cb",
     "e69bc58d0ef5e0d7a2e127924d2ce23f6963cae5": "58e93d455b241bcafa1892b730ea18be1c3bd194a07050552d3076ac057010ee",
+    "e69e7ac27bb2e9305de644e1a5930f92f8943b5d": "5eaa2a350b583f7581e6db165011594a774b3eaba545192871cced7e62e99504",
     "e6b71d55b51c980224e130e399e53502bd79e04d": "4a35a8ccaac574d07901216879cbc512aab2ddf3649596b589210a65fc838878",
     "e6f4fd848a11cd292d9f8d9f50dad54ccb53ea10": "8a34bee32fe9ddc41543864e28c8aabf3ad93b9286d249cbd4b69d65c62620fb",
     "e70d94b4cf7be62536c74157a52aa6ec0c3c9a09": "ab7888f55aab9338d682d4bb23ca65ec862c99a534bc31de1f1fcc881080a7f6",
@@ -18870,6 +18946,10 @@
     },
     {
       "observed_at_commit": "42d1c1893bc3325c029ff36dedbe399b04b69bbe",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "44ffbe810f042ed5b2b0cc31a88a2732df2b6883",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -19608,7 +19688,7 @@
     },
     {
       "source_commits": [
-        "d2035bc66468b51fef14f8e1c7902391cc0a41fa"
+        "44ffbe810f042ed5b2b0cc31a88a2732df2b6883"
       ],
       "tagged": false,
       "tags": [],
@@ -19619,7 +19699,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "d2035bc66468b51fef14f8e1c7902391cc0a41fa",
+  "source_commit": "44ffbe810f042ed5b2b0cc31a88a2732df2b6883",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
