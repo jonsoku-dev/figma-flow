@@ -10,22 +10,13 @@ jobs:
     timeout-minutes: 8
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: 5080a2b2738fdf5b6300a04b90304cd8f3c0b82a
       - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0
         with:
           python-version: '3.13'
-      - name: Exercise the original CLI tests and record a bounded stack on timeout
+      - name: Check the candidate and original failing CLI tests on hosted macOS
         run: |
-          python - <<'PY'
-          from pathlib import Path
-          p=Path('tools/figma_control.py')
-          s=p.read_text().replace('def serve(root):', '''def serve(root):
-              import faulthandler
-              faulthandler.dump_traceback_later(4, repeat=True)''')
-          p.write_text(s)
-          p=Path('tests/test_registry_intent.py')
-          s=p.read_text().replace('                p.communicate(timeout=10)', '''                _, err = p.communicate(timeout=10)
-                          if err:
-                              print(err[-12000:], flush=True)''')
-          p.write_text(s)
-          PY
-          python -B tools/test_env.py python -B -m unittest -v tests.test_registry_intent.RegistryIntentTests.test_rc2_registry_and_default_remain_stable tests.test_registry_intent.RegistryIntentTests.test_unregistered_lifecycle_leaves_both_config_roots_absent
+          test "$(git rev-parse HEAD)" = 5080a2b2738fdf5b6300a04b90304cd8f3c0b82a
+          python -B tools/test_env.py python -B -m unittest -v tests.test_control_loopback_startup tests.test_registry_intent
+          python -B tools/test_env.py python -B -m unittest discover -s tests -p test_figma_control.py
