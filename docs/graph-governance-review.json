@@ -1,10 +1,10 @@
 {
   "decision": "updated",
-  "reason": "유지보수 프로필, 아카이브 증인 및 Node 제품군을 직접 실행할 때 자식별 XDG 격리와 정리 범위를 문서에 명시했다. 패널 경계와 정책 입력은 그대로다.",
+  "reason": "명명된 Node 계약 검사와 나머지 Node 제품군 모두 직접 실행할 때 자식별 임시 XDG를 사용하도록 검토했다. 표준 출력·TAP 및 기존 판정은 유지한다.",
   "inputs": {
     "panel-boundary-policy": "f26cfaaaacf318e58c78ee2a80ee6e64b9a7c3a7279ede5cb2b5863e7cb54b18",
     "panel-governance": "4f74763a2464367b2b5b77ac6b69d773cbbb9eec280044cc40dd3b05c7734dc7",
     "panel-static-quality": "19624e882e323e30f9be88d29fe237f0d46f3b78c2ec83d06a992f5b5aa6b23d"
   },
-  "documentSha256": "b06067ccf15c63c09351c069f6c0d8c104525756750cfcbe28fe098c4e40dcc1"
+  "documentSha256": "736b16c12491f2b442eafdcdafb68492804b8db114cd54e0d4cadadd9ba839d8"
 }

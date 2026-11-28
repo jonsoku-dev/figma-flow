@@ -277,13 +277,21 @@ def doc_findings(root, graph, policy):
     return []
 
 
+def _run_node_tests(root, command, *, capture=False):
+    with private_test_config() as xdg:
+        env = {**os.environ, 'XDG_CONFIG_HOME': xdg}
+        if capture:
+            return run(root, command, env=env)
+        return subprocess.run(command, cwd=root, check=False, env=env)
+
+
 def contract_proof(root, tests):
     if not tests or any(not parts_are_safe(path) or not cases or not isinstance(cases, list) for path, cases in tests.items()):
         raise ValueError('Declare the named panel contract tests and source paths in the Graph')
     results = {}
     for source, names in tests.items():
         command = ['node', '--test', '--test-reporter=tap', source]
-        checks = run(root, command)
+        checks = _run_node_tests(root, command, capture=True)
         proof = tap_proof(checks.stdout, checks.returncode, names)
         proof.update(command=command, outputSha256=sha256((checks.stdout + checks.stderr).encode()).hexdigest())
         if proof['status'] != 'passed':
@@ -558,9 +566,7 @@ def test_other_suites(root, contract_tests):
     pending = [path for path in suites if path not in contract_tests]
     if not pending:
         raise ValueError('The remaining Node test suites are missing')
-    with private_test_config() as xdg:
-        return subprocess.run(['node', '--test', *pending], cwd=root, check=False,
-                              env={**os.environ, 'XDG_CONFIG_HOME': xdg}).returncode
+    return _run_node_tests(root, ['node', '--test', *pending]).returncode
 
 
 def main():
