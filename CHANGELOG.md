@@ -4,6 +4,8 @@
 
 - 여러 Figma Design 탭에서 동시에 파일을 열고 작업해도 서로 상태를 덮어쓰지 않으며, 플러그인 등록·1회 설정·오프라인 원인 진단 안내를 개선했습니다. 1회 설정을 마친 작업공간은 세션이 바뀌어도 재사용할 수 있고, 선택형 메트릭·SSoT 스캐너·패널 품질 게이트를 추가했습니다. [1.1.0 배포 기록](docs/llm-wiki/releases.md#v1.1.0) · [빠른 시작 안내](docs/guide.md)
 
+- 같은 파일의 작업이 진행 중이면 CLI가 파일별 상태 조회 방법을 표시합니다. 오래된 revision과 결과가 불확실한 쓰기에는 각각 작업 목록 확인과 실제 값 재조회 방법을 안내합니다. [CLI 복구 진단](docs/llm-wiki/patches/38305137a3623b70efc287b6d9c1fdc3d6197751.md)
+
 - 멀티탭 동시 작업을 지원하도록 `tools/figma_control.py`에 `sessions` 부명령과 `--file-key`·`--session-id` 지정 옵션을 추가하고, `active.json`(`by_file`/`active_for_file`)과 `RELAY_STATES`(`sessions`/`active_by_session`) 및 읽기 결과·진행 알림을 파일·세션 단위로 분리했습니다. [멀티탭·패널 진단 기록](docs/llm-wiki/patches/06976347ca2b75b089c99c50d40b30b153d709ff.md)
 
 - Figma 패널 뷰어(`RelayViewer.jsx`, `workspace_control.js`, `workspace_host.js`)가 오프라인·설정 누락·`fileKey` 미확인·구버전 런타임(`missing-control-config`, `file-key-unavailable`, `stale-runtime`, `server-unreachable`)을 구분해 표시하고, 상세 접기 영역에 `플러그인 ID · 제어 포트 · 세대`를 노출합니다. `docs/guide.md`, `skills/figma-plugin-setup/SKILL.md`, `specs/codex-relay/spec.md`, `README.md`의 1회 설정·세션·멀티탭 가이드를 통합·보강했습니다. [사용 안내](docs/guide.md)

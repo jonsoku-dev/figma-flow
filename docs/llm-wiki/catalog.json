@@ -17928,6 +17928,79 @@
           "version": "1.1.0"
         }
       ]
+    },
+    {
+      "commit": "0ab3b4d188928ae91b58baf6e2740321db1c1eca",
+      "diff_sha256": "981f8cb28e2d1c0d7c93704cf07387cefc9e0b8507e7ead46f7a9d6aa1e015c7",
+      "files": [
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/05702e2af217bfb10a57c0f44a7462aada242c43.md",
+        "docs/llm-wiki/patches/06976347ca2b75b089c99c50d40b30b153d709ff.md",
+        "docs/llm-wiki/patches/375988904b40854a90adf8ef9c654beb4e6faa5c.md",
+        "docs/llm-wiki/patches/3e003a5152d6a6cb3b236c3eef2cb644beeef179.md",
+        "docs/llm-wiki/releases.md",
+        "docs/llm-wiki/verification.md"
+      ],
+      "parents": [
+        "05702e2af217bfb10a57c0f44a7462aada242c43"
+      ],
+      "subject": "docs: record 1.1.0 release notes and patch knowledge",
+      "tree": "1c20cf2c7f7a6f3e1d766aff20f0e920593acddc",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.1.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.1.0"
+        }
+      ]
+    },
+    {
+      "commit": "61a31cc9203dc88e5cd952958c71392a55d3bc93",
+      "diff_sha256": "9b17d57c92d97863a45d3b763efa1d662d1f8145ca23a9611c8e20e247b133b8",
+      "files": [
+        "tests/test_control_cli_rejections.py"
+      ],
+      "parents": [
+        "0ab3b4d188928ae91b58baf6e2740321db1c1eca"
+      ],
+      "subject": "test(control): pin CLI rejection and confidentiality contracts",
+      "tree": "3bdd7b7dfb5f9aff4fe10f01cb9aa3908fcb7294",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.1.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.1.0"
+        }
+      ]
+    },
+    {
+      "commit": "38305137a3623b70efc287b6d9c1fdc3d6197751",
+      "diff_sha256": "437f171fe4b497313ed7cc45e145fe93365c7f1455790308254b14327b9b78ef",
+      "files": [
+        "specs/codex-relay/graph.json",
+        "tools/figma_control.py"
+      ],
+      "parents": [
+        "61a31cc9203dc88e5cd952958c71392a55d3bc93"
+      ],
+      "subject": "fix(control): explain busy, uncertain and stale run rejections",
+      "tree": "e1c6e073cc73f1fb18ee81746f644a16f57fa5ee",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.1.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.1.0"
+        }
+      ]
     }
   ],
   "pages": {
@@ -17941,18 +18014,19 @@
     "03c4c8b73bd2fa7be32d5e019cb69f61aba1ad67": "61949053f9384be3835130722102530cc224e5fee3080ef3ae0ebc7530dabafb",
     "03ea89ed384360d3a6f7e70e4d3fa249bdc1ed93": "6ecb0e7e0d75c91fbb4d1b61dccc5a42c9eba50534e54272d24b6032b1859911",
     "05422a6e1cecfe76edc96077ac046a9e02ba8b04": "25fe364036073596b8d9ff5fd29cacf17237b78d78442eff4b72a078272a3d7e",
-    "05702e2af217bfb10a57c0f44a7462aada242c43": "13be50cbcfad71c1987e1b579711ae667ee12263054d2bae9daee41988d58d3d",
+    "05702e2af217bfb10a57c0f44a7462aada242c43": "c8c3209bd03539f68c5469f0be0f5c17913c48b4e0e167cf872b161d9070e112",
     "057f949078e2af85f8c911e4045a4977a3bd7f0b": "27ab48b75f989f49c4a712f9079ef27d3cc0616875ae6ee8070931ea80d4824a",
     "0664a3113792752d37096d12ee02aae08a488b2b": "cce929db346ed7af9c5328ec7b0452e26547a5b46d4496557566154d73e56525",
     "066830a97f7f053e880cdf2a6418aadb3de781ab": "550a1650979fd370795a40ad579f23195fee79154c67083518d72a9383a0fbb5",
     "068eb35374c2ec5f6f86efad6cefe7c316fa0740": "5cde070cb9aca85ddd63b513bccc198fdce5f444e227cc139986fa39bc380779",
-    "06976347ca2b75b089c99c50d40b30b153d709ff": "5688e87ba1537bbe5f3f715687fecee97db15d4976fdcd9dd127bc3a80ff2c0a",
+    "06976347ca2b75b089c99c50d40b30b153d709ff": "b60b00e97f8a5724339f2a970f53b43fb0a94a99c3afa7deca54a4296bcade51",
     "06a40a1b83fac2f94b540d24e081ee87779e79ae": "aa00f0a77fa6212eaab136e81aa427bb4e25bd3148cfef6797ee7e2672943fe6",
     "06ce2b5439d18b0d0b2483cabce4f097a5b68945": "0b417a5a4f4cfd9b16f41c0b387685436f8658f7fd3aa8db66e1b7ee2213c4ea",
     "074fbba12678a336817d2337f07d3a3dbc0a5e8a": "0e7dda881321ecd5c9e379ced8c8b8bd7a0474613fb0d2d8ac099ee33810ae67",
     "07befb0bfc019d46ef53b1dcc76311f14873bb90": "f9ad366631d8b46be0b7e15f828eddf0213a25e55fe1a642b4418d4ac6067922",
     "07d32a81eb3523babd7d4039cdb6a39857b7517c": "38f5b574949617f2c492ec2979dbd4b85046c1ccaf0591a1867f3131a036948e",
     "09ea462e817112edc790234f6482cc19e7c7e4a2": "7798a5eae63f252b63c8bb276f0ee6140adc1f40797c883eedf85c8fa8d5a4ac",
+    "0ab3b4d188928ae91b58baf6e2740321db1c1eca": "fc428fad09fcf01221e015388e56e9c49cbda128204abc050911cbb67dc13630",
     "0ad26187e423973a3895b3ae63e6953c0189761b": "1059832a262f3ce91d6a3dc676a2a44e2253992af6e5254447e861f323d78e26",
     "0b2ad20d935fbf2d7e4d5406c806a1e12697c6a5": "3bb95264db91a826c01932f7a07232d30609f16485807a796c76217ca72a4260",
     "0b46cdbd575cfe17d901d33925fd03c45c643782": "23ac33368336f6c6ead2f7c1ca145be5b6cec148d9c3ce9ab56766e4d5f693be",
@@ -18045,8 +18119,9 @@
     "35c6d3e3e798dee10c51335719d6ef9cd0539fb8": "57e66fd038cc6cfae4611ad95a163464d18dfa3c6e7217c6431a9b34e75a66d8",
     "35ce92863e8977aa18969133b24b715d145f405a": "62761ed60a1c6c34629424e4d8a5f4c9c6616c3b0066991b84f307e93a05c5b1",
     "368db1a9826de1455fe1d4598671ddd57bb9aa77": "85c68530537fe7fe3677352ac0a3b80c7e3e9c66353e241572d69cf29d57e5c6",
-    "375988904b40854a90adf8ef9c654beb4e6faa5c": "bb313fb8e26674102d5b9c6d0aef3d3140f48d3d324e226b300e2cf751535a11",
+    "375988904b40854a90adf8ef9c654beb4e6faa5c": "64bc581d0dfce99b695b47a0a972d5a58b3a58d3403a746c59254a2e7baedffe",
     "37f3fde2e8ab54ba82e54bbbba81f82f3956b661": "f4a36ee84c1fe8be3378876d6d78c0a198f93d3b1ff289a9de6f9d9a93de818e",
+    "38305137a3623b70efc287b6d9c1fdc3d6197751": "12b69b896fa509b0caec40da21e9644224b42b78942af1c267647205f3bae1c8",
     "389964b782c69b05fc305c094640132a8aea7a44": "f8739bf7409f6ab1342b1883a3c7db1e44c9bf9ce5e2226b7bf62f3f544a4948",
     "3932393cfd5cdb40edf38f0ecbc8f997cf7a9bbf": "b6bc45a4b9ed3a81dd12c2a474172ce272175c1194600e3cc6193171b4ff035f",
     "39b320db82badb54dfe03f8e46205f9816f1bf77": "629d37440e7eaa3e27afb1956c5c9201facdf958f6dca8d91f389b6a71b03ef1",
@@ -18057,7 +18132,7 @@
     "3cfe367783a7715917562c11d1a0c27d1701cd4f": "fa9715dc04b18c8beace9aaa605c62d530ddc6ee287495f045d9e5f25a09c30b",
     "3d44aa2aae27fc8032c7e0d88ecfa02d124cbc19": "93c49b9ecacf7d84fa730bbe6051d94aee3ece32beddc7e06062ffe38106dc9c",
     "3d72453c628224f3e4d3b1a4a291802e7e759278": "9b035e18525c7fe899c6d23a66e485f0674c81d0032cc4cba084e2d8b1b6bea9",
-    "3e003a5152d6a6cb3b236c3eef2cb644beeef179": "8c1dc5f5e519c9121837e922c9fdaae149e9b82152a1e1ff858c1cd76823f6e9",
+    "3e003a5152d6a6cb3b236c3eef2cb644beeef179": "c01df4d57fd570c1127f909c6fcad8be4dae5b326ba833fa34d82cadb0082aa7",
     "3e51f8ab5e458371b91832d728eb9c4400232965": "f75100c751dba9ccc6f931fecade43e78f0cd48cbc92243627eb5f4f9784fa6c",
     "3e7b44cc9903b3bfc753b77797e96c2c831dcd5b": "59f5631613e78b02e966cccb9ae4c4eb626c791b0d718e292028f939c96ac59f",
     "3eab9ee7f5e8399b852c3304ca285ca0b252c73b": "cf9400af4176791471bb01bb051aaee1d7a7c74b922d1807a2ad344ad571295b",
@@ -18130,6 +18205,7 @@
     "61647d636f23142c76d453f24512566043c40517": "7eead01fb27d1f5a6df3152c9447ed5e452bb79ec23b22f4772a3d6e58085ce8",
     "6178905a1f182e5fcfe7b3fdf22fc57116544ea3": "4b6a4221497ac7e0105a3b0096b3ae71681813f43a94c6b0f1c4e30c3c826a5c",
     "61937dc11c4540bc3c5e88412f449389470647d8": "5f8885938a63573aee5223c6e20a4dbad7f39f7d63041004eba81d88d56d5589",
+    "61a31cc9203dc88e5cd952958c71392a55d3bc93": "0aaac5618ee1ad0926f5ec91a8b160714d18d7550a6625fedda099f93968bd05",
     "61b895d79165ea69a191b5e9fa8293cfc0539a93": "9c1fb90915b507daab50c273a9e4dad28bfa5e49d809c7fee2e8ec80f12f1a8f",
     "61c0b1ea79abda7b258459e245a1187e1ecc0314": "068305f2229f72cdded94234274d695072cc9b404974b71ac0e0fd3b2c5da217",
     "61e998f9e35a08003313ffbaa41d8ef9c65ac868": "cb82d445347c67412f94952c968345a276f6995dff6d5a6ed5cb49c7ac8c94c8",
@@ -18602,6 +18678,10 @@
     },
     {
       "observed_at_commit": "37f3fde2e8ab54ba82e54bbbba81f82f3956b661",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "38305137a3623b70efc287b6d9c1fdc3d6197751",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -19344,7 +19424,7 @@
     },
     {
       "source_commits": [
-        "05702e2af217bfb10a57c0f44a7462aada242c43"
+        "38305137a3623b70efc287b6d9c1fdc3d6197751"
       ],
       "tagged": false,
       "tags": [],
@@ -19355,7 +19435,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "05702e2af217bfb10a57c0f44a7462aada242c43",
+  "source_commit": "38305137a3623b70efc287b6d9c1fdc3d6197751",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",

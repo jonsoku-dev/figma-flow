@@ -10,6 +10,8 @@
 
 ## v1.1.0
 
+로컬 RC는 중복 요청·오래된 revision·불확실한 쓰기를 구분해 복구 절차를 안내한다. [실제 후보 검수와 수정](patches/38305137a3623b70efc287b6d9c1fdc3d6197751.md).
+
 릴리스 준비 기준 커밋은 `05702e2af217bfb10a57c0f44a7462aada242c43`(`plugin.json`·`.codex-plugin/plugin.json` `1.1.0`)이며, 핵심 기능 변경은 `375988904b40854a90adf8ef9c654beb4e6faa5c`(SSoT 하드코딩 스캐너·설정 연속성·선택형 메트릭)과 `06976347ca2b75b089c99c50d40b30b153d709ff`(멀티탭 동시 연결·제어 및 패널 오프라인 진단·가이드 통합)에 포함된다. 선행 `1.0.0` 이후 패널 재검증·변경 추적 개선 커밋(`e2c2ab6071bc7513d3b22b472b607b57054e6bcb`~`3e003a5152d6a6cb3b236c3eef2cb644beeef179`)도 함께 `1.1.0`에 수록한다.
 
 - **멀티탭 동시 제어**: `tools/figma_control.py`에 `sessions` 부명령과 `--file-key`·`--session-id` 타기팅을 도입하고, `active.json`(`by_file`/`active_for_file`) 및 `RELAY_STATES`(`sessions`/`active_by_session`), `result()`, `note_native_started()`를 파일·세션 스코프로 분리했다. `setup-status`는 `connected_session_count`와 `connected_sessions`를 보고한다.
