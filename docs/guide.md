@@ -10,6 +10,33 @@
 
 이 가이드의 워크숍 예제는 두 시안을 비교합니다. 실제 작업은 구체적인 방향·참조가 있으면 한 안으로 진행하고, 비교를 요청했거나 방향 선택이 필요할 때만 여러 안을 만듭니다. 실제 프로젝트로 옮길 때는 8단계에서 내 브리프와 디자인 시스템을 연결하세요. 사용자가 대상 파일에서 Figma Flow를 실행 세션마다 한 번 열면 Codex가 localhost 명령으로 작업합니다. 대화·승인·프로필·작업 준비·결과 검증은 Codex에서 진행합니다. Figma 패널은 현재 문맥과 연결·실행 상태를 표시합니다. [복사해서 쓰는 설치 프롬프트](#setup-prompt)
 
+<a id="quickstart-lifecycle"></a>
+
+## 빠른 시작: 1회 설정 · 세션 사용 · 멀티탭 동시작업
+
+처음 쓸 때와 매 작업 세션에 해야 하는 단계를 섞지 않으면 반복 설정 안내 없이 바로 이어서 작업할 수 있습니다.
+
+| 언제 | 누가 | 무엇을 하나요 |
+|---|---|---|
+| **처음 1회만** | 사용자 + Codex | Codex 플러그인 설치 → Figma 개발 메뉴에서 ID 1회 발급 → 고정 `WORKSPACE/manifest.json` 생성·등록 → ID 발급용 임시 템플릿은 개발 목록에서 정리해 `Figma Flow` 하나만 남김 → `enable --refresh` 실행 |
+| **작업 세션마다** | Codex (`serve`) + 사용자 (`Figma Flow` 열기) | Codex가 `setup-status`로 기존 PC 작업공간을 찾고 `serve`를 유지 → 사용자는 작업할 Figma Design 탭에서 등록된 `Figma Flow`를 한 번 엶(자동으로 로컬 연결 및 파일별 프로필 복원) |
+| **새 작업을 `prepare`·`refresh` 했을 때만** | Codex + 사용자 | 패널에 **작업공간 갱신 후 재실행 필요** 안내가 뜨면 열린 플러그인 창만 닫고 같은 `Figma Flow`를 한 번 다시 엶 |
+
+### 최소 연결 확인 경로 (워크숍 예제 생략 가능)
+
+예제 시안(`demo.py`)을 먼저 만들지 않고도, 이미 고정 `WORKSPACE`가 있거나 방금 `init`만 마쳤다면 아래 순서로 곧바로 연결·동시작업을 확인할 수 있습니다.
+
+```sh
+# 1. 이 PC에 이미 등록된 작업공간·서버·플러그인 상태 한 번에 확인
+"$PY" -B "$PLUGIN_ROOT/tools/figma_control.py" setup-status
+
+# 2. 제어 설정이 아직 없거나 갱신이 필요할 때만 실행 (기본 포트 43180)
+"$PY" -B "$PLUGIN_ROOT/tools/figma_control.py" enable --workspace "$WORKSPACE" --port 43180 --refresh
+"$PY" -B "$PLUGIN_ROOT/tools/figma_control.py" serve --workspace "$WORKSPACE"
+```
+
+이후 Figma Design 파일에서 등록한 **Figma Flow**를 열면 패널의 **연결 정보** 아래에서 `플러그인 ID · 제어 포트 · 세대`를 즉시 확인할 수 있습니다. 여러 Figma 파일 탭을 동시에 열어 두었다면 각 탭이 독립 세션(`session_id`)과 파일별 작업 슬롯·불확실 잠금을 가지므로 Codex에서 `sessions`·`--file-key`로 탭을 구분해 동시에 작업할 수 있습니다.
+
 <a id="local-figma-features"></a>
 
 ## Figma 기능 찾기와 데스크톱 실행
@@ -218,13 +245,14 @@ Figma 플러그인은 사용자가 시작한 실행 모델이며 사용자가 �
 
 ### 현재 패널 빠른 찾기
 
-Figma Flow 패널은 수동 상태 뷰어입니다. 작업·대화·프로필을 편집하거나 실행하지 않습니다.
+Figma Flow 패널은 수동 상태 뷰어입니다. 작업·대화·프로필을 편집하거나 실행하지 않으며, 연결이 안 될 때는 원인을 패널 상단 문구와 **연결 정보**에서 바로 보여 줍니다.
 
-| 표시 | 의미 |
+| 표시 / 진단 항목 | 의미 및 조치 |
 |---|---|
-| 파일·페이지·선택 | 실제 활성 Figma 문맥에서 읽은 값. 선택이 읽기 한도를 넘으면 전체 개수와 생략 여부를 함께 표시합니다. |
-| 연결 상태 | 연결됨·연결 중·오프라인 또는 실행 중. 초기 상태는 오프라인입니다. |
-| 연결 정보 | 선언한 플랜·좌석과 저장 범위, 마지막 실행 결과와 진단. 선언은 Figma 구독을 측정한 값이 아닙니다. |
+| **현재 파일·페이지·선택한 대상** | 실제 활성 Figma 문맥에서 읽은 값. 선택이 읽기 한도를 넘으면 전체 개수와 생략 여부를 함께 표시합니다. |
+| **연결 상태** (`연결됨`·`연결 중`·`연결 끊김`·`실행 중`·`상태 확인 중`) | 로컬 제어 서버와의 폴링·작업 상태. 초기 상태는 `연결 끊김`입니다. |
+| **원인별 안내 문구** | 제어 설정 미반영(`enable --refresh` 필요) · 포트 `{port}` 서버 미연결(`serve` 확인) · 작업공간 갱신 후 재실행 필요(창 닫고 같은 플러그인 다시 열기) · 파일 키 없음(파일 저장 여부 확인) 중 현재 원인을 표시합니다. |
+| **연결 정보 (펼침)** | `플러그인 ID · 제어 포트 · 세대`, 선언한 플랜·좌석(미설정 시 Codex 대화 안내 문구 표시), 프로필 저장 범위(이 기기/세션), 마지막 실행 결과, 선택 레이어 표를 표시합니다. |
 
 요청·승인·선택·작업 준비·실행·JSON 검증은 Codex에서 진행합니다. 연결이 끊기면 [Codex의 문맥 확인과 작업 실행](#11-codex에서-대화-프로필-승인-결과-관리)을 사용합니다. 아래 4~11절은 등록, 준비, 실행과 복구 절차입니다.
 
@@ -261,18 +289,6 @@ Figma Flow 패널은 수동 상태 뷰어입니다. 작업·대화·프로필을
 ![Figma Flow 이력 탭의 스크롤 목록과 기록별 상태](images/panel-history.png)
 
 이미지는 목록 위쪽에 보이는 몇 개 항목만 보여 줍니다. 더 오래된 기록은 패널에서 스크롤해 확인합니다.
-
-### 현재 패널 빠른 찾기
-
-Figma Flow 패널은 수동 상태 뷰어입니다. 작업·대화·프로필을 편집하거나 실행하지 않습니다.
-
-| 표시 | 의미 |
-|---|---|
-| 파일·페이지·선택 | 활성 Figma 문맥에서 읽습니다. 선택이 읽기 한도를 넘으면 전체 개수와 생략 여부를 함께 표시합니다. |
-| 연결 상태 | 연결됨·연결 중·오프라인 또는 실행 중입니다. 초기 상태는 오프라인입니다. |
-| 연결 정보 | 사용자 선언 플랜·좌석, 저장 범위, 마지막 실행 결과와 진단을 표시합니다. 선언은 Figma subscription을 측정한 값이 아닙니다. |
-
-요청·승인·선택·작업 준비·실행·JSON 검증은 Codex에서 진행합니다. 연결이 끊기면 [Codex의 문맥 확인과 작업 실행](#11-codex에서-대화-프로필-승인-결과-관리)을 사용합니다. 아래 4~11절은 등록, 준비, 실행과 복구 절차입니다.
 
 ## 2. 클론하고 Codex에 설치
 
@@ -312,12 +328,14 @@ PROJECT="$(cd ../workshop-run && pwd)"
 
 ## 4. Figma Flow 작업공간 ID를 한 번 받기
 
-이미 등록한 Figma Flow 작업공간이 있으면 그 고정 manifest와 ID를 재사용합니다. 처음이면 다음 순서로 사용자 소유 개발 ID를 받습니다.
+이미 등록한 Figma Flow 작업공간이 있으면(`figma_control.py setup-status`로 바로 확인 가능) 그 고정 manifest와 ID를 재사용합니다. **완전 처음일 때만** 다음 순서로 사용자 소유 개발 ID를 발급받습니다.
+
+> **주의 (중복 플러그인 방지):** 아래에서 만드는 폴더는 Figma가 발급해 주는 숫자 `id`를 얻기 위한 **1회용 임시 템플릿**입니다. 5단계에서 고정 작업공간(`WORKSPACE/manifest.json`)을 등록한 뒤에는 Figma 개발 메뉴에서 임시 템플릿 항목을 제거해 **`Figma Flow`가 하나만 보이도록** 유지하세요. 임시 템플릿 자체를 실행하면 `제어 연결 설정이 아직 반영되지 않았습니다` 안내가 뜨며 연결되지 않습니다.
 
 1. Design 파일의 왼쪽 위 **메인 메뉴 → 플러그인 → 개발**을 엽니다. 목록 아래 **새 플러그인…**을 누릅니다. 아래 첫 화면에서 나중에 사용할 **매니페스트에서 플러그인 가져오기…** 항목도 확인할 수 있습니다.
-2. 이름에는 `Figma Flow`를 입력하고 **Figma Design → 다음**을 누릅니다.
-3. **사용자 정의 UI(Custom UI) → 다른 이름으로 저장**을 누릅니다. 새 전용 폴더를 지정합니다.
-4. 저장한 템플릿의 `manifest.json` 경로를 Codex에 전달합니다. 숫자 문자열 `id`는 Figma가 발급한 플러그인 ID이며 파일 URL의 키나 node ID가 아닙니다. 이 ID로 고정 작업공간을 구성하고 이후 모든 작업에 유지합니다. 다른 사람이 소유한 ID를 복사하지 않습니다.
+2. 이름에는 `Figma Flow`(임시 템플릿과 구분하려면 `Figma Flow ID 발급용`)를 입력하고 **Figma Design → 다음**을 누릅니다.
+3. **사용자 정의 UI(Custom UI) → 다른 이름으로 저장**을 누릅니다. 임시 전용 폴더(예: `figma-id-template`)를 지정합니다.
+4. 저장한 템플릿의 `manifest.json` 경로를 Codex에 전달합니다. 숫자 문자열 `id`는 Figma가 발급한 플러그인 ID이며 파일 URL의 키나 node ID가 아닙니다. 이 ID로 고정 작업공간(`WORKSPACE`)을 구성하고 이후 모든 작업에 유지합니다. 다른 사람이 소유한 ID를 복사하지 않습니다.
 
 ![Figma 개발 메뉴에서 새 플러그인과 매니페스트 가져오기 위치](images/development-menu.png)
 
@@ -329,12 +347,18 @@ PROJECT="$(cd ../workshop-run && pwd)"
 
 ## 5. 고정 작업공간 등록과 검토 작업 준비
 
-아래 경로는 자신의 템플릿·비공개 작업공간으로 바꿉니다. `WORKSPACE`는 Git·공유 ZIP 밖에 두고 이후에도 같은 경로를 사용합니다.
+아래 경로는 자신의 템플릿·비공개 작업공간으로 바꿉니다. `WORKSPACE`는 Git·공유 ZIP 밖에 두고 이후에도 같은 경로를 사용합니다. (`init`을 마치면 `$WORKSPACE` 경로가 이 PC의 `~/.config/figma-flow/workspaces.json`에 자동 저장됩니다.)
 
 ```sh
 WORKSPACE="/내/비공개/Figma-Flow-Workspace"
 "$PY" -B "$PLUGIN_ROOT/tools/figma_workspace.py" init \
   --workspace "$WORKSPACE" --id-from "/내가/저장한/Figma Flow/manifest.json"
+"$PY" -B "$PLUGIN_ROOT/tools/figma_control.py" enable --workspace "$WORKSPACE" --port 43180 --refresh
+```
+
+워크숍 시안 검토를 바로 이어가려면 아래 `prepare`·`list`를 함께 실행하고, 바로 연결만 확인하려면 11절로 넘어가도 됩니다.
+
+```sh
 "$PY" -B "$PLUGIN_ROOT/tools/figma_workspace.py" prepare \
   --workspace "$WORKSPACE" --key workshop-review --title "워크숍 시안 검토" \
   --project "워크숍" --kind review -- \
@@ -344,9 +368,10 @@ WORKSPACE="/내/비공개/Figma-Flow-Workspace"
 
 Codex는 작업을 요청한 기본 채팅의 `CODEX_THREAD_ID`를 기록하며 하위 실행용 임의 ID로 바꾸지 않습니다. 일반 셸에서는 실제 채팅 UUID를 `prepare --thread-id UUID`로 지정할 수 있습니다. 둘 다 없으면 오프라인 작업으로 준비되고 **대화 미연결**로 표시됩니다. 잘못된 UUID는 거부하며 임의의 ID를 만들지 않습니다. 명령의 `--` 뒤에는 해당 종류의 생성기 **옵션만** 전달합니다. `--out`·`--plugin-id`·`--web-module`은 작업공간 도구가 관리합니다.
 
-1. Figma Desktop에서 **플러그인 → 개발 → 매니페스트에서 플러그인 가져오기…**를 선택하고 고정 경로의 **`WORKSPACE/manifest.json`**을 한 번 등록합니다. 내부 `.generations`의 파일이나 개별 작업 manifest를 대신 등록하지 않습니다.
-2. 같은 ID의 템플릿이 이미 등록돼 있으면 실제 등록 경로와 ID를 먼저 대조하고 템플릿을 보존한 뒤 이 고정 manifest로 등록 경로를 맞춥니다. 다른 플러그인 폴더를 덮어쓰지 않습니다.
-3. 개발 메뉴에서 **Figma Flow**를 열고 열린 상태로 둡니다. Codex가 작업을 준비·실행합니다. 패널에서 작업을 선택하거나 열지 않습니다.
+1. Figma Desktop에서 4단계에 잠깐 만들었던 ID 발급용 임시 템플릿(`Figma Flow ID 발급용`)이 개발 메뉴에 남아 있다면 우클릭(또는 개발 플러그인 관리)으로 목록에서 제거합니다.
+2. **플러그인 → 개발 → 매니페스트에서 플러그인 가져오기…**를 선택하고 고정 경로의 **`WORKSPACE/manifest.json`** 하나만 한 번 등록합니다. 내부 `.generations`의 파일이나 개별 작업 manifest를 대신 등록하지 않습니다.
+3. 같은 ID의 템플릿을 이미 등록했다가 교체할 때는 실제 등록 경로와 ID를 먼저 대조하고 고정 `WORKSPACE/manifest.json`으로 등록 경로를 맞춥니다. 다른 플러그인 폴더를 덮어쓰지 않습니다.
+4. 개발 메뉴에서 **Figma Flow**를 열고 열린 상태로 둡니다. 여러 Design 탭을 동시에 쓰려면 각 탭에서 같은 **Figma Flow**를 열어 두면 됩니다. Codex가 작업을 준비·실행하며 패널에서 **연결 정보**의 `플러그인 ID · 제어 포트 · 세대`로 올바른 등록본인지 바로 확인할 수 있습니다.
 
 ![Figma 파일 선택 창에서 manifest를 등록하는 위치](images/manifest-picker.png)
 
@@ -656,20 +681,25 @@ ctl --operation viewer-history
 | 앱 동기화 결과 미리보기 | 페어링된 `import` | `--operation sync` 후 호스트가 확인한 `preview_url`을 Codex에서 엽니다. 미리보기를 생성하지 못하면 동기화 영수증과 오류를 따로 알려 줍니다. |
 | 에셋, 작업 의존성, 진단 기록 조회 | 해당 파일·페이지의 작업 | `workspace_report.py --workspace DIR --file-key FILE --page-id PAGE --task-key KEY`로 조회합니다. 기기 이력까지 대조하려면 `viewer-history` 결과 파일을 `--history-export`로 지정합니다. 공유용 진단 파일은 `--format audit-json` 또는 `--format audit-markdown`으로 출력합니다. |
 
-Codex에서 현재 Figma 문맥과 저장된 프로필을 확인합니다.
+Codex에서 현재 열린 Figma 탭들과 각 탭의 문맥·프로필을 확인합니다. 여러 파일 탭에서 동시에 Figma Flow를 열어 둔 경우 `sessions`로 전체 목록을 보고, `--file-key`(또는 `--session-id`)로 대상 탭을 정확히 지정해 동시에 `run`·`profile`·`status`를 실행할 수 있습니다. 파일마다 작업 슬롯과 `uncertain` 쓰기 잠금이 독립적으로 관리되므로 파일 A에서 작업 중이거나 불확실 상태가 남아도 파일 B의 작업은 차단되지 않습니다. (단, 같은 파일 키 안에서는 직렬 실행됩니다.)
 
 ```sh
-"$PY" -B "$PLUGIN_ROOT/tools/figma_control.py" context --workspace "$WORKSPACE"
-"$PY" -B "$PLUGIN_ROOT/tools/figma_control.py" profile get --workspace "$WORKSPACE"
+# 열린 모든 Figma 탭 세션 및 진행 중인 파일별 작업 확인
+"$PY" -B "$PLUGIN_ROOT/tools/figma_control.py" sessions --workspace "$WORKSPACE"
+
+# 특정 파일 탭의 문맥·프로필·작업 상태 지정 조회 (--file-key 생략 시 가장 최근 폴링한 탭)
+"$PY" -B "$PLUGIN_ROOT/tools/figma_control.py" context --workspace "$WORKSPACE" --file-key "$FILE_KEY"
+"$PY" -B "$PLUGIN_ROOT/tools/figma_control.py" profile get --workspace "$WORKSPACE" --file-key "$FILE_KEY"
+"$PY" -B "$PLUGIN_ROOT/tools/figma_control.py" status --workspace "$WORKSPACE" --file-key "$FILE_KEY"
 ```
 
-`context`는 활성 plugin session, 파일, 페이지, 사용자, 현재 선택과 불투명한 `context_fingerprint`를 반환합니다. 결과의 `native_status`와 generation을 확인합니다. fingerprint는 현재 session·파일·페이지·계정과 예상 runtime generation에 선언을 고정합니다. fingerprint를 그대로 복사합니다. 파일·페이지·사용자·runtime generation이 바뀌면 다시 조회합니다. 선택 목록은 등록 플러그인의 `maxNodes`까지 반환하며, 전체 선택 수와 생략 여부도 함께 표시합니다. [읽기 한도](../library/figma-profile/read-limits.json) 플랜·좌석을 알 수 없으면 `unknown`으로 둡니다. Figma 구독이나 권한을 자동 판정하지 않습니다.
+`sessions`와 `context`는 활성 plugin session, 파일, 페이지, 사용자, 현재 선택과 불투명한 `context_fingerprint`를 반환합니다. 결과의 `native_status`와 generation을 확인합니다. fingerprint는 현재 session·파일·페이지·계정과 예상 runtime generation에 선언을 고정합니다. fingerprint를 그대로 복사합니다. 파일·페이지·사용자·runtime generation이 바뀌면 다시 조회합니다. 선택 목록은 등록 플러그인의 `maxNodes`까지 반환하며, 전체 선택 수와 생략 여부도 함께 표시합니다. [읽기 한도](../library/figma-profile/read-limits.json) 플랜·좌석을 알 수 없으면 `unknown`으로 둡니다. Figma 구독이나 권한을 자동 판정하지 않습니다.
 
-사용자가 Codex 대화에서 플랜과 좌석을 확인해 주면 정확한 문맥 지문으로 선언을 저장합니다.
+사용자가 Codex 대화에서 플랜과 좌석을 확인해 주면 정확한 문맥 지문(필요 시 `--file-key "$FILE_KEY"`)으로 선언을 저장합니다.
 
 ```sh
 "$PY" -B "$PLUGIN_ROOT/tools/figma_control.py" profile set --workspace "$WORKSPACE" \
-  --plan PLAN --seat SEAT --expected-context CONTEXT_FINGERPRINT
+  --file-key "$FILE_KEY" --plan PLAN --seat SEAT --expected-context CONTEXT_FINGERPRINT
 ```
 
 `PLAN`은 `unknown`, `starter`, `professional`, `organization`, `enterprise`, `education`, `government` 중 하나입니다. `SEAT`은 `unknown`, `view`, `collab`, `dev`, `full` 중 하나입니다. 출력이 `pending`이면 반환된 요청 ID로 상태를 확인합니다.
@@ -705,7 +735,8 @@ Codex는 실행 결과의 실제 `readback`을 확인하고 성공·실패·불�
 | Figma에서 manifest 오류, 다른 파일 문맥 표시 | 고정 `WORKSPACE/manifest.json`의 등록 경로·ID를 확인합니다. Codex에서 `context`와 `figma_workspace.py list`를 다시 실행합니다. 패널은 작업을 선택하지 않습니다. |
 | 품질 검사에서 패키지 생성 중단 | `design-quality.json`의 오류가 지목한 레이어·버튼·폰트를 고친 다음 원본과 검토 패킷을 다시 생성합니다. |
 | 임베드 에셋 용량 경고 | base64 합계가 4 MB를 넘었다는 뜻입니다. 생성된 ZIP은 사용할 수 있습니다. 줄일 경우 원본이 달라지므로 다시 패키징·검증합니다. |
-| 저장 버튼이 없거나 비활성 | 가져오기는 읽기가 끝나면 **JSON 파일 저장**이 나타납니다. 검토는 시안 생성 또는 진단 자료가 필요합니다. 그래프 패널은 읽기·적용 후 **JSON 다시 저장**을 사용합니다. |
+| 패널이 오프라인·세대 불일치이거나 중복 플러그인이 열림 | 패널 상단 진단 문구(제어 설정 미반영 / 포트 서버 미연결 / 작업공간 갱신 후 재실행 필요 / 파일 키 없음)와 **연결 정보**의 `플러그인 ID · 제어 포트 · 세대`를 확인합니다. ID 발급용 임시 템플릿을 열었으면 닫고, Codex `setup-status`가 가리키는 고정 `WORKSPACE/manifest.json` 하나만 등록해 실행했는지 확인합니다. |
+| 여러 Figma 탭에서 다른 파일이 선택되거나 동시 실행할 때 | `figma_control.py sessions --workspace "$WORKSPACE"`로 열린 탭 목록과 `context_fingerprint`를 확인하고, `context`·`profile`·`status`·`run`에 대상 파일의 `--file-key`(또는 `--session-id`)를 지정합니다. 서로 다른 파일 탭은 동시에 실행되며 같은 파일 탭 안에서는 순서대로 실행됩니다. |
 | 열기 대신 다른 파일로 표시됨 | 홈에 표시된 지정 Design 파일에서 같은 Figma Flow를 다시 엽니다. 파일 범위를 임의로 바꾸지 않습니다. |
 | 대화 미연결 또는 전송 비활성 | 실제 원래 thread ID와 선택적 relay 연결을 확인합니다. thread가 없는 오프라인 작업은 그대로 사용할 수 있고, 자동 추정하지 않습니다. |
 | 업데이트했는데 예전 작업이 보임 | 새 설치본으로 같은 작업 키를 갱신하고 `list`의 revision·고정 등록 경로를 확인합니다. 열린 플러그인 창을 닫고 다시 실행합니다. |

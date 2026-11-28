@@ -16,7 +16,7 @@
   "relay.headline.uncertain": {"ko":"연결 상태를 확인 중입니다","en":"Checking the connection","ja":"接続状態を確認中です"},
   "relay.caption.connected": {"ko":"요청과 수정 사항은 Codex 대화에서 다룹니다.","en":"Requests and changes stay in your Codex conversation.","ja":"依頼と変更内容は Codex の会話で扱います。"},
   "relay.caption.connecting": {"ko":"Codex와 이 Figma 파일의 연결을 준비하고 있습니다.","en":"Preparing the connection between Codex and this Figma file.","ja":"Codex とこの Figma ファイルの接続を準備しています。"},
-  "relay.caption.offline": {"ko":"Codex에서 연결을 재개하면 이 파일의 작업을 이어갈 수 있습니다.","en":"Reconnect from Codex to continue working with this file.","ja":"Codex から再接続すると、このファイルの作業を続けられます。"},
+  "relay.caption.offline": {"ko":"Codex에서 로컬 제어 서버(serve)를 실행하면 이 파일의 연결이 자동으로 이어집니다.","en":"Start or resume the local control server (serve) from Codex to continue with this file.","ja":"Codex でローカル制御サーバー(serve)を開始または再開すると、このファイルの接続が自動的に続きます。"},
   "relay.caption.running": {"ko":"진행 상황과 결과는 Codex 대화에서 확인할 수 있습니다.","en":"Progress and results are available in your Codex conversation.","ja":"進行状況と結果は Codex の会話で確認できます。"},
   "relay.caption.complete": {"ko":"결과와 다음 단계는 Codex 대화에서 확인하세요.","en":"Review the result and next steps in your Codex conversation.","ja":"結果と次の手順は Codex の会話で確認してください。"},
   "relay.caption.error": {"ko":"오류 정보와 복구 안내는 Codex 대화에서 확인하세요.","en":"Review the error and recovery guidance in your Codex conversation.","ja":"エラーと復旧方法は Codex の会話で確認してください。"},
@@ -33,7 +33,7 @@
   "relay.unknown": {"ko":"확인할 수 없음","en":"Unavailable","ja":"取得できません"},
   "relay.disclosure": {"ko":"연결 정보","en":"Connection details","ja":"接続情報"},
   "relay.profile": {"ko":"플랜 {plan} · 좌석 {seat}","en":"Plan {plan} · Seat {seat}","ja":"プラン {plan} · シート {seat}"},
-  "relay.profileNeedsSetup": {"ko":"플랜과 좌석 선언이 필요합니다.","en":"Declare the plan and seat to continue.","ja":"続行するにはプランとシートの申告が必要です。"},
+  "relay.profileNeedsSetup": {"ko":"Codex 대화에서 플랜과 좌석(모르면 unknown)을 알려 주세요.","en":"Confirm your plan and seat (or unknown) in your Codex conversation.","ja":"Codex の会話でプランとシート（不明な場合は unknown）をお知らせください。"},
   "relay.storage.local": {"ko":"프로필 저장: 이 기기","en":"Profile storage: this device","ja":"プロフィールの保存先: この端末"},
   "relay.storage.session": {"ko":"프로필 저장: 현재 세션","en":"Profile storage: this session","ja":"プロフィールの保存先: 現在のセッション"},
   "relay.lastResult": {"ko":"마지막 확인 {time}","en":"Last confirmed {time}","ja":"最終確認 {time}"},
@@ -41,5 +41,10 @@
   "relay.result.error": {"ko":"마지막 결과: 오류","en":"Last result: error","ja":"直近の結果: エラー"},
   "relay.result.uncertain": {"ko":"마지막 결과: 확인 필요","en":"Last result: needs confirmation","ja":"直近の結果: 確認が必要"},
   "relay.noDetails": {"ko":"표시할 연결 세부 정보가 없습니다.","en":"No connection details are available.","ja":"表示できる接続情報はありません。"},
+  "relay.diag.missing-control-config": {"ko":"제어 연결 설정이 아직 반영되지 않았습니다. Codex에서 setup-status 또는 enable --refresh를 실행하세요.","en":"Control endpoint settings are not embedded yet. Run setup-status or enable --refresh in Codex.","ja":"制御エンドポイント設定が未反映です。Codex で setup-status または enable --refresh を実行してください。"},
+  "relay.diag.server-unreachable": {"ko":"로컬 제어 서버(포트 {port})에 연결할 수 없습니다. Codex에서 figma_control.py serve 실행 여부를 확인하세요.","en":"Cannot reach the local control server on port {port}. Check figma_control.py serve in Codex.","ja":"ローカル制御サーバー(ポート {port})に接続できません。Codex で figma_control.py serve を確認してください。"},
+  "relay.diag.stale-runtime": {"ko":"작업공간이 갱신되었습니다. 이 창을 닫고 같은 등록 플러그인을 한 번 다시 여세요.","en":"The workspace bundle was refreshed. Close this window and reopen the same registered plugin.","ja":"ワークスペースが更新されました。このウィンドウを閉じて同じ登録プラグインを開き直してください。"},
+  "relay.diag.file-key-unavailable": {"ko":"현재 파일 키를 읽을 수 없습니다. Figma에 파일이 저장되었는지 확인한 뒤 플러그인을 다시 여세요.","en":"The Figma file key is unavailable. Save or reopen this Design file, then launch the plugin again.","ja":"Figma ファイルキーを取得できません。ファイルを保存または開き直してからプラグインを再起動してください。"},
+  "relay.diag.meta": {"ko":"플러그인 ID {pluginId} · 제어 포트 {port} · 세대 {generation}","en":"Plugin ID {pluginId} · Control port {port} · Generation {generation}","ja":"プラグイン ID {pluginId} · 制御ポート {port} · 世代 {generation}"},
   "relay.codexNote": {"ko":"대화는 Codex에서 계속됩니다","en":"Continue the conversation in Codex","ja":"会話は Codex で続けます"}
 }

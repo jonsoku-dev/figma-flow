@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""Bounded local commands for the single running Figma Flow plugin.
+"""Bounded local commands for running Figma Flow plugin sessions across tabs.
 
-Uncertain writes require a successful scoped read before another write. For a
-create-only or revised task, prepare a signed discover task for the original
-file/page and run read; its actual getter reconciles the preserved receipt.
+Each open Figma file tab has its own control session (`session_id`) and independent
+per-file operation slot/uncertainty gate so multiple tabs can run concurrently.
+Uncertain writes on a file still require a successful scoped read on that file
+before another write.
 """
 import argparse
 import schema_ids
@@ -107,12 +108,16 @@ METRICS_HUBS_LOCK = threading.Lock()
 
 
 NATIVE_CLIENTS = {}
+NATIVE_SESSIONS = {}
 CHANGE_CLIENTS = {}
 CHANGE_CLIENTS_LOCK = threading.Lock()
 RELAY_STATES = {}
 RELAY_LOCK = threading.RLock()
 RELAY_TTL = 15
 RELAY_REQUEST_TTL = 120
+SESSION_RETENTION_TTL = 60
+MAX_TRACKED_SESSIONS = 64
+MAX_ACTIVE_FILES = 64
 PROFILE_PLANS = set(PROFILE_POLICY['options']['plans'])
 PROFILE_SEATS = set(PROFILE_POLICY['options']['seats'])
 PROFILE_ERROR_CODES = {'profile-save-failed', 'profile-storage-unavailable'}
@@ -125,9 +130,61 @@ def context_fingerprint(context):
     return hashlib.sha256(workspace.encode(scope_value)).hexdigest()
 
 
+def _record_native_session(root_key, session_id, file_key, page_id, runtime, now):
+    for key in [k for k, entry in list(NATIVE_SESSIONS.items())
+                if k[0] == root_key and entry.get('file_key') == file_key and k[1] != session_id]:
+        NATIVE_SESSIONS.pop(key, None)
+    if len(NATIVE_SESSIONS) >= 256 and (root_key, session_id) not in NATIVE_SESSIONS:
+        oldest = min(NATIVE_SESSIONS, key=lambda k: NATIVE_SESSIONS[k].get('seen_at', 0))
+        NATIVE_SESSIONS.pop(oldest, None)
+    NATIVE_SESSIONS[(root_key, session_id)] = {
+        'runtime': runtime, 'session_id': session_id, 'file_key': file_key, 'page_id': page_id, 'seen_at': now,
+    }
+    if len(NATIVE_CLIENTS) >= 256 and root_key not in NATIVE_CLIENTS:
+        NATIVE_CLIENTS.pop(next(iter(NATIVE_CLIENTS)))
+    NATIVE_CLIENTS[root_key] = {'runtime': runtime, 'session_id': session_id, 'seen_at': now}
+
+
+def _native_client(root_key, *, session_id=None, file_key=None):
+    latest = NATIVE_CLIENTS.get(root_key)
+    if latest is None:
+        for key in [k for k in NATIVE_SESSIONS if k[0] == root_key]:
+            NATIVE_SESSIONS.pop(key, None)
+        return None
+    if session_id is not None:
+        if 'session_id' not in latest:
+            return latest
+        if latest.get('session_id') == session_id:
+            return latest
+        entry = NATIVE_SESSIONS.get((root_key, session_id))
+        if entry is not None and (file_key is None or entry.get('file_key') == file_key):
+            return entry
+        return None
+    if file_key is not None:
+        matches = [entry for (rk, _), entry in NATIVE_SESSIONS.items() if rk == root_key and entry.get('file_key') == file_key]
+        if matches:
+            freshest = max(matches, key=lambda item: item.get('seen_at', 0))
+            if latest.get('session_id') == freshest.get('session_id'):
+                return latest
+            return freshest
+        has_any_sessions = any(rk == root_key for rk, _ in NATIVE_SESSIONS)
+        return None if has_any_sessions else latest
+    if 'session_id' not in latest:
+        return latest
+    now = time.time()
+    if now - latest.get('seen_at', 0) <= RELAY_TTL:
+        return latest
+    workspace_sessions = [entry for (rk, _), entry in NATIVE_SESSIONS.items() if rk == root_key]
+    if workspace_sessions:
+        freshest = max(workspace_sessions, key=lambda item: item.get('seen_at', 0))
+        if now - freshest.get('seen_at', 0) <= RELAY_TTL:
+            return freshest
+    return latest
+
+
 def _cli_context(root, context):
-    status = native_state(root)
-    client = NATIVE_CLIENTS.get(_relay_key(root))
+    status = native_state(root, session_id=context.get('session_id'), file_key=context.get('file_key'))
+    client = _native_client(_relay_key(root), session_id=context.get('session_id'), file_key=context.get('file_key'))
     session_matches = bool(client and client.get('session_id') == context.get('session_id') and
                            time.time() - client.get('seen_at', 0) <= RELAY_TTL)
     observed = status.get('observed_native') or {}
@@ -166,16 +223,32 @@ def _relay_state(root):
         if len(RELAY_STATES) >= 128:
             oldest = min(RELAY_STATES, key=lambda item: RELAY_STATES[item].get('touched_at', 0))
             RELAY_STATES.pop(oldest, None)
-        state = {'context': None, 'requests': {}, 'active': None}
+        state = {'context': None, 'sessions': {}, 'requests': {}, 'active': None, 'active_by_session': {}}
         RELAY_STATES[key] = state
+    state.setdefault('sessions', {})
+    state.setdefault('active_by_session', {})
     state['touched_at'] = now
+    sessions = state['sessions']
+    for sid, entry in list(sessions.items()):
+        if now - entry.get('seen_at', 0) > SESSION_RETENTION_TTL:
+            sessions.pop(sid, None)
+            state['active_by_session'].pop(sid, None)
+    if len(sessions) > MAX_TRACKED_SESSIONS:
+        for sid, _ in sorted(sessions.items(), key=lambda item: item[1].get('seen_at', 0)):
+            sessions.pop(sid, None)
+            state['active_by_session'].pop(sid, None)
+            if len(sessions) <= MAX_TRACKED_SESSIONS:
+                break
     requests = state['requests']
     for request_id, request in list(requests.items()):
         if request['state'] != 'pending' and now - request.get('completed_at', now) > RELAY_REQUEST_TTL:
             requests.pop(request_id, None)
     if len(requests) > 64:
+        active_ids = {rid for rid in state['active_by_session'].values() if rid}
+        if state.get('active'):
+            active_ids.add(state['active'])
         for request_id, request in sorted(requests.items(), key=lambda item: item[1].get('created_at', 0)):
-            if request_id != state.get('active') and request['state'] != 'pending':
+            if request_id not in active_ids and request['state'] != 'pending':
                 requests.pop(request_id, None)
                 if len(requests) <= 64:
                     break
@@ -208,6 +281,23 @@ def _validate_relay_context(value):
     return {**value, 'selection': selection, 'selection_total': total, 'selection_truncated': truncated}
 
 
+def _expire_profile_request(state, request_id, now):
+    if not request_id:
+        return None
+    request = state['requests'].get(request_id)
+    if not request or request['state'] != 'pending' or now > request['deadline']:
+        if request and request['state'] == 'pending':
+            terminal = 'uncertain' if request.get('dispatched_at') else 'expired'
+            request.update(state=terminal, completed_at=now)
+        if state.get('active') == request_id:
+            state['active'] = None
+        for sid, active_rid in list(state.get('active_by_session', {}).items()):
+            if active_rid == request_id:
+                state['active_by_session'].pop(sid, None)
+        return None
+    return request
+
+
 def _relay_poll_unlocked(root, payload):
     if not isinstance(payload, dict) or set(payload) - {'context', 'profile_result'}:
         raise ValueError('Invalid relay poll')
@@ -215,7 +305,9 @@ def _relay_poll_unlocked(root, payload):
     state = _relay_state(root)
     context = _validate_relay_context(payload['context']) if 'context' in payload else None
     if context:
-        state['context'] = {**context, 'seen_at': now}
+        recorded = {**context, 'seen_at': now}
+        state['context'] = recorded
+        state['sessions'][context['session_id']] = recorded
     result = payload.get('profile_result')
     if result is not None:
         if not isinstance(result, dict) or set(result) - {'request_id', 'status', 'profile', 'error_code'} or not {'request_id', 'status'} <= set(result):
@@ -270,27 +362,30 @@ def _relay_poll_unlocked(root, payload):
                     else:
                         # Conflicting or late ACKs for terminal requests are consumed, not retried forever.
                         request['ignored_ack'] = ack
-    active = state.get('active')
-    if active:
-        request = state['requests'].get(active)
-        if not request or request['state'] != 'pending' or now > request['deadline']:
-            if request and request['state'] == 'pending':
-                terminal = 'uncertain' if request.get('dispatched_at') else 'expired'
-                request.update(state=terminal, completed_at=now)
-            state['active'] = None
-    request = state['requests'].get(state.get('active')) if state.get('active') else None
+    session_id = context['session_id'] if context else None
+    if session_id:
+        active_id = state['active_by_session'].get(session_id)
+        if not active_id and state.get('active'):
+            candidate = state['requests'].get(state['active'])
+            if candidate and candidate.get('session_id') == session_id:
+                active_id = state['active']
+    else:
+        active_id = state.get('active')
+    request = _expire_profile_request(state, active_id, now)
     if request and request['state'] == 'pending' and context and all(context[field] == request[field] for field in ('session_id', 'file_key', 'page_id', 'user_id')):
         command = {key: request[key] for key in ('request_id', 'session_id', 'file_key', 'page_id', 'user_id')}
         command['profile'] = request['requested_profile']
     else:
         command = None
-    return _relay_reply(state, now, command)
+    return _relay_reply(state, now, command, current_context=context)
 
 
-def _relay_reply(state, now, command=None):
-    return {'profile_request': command,
-            'context': ({key: value for key, value in state['context'].items() if key != 'seen_at'}
-                        if state['context'] and now - state['context']['seen_at'] <= RELAY_TTL else None)}
+def _relay_reply(state, now, command=None, *, current_context=None):
+    ctx = current_context if current_context is not None else (
+        {key: value for key, value in state['context'].items() if key != 'seen_at'}
+        if state['context'] and now - state['context']['seen_at'] <= RELAY_TTL else None
+    )
+    return {'profile_request': command, 'context': ctx}
 
 
 def relay_poll(root, payload):
@@ -306,51 +401,118 @@ def relay_mark_dispatched(root, request_id):
             request.setdefault('dispatched_at', time.time())
 
 
+def _live_relay_sessions(state, now):
+    live = [entry for entry in state.get('sessions', {}).values() if now - entry.get('seen_at', 0) <= RELAY_TTL]
+    known_sids = {entry.get('session_id') for entry in live}
+    fallback = state.get('context')
+    if isinstance(fallback, dict) and now - fallback.get('seen_at', 0) <= RELAY_TTL and fallback.get('session_id') not in known_sids:
+        live.append(fallback)
+    live.sort(key=lambda item: item.get('seen_at', 0), reverse=True)
+    return live
+
+
 def _relay_command_unlocked(root, payload):
-    if not isinstance(payload, dict) or payload.get('action') not in {'context', 'profile-get', 'profile-set', 'profile-status'}:
+    if not isinstance(payload, dict) or payload.get('action') not in {'sessions', 'context', 'profile-get', 'profile-set', 'profile-status'}:
         raise ValueError('Invalid relay command')
     state = _relay_state(root)
     now = time.time()
     action = payload['action']
-    fields = {'context': {'action'}, 'profile-get': {'action'},
-              'profile-status': {'action', 'request_id'},
-              'profile-set': {'action', 'profile', 'expected_context'}}
-    if set(payload) != fields[action]:
+    required = {
+        'sessions': {'action'},
+        'context': {'action'},
+        'profile-get': {'action'},
+        'profile-status': {'action', 'request_id'},
+        'profile-set': {'action', 'profile', 'expected_context'},
+    }
+    optional = {
+        'sessions': set(),
+        'context': {'file_key', 'session_id'},
+        'profile-get': {'file_key', 'session_id'},
+        'profile-status': set(),
+        'profile-set': {'file_key', 'session_id'},
+    }
+    keys = set(payload)
+    if not required[action] <= keys or keys - (required[action] | optional[action]):
         raise ValueError('Relay command fields do not match its action')
-    active_id = state.get('active')
-    active_request = state['requests'].get(active_id) if active_id else None
-    if active_request and active_request['state'] == 'pending' and now > active_request['deadline']:
-        active_request.update(state='uncertain' if active_request.get('dispatched_at') else 'expired', completed_at=now)
-        state['active'] = None
+    filter_file = payload.get('file_key')
+    filter_session = payload.get('session_id')
+    if filter_file is not None and (not isinstance(filter_file, str) or not re.fullmatch(r'[A-Za-z0-9]{1,128}', filter_file)):
+        raise ValueError('Exact Figma file key required')
+    if filter_session is not None:
+        identity(filter_session, 'plugin session')
+    for sid in list(state['active_by_session']):
+        _expire_profile_request(state, state['active_by_session'].get(sid), now)
+    _expire_profile_request(state, state.get('active'), now)
     if action == 'profile-status':
         request = state['requests'].get(payload.get('request_id'))
         if request and request['state'] == 'pending' and now > request['deadline']:
             request.update(state='uncertain' if request.get('dispatched_at') else 'expired', completed_at=now)
             if state.get('active') == request['request_id']:
                 state['active'] = None
+            if request.get('session_id') and state['active_by_session'].get(request['session_id']) == request['request_id']:
+                state['active_by_session'].pop(request['session_id'], None)
         return dict(request) if request else {'state': 'expired', 'request_id': payload.get('request_id')}
-    current = state.get('context')
-    if not current or now - current['seen_at'] > RELAY_TTL:
-        return {'state': 'offline', 'context': None}
-    context = _cli_context(root, {key: value for key, value in current.items() if key != 'seen_at'})
-    if action == 'context':
-        return {'state': 'ok', 'context': context, 'context_fingerprint': context_fingerprint(context)}
-    if action == 'profile-get':
+    live = _live_relay_sessions(state, now)
+    if action == 'sessions':
+        active_by_file = {op['file_key']: op for op in _peek_active_operations(root)}
+        sessions_out = []
+        for raw_ctx in live:
+            clean = {key: value for key, value in raw_ctx.items() if key != 'seen_at'}
+            ctx = _cli_context(root, clean)
+            op = active_by_file.get(ctx['file_key'])
+            sessions_out.append({
+                **ctx,
+                'context_fingerprint': context_fingerprint(ctx),
+                'active_operation': ({'id': op['id'], 'key': op['key'], 'operation': op['operation'], 'state': op['state']} if op else None),
+            })
+        return {'state': 'ok' if sessions_out else 'offline', 'count': len(sessions_out), 'sessions': sessions_out}
+    filtered = [
+        entry for entry in live
+        if (filter_file is None or entry.get('file_key') == filter_file)
+        and (filter_session is None or entry.get('session_id') == filter_session)
+    ]
+    if not filtered:
+        available = [{'session_id': entry.get('session_id'), 'file_key': entry.get('file_key'), 'page_id': entry.get('page_id')} for entry in live]
+        return {'state': 'offline', 'context': None, **({'available_sessions': available} if available else {})}
+    multi_meta = (
+        {'sessions_count': len(live), 'multiple_sessions': True,
+         'available_files': list(dict.fromkeys(entry.get('file_key') for entry in live))}
+        if len(live) > 1 else {}
+    )
+    if action in {'context', 'profile-get'}:
+        selected = filtered[0]
+        context = _cli_context(root, {key: value for key, value in selected.items() if key != 'seen_at'})
+        fp = context_fingerprint(context)
+        if action == 'context':
+            return {'state': 'ok', 'context': context, 'context_fingerprint': fp, **multi_meta}
         return {'state': 'ok' if context.get('profile') else 'unknown', 'context': context,
-                'profile': context.get('profile'), 'context_fingerprint': context_fingerprint(context)}
+                'profile': context.get('profile'), 'context_fingerprint': fp, **multi_meta}
     profile = payload.get('profile')
     if (not isinstance(profile, dict) or set(profile) != {'plan', 'seat'} or
             profile['plan'] not in PROFILE_PLANS or profile['seat'] not in PROFILE_SEATS):
         raise ValueError('Invalid profile declaration')
     expected_context = payload.get('expected_context')
-    fingerprint = context_fingerprint(context)
-    if not isinstance(expected_context, str) or not hmac.compare_digest(expected_context, fingerprint):
-        return {'state': 'scope-changed', 'context_fingerprint': fingerprint}
+    matched = None
+    for candidate_raw in filtered:
+        candidate = _cli_context(root, {key: value for key, value in candidate_raw.items() if key != 'seen_at'})
+        fp = context_fingerprint(candidate)
+        if isinstance(expected_context, str) and hmac.compare_digest(expected_context, fp):
+            matched = (candidate, fp)
+            break
+    if matched is None:
+        fallback_ctx = _cli_context(root, {key: value for key, value in filtered[0].items() if key != 'seen_at'})
+        return {'state': 'scope-changed', 'context_fingerprint': context_fingerprint(fallback_ctx)}
+    context, fingerprint = matched
     if context.get('native_status') != 'current-self-reported' or context.get('native_generation') != context.get('expected_generation'):
         return {'state': 'stale-native', 'context': context, 'context_fingerprint': fingerprint}
     if context.get('user_id') is None:
         return {'state': 'unconfirmed', 'context': context, 'profile': context.get('profile')}
-    active_id = state.get('active')
+    target_sid = context['session_id']
+    active_id = state['active_by_session'].get(target_sid)
+    if not active_id and state.get('active'):
+        fallback_req = state['requests'].get(state['active'])
+        if fallback_req and fallback_req.get('session_id') == target_sid:
+            active_id = state['active']
     existing = state['requests'].get(active_id) if active_id else None
     if existing and existing['state'] == 'pending':
         if all(existing[field] == context[field] for field in ('session_id', 'file_key', 'page_id', 'user_id')) and existing['requested_profile'] == profile:
@@ -362,14 +524,15 @@ def _relay_command_unlocked(root, payload):
         return {'state': 'ok', 'profile': current_profile,
                 **{key: context[key] for key in ('session_id', 'file_key', 'page_id')}}
     directory = state_dir(root)
-    active_request = active(directory)
+    active_request = active_for_file(directory, context['file_key'])
     if ((active_request and active_request['state'] in {'pending', 'claimed', 'uncertain'}) or
-            uncertainties(directory)['operations']):
+            uncertainties_for_file(directory, context['file_key'])):
         return {'state': 'busy', 'context_fingerprint': fingerprint}
     request_id = secrets.token_hex(16)
     request = {'request_id': request_id, **{key: context[key] for key in ('session_id', 'file_key', 'page_id', 'user_id')},
                'requested_profile': profile, 'state': 'pending', 'created_at': now, 'deadline': now + RELAY_REQUEST_TTL}
     state['requests'][request_id] = request
+    state['active_by_session'][target_sid] = request_id
     state['active'] = request_id
     return {key: value for key, value in request.items() if key != 'deadline'}
 
@@ -380,7 +543,7 @@ def relay_command(root, payload):
             return _relay_command_unlocked(root, payload)
 
 
-def relay_request(root, action, *, profile=None, request_id=None, expected_context=None):
+def relay_request(root, action, *, profile=None, request_id=None, expected_context=None, file_key=None, session_id=None):
     settings = config(workspace.private_dir(root))
     payload = {'action': action}
     if profile is not None:
@@ -389,6 +552,10 @@ def relay_request(root, action, *, profile=None, request_id=None, expected_conte
         payload['request_id'] = request_id
     if expected_context is not None:
         payload['expected_context'] = expected_context
+    if file_key is not None:
+        payload['file_key'] = file_key
+    if session_id is not None:
+        payload['session_id'] = session_id
     try:
         reply = local_endpoint.request(settings['port'], settings['token'], 'POST', '/control/relay',
                                        workspace.encode(payload), limit=RELAY_REPLY_LIMIT)
@@ -438,11 +605,11 @@ def change_request(root, file_key, page_id, *, cursor=None, timeout=0):
     return value
 
 
-def native_state(root):
+def native_state(root, *, session_id=None, file_key=None):
     catalogue = workspace.current(workspace.private_dir(root), repair=False)
     expected = catalogue.get('runtime')
-    client = NATIVE_CLIENTS.get(str(Path(root).resolve()))
-    observed = client['runtime'] if client and time.time() - client['seen_at'] <= 15 else None
+    client = _native_client(str(Path(root).resolve()), session_id=session_id, file_key=file_key)
+    observed = client['runtime'] if client and time.time() - client['seen_at'] <= RELAY_TTL else None
     return {'expected_native': expected, 'observed_native': observed,
             'native_status': 'current-self-reported' if expected and expected == observed else 'unverified',
             'native_action': None if expected and expected == observed else 'Reopen the SAME registered Figma Flow plugin; then wait for its authenticated poll.'}
@@ -601,6 +768,13 @@ def uncertainties(directory):
     pending = {'schema': SCHEMA, 'operations': operations}
     workspace.atomic(directory / 'uncertainty.json', workspace.encode(pending))
     return pending
+
+
+def uncertainties_for_file(directory, file_key):
+    return {
+        op_id: op for op_id, op in uncertainties(directory)['operations'].items()
+        if op.get('file_key') in {None, file_key}
+    }
 
 
 def recovery_read(request, row, data, original):
@@ -762,6 +936,44 @@ def conflict_detail(readback):
     return {'plan_sha256': plan, 'actions': ['save-evidence', 'read-scope'], 'conflicts': rows}
 
 
+def _peek_active_operations(root):
+    """Strictly read-only listing of non-terminal operations across files without creating files."""
+    directory = Path(root) / '.control'
+    if not directory.is_dir():
+        return []
+    active_path = directory / 'active.json'
+    if not active_path.is_file() or active_path.is_symlink():
+        return []
+    now = time.time()
+    try:
+        pointer = workspace.read(active_path, private=True, limit=4096)
+    except (OSError, ValueError):
+        return []
+    candidate_ids = []
+    by_file = pointer.get('by_file')
+    if isinstance(by_file, dict):
+        candidate_ids.extend(op_id for op_id in by_file.values() if isinstance(op_id, str))
+    if isinstance(pointer.get('id'), str):
+        candidate_ids.append(pointer['id'])
+    rows = []
+    seen = set()
+    for op_id in candidate_ids:
+        if op_id in seen or not re.fullmatch(r'[a-f0-9]{32}', op_id):
+            continue
+        seen.add(op_id)
+        req_path = directory / 'requests' / (op_id + '.json')
+        if not req_path.is_file() or req_path.is_symlink():
+            continue
+        try:
+            req = workspace.read(req_path, private=True, limit=32768)
+        except (OSError, ValueError):
+            continue
+        if req.get('state') not in TERMINAL and now < req.get('deadline', 0):
+            rows.append(req)
+    rows.sort(key=lambda item: item.get('created_at', 0))
+    return rows
+
+
 def _peek_active_and_uncertain(root):
     """Strictly read-only inspection of active and uncertain state without creating files."""
     directory = Path(root) / '.control'
@@ -781,11 +993,23 @@ def _peek_active_and_uncertain(root):
     if active_path.is_file() and not active_path.is_symlink():
         try:
             pointer = workspace.read(active_path, private=True, limit=4096)
-            op_id = pointer.get('id')
-            if isinstance(op_id, str) and re.fullmatch(r'[a-f0-9]{32}', op_id):
+            candidate_ids = []
+            by_file = pointer.get('by_file')
+            if isinstance(by_file, dict):
+                candidate_ids.extend(op_id for op_id in by_file.values() if isinstance(op_id, str))
+            if isinstance(pointer.get('id'), str):
+                candidate_ids.append(pointer['id'])
+            for op_id in candidate_ids:
+                if not re.fullmatch(r'[a-f0-9]{32}', op_id):
+                    continue
                 req_path = directory / 'requests' / (op_id + '.json')
                 if req_path.is_file() and not req_path.is_symlink():
-                    active_req = workspace.read(req_path, private=True, limit=32768)
+                    req = workspace.read(req_path, private=True, limit=32768)
+                    if req.get('state') not in TERMINAL:
+                        if active_req is None or req.get('created_at', 0) < active_req.get('created_at', float('inf')):
+                            active_req = req
+                    elif active_req is None:
+                        active_req = req
         except (OSError, ValueError):
             pass
     return active_req, uncertain_count
@@ -795,7 +1019,7 @@ def _live_metrics_state(root):
     """Compute headless plugin/operation health without mutating workspace files."""
     key = str(Path(root).resolve())
     now = time.time()
-    client = NATIVE_CLIENTS.get(key)
+    client = _native_client(key)
     seen_at = client.get('seen_at') if isinstance(client, dict) else None
     last_seen_age = round(max(0.0, now - seen_at), 3) if isinstance(seen_at, (int, float)) else -1.0
     plugin_online = bool(isinstance(seen_at, (int, float)) and now - seen_at <= RELAY_TTL)
@@ -803,7 +1027,7 @@ def _live_metrics_state(root):
     runtime_current = False
     if plugin_online:
         try:
-            native = native_state(root)
+            native = native_state(root, session_id=client.get('session_id') if client else None)
             runtime_status = native.get('native_status') or 'unverified'
             runtime_current = runtime_status == 'current-self-reported'
         except (OSError, ValueError):
@@ -817,11 +1041,11 @@ def _live_metrics_state(root):
         if isinstance(created, (int, float)):
             active_age = round(max(0.0, now - created), 3)
     with RELAY_LOCK:
-        relay_ctx = (RELAY_STATES.get(key) or {}).get('context')
-    profile_needs_setup = bool(
-        isinstance(relay_ctx, dict)
-        and isinstance(relay_ctx.get('profile'), dict)
-        and relay_ctx['profile'].get('needsSetup') is True
+        relay_state = RELAY_STATES.get(key) or {}
+        live_sessions = _live_relay_sessions(relay_state, now) if relay_state else []
+    profile_needs_setup = any(
+        isinstance(ctx.get('profile'), dict) and ctx['profile'].get('needsSetup') is True
+        for ctx in live_sessions
     )
     return {
         'plugin_online': plugin_online,
@@ -932,22 +1156,106 @@ def _record_operation_terminal(root, request, *, task_kind='unknown', readback_b
         pass
 
 
-def active(directory):
-    path = directory / 'active.json'
-    if not path.exists():
-        return None
-    pointer = workspace.read(path, private=True, limit=4096)
-    operation_id = pointer.get('id')
-    if not isinstance(operation_id, str) or not re.fullmatch(r'[a-f0-9]{32}', operation_id):
-        raise ValueError('Invalid operation pointer')
-    request = workspace.read(directory / 'requests' / (operation_id + '.json'), private=True, limit=32768)
-    if request['state'] not in TERMINAL and time.time() >= request['deadline']:
+def _expire_if_due(directory, request):
+    if request and request['state'] not in TERMINAL and time.time() >= request['deadline']:
         request.update(state='uncertain' if request['state'] == 'claimed' else 'expired', completed_at=time.time())
         if request['state'] == 'uncertain' and lifecycle_present(request):
             record_phase(request, 'uncertain')
         save(directory, request)
         _record_operation_terminal(directory.parent, request, task_kind='unknown')
     return request
+
+
+def _read_active_map(directory):
+    path = directory / 'active.json'
+    if not path.exists():
+        return None, {}
+    pointer = workspace.read(path, private=True, limit=4096)
+    latest_id = pointer.get('id')
+    if latest_id is not None and (not isinstance(latest_id, str) or not re.fullmatch(r'[a-f0-9]{32}', latest_id)):
+        raise ValueError('Invalid operation pointer')
+    by_file = {}
+    raw_by_file = pointer.get('by_file')
+    if raw_by_file is not None:
+        if not isinstance(raw_by_file, dict):
+            raise ValueError('Invalid operation pointer')
+        for fkey, oid in raw_by_file.items():
+            if (not isinstance(fkey, str) or not re.fullmatch(r'[A-Za-z0-9]{1,128}', fkey) or
+                    not isinstance(oid, str) or not re.fullmatch(r'[a-f0-9]{32}', oid)):
+                raise ValueError('Invalid operation pointer')
+            by_file[fkey] = oid
+    elif latest_id is not None:
+        req = workspace.read(directory / 'requests' / (latest_id + '.json'), private=True, limit=32768)
+        if isinstance(req.get('file_key'), str):
+            by_file[req['file_key']] = latest_id
+    return latest_id, by_file
+
+
+def _write_active_map(directory, by_file, latest_id):
+    cleaned = dict(by_file)
+    if len(cleaned) > MAX_ACTIVE_FILES:
+        items = []
+        for fkey, oid in cleaned.items():
+            req = None
+            try:
+                req = workspace.read(directory / 'requests' / (oid + '.json'), private=True, limit=32768)
+            except (OSError, ValueError):
+                pass
+            is_live = bool(req and req.get('state') not in TERMINAL)
+            created = req.get('created_at', 0) if isinstance(req, dict) else 0
+            items.append((fkey, oid, is_live, created))
+        # Evict oldest terminal entries first.
+        items.sort(key=lambda item: (item[2], item[3]))
+        while len(cleaned) > MAX_ACTIVE_FILES and items:
+            drop_fkey, _, _, _ = items.pop(0)
+            cleaned.pop(drop_fkey, None)
+    workspace.atomic(directory / 'active.json', workspace.encode({'id': latest_id, 'by_file': cleaned}))
+
+
+def active_for_file(directory, file_key):
+    latest_id, by_file = _read_active_map(directory)
+    operation_id = by_file.get(file_key)
+    if operation_id is None and latest_id and latest_id not in by_file.values():
+        candidate = workspace.read(directory / 'requests' / (latest_id + '.json'), private=True, limit=32768)
+        if candidate.get('file_key') == file_key:
+            operation_id = latest_id
+    if operation_id is None:
+        return None
+    request = workspace.read(directory / 'requests' / (operation_id + '.json'), private=True, limit=32768)
+    return _expire_if_due(directory, request)
+
+
+def active_operations(directory):
+    latest_id, by_file = _read_active_map(directory)
+    rows = []
+    seen = set()
+    for op_id in [oid for oid in by_file.values()] + ([latest_id] if latest_id else []):
+        if op_id in seen:
+            continue
+        seen.add(op_id)
+        request = _expire_if_due(directory, workspace.read(directory / 'requests' / (op_id + '.json'), private=True, limit=32768))
+        if request and request.get('state') not in TERMINAL:
+            rows.append(request)
+    rows.sort(key=lambda item: item.get('created_at', 0))
+    return rows
+
+
+def active(directory, *, file_key=None):
+    if file_key is not None:
+        return active_for_file(directory, file_key)
+    latest_id, by_file = _read_active_map(directory)
+    if latest_id is None:
+        return None
+    latest = None
+    seen = set()
+    for op_id in [latest_id, *by_file.values()]:
+        if op_id in seen:
+            continue
+        seen.add(op_id)
+        request = _expire_if_due(directory, workspace.read(directory / 'requests' / (op_id + '.json'), private=True, limit=32768))
+        if op_id == latest_id:
+            latest = request
+    return latest
 
 
 def control_embedded_in_manifest(root, control_value):
@@ -1006,10 +1314,10 @@ def enqueue(root, key, operation, file_key, page_id, revision, timeout, *, focus
     with workspace.locked(root) as root:
         config(root)
         directory = state_dir(root)
-        previous = active(directory)
+        previous = active_for_file(directory, file_key)
         if previous and previous['state'] not in TERMINAL:
-            raise ValueError('An operation is already active; inspect its status')
-        if uncertainties(directory)['operations'] and operation not in READ_ONLY_OPERATIONS:
+            raise ValueError('An operation is already active for this file; inspect its status')
+        if uncertainties_for_file(directory, file_key) and operation not in READ_ONLY_OPERATIONS:
             raise ValueError('Previous claimed operation is uncertain; re-read the native state before starting another command')
         if not isinstance(fresh, bool) or (fresh and operation != 'import'):
             raise ValueError('Fresh import is available only for import operations')
@@ -1034,7 +1342,9 @@ def enqueue(root, key, operation, file_key, page_id, revision, timeout, *, focus
         task(root, request)
         record_phase(request, 'queued')
         save(directory, request)
-        workspace.atomic(directory / 'active.json', workspace.encode({'id': request['id']}))
+        _, by_file = _read_active_map(directory)
+        by_file[file_key] = request['id']
+        _write_active_map(directory, by_file, request['id'])
         return request
 
 
@@ -1061,17 +1371,15 @@ def poll(root, payload):
                 raise ValueError('Relay context differs from authenticated plugin poll')
         relay = relay_poll(root, relay_payload)
     with workspace.locked(root) as root:
-        client_key = str(root.resolve())
-        if len(NATIVE_CLIENTS) >= 256 and client_key not in NATIVE_CLIENTS:
-            NATIVE_CLIENTS.pop(next(iter(NATIVE_CLIENTS)))
-        NATIVE_CLIENTS[client_key] = {'runtime': runtime, 'session_id': session, 'seen_at': time.time()}
-        native = native_state(root)
+        _record_native_session(str(root.resolve()), session, payload['file_key'], payload['page_id'], runtime, time.time())
+        native = native_state(root, session_id=session, file_key=payload['file_key'])
         directory = state_dir(root)
-        request = active(directory)
+        request = active_for_file(directory, payload['file_key'])
+        file_uncertainties = uncertainties_for_file(directory, payload['file_key'])
         if relay is not None and relay.get('profile_request'):
             unresolved = request and request['state'] in {'pending', 'claimed', 'uncertain'}
             if not unresolved:
-                unresolved = bool(uncertainties(directory)['operations'])
+                unresolved = bool(file_uncertainties)
             relay_context = relay.get('context')
             current_native = (native['native_status'] == 'current-self-reported' and
                               isinstance(relay_context, dict) and relay_context.get('session_id') == session and
@@ -1122,7 +1430,7 @@ def poll(root, payload):
             return poll_reply({'operation': None, **native})
         if request['operation'] != 'read' and native['native_status'] != 'current-self-reported':
             return poll_reply({'operation': None, **native})
-        if request['operation'] not in READ_ONLY_OPERATIONS and uncertainties(directory)['operations']:
+        if request['operation'] not in READ_ONLY_OPERATIONS and file_uncertainties:
             request.update(state='error', error='Previous mutation remains uncertain', completed_at=time.time())
             save(directory, request)
             _record_operation_terminal(root, request, task_kind='unknown')
@@ -1189,7 +1497,7 @@ def result(root, payload, *, large_body_bytes=None):
             if lifecycle_present(receipt):
                 validate_lifecycle(receipt)
             return {'accepted': True, 'id': receipt['id'], 'state': receipt['state']}
-        request = active(directory)
+        request = active_for_file(directory, payload['file_key'])
         if not request or request['state'] != 'claimed':
             raise ValueError('No current claim accepts this result')
         if lifecycle_present(request):
@@ -1234,10 +1542,17 @@ def result(root, payload, *, large_body_bytes=None):
             for operation_id in recovered:
                 del pending['operations'][operation_id]
             workspace.atomic(directory / 'uncertainty.json', workspace.encode(pending))
-        client = NATIVE_CLIENTS.get(str(root.resolve()))
-        if (client and client.get('session_id') == payload['session_id'] and client.get('runtime')
-                and client['runtime'] == workspace.current(root, repair=False).get('runtime')):
-            client['seen_at'] = time.time()
+        root_key = str(root.resolve())
+        expected_runtime = workspace.current(root, repair=False).get('runtime')
+        client = NATIVE_CLIENTS.get(root_key)
+        session_entry = NATIVE_SESSIONS.get((root_key, payload['session_id']))
+        now_seen = time.time()
+        if client and 'session_id' in client and expected_runtime:
+            if (session_entry and session_entry.get('runtime') == expected_runtime
+                    and session_entry.get('file_key') == payload['file_key']):
+                session_entry['seen_at'] = now_seen
+            if client.get('session_id') == payload['session_id'] and client.get('runtime') == expected_runtime:
+                client['seen_at'] = now_seen
         _record_operation_terminal(
             root,
             request,
@@ -1248,19 +1563,33 @@ def result(root, payload, *, large_body_bytes=None):
         return {'accepted': True, 'id': request['id'], 'state': request['state']}
 
 
-def status(root, operation_id=None):
+def status(root, operation_id=None, *, file_key=None):
     with workspace.locked(root) as root:
         directory = state_dir(root)
-        current = active(directory)
-        if operation_id is None:
+        if operation_id is not None and file_key is not None:
+            raise ValueError('Specify either --id or --file-key')
+        if operation_id is None and file_key is not None:
+            if not isinstance(file_key, str) or not re.fullmatch(r'[A-Za-z0-9]{1,128}', file_key):
+                raise ValueError('Exact Figma file key required')
+            current_ops = active_operations(directory)
+            value = active_for_file(directory, file_key) or {'state': 'idle', 'file_key': file_key}
+        elif operation_id is None:
+            current = active(directory)
+            current_ops = active_operations(directory)
             value = current or {'state': 'idle'}
         else:
             if not re.fullmatch(r'[a-f0-9]{32}', operation_id):
                 raise ValueError('Invalid operation ID')
+            current = active(directory)
+            current_ops = active_operations(directory)
             value = current if current and current['id'] == operation_id else workspace.read(directory / 'requests' / (operation_id + '.json'), private=True, limit=32768)
         pending = uncertainties(directory)['operations']
         journal = journal_history(value if isinstance(value, dict) else {})
-        return {**value, 'journal': journal, 'uncertain_operations': [{key: original[key] for key in ('id', 'key', 'operation', 'file_key', 'page_id', 'revision')} for original in pending.values()]}
+        return {**value, 'journal': journal,
+                'active_operations': [{'id': op['id'], 'key': op['key'], 'operation': op['operation'],
+                                       'file_key': op['file_key'], 'page_id': op['page_id'], 'state': op['state']}
+                                      for op in current_ops],
+                'uncertain_operations': [{key: original[key] for key in ('id', 'key', 'operation', 'file_key', 'page_id', 'revision')} for original in pending.values()]}
 
 
 def history(root, payload):
@@ -1431,7 +1760,7 @@ def note_native_started(root, payload):
         raise ValueError('Invalid native runtime identity')
     with workspace.locked(root) as root:
         directory = state_dir(root)
-        request = active(directory)
+        request = active_for_file(directory, payload['file_key'])
         if not request or request['state'] != 'claimed':
             raise ValueError('No current claim accepts native start')
         if any(payload[key] != request[key] for key in ('id', 'claim_id', 'session_id', 'file_key', 'page_id', 'revision')):
@@ -1440,7 +1769,7 @@ def note_native_started(root, payload):
             raise ValueError('Invalid operation lifecycle')
         validate_lifecycle(request)
         current = workspace.current(root, repair=False).get('runtime')
-        client = NATIVE_CLIENTS.get(str(root.resolve()))
+        client = _native_client(str(root.resolve()), session_id=payload['session_id'], file_key=payload['file_key'])
         if payload['runtime'] != current or not client or client.get('session_id') != payload['session_id'] or client.get('runtime') != payload['runtime']:
             raise ValueError('Native start runtime does not match the claimed session')
         if any(isinstance(event, dict) and event.get('phase') == 'native-started' for event in request['phase_events']):
@@ -1746,6 +2075,8 @@ def setup_status(root=None):
         'manifest_synced': False,
         'server_running': False,
         'plugin_connected': False,
+        'connected_session_count': 0,
+        'connected_sessions': [],
         'profile_confirmed': False,
         'profile': None,
         'context_fingerprint': None,
@@ -1785,13 +2116,29 @@ def setup_status(root=None):
 
     if result['server_running'] and result['plugin_connected']:
         try:
-            ctx_reply = relay_request(target, 'context')
-            if ctx_reply.get('state') == 'ok':
-                ctx = ctx_reply.get('context') or {}
-                prof = ctx.get('profile')
-                result['profile'] = prof
-                result['context_fingerprint'] = ctx_reply.get('context_fingerprint')
-                result['profile_confirmed'] = bool(isinstance(prof, dict) and prof.get('needsSetup') is False)
+            sess_reply = relay_request(target, 'sessions')
+            sessions_list = sess_reply.get('sessions') if sess_reply.get('state') == 'ok' else []
+            if sessions_list:
+                result['connected_session_count'] = len(sessions_list)
+                result['connected_sessions'] = [
+                    {
+                        'session_id': row.get('session_id'),
+                        'file_key': row.get('file_key'),
+                        'page_id': row.get('page_id'),
+                        'native_status': row.get('native_status'),
+                        'profile_confirmed': bool(isinstance(row.get('profile'), dict) and row['profile'].get('needsSetup') is False),
+                        'active_operation': row.get('active_operation'),
+                    }
+                    for row in sessions_list
+                ]
+                unconfirmed = [
+                    row for row in sessions_list
+                    if not (isinstance(row.get('profile'), dict) and row['profile'].get('needsSetup') is False)
+                ]
+                primary = unconfirmed[0] if unconfirmed else sessions_list[0]
+                result['profile'] = primary.get('profile')
+                result['context_fingerprint'] = primary.get('context_fingerprint')
+                result['profile_confirmed'] = not unconfirmed
         except (ReadinessError, OSError, ValueError):
             pass
 
@@ -1839,7 +2186,7 @@ def main(argv=None):
     metrics_cli.register_metrics_subparser(commands)
     setup_cmd = commands.add_parser('setup-status', help='Check existing PC workspace and connection status without re-configuring')
     setup_cmd.add_argument('--workspace', type=Path)
-    for name in ('enable', 'serve', 'run', 'status', 'context', 'profile', 'changes'):
+    for name in ('enable', 'serve', 'run', 'status', 'sessions', 'context', 'profile', 'changes'):
         command = commands.add_parser(name)
         command.add_argument('--workspace', type=Path, required=True)
         if name == 'enable':
@@ -1847,6 +2194,10 @@ def main(argv=None):
             command.add_argument('--refresh', action='store_true', help='Refresh workspace automatically if control config is not yet embedded')
         elif name == 'status':
             command.add_argument('--id')
+            command.add_argument('--file-key', help='Inspect the latest operation state for a specific Figma file key')
+        elif name == 'context':
+            command.add_argument('--file-key', help='Filter active context by Figma file key')
+            command.add_argument('--session-id', help='Filter active context by plugin session ID')
         elif name == 'changes':
             command.add_argument('--file-key', required=True)
             command.add_argument('--page-id', required=True)
@@ -1858,6 +2209,8 @@ def main(argv=None):
             command.add_argument('--seat', choices=sorted(PROFILE_SEATS))
             command.add_argument('--request-id')
             command.add_argument('--expected-context')
+            command.add_argument('--file-key', help='Target a specific open Figma file key')
+            command.add_argument('--session-id', help='Target a specific plugin session ID')
             command.add_argument('--timeout', type=float, default=30)
         elif name == 'run':
             for field in ('key', 'file-key', 'page-id', 'expected-revision'):
@@ -1893,9 +2246,11 @@ def main(argv=None):
             serve(args.workspace)
             return 0
         elif args.command == 'status':
-            value = status(args.workspace, args.id)
+            value = status(args.workspace, args.id, file_key=args.file_key)
+        elif args.command == 'sessions':
+            value = relay_request(args.workspace, 'sessions')
         elif args.command == 'context':
-            value = relay_request(args.workspace, 'context')
+            value = relay_request(args.workspace, 'context', file_key=args.file_key, session_id=args.session_id)
         elif args.command == 'changes':
             cursor = json.loads(args.cursor) if args.cursor else None
             if not 0 <= args.timeout <= 60:
@@ -1904,7 +2259,7 @@ def main(argv=None):
                                    cursor=cursor, timeout=args.timeout)
         elif args.command == 'profile':
             if args.action == 'get':
-                value = relay_request(args.workspace, 'profile-get')
+                value = relay_request(args.workspace, 'profile-get', file_key=args.file_key, session_id=args.session_id)
             elif args.action == 'status':
                 if not args.request_id:
                     raise ValueError('Profile status requires --request-id')
@@ -1914,7 +2269,7 @@ def main(argv=None):
                 if not args.plan or not args.seat or not args.expected_context or not 1 <= args.timeout <= max_wait:
                     raise ValueError('Profile set requires --plan, --seat, --expected-context and a valid timeout')
                 value = relay_request(args.workspace, 'profile-set', profile={'plan': args.plan, 'seat': args.seat},
-                                      expected_context=args.expected_context)
+                                      expected_context=args.expected_context, file_key=args.file_key, session_id=args.session_id)
                 if value.get('state') == 'pending':
                     deadline = time.time() + args.timeout
                     while value.get('state') == 'pending' and time.time() < deadline:

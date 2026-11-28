@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { QueryClient, useQuery } from '@tanstack/react-query';
 
-const empty = { status: 'offline', selection: [], selectionTotal: 0 };
+const empty = { status: 'offline', selection: [], selectionTotal: 0, diagnostics: null };
 const states = new Set(['live', 'offline', 'busy', 'uncertain']);
 const nonempty = value => typeof value === 'string' && value.trim() ? value : '';
 
@@ -24,12 +24,22 @@ export function useRelaySnapshot(send) {
       channel.fileKey = nonempty(msg.file.key);
       const selection = Array.isArray(msg.selection) ? msg.selection.slice(0,__FLOW_MAX_NODES__).filter(item =>
         typeof item?.id === 'string' && typeof item?.type === 'string' && typeof item?.name === 'string') : [];
+      const rawDiag = msg.diagnostics && typeof msg.diagnostics === 'object' ? msg.diagnostics : null;
+      const diagnostics = rawDiag ? {
+        reason: nonempty(rawDiag.reason),
+        port: typeof rawDiag.port === 'number' && Number.isInteger(rawDiag.port) ? String(rawDiag.port) : nonempty(rawDiag.port),
+        pluginId: nonempty(rawDiag.pluginId),
+        generation: nonempty(rawDiag.generation),
+        runtimeStatus: nonempty(rawDiag.runtimeStatus),
+      } : null;
       const snapshot = {
         status:msg.status, file:msg.file, page:msg.page, selection,
         selectionTotal:Number.isInteger(msg.selectionTotal) ? Math.max(selection.length,msg.selectionTotal) : selection.length,
         selectionTruncated:msg.selectionTruncated === true,
         lastOkAt:nonempty(msg.lastOkAt), lastResult:['ok','error','uncertain'].includes(msg.lastResult) ? msg.lastResult : null,
-        profile:msg.profile && typeof msg.profile === 'object' ? msg.profile : null, error:nonempty(msg.error),
+        profile:msg.profile && typeof msg.profile === 'object' ? msg.profile : null,
+        diagnostics,
+        error:nonempty(msg.error),
       };
       if (Object.hasOwn(msg, 'locale')) {
         const languages = navigator.languages.map(tag => tag.toLowerCase().split('-')[0]);

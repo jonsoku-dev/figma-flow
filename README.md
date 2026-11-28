@@ -2,7 +2,7 @@
 
 [제품 헌법](CONSTITUTION.md) · [Design 전용 설계서](specs/design-specialization/spec.md)
 
-Figma에는 **Figma Flow 하나**를 등록합니다. 사용자가 대상 Design 파일에서 플러그인을 실행 세션마다 한 번 직접 열면, Codex가 localhost 명령으로 문맥을 읽고 작업을 준비·실행·검증합니다. 대화·승인·프로필 선언·결과 해석은 Codex에서 합니다. Figma 패널은 현재 파일·페이지·선택과 연결·실행·마지막 결과를 보여 주는 수동 뷰어입니다. 공식 Figma MCP는 필요하지 않습니다.
+Figma에는 **Figma Flow 하나**를 등록합니다. 사용자가 대상 Design 파일(여러 탭 동시 실행 지원)에서 플러그인을 실행 세션마다 한 번 직접 열면, Codex가 localhost 명령으로 문맥을 읽고 작업을 준비·실행·검증합니다. 대화·승인·프로필 선언·결과 해석은 Codex에서 합니다. Figma 패널은 현재 파일·페이지·선택과 연결·실행 상태·원인별 진단(`플러그인 ID·포트·세대`)을 보여 주는 수동 뷰어입니다. 공식 Figma MCP는 필요하지 않습니다. [1회 설정·세션 사용·멀티탭 요약](docs/guide.md#quickstart-lifecycle)
 
 “이 페이지를 지켜보고 내가 Figma에서 고치면 이 대화로 알려 줘”라고 요청할 수 있습니다. Codex는 변경된 노드의 현재 값을 다시 읽고, 연결된 그래프의 반영 후보와 충돌을 구분합니다. [실시간 역방향 동기화](docs/guide.md#live-change-sync)
 

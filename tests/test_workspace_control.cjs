@@ -264,3 +264,91 @@ test('relay tick reloads profile on fileKey change and loads before saving when 
   assert.equal(saveCalls,1);
   assert.equal(env.workspaceProfile?.needsSetup,false);
 });
+
+test('relay diagnostics distinguish missing-config, file-key-unavailable, server-unreachable, and stale-runtime', async()=>{
+  const hostSource = fs.readFileSync(path.join(__dirname, '../figma-bridge/workspace_host.js'), 'utf8');
+  const diagMatch = hostSource.match(/function workspaceRelayDiagnostics\(\)[\s\S]*?\n\}/);
+  assert.ok(diagMatch, 'workspaceRelayDiagnostics helper must exist');
+
+  const events = [];
+  const makeEnv = (extra = {}) => {
+    const env = {
+      figma: {fileKey:'file-1', pluginId:'554433', currentPage:{id:'0:1', name:'Page', selection:[]}, root:{name:'Doc'}, currentUser:{id:'user-1'}, ui:{postMessage(m){events.push(m);}}},
+      workspaceActive: null,
+      workspaceHomeSession: 'home',
+      workspaceRelayViewer: true,
+      workspaceRelayRequestId: 'req-1',
+      workspaceRelayStatus: 'offline',
+      workspaceRelayError: null,
+      workspaceRelayLastResult: null,
+      workspaceRelayLastOkAt: null,
+      workspaceProfile: {declared:{plan:'unknown',seat:'unknown'},needsSetup:false,storage:'local',capabilities:{}},
+      WORKSPACE_READ_LIMITS: {maxNodes: 20},
+      WORKSPACE_PROFILE_POLICY: policy,
+      WORKSPACE_RUNTIME: {version:'1.1.0', implementation:'a'.repeat(64), generation:'1234567890abcdef1234567890abcdef'},
+      workspaceState: {locale:'ko',history:[]},
+      workspaceServerHistory: [],
+      workspaceJournalUnavailable: false,
+      workspaceInputFreshness: [],
+      workspaceRelaySelection: () => [],
+      workspaceRelaySelectionTotal: () => 0,
+      workspaceRelayIdentity: () => 'user-1',
+      workspaceRelayProfile: () => null,
+      workspaceRelayContext: () => ({session_id: env.controlRunSession, file_key: env.figma.fileKey, page_id:'0:1', user_id:'user-1', selection:[], selection_total:0, selection_truncated:false, profile:null}),
+      ...extra,
+    };
+    const viewerMatch = hostSource.match(/function workspaceRelayViewerState[\s\S]*?\n\}/);
+    vm.runInNewContext(source + '\n' + diagMatch[0] + '\n' + viewerMatch[0], env);
+    return env;
+  };
+
+  // 1. Missing WORKSPACE_CONTROL_CONFIG
+  events.length = 0;
+  await makeEnv().workspaceControlTick();
+  assert.equal(events.at(-1).status, 'offline');
+  assert.equal(events.at(-1).diagnostics.reason, 'missing-control-config');
+  assert.equal(events.at(-1).diagnostics.pluginId, '554433');
+
+  // 2. Unavailable figma.fileKey
+  events.length = 0;
+  await makeEnv({
+    WORKSPACE_CONTROL_CONFIG: {url:'http://localhost:43180', token:'tok'},
+    figma: {fileKey:'', pluginId:'554433', currentPage:{id:'0:1', name:'Page', selection:[]}, root:{name:'Draft'}, ui:{postMessage(m){events.push(m);}}},
+  }).workspaceControlTick();
+  assert.equal(events.at(-1).status, 'offline');
+  assert.equal(events.at(-1).diagnostics.reason, 'file-key-unavailable');
+  assert.equal(events.at(-1).diagnostics.port, '43180');
+
+  // 3. Server unreachable -> server-unreachable
+  events.length = 0;
+  await makeEnv({
+    WORKSPACE_CONTROL_CONFIG: {url:'http://localhost:43180', token:'tok'},
+    async controlRequest(){ throw new Error('ECONNREFUSED'); },
+  }).workspaceControlTick();
+  assert.equal(events.at(-1).status, 'offline');
+  assert.equal(events.at(-1).diagnostics.reason, 'server-unreachable');
+  assert.equal(events.at(-1).diagnostics.port, '43180');
+
+  // 4. Stale runtime -> stale-runtime, then recovery clears reason
+  events.length = 0;
+  let nativeStatus = 'unverified';
+  const envStale = makeEnv({
+    WORKSPACE_CONTROL_CONFIG: {url:'http://localhost:43180', token:'tok'},
+    async controlRequest(_route, body){
+      return {
+        native_status: nativeStatus,
+        relay: {context: {session_id: body.session_id, file_key: 'file-1', page_id: '0:1', user_id: 'user-1'}},
+        operation: null,
+      };
+    },
+  });
+  await envStale.workspaceControlTick();
+  assert.equal(events.at(-1).status, 'uncertain');
+  assert.equal(events.at(-1).diagnostics.reason, 'stale-runtime');
+  assert.equal(events.at(-1).diagnostics.generation, '12345678');
+
+  nativeStatus = 'current-self-reported';
+  await envStale.workspaceControlTick();
+  assert.equal(events.at(-1).status, 'live');
+  assert.equal(events.at(-1).diagnostics.reason, null);
+});

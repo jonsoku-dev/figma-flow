@@ -6,11 +6,18 @@ import './styles/relay.css';
 import { panelDesignMetrics } from './panelContracts.mjs';
 
 const text = (value) => typeof value === 'string' && value.trim() ? value : '';
+const diagReasons = new Set(['missing-control-config', 'server-unreachable', 'stale-runtime', 'file-key-unavailable']);
 
 export default function RelayViewer({ locale, t, send }) {
   const state = useRelaySnapshot(send);
 
   const statusKey = state.status === 'busy' ? 'running' : state.status === 'live' ? 'connected' : state.status;
+  const diag = state.diagnostics;
+  const diagReason = diag && diagReasons.has(diag.reason) ? diag.reason : null;
+  const captionText = diagReason
+    ? t(`relay.diag.${diagReason}`, diagReason === 'server-unreachable' ? { port: text(diag.port) || t('relay.unknown') } : undefined)
+    : t(`relay.caption.${statusKey}`);
+  const hasDiagMeta = Boolean(diag && (text(diag.pluginId) || text(diag.port) || text(diag.generation)));
   const selected = state.selection;
   const selectionLabel = selected.length
     ? selected.map((item) => text(item?.name) || text(item?.type) || t('relay.selection.unnamed')).join(', ')
@@ -30,7 +37,7 @@ export default function RelayViewer({ locale, t, send }) {
         </header>
         <div className="relay-content">
           <h1>{t(`relay.headline.${statusKey}`)}</h1>
-          <p className="relay-caption">{t(`relay.caption.${statusKey}`)}</p>
+          <p className="relay-caption">{captionText}</p>
           <div className="relay-context-row">
             <span><FileText size={panelDesignMetrics.iconMedium} aria-hidden="true" />{t('relay.file')}</span>
             <strong title={state.file?.name || ''}>{text(state.file?.name) || t('relay.unknown')}</strong>
@@ -55,7 +62,8 @@ export default function RelayViewer({ locale, t, send }) {
               {state.lastOkAt && <p>{t('relay.lastResult', { time: state.lastOkAt })}</p>}
               {state.lastResult && <p role={state.lastResult === 'error' ? 'alert' : undefined}>{t(`relay.result.${state.lastResult}`)}{state.lastResult === 'error' && state.error ? ` · ${state.error}` : ''}</p>}
               {state.error && state.lastResult !== 'error' && <p role="alert">{state.error}</p>}
-              {!selected.length && !state.profile && !state.lastOkAt && !state.lastResult && !state.error && <p>{t('relay.noDetails')}</p>}
+              {hasDiagMeta && <p>{t('relay.diag.meta', { pluginId: text(diag.pluginId) || t('relay.unknown'), port: text(diag.port) || t('relay.unknown'), generation: text(diag.generation) || t('relay.unknown') })}</p>}
+              {!selected.length && !state.profile && !state.lastOkAt && !state.lastResult && !state.error && !hasDiagMeta && <p>{t('relay.noDetails')}</p>}
             </div>
           </details>
         </footer>

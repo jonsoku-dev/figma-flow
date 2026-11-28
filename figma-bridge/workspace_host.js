@@ -718,6 +718,20 @@ function workspaceRelayProfile() {
   return {declared:{plan:profile.declared?.plan || 'unknown',seat:profile.declared?.seat || 'unknown'},
     needsSetup:profile.needsSetup === true, storage:['local','session'].includes(profile.storage)?profile.storage:'session', capabilities};
 }
+function workspaceRelayDiagnostics() {
+  let port = null;
+  try {
+    const url = typeof WORKSPACE_CONTROL_CONFIG !== 'undefined' ? WORKSPACE_CONTROL_CONFIG?.url : null;
+    const match = typeof url === 'string' ? url.match(/:(\d{1,5})(?:\/|$)/) : null;
+    if (match) port = match[1];
+  } catch (_) {}
+  const pluginId = typeof figma !== 'undefined' && typeof figma?.pluginId === 'string' && figma.pluginId ? figma.pluginId.slice(0, 64) : null;
+  const generation = typeof WORKSPACE_RUNTIME !== 'undefined' && typeof WORKSPACE_RUNTIME?.generation === 'string' && WORKSPACE_RUNTIME.generation
+    ? WORKSPACE_RUNTIME.generation.slice(0, 8) : null;
+  const reason = typeof workspaceRelayDiagReason === 'string' && workspaceRelayDiagReason ? workspaceRelayDiagReason : null;
+  const runtimeStatus = typeof workspaceRelayRuntimeStatus === 'string' && workspaceRelayRuntimeStatus ? workspaceRelayRuntimeStatus : null;
+  return {reason, port, pluginId, generation, runtimeStatus};
+}
 function workspaceRelayViewerState(status = workspaceRelayStatus, error = workspaceRelayError) {
   if (!workspaceRelayViewer || !workspaceHomeSession) return;
   const page = figma.currentPage || null;
@@ -730,6 +744,7 @@ function workspaceRelayViewerState(status = workspaceRelayStatus, error = worksp
     selection, selectionTotal, selectionTruncated:selectionTotal > selection.length,
     profile:workspaceRelayProfile(), lastOkAt:workspaceRelayLastOkAt,
     lastResult:workspaceRelayLastResult,
+    diagnostics:workspaceRelayDiagnostics(),
     error:typeof error === 'string' ? error.slice(0, 240) : null});
 }
 function workspaceRelayContext() {

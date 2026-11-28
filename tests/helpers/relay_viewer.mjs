@@ -54,6 +54,12 @@ try {
     await waitFor("!document.querySelector('table')");
     await post(requestId, 'other-session', 'busy');
     assert.equal(await evaluate(status), 'live');
+    await post(requestId, 'test-session', 'offline', {
+      locale: 'ko',
+      diagnostics: {reason: 'server-unreachable', port: '43180', pluginId: '554433', generation: 'abcdef12', runtimeStatus: null},
+    });
+    await waitFor("document.querySelector('.relay-caption')?.innerText.includes('43180')");
+    assert.match(await evaluate("document.querySelector('details').innerText"), /554433[\s\S]*43180[\s\S]*abcdef12/);
   });
 } finally {
   await new Promise(resolve => server.close(resolve));

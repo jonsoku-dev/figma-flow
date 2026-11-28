@@ -4,7 +4,9 @@ let controlRetryAt = 0;
 let controlRelayProfileResult = null;
 let controlRelayProfileBinding = null;
 let controlRelayIdentity;
-const controlRunSession = Date.now().toString(36) + '-' + Math.random().toString(36).slice(2);
+let workspaceRelayDiagReason = null;
+let workspaceRelayRuntimeStatus = null;
+const controlRunSession = Date.now().toString(36) + '-' + Math.random().toString(36).slice(2) + '-' + Math.random().toString(36).slice(2, 8);
 // Registered workspaces load their task vocabulary from the same policy as Codex.
 const controlAllowed = typeof WORKSPACE_PROFILE_POLICY !== 'undefined' && WORKSPACE_PROFILE_POLICY?.taskOperations
   ? WORKSPACE_PROFILE_POLICY.taskOperations : Object.freeze({});
@@ -264,18 +266,36 @@ async function controlExecute(task, cmd, beforeDispatch) {
 }
 
 async function workspaceControlTick() {
-  if (typeof WORKSPACE_CONTROL_CONFIG === 'undefined' || !WORKSPACE_CONTROL_CONFIG || controlPolling || workspaceActive || Date.now() < controlRetryAt) return;
+  if (controlPolling || workspaceActive || Date.now() < controlRetryAt) return;
   const home = workspaceHomeSession;
+  const relayMode = typeof workspaceRelayViewer !== 'undefined' && workspaceRelayViewer;
+  if (typeof WORKSPACE_CONTROL_CONFIG === 'undefined' || !WORKSPACE_CONTROL_CONFIG) {
+    if (relayMode && typeof workspaceRelayViewerState === 'function') {
+      workspaceRelayStatus = 'offline';
+      workspaceRelayDiagReason = 'missing-control-config';
+      workspaceRelayError = 'Control configuration is missing; enable control and refresh';
+      workspaceRelayViewerState('offline', workspaceRelayError);
+    }
+    return;
+  }
+  if (!figma.fileKey) {
+    if (relayMode && typeof workspaceRelayViewerState === 'function') {
+      workspaceRelayStatus = 'offline';
+      workspaceRelayDiagReason = 'file-key-unavailable';
+      workspaceRelayError = 'Figma file key is unavailable in this document';
+      workspaceRelayViewerState('offline', workspaceRelayError);
+    }
+    return;
+  }
   controlPolling = true;
   let cmd = null;
   try {
-    const relayMode = typeof workspaceRelayViewer !== 'undefined' && workspaceRelayViewer;
     if (relayMode && typeof workspaceRelayIdentity === 'function') {
       const identity = workspaceRelayIdentity();
       const scopeKey = identity ? identity + ':' + (figma.fileKey || '') : null;
       if (scopeKey !== controlRelayIdentity || (scopeKey && !workspaceProfile)) {
         controlRelayIdentity = scopeKey;
-        if (scopeKey && workspaceProfileManager) {
+        if (scopeKey && typeof workspaceProfileManager !== 'undefined' && workspaceProfileManager) {
           try {workspaceProfile = await workspaceProfileManager.load(workspaceState.locale);} catch (_) {workspaceProfile = null;}
           workspaceRelayViewerState(workspaceRelayStatus);
         } else if (!scopeKey) {
@@ -303,6 +323,7 @@ async function workspaceControlTick() {
       ...(changeBatch ? {change_batch:changeBatch} : {}),
       ...(typeof WORKSPACE_RUNTIME === 'undefined' ? {} : {runtime:WORKSPACE_RUNTIME})});
     if (reply?.changes && changeBatch) changeFeed.acknowledge(reply.changes,changeScope);
+    workspaceRelayRuntimeStatus = reply?.native_status || null;
     if (relayMode) {
       if (controlRelayProfileResult && relay?.profile_result === controlRelayProfileResult) {
         controlRelayProfileResult = null; controlRelayProfileBinding = null;
@@ -311,13 +332,21 @@ async function workspaceControlTick() {
       const context = remote?.context;
       const matches = value => value && value.session_id === controlRunSession && value.file_key === figma.fileKey &&
         value.page_id === figma.currentPage.id && value.user_id === (typeof workspaceRelayIdentity === 'function' ? workspaceRelayIdentity() : null);
-      if (context && matches(context)) {
-        workspaceRelayStatus = 'live'; workspaceRelayError = null;
+      if (reply?.native_status === 'unverified') {
+        workspaceRelayDiagReason = 'stale-runtime';
+        workspaceRelayStatus = 'uncertain';
+        workspaceRelayError = 'Loaded Figma plugin runtime differs from workspace; reopen the same Figma Flow plugin';
+      } else if (context && matches(context)) {
+        workspaceRelayDiagReason = null;
+        workspaceRelayStatus = 'live';
+        workspaceRelayError = null;
       } else if (!context) {
-        workspaceRelayStatus = 'offline'; workspaceRelayError = 'Relay context is unavailable';
+        workspaceRelayDiagReason = null;
+        workspaceRelayStatus = 'offline';
+        workspaceRelayError = 'Relay context is unavailable';
       }
       const request = remote?.profile_request;
-      if (request && matches(request) && workspaceProfileManager && !controlRelayProfileResult) {
+      if (request && matches(request) && typeof workspaceProfileManager !== 'undefined' && workspaceProfileManager && !controlRelayProfileResult) {
         workspaceRelayStatus = 'busy'; workspaceRelayError = null; workspaceRelayViewerState('busy');
         try {
           if (!workspaceProfile) {
@@ -381,6 +410,7 @@ async function workspaceControlTick() {
     controlRetryAt = Date.now() + 8000;
     if (typeof workspaceRelayViewer !== 'undefined' && workspaceRelayViewer) {
       workspaceRelayStatus = cmd ? 'uncertain' : 'offline';
+      workspaceRelayDiagReason = 'server-unreachable';
       if (cmd) workspaceRelayLastResult = 'uncertain';
       workspaceRelayError = 'Local relay is unavailable';
       workspaceRelayViewerState(workspaceRelayStatus, workspaceRelayError);

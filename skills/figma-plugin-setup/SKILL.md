@@ -22,7 +22,12 @@ Figma Flow의 **Codex 설치**, 한 번 등록하는 고정 workspace와 수동 
 
 ## 1. 현재 상태 확인
 
-가장 먼저 작업공간 경로를 사용자에게 다시 묻거나 초기 등록을 안내하기 전에 `python3 -B tools/figma_control.py setup-status`를 실행해 이 PC에 이미 등록된 작업공간(`workspaces.json`)과 서버·플러그인·프로필 상태를 확인한다. `already_configured: true`이면 **새 플러그인 생성, `init`, `manifest.json` 재등록, `enable`을 다시 요구하지 말고** `next_action`에 나온 단일 단계(`start-serve`, `reopen-plugin`, `confirm-profile`)만 수행한다. `ready_for_work: true`이면 설정 안내 없이 바로 요청된 작업으로 진행한다.
+가장 먼저 작업공간 경로를 사용자에게 다시 묻거나 초기 등록을 안내하기 전에 `python3 -B tools/figma_control.py setup-status`를 실행해 이 PC에 이미 등록된 작업공간(`workspaces.json`)과 서버·플러그인(`connected_session_count`, `connected_sessions`)·프로필 상태를 확인한다. `already_configured: true`이면 **새 플러그인 생성, `init`, `manifest.json` 재등록, `enable`을 다시 요구하지 말고** `next_action`에 나온 단일 단계(`start-serve`, `reopen-plugin`, `confirm-profile`)만 수행한다. `ready_for_work: true`이면 설정 안내 없이 바로 요청된 작업으로 진행한다.
+
+> **1회 설정 vs 세션 사용 구분 & 중복 플러그인 방지:**
+> - **처음 1회만:** ID 발급용 임시 `Custom UI` 템플릿 생성 → `figma_workspace.py init` → `figma_control.py enable --port 43180 --refresh` → Figma 개발 메뉴에서 임시 템플릿은 제거하고 고정 `WORKSPACE/manifest.json` **하나만** 등록한다. (최소 연결 확인 시 `demo.py` 워크숍 생성은 생략 가능)
+> - **세션마다:** `setup-status` 확인 → `serve` 유지 → 사용자는 작업할 Figma 탭에서 등록한 `Figma Flow` 한 번 열기(멀티탭 동시 실행 지원).
+> - **갱신 시에만:** 새 작업을 `prepare`·`refresh`해 패널에 "작업공간이 갱신되었습니다" 안내가 뜨면 창을 닫고 같은 플러그인을 한 번 다시 연다.
 
 매 사용의 첫 단계는 실제 설치본의 `tools/plugin_startup.py ensure`다. Figma 접근이 허용된 요청에만 `--figma-access allowed --workspace DIR`을 전달한다. 텍스트 전용·접근 금지에서는 `--figma-access forbidden`으로 Codex/출처 점검만 하고 Figma 파일 갱신·접속·재로드를 실행하지 않는다. 자동 업데이트와 예외는 [통합 가이드](../../docs/guide.md#automatic-startup)를 따른다. 점검만 필요한 개발·검토는 `check`를 사용한다. 변경된 원본·고정된 버전·실행 중 요청·불명확한 복제본 출처를 임의로 덮어쓰지 않는다.
 
@@ -72,9 +77,9 @@ Figma Flow의 **Codex 설치**, 한 번 등록하는 고정 workspace와 수동 
 4. 새 코드 실행과 실제 새 readback을 검증한다. 기존 페이지를 보존하는 반복 import는 새 입력이 적용됐다는 증거가 아니다. 원본 변경·선택 무효화는 기존 워크플로의 재검토 절차로 처리한다. 실패하면 새 진단을 남기고 이전 패키지 **전체**와 설치 소스로 되돌린다.
 5. paired sync 사용 중일 때만 token-sync와 bridge 문서를 읽는다. 정확한 해당 서버만 종료하고 상태 폴더·비밀값·저널을 보존한다. 기존 컴패니언 변경을 거부하면 새 private 상태 디렉터리에서 준비한다. 일반 업데이트를 위해 `--prior-sync`를 임의 사용하지 않는다. 동일 ID의 지원되는 private paired state는 `prepare --kind import`의 `--paired-state`로 등록 workspace에 준비한다. 다른 ID는 원래 standalone 경로를 보존한다. 사용자가 Codex에서 sync를 승인하면 Codex가 `figma_control.py run --operation sync`를 실행하고 실제 결과를 검증한다.
 
-## Codex 대화와 프로필 관리
+## Codex 대화·멀티탭과 프로필 관리
 
-[Codex의 대화·프로필·승인·결과 가이드](../../docs/guide.md#11-codex에서-대화-프로필-승인-결과-관리)를 따른다. `figma_control.py context`와 `profile get`으로 현재 문맥과 저장된 사용자 선언을 읽는다. 사용자가 Codex에서 플랜과 좌석을 확인한 경우만 `profile set --expected-context`를 실행한다. 요청·승인·후보 선택은 현재 Codex 대화에서 받고, Figma 패널을 통한 메시지 복사·채팅 링크·큐 전송을 안내하지 않는다.
+[Codex의 대화·프로필·승인·결과 가이드](../../docs/guide.md#11-codex에서-대화-프로필-승인-결과-관리)를 따른다. 여러 Figma 탭이 동시에 열려 있으면 `figma_control.py sessions --workspace DIR`로 모든 열린 탭의 `session_id`·`file_key`·`page_id`·진행 작업을 조회하고, `context`, `profile get/set`, `status`에는 대상 `--file-key`(또는 `--session-id`)를 함께 전달한다. 파일마다 작업 슬롯과 불확실(`uncertain`) 잠금이 독립적으로 동작하므로 서로 다른 파일 탭에서는 동시 `run`과 프로필 설정이 충돌 없이 실행된다. 사용자가 Codex에서 플랜과 좌석을 확인한 경우만 `profile set --file-key ... --expected-context ...`를 실행한다. 요청·승인·후보 선택은 현재 Codex 대화에서 받고, Figma 패널을 통한 메시지 복사·채팅 링크·큐 전송을 안내하지 않는다.
 
 예전 등록 퇴역을 요청받으면 [등록 정리와 복원 기준](../../docs/guide.md#updates)에 따라 새 프로젝트의 실제 작업·읽기 검증을 마친 뒤 지정된 ID·경로만 해제한다. 원래 패키지·등록 목록·증거를 보관하고 현재 고정 manifest와 문서 데이터는 유지하며 원래 ID로 복원할 수 있게 한다.
 
