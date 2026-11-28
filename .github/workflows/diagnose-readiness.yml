@@ -1,22 +1,127 @@
-name: Diagnose macOS control readiness
+# Generated from library/delivery/test.yml.in and library/delivery/graph.json.
+name: Verify Figma Flow 1.1.1 candidate on hosted runners
 on:
   push:
     branches: [diagnose/macos-readiness-1.1.1]
 permissions:
   contents: read
 jobs:
-  observe:
-    runs-on: macos-15
-    timeout-minutes: 8
+  api_audit:
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
-          ref: 5080a2b2738fdf5b6300a04b90304cd8f3c0b82a
+          ref: d018a3a351a9b3467a6c1426a92a2122a0b83b39
+          fetch-depth: 0
       - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0
         with:
           python-version: '3.13'
-      - name: Check the candidate and original failing CLI tests on hosted macOS
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1
+        with:
+          node-version-file: .nvmrc
+      - name: Reproduce the pinned per-member API evidence
         run: |
-          test "$(git rev-parse HEAD)" = 5080a2b2738fdf5b6300a04b90304cd8f3c0b82a
-          python -B tools/test_env.py python -B -m unittest -v tests.test_control_loopback_startup tests.test_registry_intent
-          python -B tools/test_env.py python -B -m unittest discover -s tests -p test_figma_control.py
+          npm install --prefix "$RUNNER_TEMP/figma-audit" --ignore-scripts --no-audit --no-fund --no-package-lock typescript@5.9.3
+          python -B tools/figma_api_audit.py verify --typescript "$RUNNER_TEMP/figma-audit/node_modules/typescript/lib/typescript.js"
+  panel_graph:
+    name: Panel Graph Governance
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: d018a3a351a9b3467a6c1426a92a2122a0b83b39
+          fetch-depth: 0
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0
+        with:
+          python-version: '3.13'
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1
+        with:
+          node-version-file: .nvmrc
+      - name: Verify the Figma panel Graph and impact evidence
+        shell: bash
+        env:
+          COMPARE_SHA: 3a58cac5e37bfbf647c494515e62a1069b22bc51
+        run: |
+          test "$(git rev-parse HEAD)" = d018a3a351a9b3467a6c1426a92a2122a0b83b39
+          base=$(git merge-base HEAD "$COMPARE_SHA")
+          npm --prefix panel-ui install --ignore-scripts --no-package-lock --no-audit --no-fund
+          python -B tools/test_env.py python -B tools/graph_governance.py verify --base "$base"
+  test:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: d018a3a351a9b3467a6c1426a92a2122a0b83b39
+          fetch-depth: 0
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0
+        with:
+          python-version: '3.13'
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1
+        with:
+          node-version-file: .nvmrc
+      - name: Install native Codex CLI for the OS sandbox tests
+        working-directory: ${{ runner.temp }}
+        run: |
+          case "$(uname -m)" in
+            arm64) target=aarch64-apple-darwin; digest=78ea9c178d2dc8fde71d6494df3b9eab902fd6d6de0a84e65234220d93bb6144 ;;
+            x86_64) target=x86_64-apple-darwin; digest=f46451741936ebdf5201b8becd0820a41be2a01d271b98703e0d9a1670c99993 ;;
+            *) exit 1 ;;
+          esac
+          curl --fail --location --retry 3 --output codex.tar.gz "https://github.com/openai/codex/releases/download/rust-v0.165.0/codex-${target}.tar.gz"
+          echo "${digest}  codex.tar.gz" > codex.sha256
+          shasum -a 256 -c codex.sha256
+          mkdir figma-flow-cli
+          tar -xzf codex.tar.gz -C figma-flow-cli
+          mv "figma-flow-cli/codex-${target}" figma-flow-cli/codex
+          echo "$RUNNER_TEMP/figma-flow-cli" >> "$GITHUB_PATH"
+      - name: Check read-only sandbox
+        run: codex sandbox -P :read-only -C "$GITHUB_WORKSPACE" -- node --version
+      - run: python -m pip install -r requirements-optional.txt
+      - name: Verify pinned public API sources and local examples
+        run: |
+          npm install --prefix "$RUNNER_TEMP/figma-api-tools" --ignore-scripts --no-package-lock --no-audit --no-fund typescript@5.9.3
+          python -m pip install -r library/figma-rest/requirements.txt
+          parser="$RUNNER_TEMP/figma-api-tools/node_modules/typescript/lib/typescript.js"
+          compiler="$RUNNER_TEMP/figma-api-tools/node_modules/typescript/lib/tsc.js"
+          python -B tools/figma_rest_inventory.py verify
+          python -B tools/figma_api_inventory.py verify --typescript "$parser"
+          python -B tools/figma_api_inventory.py coverage --check-baseline --typescript "$parser"
+          python -B tools/workspace_recipes.py verify-helpers
+          python -B library/figma-recipes/build.py --typescript "$compiler"
+          git diff --exit-code -- library/figma-recipes
+          echo "FIGMA_API_TYPESCRIPT=$parser" >> "$GITHUB_ENV"
+          echo "FIGMA_SDK_TEST_TYPESCRIPT=$compiler" >> "$GITHUB_ENV"
+      - name: Build isolated Widget API project and verify recipe rollback
+        run: |
+          widget_dir="$RUNNER_TEMP/figma-flow-widget"
+          python -B tools/figma_widget_project.py init "$widget_dir"
+          python -B tools/figma_widget_project.py check "$widget_dir" --typescript "$FIGMA_SDK_TEST_TYPESCRIPT"
+          python -B tools/figma_widget_project.py build "$widget_dir" --typescript "$FIGMA_SDK_TEST_TYPESCRIPT"
+          python -B tools/test_env.py node library/figma-recipes/test-rollback.cjs
+      - name: Install the offline panel dependencies for product tests
+        run: npm --prefix panel-ui install --ignore-scripts --no-package-lock --no-audit --no-fund
+      - name: Rebuild typed regression components
+        run: |
+          node examples/regression-program/design-system/build.mjs
+          git diff --exit-code -- examples/regression-program/design-system/runtime.js
+      - name: Prepare native text shaping for measured font fixtures
+        run: |
+          brew install fribidi
+          echo "FIGMA_FLOW_FONT_SHAPING_LIB=$(brew --prefix fribidi)/lib" >> "$GITHUB_ENV"
+      - name: Verify the production app design adapter
+        run: |
+          export DYLD_LIBRARY_PATH="$FIGMA_FLOW_FONT_SHAPING_LIB"
+          python -B -c "from PIL import features; assert features.check_feature('raqm') and features.version_feature('fribidi'), 'RAQM and FriBiDi are required for the packaged font measurements'"
+          python -B apps/little-hands/design/prepare_fonts.py
+          python -B tools/test_env.py python -B -m unittest discover -s apps/little-hands/design -p 'test_*.py'
+      - name: Check graph decoding ownership
+        run: python -B tools/maintenance.py check
+      - name: Verify responsive relay colors in Chromium
+        run: python -B tools/test_env.py python -B -m unittest -v tests.test_relay_palette_browser
+      - name: Run full product suites with native text shaping
+        run: |
+          export DYLD_LIBRARY_PATH="$FIGMA_FLOW_FONT_SHAPING_LIB"
+          python -B tools/test_env.py python -B -m unittest discover -v -s tests
+          python -B tools/test_env.py python -B -m unittest discover -s tests -p 'finalize_*.py'
+          python -B tools/test_env.py python -B tools/graph_governance.py test-other-suites
+          python -B tools/test_env.py python -B -m unittest discover -s examples/native-direction-review -p test_demo.py
