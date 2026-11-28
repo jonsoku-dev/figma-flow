@@ -18001,6 +18001,101 @@
           "version": "1.1.0"
         }
       ]
+    },
+    {
+      "commit": "cae9f166bff0a1e888f55f5e943fec224643bf11",
+      "diff_sha256": "5293e06e04f25b7db902ac76a2c17b31bb682519a57b11c998827a8c57ede912",
+      "files": [
+        "CHANGELOG.md",
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/0ab3b4d188928ae91b58baf6e2740321db1c1eca.md",
+        "docs/llm-wiki/patches/38305137a3623b70efc287b6d9c1fdc3d6197751.md",
+        "docs/llm-wiki/patches/61a31cc9203dc88e5cd952958c71392a55d3bc93.md",
+        "docs/llm-wiki/releases.md"
+      ],
+      "parents": [
+        "38305137a3623b70efc287b6d9c1fdc3d6197751"
+      ],
+      "subject": "docs: record local 1.1.0 control recovery candidate",
+      "tree": "641ea7dc5280db17809ddfb5e2ec186f5d7948d0",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.1.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.1.0"
+        }
+      ]
+    },
+    {
+      "commit": "163aab118eb134d6fd8d677a1644f2d78dde4532",
+      "diff_sha256": "40a4ef16671a1f9e26618b3f1fa7724659f9c4bfeb8ae8f0a4afd27c5a7cefdf",
+      "files": [
+        "tests/test_config_transactions.py"
+      ],
+      "parents": [
+        "cae9f166bff0a1e888f55f5e943fec224643bf11"
+      ],
+      "subject": "test(config): pin cross-process lost updates for metrics and registry",
+      "tree": "7914d95695f191e0ee38472482a717e83a2fe064",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.1.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.1.0"
+        }
+      ]
+    },
+    {
+      "commit": "e34a0b87f2c9b44a6d6f90a79fea37c362731ba3",
+      "diff_sha256": "0412afd5d07ccbeee3b5d20fb134e6c53ca4da8aeb224bff3903b0372f5b5e2f",
+      "files": [
+        "tools/metrics/cli.py",
+        "tools/private_io.py",
+        "tools/workspace_registry.py"
+      ],
+      "parents": [
+        "163aab118eb134d6fd8d677a1644f2d78dde4532"
+      ],
+      "subject": "fix(config): serialize metrics updates and workspace registration per file",
+      "tree": "2224d6ecbc1a0d5ab1b65923ddf918a025256093",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.1.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.1.0"
+        }
+      ]
+    },
+    {
+      "commit": "97f1e29baba2695995705b8001115f774d31214a",
+      "diff_sha256": "8ea4b4af2844d2173dd7693224c2a6061d28d27bbf21897f4739d5f7cb817bc9",
+      "files": [
+        "library/figma-api/coverage-baseline.json"
+      ],
+      "parents": [
+        "e34a0b87f2c9b44a6d6f90a79fea37c362731ba3"
+      ],
+      "subject": "fix(api): refresh pinned static coverage for PluginAPI.pluginId",
+      "tree": "b6c82a5497e32d97b7d5cba65aad73d165718645",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.1.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.1.0"
+        }
+      ]
     }
   ],
   "pages": {
@@ -18055,6 +18150,7 @@
     "15051541950b339c5f23dd246f4910e794a597c9": "b63931105a4d263c0d5734bdbfe53cd25cf1a3fc7405081194b9a9a29d614518",
     "159f3ae64bca897fe04734929bd406744b27932f": "ac67c67b1a72f2754170de1701582c6dd1c40461f5b96cb58096aa8db24a8a01",
     "15f29963c1f4e7685a7deb6b851a1d360fcbad6b": "5001d2f08dba44969ed63b29f62eb2531ddb3a9df18484c3b7355c555ac6b6b5",
+    "163aab118eb134d6fd8d677a1644f2d78dde4532": "3eb71f867b0c3979ba6c26d48ca5cae2e126cc8014083f2de15fcc8078ef3ec2",
     "16f728ae07a92f515225020fe61779e852eba285": "bb010fa919b222861483a5219962e89c732aec5e1178e5862910ecf3edc7e07b",
     "1713898a4682f94302b2a042cd764497cf083629": "b0342773ddead30f64a1611981ca0759c90781fa314c7830d288fd986623f01a",
     "172924ede1f192cd0f8d42839a1c7d95d2854393": "6ecda83d9ad9ad40abd0bb3cda7d7a45a3d226161f2589ea3901de5d9942670d",
@@ -18301,6 +18397,7 @@
     "976a966c1b497890aae12dd1a63b1dd6b05ee763": "e2516c2647dbe5d820c720ae68cfb4a70bba50bea9ceb871dba72aac0d4720a6",
     "978ccf034c00b2dd43c9ecd290aaf5a8d6a4ea7b": "d8ad0244f86ff50046dc31fcfdb7b2d869ab242a18623c603abc83bb2461323b",
     "97d7bbb661578a32b6cb5b7b77a42771e59eeef5": "0bca0b58385d1ac9108fb9fe94f46c566717bc984adfcc36750ced04003efa1a",
+    "97f1e29baba2695995705b8001115f774d31214a": "3171079195dd81e0e604a327fdc7921fc49ec70dc83aa6b901eccdbfeb0591bc",
     "9962afa5d201fa1b299340aed813968aa6d07fcf": "a39c07c0018328021e262bfdf72ecacb460b97fce096cf9b9061e708d80d8035",
     "9974579407d29dd6072fcb9f1cf515115c954cb6": "d0a78212bf3184be2d9649789fe45d327c6ea43e4ea7eabe7bf1b19d8e105a68",
     "9983aab6bfca1bb70ddb9dc1573a6efb054845df": "d8e02ee6d2cac0bb33a492e79c6067bfc73b50ad9814717b42e26a1adb1fd23f",
@@ -18422,6 +18519,7 @@
     "c860a86f146e3302caeffbcfcfdbbe9d832f052d": "74ae820117eceb9c09aab0b7d290230871a3a367998f3d6dab2cf41c3fec0502",
     "c89403fd4dd5923eb633ff079bf62db4f22861f1": "58686be9fdbbdc36504488cafbcff4710d17e92702d46620ee16ebb6f239bd6a",
     "cab5eae313363aa116816b0afc79673f7ffb54fe": "0b80eb0eb5cd7508a140f027a43251f4cd74f26a4b79ddfb7ea4bf7284625d1f",
+    "cae9f166bff0a1e888f55f5e943fec224643bf11": "02fe88dd0e52773632b8ce037cf39e18603df5db883c755e84bcb7ca5aefe67d",
     "cb19ac749989bafeda8ca5a75505ebe86abed802": "aa0b0da805dce8ba673cfeac0c4ea0b106068f91a9fbbe31b62dc74f73bb7f33",
     "cb392ce18d6c6b0654816641b4158dd6eb1291c0": "f339f9bfba69e83ec4a7dad566ed44d81ac751150588508c1f65c39853224dfd",
     "cb7ef62657648c874233ed0145f7748232563cf2": "2d3799747be5cb5b870e00f23c2f33b82f51533bf3f05b6a55f6c9a9b74e83de",
@@ -18478,6 +18576,7 @@
     "e2c05a76e035b0964d3b38ea8d07a8451e1bd79d": "9d43237197abd96e955fb97382b3735b4c63e8724f3f071cabc2071996284b32",
     "e2c2ab6071bc7513d3b22b472b607b57054e6bcb": "ff44af736cddbed10c9e9860a1927fa144615b8bdc1983a97d430c6de2cb1f35",
     "e30b9a4ffc64f294d1404498f3c9171c313b5faa": "fff018015bad794c8744763d3d6b28f31a902dc8bc5dcaa526f937d6706dcd02",
+    "e34a0b87f2c9b44a6d6f90a79fea37c362731ba3": "35ec28712d8edc498614df86ee892de967ed22ce92bef9612d107b6b286cb09e",
     "e3634ad2c9254c101b1db93a8ff50aea1ec0598d": "f66fd3eba76f5f86dba342ce68e30a765be28a4e7d1f8f0eb35abded281f354e",
     "e3843766a60d3356cb1964f633609fbe101fdb83": "6d5b5a2f6fc1bd913c9f2a1b1c018f4c88ccc6434270bedc4f4b115dcda64798",
     "e3bb0505b011f77a656e096b821c7d0d01f2990c": "3f706b2efe5791d50864dc484452b0faf592f55a8cb7bf056adbb2e4dd6510e1",
@@ -18882,6 +18981,10 @@
     },
     {
       "observed_at_commit": "97d7bbb661578a32b6cb5b7b77a42771e59eeef5",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "97f1e29baba2695995705b8001115f774d31214a",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -19424,7 +19527,7 @@
     },
     {
       "source_commits": [
-        "38305137a3623b70efc287b6d9c1fdc3d6197751"
+        "97f1e29baba2695995705b8001115f774d31214a"
       ],
       "tagged": false,
       "tags": [],
@@ -19435,7 +19538,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "38305137a3623b70efc287b6d9c1fdc3d6197751",
+  "source_commit": "97f1e29baba2695995705b8001115f774d31214a",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",

@@ -4,6 +4,10 @@
 
 - 여러 Figma Design 탭에서 동시에 파일을 열고 작업해도 서로 상태를 덮어쓰지 않으며, 플러그인 등록·1회 설정·오프라인 원인 진단 안내를 개선했습니다. 1회 설정을 마친 작업공간은 세션이 바뀌어도 재사용할 수 있고, 선택형 메트릭·SSoT 스캐너·패널 품질 게이트를 추가했습니다. [1.1.0 배포 기록](docs/llm-wiki/releases.md#v1.1.0) · [빠른 시작 안내](docs/guide.md)
 
+- 여러 CLI가 동시에 메트릭스 설정을 수정하거나 작업공간을 등록해도 각 변경이 보존됩니다. [설정 파일별 잠금](docs/llm-wiki/patches/e34a0b87f2c9b44a6d6f90a79fea37c362731ba3.md)
+
+- Figma API 정적 목록에 `PluginAPI.pluginId`의 참조를 반영했습니다. [정적 투영 갱신](docs/llm-wiki/patches/97f1e29baba2695995705b8001115f774d31214a.md)
+
 - 같은 파일의 작업이 진행 중이면 CLI가 파일별 상태 조회 방법을 표시합니다. 오래된 revision과 결과가 불확실한 쓰기에는 각각 작업 목록 확인과 실제 값 재조회 방법을 안내합니다. [CLI 복구 진단](docs/llm-wiki/patches/38305137a3623b70efc287b6d9c1fdc3d6197751.md)
 
 - 멀티탭 동시 작업을 지원하도록 `tools/figma_control.py`에 `sessions` 부명령과 `--file-key`·`--session-id` 지정 옵션을 추가하고, `active.json`(`by_file`/`active_for_file`)과 `RELAY_STATES`(`sessions`/`active_by_session`) 및 읽기 결과·진행 알림을 파일·세션 단위로 분리했습니다. [멀티탭·패널 진단 기록](docs/llm-wiki/patches/06976347ca2b75b089c99c50d40b30b153d709ff.md)
