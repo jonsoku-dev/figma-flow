@@ -134,6 +134,20 @@
       "source": "../../tests/test_active_file_index.py",
       "title": "Persisted file pointer and capacity regression tests",
       "status": "unverified"
+    },
+    {
+      "id": "AC-LEGACY-SLOTS",
+      "type": "acceptance",
+      "source": "spec.md",
+      "title": "Recover RC1 displaced claims without duplicate submission or replay",
+      "status": "unverified"
+    },
+    {
+      "id": "TEST-LEGACY-SLOTS",
+      "type": "test",
+      "source": "../../tests/test_legacy_slot_recovery.py",
+      "title": "Persisted RC1 displacement and drain regressions",
+      "status": "unverified"
     }
   ],
   "edges": [
@@ -246,6 +260,26 @@
       "from": "CODEX",
       "type": "verified by",
       "to": "TEST-FILE-SLOTS"
+    },
+    {
+      "from": "AC-FILE-SLOTS",
+      "type": "checked by",
+      "to": "TEST-FILE-SLOTS"
+    },
+    {
+      "from": "REQ-CODEX",
+      "type": "accepted by",
+      "to": "AC-LEGACY-SLOTS"
+    },
+    {
+      "from": "AC-LEGACY-SLOTS",
+      "type": "checked by",
+      "to": "TEST-LEGACY-SLOTS"
+    },
+    {
+      "from": "AC-LEGACY-SLOTS",
+      "type": "exercised through",
+      "to": "CODEX"
     }
   ]
 }

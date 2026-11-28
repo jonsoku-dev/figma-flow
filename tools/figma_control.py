@@ -950,7 +950,8 @@ def _peek_active_operations(root):
     """Strictly read-only listing of non-terminal operations across files without creating files."""
     directory = Path(root) / '.control'
     try:
-        _, by_file = _read_active_map(directory)
+        _, by_file, mode = _load_active_index(directory)
+        extra = _displaced_ids(directory, set(by_file.values()), mode) if mode in ('held', 'draining') else []
     except (OSError, ValueError):
         return []
     now = time.time()
@@ -961,6 +962,15 @@ def _peek_active_operations(root):
         except (OSError, ValueError):
             continue
         if req['state'] not in TERMINAL and req['deadline'] > now:
+            rows.append(req)
+    for oid in extra:
+        if not isinstance(oid, str) or not re.fullmatch(r'[a-f0-9]{32}', oid):
+            continue
+        try:
+            req = _read_request(directory, oid)
+        except (OSError, ValueError):
+            continue
+        if req.get('state') in ('pending', 'claimed') and now < req.get('deadline', 0):
             rows.append(req)
     rows.sort(key=lambda item: item.get('created_at', 0))
     return rows
@@ -1154,12 +1164,12 @@ def _read_slot(directory, file_key, oid):
     return req
 
 
-def _read_active_map(directory):
+def _load_active_index(directory):
     path = directory / 'active.json'
     if not path.exists():
-        return None, {}
+        return None, {}, False
     pointer = workspace.read(path, private=True, limit=ACTIVE_MAP_BYTES)
-    if not isinstance(pointer, dict):
+    if not isinstance(pointer, dict) or pointer.get('version', 1) not in (1, 2):
         raise ValueError('Invalid operation pointer')
     latest_id = pointer.get('id')
     if latest_id is not None and (not isinstance(latest_id, str) or not re.fullmatch(r'[a-f0-9]{32}', latest_id)):
@@ -1181,18 +1191,92 @@ def _read_active_map(directory):
                 key in by_file or len(by_file) >= MAX_ACTIVE_FILES):
             raise ValueError('Invalid operation pointer')
         by_file[key] = latest_id
-    return latest_id, by_file
+    recovery = None
+    if pointer.get('version', 1) == 1 and len(by_file) == MAX_ACTIVE_FILES:
+        recovery = pointer.get('legacy_recovery', 'unchecked')
+        if recovery not in ('unchecked', 'held', 'draining'):
+            raise ValueError('Invalid legacy recovery marker')
+    return latest_id, by_file, recovery
+
+
+def _read_active_map(directory):
+    latest, by_file, _ = _load_active_index(directory)
+    return latest, by_file
 
 
 def _write_active_map(directory, by_file, latest_id):
     if len(by_file) > MAX_ACTIVE_FILES:
         raise ValueError('Active file index exceeds capacity')
-    workspace.atomic(directory / 'active.json', workspace.encode({'id': latest_id, 'by_file': by_file}))
+    workspace.atomic(directory / 'active.json', workspace.encode({'id': latest_id, 'by_file': by_file, 'version': 2}))
 
 
 def _settled_requests(directory, by_file):
     return {oid: _expire_if_due(directory, _read_slot(directory, key, oid))
             for key, oid in by_file.items()}
+
+
+LEGACY_RECOVERY = ('Legacy file index has displaced requests. Check figma_control.py status --workspace WORKSPACE '
+                   'after existing operations finish or reach their deadlines. Read the affected scope before '
+                   'resubmitting an uncertain write.')
+
+
+def _displaced_ids(directory, indexed, mode):
+    if mode == 'unchecked':
+        return (p.stem for p in (directory / 'requests').glob('*.json') if p.stem not in indexed)
+    ids = workspace.read(directory / 'legacy-backlog.json', private=True)
+    if not isinstance(ids, list):
+        raise ValueError('Invalid legacy recovery list')
+    return ids
+
+
+def _recover_legacy_index(directory, latest, by_file, mode):
+    """Only a saturated RC1 writer could drop a live pointer. Caller holds the workspace lock."""
+    indexed = _settled_requests(directory, by_file)
+    displaced = []
+    for oid in _displaced_ids(directory, indexed, mode):
+        if not isinstance(oid, str) or not re.fullmatch(r'[a-f0-9]{32}', oid) or oid in indexed:
+            raise ValueError('Invalid displaced operation ID')
+        req = _read_request(directory, oid)
+        if req.get('state') in TERMINAL:
+            continue
+        if (req.get('state') not in ('pending', 'claimed') or not isinstance(req.get('file_key'), str)
+                or not FILE_KEY.fullmatch(req['file_key'])):
+            raise ValueError('Invalid displaced operation')
+        req = _expire_if_due(directory, req)
+        if req['state'] not in TERMINAL:
+            displaced.append(req)
+
+    if displaced:
+        live = _live_rows([*indexed.values(), *displaced])
+        restored = {req['file_key']: req['id'] for req in live}
+        if len(live) > MAX_ACTIVE_FILES or len(restored) != len(live):
+            # Retain only the displaced IDs for subsequent status calls. Existing unique claims can drain.
+            next_mode = 'draining' if len(restored) == len(live) else 'held'
+            if mode == 'unchecked':
+                workspace.atomic(directory / 'legacy-backlog.json', workspace.encode([r['id'] for r in displaced]))
+            if mode != next_mode:
+                workspace.atomic(directory / 'active.json', workspace.encode({
+                    'id': latest, 'by_file': by_file, 'legacy_recovery': next_mode}))
+            return latest, by_file, displaced
+        for key, oid in sorted(by_file.items(), key=lambda item: (
+                item[1] == latest, indexed[item[1]].get('created_at', 0)), reverse=True):
+            if len(restored) == MAX_ACTIVE_FILES:
+                break
+            restored.setdefault(key, oid)
+        by_file = restored
+        if latest not in by_file.values():
+            latest = live[-1]['id']
+    _write_active_map(directory, by_file, latest)
+    if mode != 'unchecked':
+        (directory / 'legacy-backlog.json').unlink(missing_ok=True)
+    return latest, by_file, []
+
+
+def _admission_index(directory):
+    latest, by_file, legacy = _load_active_index(directory)
+    if legacy:
+        return _recover_legacy_index(directory, latest, by_file, legacy)
+    return latest, by_file, []
 
 
 def _reserve_slot(directory, by_file, file_key):
@@ -1211,6 +1295,15 @@ def _reserve_slot(directory, by_file, file_key):
 def _current_slot(directory, by_file, file_key):
     oid = by_file.get(file_key)
     return _expire_if_due(directory, _read_slot(directory, file_key, oid)) if oid else None
+
+
+def _claim_for_payload(directory, payload):
+    _, by_file, legacy = _load_active_index(directory)
+    if legacy and by_file.get(payload['file_key']) != payload['id']:
+        if not isinstance(payload['id'], str) or not re.fullmatch(r'[a-f0-9]{32}', payload['id']):
+            raise ValueError('Invalid operation ID')
+        return _expire_if_due(directory, _read_slot(directory, payload['file_key'], payload['id']))
+    return _current_slot(directory, by_file, payload['file_key'])
 
 
 def active_for_file(directory, file_key):
@@ -1290,7 +1383,9 @@ def enqueue(root, key, operation, file_key, page_id, revision, timeout, *, focus
     with workspace.locked(root) as root:
         config(root)
         directory = state_dir(root)
-        _, by_file = _read_active_map(directory)
+        _, by_file, displaced = _admission_index(directory)
+        if displaced:
+            raise ControlDiagnostic(LEGACY_RECOVERY)
         previous = _current_slot(directory, by_file, file_key)
         if previous and previous['state'] not in TERMINAL:
             raise ControlDiagnostic(
@@ -1356,7 +1451,8 @@ def poll(root, payload):
         _record_native_session(str(root.resolve()), session, payload['file_key'], payload['page_id'], runtime, time.time())
         native = native_state(root, session_id=session, file_key=payload['file_key'])
         directory = state_dir(root)
-        request = active_for_file(directory, payload['file_key'])
+        _, by_file, legacy = _load_active_index(directory)
+        request = _current_slot(directory, by_file, payload['file_key'])
         file_uncertainties = uncertainties_for_file(directory, payload['file_key'])
         if relay is not None and relay.get('profile_request'):
             unresolved = request and request['state'] in {'pending', 'claimed', 'uncertain'}
@@ -1409,9 +1505,12 @@ def poll(root, payload):
             return {**value, **({'relay': relay} if relay is not None else {}),
                     **({'changes': change_receipt} if change_receipt is not None else {})}
         if not request or request['state'] != 'pending':
-            return poll_reply({'operation': None, **native})
+            advice = {'native_action': LEGACY_RECOVERY} if legacy and not request else {}
+            return poll_reply({'operation': None, **native, **advice})
         if request['operation'] != 'read' and native['native_status'] != 'current-self-reported':
             return poll_reply({'operation': None, **native})
+        if legacy in ('unchecked', 'held') and request['operation'] not in READ_ONLY_OPERATIONS:
+            return poll_reply({'operation': None, **native, 'native_action': LEGACY_RECOVERY})
         if request['operation'] not in READ_ONLY_OPERATIONS and file_uncertainties:
             request.update(state='error', error='Previous mutation remains uncertain', completed_at=time.time())
             save(directory, request)
@@ -1479,7 +1578,7 @@ def result(root, payload, *, large_body_bytes=None):
             if lifecycle_present(receipt):
                 validate_lifecycle(receipt)
             return {'accepted': True, 'id': receipt['id'], 'state': receipt['state']}
-        request = active_for_file(directory, payload['file_key'])
+        request = _claim_for_payload(directory, payload)
         if not request or request['state'] != 'claimed':
             raise ValueError('No current claim accepts this result')
         if lifecycle_present(request):
@@ -1554,18 +1653,20 @@ def status(root, operation_id=None, *, file_key=None):
             raise ValueError('Exact Figma file key required')
         if operation_id is not None and not re.fullmatch(r'[a-f0-9]{32}', operation_id):
             raise ValueError('Invalid operation ID')
-        latest_id, by_file = _read_active_map(directory)
+        latest_id, by_file, displaced = _admission_index(directory)
         requests = _settled_requests(directory, by_file)
+        requests.update((req['id'], req) for req in displaced)
         current_ops = _live_rows(requests.values())
         if file_key is not None:
-            value = requests.get(by_file.get(file_key)) or {'state': 'idle', 'file_key': file_key}
+            value = next((req for req in current_ops if req['file_key'] == file_key), None)
+            value = value or requests.get(by_file.get(file_key)) or {'state': 'idle', 'file_key': file_key}
         elif operation_id is not None:
             value = requests.get(operation_id) or _read_request(directory, operation_id)
         else:
             value = requests.get(latest_id) or {'state': 'idle'}
         pending = uncertainties(directory)['operations']
         journal = journal_history(value if isinstance(value, dict) else {})
-        return {**value, 'journal': journal,
+        return {**value, **({'legacy_recovery': LEGACY_RECOVERY} if displaced else {}), 'journal': journal,
                 'active_operations': [{'id': op['id'], 'key': op['key'], 'operation': op['operation'],
                                        'file_key': op['file_key'], 'page_id': op['page_id'], 'state': op['state']}
                                       for op in current_ops],
@@ -1740,7 +1841,7 @@ def note_native_started(root, payload):
         raise ValueError('Invalid native runtime identity')
     with workspace.locked(root) as root:
         directory = state_dir(root)
-        request = active_for_file(directory, payload['file_key'])
+        request = _claim_for_payload(directory, payload)
         if not request or request['state'] != 'claimed':
             raise ValueError('No current claim accepts native start')
         if any(payload[key] != request[key] for key in ('id', 'claim_id', 'session_id', 'file_key', 'page_id', 'revision')):
