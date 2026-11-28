@@ -14,7 +14,10 @@ import sys
 import tempfile
 import tokenize
 
-from test_env import private_test_config
+if __package__:
+    from .test_env import private_test_config
+else:
+    from test_env import private_test_config
 
 ROOT = Path(__file__).resolve().parents[1]
 CONTRACT = Path('tools/maintenance-contract.json')

@@ -18,7 +18,10 @@ import tarfile
 import tempfile
 import time
 
-from test_env import private_test_config
+if __package__:
+    from .test_env import private_test_config
+else:
+    from test_env import private_test_config
 
 SCHEMA = "figma-flow-improvement-v1"
 HASH = re.compile(r"^[0-9a-f]{40}$")
