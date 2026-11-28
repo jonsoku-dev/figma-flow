@@ -30,7 +30,7 @@ python -B tools/test_env.py node --test tests/*.cjs
 python -B tools/test_env.py python -B -m unittest discover -s examples/native-direction-review -p test_demo.py
 ```
 
-표준 테스트 실행기 `tools/test_env.py`는 명령마다 권한 0700인 임시 XDG 설정 경로를 만들고 자식 프로세스에 전달합니다. 정상 종료와 실패 뒤에 임시 경로를 정리합니다. 로컬 재현과 별도 프로브도 같은 실행기를 사용하세요. 영구 등록을 시험할 때는 그 안에서 만든 합성 workspace와 레지스트리를 사용합니다.
+표준 테스트 실행기 `tools/test_env.py`는 명령마다 권한 0700인 임시 XDG 설정 경로를 만들고 자식 프로세스에 전달합니다. 정상 종료와 실패 뒤에 임시 경로를 정리합니다. 로컬 재현과 별도 프로브도 같은 실행기를 사용하세요. 영구 등록을 시험할 때는 그 안에서 만든 합성 workspace와 레지스트리를 사용합니다. `maintenance.py verify`, `major_release.py`의 고정 증인 및 `graph_governance.py test-other-suites`는 직접 실행해도 자신의 테스트 자식에 매번 별도 임시 설정 경로를 제공합니다.
 
 검사 명령을 파이프로 연결하면 마지막 명령의 종료 코드만 보일 수 있습니다. 명령별 종료 코드와 skip 사유를 확인하세요. 깨끗한 클론에는 외부 캠페인의 회귀 레이아웃과 운영자가 제공하는 네이티브 읽기 자료가 없습니다. `FIGMA_DRAFT_LIVE_MANIFEST`와 `FIGMA_DRAFT_LIVE_READBACK`에 제공 권한이 있는 실제 시안 자료를 지정해 선택적 검사를 실행할 수 있습니다. 증거·실행 출력은 저장소 바깥에 둡니다.
 

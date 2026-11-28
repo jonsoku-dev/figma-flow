@@ -17,6 +17,8 @@
 
 ## 직접 실행
 
+아래 프로필을 직접 호출해도 각 `maintenance.run_step` 자식은 전용 임시 XDG 설정 경로를 받는다. 아카이브의 `major_release.rerun_witness`와 나머지 Node 제품군을 실행하는 `graph_governance.py test-other-suites`도 같은 방식으로 매번 새 경로를 만들고 성공·실패 후 정리한다. 개별 테스트나 추가 재현 명령은 `python3 -B tools/test_env.py COMMAND [ARG ...]`로 실행한다.
+
 ```sh
 python3 -B tools/maintenance.py check
 python3 -B tools/maintenance.py verify --profile graph --out .figma-flow/evidence/local-graph

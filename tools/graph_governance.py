@@ -20,6 +20,8 @@ from graph_generated import DOC_DIR, POLICY_DOC, TOKEN_CSS, check_generated, man
 from graph_impact import read_git as git
 from panel_artifacts import ASSET_DIR, artifact_paths
 
+from test_env import private_test_config
+
 ROOT = Path(__file__).resolve().parents[1]
 GRAPH = 'library/panel-design/governance.json'
 POLICY = 'tools/maintenance-contract.json'
@@ -556,7 +558,9 @@ def test_other_suites(root, contract_tests):
     pending = [path for path in suites if path not in contract_tests]
     if not pending:
         raise ValueError('The remaining Node test suites are missing')
-    return subprocess.run(['node', '--test', *pending], cwd=root, check=False).returncode
+    with private_test_config() as xdg:
+        return subprocess.run(['node', '--test', *pending], cwd=root, check=False,
+                              env={**os.environ, 'XDG_CONFIG_HOME': xdg}).returncode
 
 
 def main():

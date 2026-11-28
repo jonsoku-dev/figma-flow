@@ -169,6 +169,13 @@
       "title": "Explicit intent and isolated process verification",
       "source": "../../tests/test_registry_intent.py",
       "status": "unverified"
+    },
+    {
+      "id": "TEST-VERIFIER-CONFIG",
+      "type": "test",
+      "title": "Direct release and maintenance workers isolate and clean their XDG configuration",
+      "source": "../../tests/test_verification_config.py",
+      "status": "unverified"
     }
   ],
   "edges": [
@@ -316,6 +323,11 @@
       "from": "AC-PC-REGISTRY",
       "type": "checked by",
       "to": "TEST-PC-REGISTRY"
+    },
+    {
+      "from": "AC-PC-REGISTRY",
+      "type": "checked by",
+      "to": "TEST-VERIFIER-CONFIG"
     }
   ]
 }

@@ -1,10 +1,10 @@
 {
   "decision": "updated",
-  "reason": "패널 산출물 역할의 단일 원천, 기준과 현재의 관측 영향, 확대된 Knip 검사, 독립 CI 잡과 SSoT 스캐너(하드코딩·SSoT 스캐너) 절을 반영해 유지보수 절차를 갱신했다.",
+  "reason": "유지보수 프로필, 아카이브 증인 및 Node 제품군을 직접 실행할 때 자식별 XDG 격리와 정리 범위를 문서에 명시했다. 패널 경계와 정책 입력은 그대로다.",
   "inputs": {
     "panel-boundary-policy": "f26cfaaaacf318e58c78ee2a80ee6e64b9a7c3a7279ede5cb2b5863e7cb54b18",
     "panel-governance": "4f74763a2464367b2b5b77ac6b69d773cbbb9eec280044cc40dd3b05c7734dc7",
     "panel-static-quality": "19624e882e323e30f9be88d29fe237f0d46f3b78c2ec83d06a992f5b5aa6b23d"
   },
-  "documentSha256": "aeb3be66a03acad4394e587d58cdf52de2904f71eadcf5c43b8ca69d1333221d"
+  "documentSha256": "b06067ccf15c63c09351c069f6c0d8c104525756750cfcbe28fe098c4e40dcc1"
 }

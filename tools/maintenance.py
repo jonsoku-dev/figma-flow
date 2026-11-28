@@ -14,6 +14,8 @@ import sys
 import tempfile
 import tokenize
 
+from test_env import private_test_config
+
 ROOT = Path(__file__).resolve().parents[1]
 CONTRACT = Path('tools/maintenance-contract.json')
 
@@ -132,7 +134,8 @@ def run_step(step, root, scratch, capture_screen):
     log = scratch / (name + '.log')
     status = 'unavailable'
     returncode = None
-    with log.open('xb') as stream:
+    with private_test_config() as xdg, log.open('xb') as stream:
+        env['XDG_CONFIG_HOME'] = xdg
         try:
             process = subprocess.Popen(argv, cwd=root, env=env, stdout=stream,
                                        stderr=subprocess.STDOUT, start_new_session=(os.name == 'posix'))

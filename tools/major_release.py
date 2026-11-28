@@ -24,6 +24,8 @@ import native_appearance
 import runtime_authority
 import spec_graph_coverage
 
+from test_env import private_test_config
+
 ROOT = Path(__file__).resolve().parents[1]
 VERSION = re.compile(r'(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?')
 LOCAL_HOME = re.compile(rb'(?:/(?:Users|home)/[\w.-]+/(?:Documents|Desktop|\.codex)/|[A-Za-z]:[\\/]+Users[\\/]+[\w.-]+[\\/]+(?:Documents|Desktop)[\\/])')
@@ -96,7 +98,9 @@ sys.exit(0 if result.wasSuccessful() and result.testsRun == 1 and not result.ski
     deps = Path(panel_deps or os.environ.get('FIGMA_FLOW_PANEL_DEPENDENCIES') or root/'panel-ui/node_modules').resolve()
     env['NODE_PATH'] = str(deps) if deps.is_dir() else ''
     env['FIGMA_FLOW_PANEL_DEPENDENCIES'] = env['NODE_PATH']
-    result = subprocess.run(args,cwd=root,env=env,stdin=subprocess.DEVNULL,capture_output=True,text=True,timeout=120)
+    with private_test_config() as xdg:
+        env['XDG_CONFIG_HOME'] = xdg
+        result = subprocess.run(args,cwd=root,env=env,stdin=subprocess.DEVNULL,capture_output=True,text=True,timeout=120)
     if args[0] == 'node':
         # A file without registered cases can report one passing file-level subtest.
         # Only a passing TAP result for the reviewed case is a witness.
