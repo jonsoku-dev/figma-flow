@@ -109,3 +109,14 @@ canonical 조상43개와 태그10개, 당시 CHANGELOG 버전16개를 대조했�
 페이지 구독의 로딩·범위 교정을 반영해도 P1의 SDK 콜백은 요청한 opacity 변경을 전달하지 않았다. UI에서 100%에서 92%로 편집하고 100%로 되돌린 결과를 대조했다. 선택 속성 비교를 포함한 빌드를 같은 등록 작업공간에 다시 게시했다. 원래 문서에서 P1으로 전환한 뒤 92% 직접 편집을 약 1.23초, 100% 복원을 약 0.73초 만에 watcher가 기록했다. 각각 실제 값을 다시 읽고 현재 Codex 대화 큐에 넣었으며 수신 공백은 기록되지 않았다.
 
 Little Hands의 기존 작업에서 현재 페어링된 예약 버튼을 읽어 정본과 다른 토큰 값이 없음을 확인했다. 과거 인증된 Figma 변경 읽기 결과를 사용해 별도의 임시 그래프·웹 모듈에 CTA 토큰 하나를 실제로 가져왔다. 새 Desktop 직접 변경으로 같은 싱크를 시험하기 전 화면 접근이 막혀 예약 버튼은 편집하지 않았다. 기존 정본 파일의 해시와 108개 작업 키를 확인했고 자동 반영 보호 조건은 유지했다.
+
+## 2026-11-28 · 1.1.0 멀티탭·패널 진단·SSoT·설정 연속성·선택 메트릭 검증
+
+`1.1.0` 릴리스 직전 작업 트리(커밋 `06976347ca2b75b089c99c50d40b30b153d709ff` 기준 소스, `workspaceProfileManager` 안전 가드 보완 직후)에서 아래 전체 자동 스위트를 실행해 통과를 확인했다.
+
+- `node --test tests/*.cjs`: 총 `498`건 중 `497`건 통과, `1`건 skipped, `0`건 실패 (`tests/test_workspace_control.cjs`, `tests/test_panel_browser_witness.cjs`, `tests/test_panel_release_witness.cjs` 등 포함).
+- `PYTHONPATH=tests python3 -B -m unittest discover -s tests -p 'test_*.py'`: 총 `1,673`건 실행(`OK`, `skipped=13`, 실패 `0`건, 소요 `771.042s`).
+- 정적·거버넌스·배포 가드 검사: `python3 -B tools/ssot_scan.py summary` (`findings: 0`, `new: 0`, `stale_buckets: 0`), `python3 -B tools/maintenance.py check` (종료 코드 `0`), `python3 -B tools/runtime_authority.py` (`[]`), `python3 -B tools/graph_governance.py verify --base origin/main` (9개 항목 모두 `passed`), `python3 -B tools/reference_distribution_guard.py --worktree --format text` (`paths_only_clear`, `scanned=2663`, `forbidden_paths=0`, `ephemeral_evidence=0`).
+- `1.1.0` 매니페스트(`plugin.json`, `.codex-plugin/plugin.json`) 및 `CHANGELOG.md` 갱신 커밋 `05702e2af217bfb10a57c0f44a7462aada242c43` 반영 전후로 `tools/plugin_manifest.py --write`, `tools/delivery_config.py`, `graph_governance.py verify --base origin/main`(9/9 통과), `maintenance.py check`, `ssot_scan.py summary`(`findings: 0`), Node 패널·제어 `34`건 전수 통과, `tests.test_guide_source_contract` + `tests.test_guide_visual_evidence` `26`건 통과를 다시 확인했다.
+
+구분 사항: Chromium 기반 패널 렌더링(`tests/helpers/relay_viewer.mjs`, `Chrome/158.0.8127.37`)과 격리 제어 서버·테스트 환경에서는 모두 검증했으나, 실제 Figma Desktop 앱에서 복수 탭을 동시에 열어 수동으로 실행하는 현장 인수는 자동 테스트 범위 밖이다.

@@ -8,6 +8,17 @@
 
 `catalog.json`과 `patch_knowledge.py inventory`가 실제 커밋·부모·파일·diff 해시·태그·매니페스트를 제공한다. 아래 목록은 본문을 보존하는 사람이 읽는 연결이다. 태그 없는 버전, 겹친 버전, CHANGELOG에만 남은 버전을 명시한다. 과거 테스트 코드의 존재를 당시 성공 실행으로 세지 않는다.
 
+## v1.1.0
+
+릴리스 준비 기준 커밋은 `05702e2af217bfb10a57c0f44a7462aada242c43`(`plugin.json`·`.codex-plugin/plugin.json` `1.1.0`)이며, 핵심 기능 변경은 `375988904b40854a90adf8ef9c654beb4e6faa5c`(SSoT 하드코딩 스캐너·설정 연속성·선택형 메트릭)과 `06976347ca2b75b089c99c50d40b30b153d709ff`(멀티탭 동시 연결·제어 및 패널 오프라인 진단·가이드 통합)에 포함된다. 선행 `1.0.0` 이후 패널 재검증·변경 추적 개선 커밋(`e2c2ab6071bc7513d3b22b472b607b57054e6bcb`~`3e003a5152d6a6cb3b236c3eef2cb644beeef179`)도 함께 `1.1.0`에 수록한다.
+
+- **멀티탭 동시 제어**: `tools/figma_control.py`에 `sessions` 부명령과 `--file-key`·`--session-id` 타기팅을 도입하고, `active.json`(`by_file`/`active_for_file`) 및 `RELAY_STATES`(`sessions`/`active_by_session`), `result()`, `note_native_started()`를 파일·세션 스코프로 분리했다. `setup-status`는 `connected_session_count`와 `connected_sessions`를 보고한다.
+- **패널 오프라인 원인 진단·가이드 통합**: `figma-bridge/workspace_control.js`·`workspace_host.js`·`locales/relay.json`·`panel-ui/src/RelayViewer.jsx`·`useRelaySnapshot.js`가 `missing-control-config`, `file-key-unavailable`, `stale-runtime`, `server-unreachable` 원인을 구분해 표시하며, 접기 영역 안에 `플러그인 ID · 제어 포트 · 세대`를 노출한다. `docs/guide.md`에 `#quickstart-lifecycle` 1회 설정·세션·멀티탭 통합 안내를 추가하고 `skills/figma-plugin-setup/SKILL.md`, `specs/codex-relay/spec.md`, `README.md`를 동기화했다.
+- **SSoT·설정 연속성·선택형 메트릭**: `tools/ssot_scan.py`(`entries: {}`, 0건 기준선)와 공용 모듈(`local_endpoint.py`, `schema_ids.py`, `runtime_limits.py`, `private_io.py`)을 `maintenance.py check`에 통합했고, `~/.config/figma-flow/workspaces.json` 레지스트리와 `setup-status`·`enable --refresh` 중복 방지로 세션 재설정을 없앴으며, 기본 비활성(`NullRecorder`) 양방향 메트릭(`tools/metrics/`, `figma_control.py metrics`)을 추가했다.
+- **릴리스 정책·검증**: `v1.0.0`의 동일 메이저 `1` 계열 마이너 릴리스이므로 `tools/major_release.py --if-major` 기준 `majorTransition` 대상에 해당하지 않는다. 기능 커밋 시점 전체 Node `tests/*.cjs` `498`건 중 `497`건 통과(`1`건 skipped, `0`건 실패), 전체 Python `unittest` `1,673`건 실행(`13`건 skipped, `0`건 실패), 매니페스트 갱신 후 `graph_governance.py verify --base origin/main` 9/9 통과, `ssot_scan.py summary`(`findings: 0`), `maintenance.py check`, 패널·가이드 계약 검사를 확인했다. 태그 `v1.1.0` 패키징·SHA-256 검증·GitHub Release 발행 및 원격 CI 실행은 이 문서 커밋 뒤 이어서 수행하며, 실제 Figma Desktop 다중 탭 수동 조작 인수는 자동 검증 범위와 구분한다.
+
+[1.1.0 변경 기록](../../CHANGELOG.md) · [멀티탭·패널 진단 패치](patches/06976347ca2b75b089c99c50d40b30b153d709ff.md) · [SSoT·연속성·메트릭 패치](patches/375988904b40854a90adf8ef9c654beb4e6faa5c.md) · [실행 기록](verification.md)
+
 ## v1.0.0
 
 최종 버전 태그의 소스는 `6e7b2174eac971cf8fb391edabeaee07866a83a7`이다. 배포 파일 2,573개와 영역 16개를 확인해 차단 0건이었다. ZIP SHA-256은 `d7abe3200c970b24176c7761a3af01089c6c0c891ddd26f98707941cc9250c4b`이며 GitHub 러너에서 검사한 아카이브와 모든 파일 경로 및 파일 바이트가 영역별 지문에서 일치한다. [Patch knowledge](https://github.com/jonsoku-dev/figma-flow/actions/runs/45091119582) · [Reference distribution guard](https://github.com/jonsoku-dev/figma-flow/actions/runs/45091119612) · [Test Figma Flow](https://github.com/jonsoku-dev/figma-flow/actions/runs/45091119637)

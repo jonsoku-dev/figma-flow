@@ -1,5 +1,6 @@
 {
   "changelog_versions": [
+    "1.1.0",
     "1.0.0",
     "0.36.0",
     "0.35.0",
@@ -17718,6 +17719,215 @@
           "version": "1.0.0"
         }
       ]
+    },
+    {
+      "commit": "3e003a5152d6a6cb3b236c3eef2cb644beeef179",
+      "diff_sha256": "1269af90e4a4d6b0f7db642042ccaf942c1530a57636f8b09f7f60d2128b5978",
+      "files": [
+        "CHANGELOG.md",
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/06ce2b5439d18b0d0b2483cabce4f097a5b68945.md",
+        "docs/llm-wiki/patches/07befb0bfc019d46ef53b1dcc76311f14873bb90.md",
+        "docs/llm-wiki/patches/15051541950b339c5f23dd246f4910e794a597c9.md",
+        "docs/llm-wiki/patches/7cf6d3813e5ed9efa3a6db9a8d55705e86c89e23.md",
+        "docs/llm-wiki/patches/cb7ef62657648c874233ed0145f7748232563cf2.md"
+      ],
+      "parents": [
+        "7cf6d3813e5ed9efa3a6db9a8d55705e86c89e23"
+      ],
+      "subject": "Record resolution of the repeated panel verification findings",
+      "tree": "8af537f837ba7a7d6bf98d9912864e498900d662",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.0.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.0.0"
+        }
+      ]
+    },
+    {
+      "commit": "375988904b40854a90adf8ef9c654beb4e6faa5c",
+      "diff_sha256": "0b23a2103347679fe14f705efe32bd03a39bc9801ee19aeed6144ccaf88140af",
+      "files": [
+        "docs/graph-governance-review.json",
+        "docs/guide.md",
+        "docs/maintenance-verification.md",
+        "figma-bridge/workspace_control.js",
+        "figma-bridge/workspace_transport.js",
+        "library/figma-profile/policy.json",
+        "library/metrics/schema.json",
+        "library/runtime-limits.json",
+        "library/schema-ids.json",
+        "skills/figma-flow/SKILL.md",
+        "skills/figma-plugin-setup/SKILL.md",
+        "specs/README.md",
+        "specs/graph-roots.json",
+        "specs/metrics-export/graph.json",
+        "specs/metrics-export/spec.md",
+        "tests/test_metrics.py",
+        "tests/test_setup_continuity.py",
+        "tests/test_ssot_scan.py",
+        "tests/test_standalone_view_authority.cjs",
+        "tests/test_workspace_control.cjs",
+        "tools/alignment_compare.py",
+        "tools/api_priority.py",
+        "tools/asset_batch.py",
+        "tools/audit_brief.py",
+        "tools/browser_access.py",
+        "tools/design_actions.py",
+        "tools/design_directions.py",
+        "tools/design_quality.py",
+        "tools/design_review.py",
+        "tools/design_system.py",
+        "tools/development_witnesses.py",
+        "tools/family_provision.py",
+        "tools/figma_alignment.py",
+        "tools/figma_api_audit.py",
+        "tools/figma_bridge.py",
+        "tools/figma_control.py",
+        "tools/figma_draft.py",
+        "tools/figma_feature.py",
+        "tools/figma_follow.py",
+        "tools/figma_live_preview.py",
+        "tools/figma_workspace.py",
+        "tools/graph_design_system.py",
+        "tools/graph_governance.py",
+        "tools/graph_impact.py",
+        "tools/graph_sync.py",
+        "tools/idea_catalog.py",
+        "tools/input_effect.py",
+        "tools/local_endpoint.py",
+        "tools/maintenance.py",
+        "tools/major_release.py",
+        "tools/metrics/__init__.py",
+        "tools/metrics/adapters/__init__.py",
+        "tools/metrics/adapters/pull_json.py",
+        "tools/metrics/adapters/pull_prometheus.py",
+        "tools/metrics/adapters/sink_http_json.py",
+        "tools/metrics/adapters/sink_jsonl.py",
+        "tools/metrics/adapters/sink_otlp_http.py",
+        "tools/metrics/adapters/sink_statsd.py",
+        "tools/metrics/cli.py",
+        "tools/metrics/config.py",
+        "tools/metrics/hub.py",
+        "tools/metrics/ports.py",
+        "tools/metrics/registry.py",
+        "tools/metrics/secrets.py",
+        "tools/metrics/sources.py",
+        "tools/metrics/types.py",
+        "tools/native_api_probe.py",
+        "tools/native_edit.py",
+        "tools/native_handoff.py",
+        "tools/native_read_benchmark.py",
+        "tools/native_value_paths.py",
+        "tools/owned_production_workspace.py",
+        "tools/patch_knowledge.py",
+        "tools/patch_knowledge_check.py",
+        "tools/plugin_startup.py",
+        "tools/prepare_design_review.py",
+        "tools/private_io.py",
+        "tools/promote_idea.py",
+        "tools/relay_alignment.py",
+        "tools/relay_limits.py",
+        "tools/replay_optional_tests.py",
+        "tools/review_api_coverage.py",
+        "tools/review_graph.py",
+        "tools/runtime_limits.py",
+        "tools/schema_ids.py",
+        "tools/serve_design_routes.py",
+        "tools/serve_figma_sync.py",
+        "tools/serve_ideas.py",
+        "tools/specifications.py",
+        "tools/ssot-baseline.json",
+        "tools/ssot-scan.json",
+        "tools/ssot_scan.py",
+        "tools/starter_cta.py",
+        "tools/sync_figma_tokens.py",
+        "tools/token_code_scope.py",
+        "tools/web_design.py",
+        "tools/web_design_media.py",
+        "tools/web_design_source.py",
+        "tools/workspace_chat.py",
+        "tools/workspace_registry.py",
+        "tools/workspace_report.py"
+      ],
+      "parents": [
+        "3e003a5152d6a6cb3b236c3eef2cb644beeef179"
+      ],
+      "subject": "feat: add SSoT scanner, setup continuity, and optional metrics",
+      "tree": "1a29b4a267c6ad8a69d6fe07b5ae7e211008d9f1",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.0.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.0.0"
+        }
+      ]
+    },
+    {
+      "commit": "06976347ca2b75b089c99c50d40b30b153d709ff",
+      "diff_sha256": "cc8ebad7b63bdc1d89283cbb5efc3c5f9af6b5d7aae7595912e235771f1190a5",
+      "files": [
+        "README.md",
+        "docs/guide.md",
+        "figma-bridge/assets/panels.js",
+        "figma-bridge/locales/relay.json",
+        "figma-bridge/workspace_control.js",
+        "figma-bridge/workspace_host.js",
+        "panel-ui/src/RelayViewer.jsx",
+        "panel-ui/src/useRelaySnapshot.js",
+        "skills/figma-plugin-setup/SKILL.md",
+        "specs/codex-relay/spec.md",
+        "tests/helpers/relay_viewer.mjs",
+        "tests/test_multi_tab_control.py",
+        "tests/test_workspace_control.cjs",
+        "tools/figma_control.py"
+      ],
+      "parents": [
+        "375988904b40854a90adf8ef9c654beb4e6faa5c"
+      ],
+      "subject": "feat: support multi-tab concurrent work and improve setup/panel UX",
+      "tree": "6ab7b2b9e3945b8bd10ee1b8ae662c59c6e57c01",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.0.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.0.0"
+        }
+      ]
+    },
+    {
+      "commit": "05702e2af217bfb10a57c0f44a7462aada242c43",
+      "diff_sha256": "661ce57a9accba4fcc2eb22056e3546913954999a0fc7537be5ddb5079993c15",
+      "files": [
+        ".codex-plugin/plugin.json",
+        "CHANGELOG.md",
+        "plugin.json"
+      ],
+      "parents": [
+        "06976347ca2b75b089c99c50d40b30b153d709ff"
+      ],
+      "subject": "release: prepare 1.1.0 manifests and changelog",
+      "tree": "7c23182d0b8669ff487135888f2b29a82ea20fb8",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.1.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.1.0"
+        }
+      ]
     }
   ],
   "pages": {
@@ -17731,10 +17941,12 @@
     "03c4c8b73bd2fa7be32d5e019cb69f61aba1ad67": "61949053f9384be3835130722102530cc224e5fee3080ef3ae0ebc7530dabafb",
     "03ea89ed384360d3a6f7e70e4d3fa249bdc1ed93": "6ecb0e7e0d75c91fbb4d1b61dccc5a42c9eba50534e54272d24b6032b1859911",
     "05422a6e1cecfe76edc96077ac046a9e02ba8b04": "25fe364036073596b8d9ff5fd29cacf17237b78d78442eff4b72a078272a3d7e",
+    "05702e2af217bfb10a57c0f44a7462aada242c43": "13be50cbcfad71c1987e1b579711ae667ee12263054d2bae9daee41988d58d3d",
     "057f949078e2af85f8c911e4045a4977a3bd7f0b": "27ab48b75f989f49c4a712f9079ef27d3cc0616875ae6ee8070931ea80d4824a",
     "0664a3113792752d37096d12ee02aae08a488b2b": "cce929db346ed7af9c5328ec7b0452e26547a5b46d4496557566154d73e56525",
     "066830a97f7f053e880cdf2a6418aadb3de781ab": "550a1650979fd370795a40ad579f23195fee79154c67083518d72a9383a0fbb5",
     "068eb35374c2ec5f6f86efad6cefe7c316fa0740": "5cde070cb9aca85ddd63b513bccc198fdce5f444e227cc139986fa39bc380779",
+    "06976347ca2b75b089c99c50d40b30b153d709ff": "5688e87ba1537bbe5f3f715687fecee97db15d4976fdcd9dd127bc3a80ff2c0a",
     "06a40a1b83fac2f94b540d24e081ee87779e79ae": "aa00f0a77fa6212eaab136e81aa427bb4e25bd3148cfef6797ee7e2672943fe6",
     "06ce2b5439d18b0d0b2483cabce4f097a5b68945": "0b417a5a4f4cfd9b16f41c0b387685436f8658f7fd3aa8db66e1b7ee2213c4ea",
     "074fbba12678a336817d2337f07d3a3dbc0a5e8a": "0e7dda881321ecd5c9e379ced8c8b8bd7a0474613fb0d2d8ac099ee33810ae67",
@@ -17833,6 +18045,7 @@
     "35c6d3e3e798dee10c51335719d6ef9cd0539fb8": "57e66fd038cc6cfae4611ad95a163464d18dfa3c6e7217c6431a9b34e75a66d8",
     "35ce92863e8977aa18969133b24b715d145f405a": "62761ed60a1c6c34629424e4d8a5f4c9c6616c3b0066991b84f307e93a05c5b1",
     "368db1a9826de1455fe1d4598671ddd57bb9aa77": "85c68530537fe7fe3677352ac0a3b80c7e3e9c66353e241572d69cf29d57e5c6",
+    "375988904b40854a90adf8ef9c654beb4e6faa5c": "bb313fb8e26674102d5b9c6d0aef3d3140f48d3d324e226b300e2cf751535a11",
     "37f3fde2e8ab54ba82e54bbbba81f82f3956b661": "f4a36ee84c1fe8be3378876d6d78c0a198f93d3b1ff289a9de6f9d9a93de818e",
     "389964b782c69b05fc305c094640132a8aea7a44": "f8739bf7409f6ab1342b1883a3c7db1e44c9bf9ce5e2226b7bf62f3f544a4948",
     "3932393cfd5cdb40edf38f0ecbc8f997cf7a9bbf": "b6bc45a4b9ed3a81dd12c2a474172ce272175c1194600e3cc6193171b4ff035f",
@@ -17844,6 +18057,7 @@
     "3cfe367783a7715917562c11d1a0c27d1701cd4f": "fa9715dc04b18c8beace9aaa605c62d530ddc6ee287495f045d9e5f25a09c30b",
     "3d44aa2aae27fc8032c7e0d88ecfa02d124cbc19": "93c49b9ecacf7d84fa730bbe6051d94aee3ece32beddc7e06062ffe38106dc9c",
     "3d72453c628224f3e4d3b1a4a291802e7e759278": "9b035e18525c7fe899c6d23a66e485f0674c81d0032cc4cba084e2d8b1b6bea9",
+    "3e003a5152d6a6cb3b236c3eef2cb644beeef179": "8c1dc5f5e519c9121837e922c9fdaae149e9b82152a1e1ff858c1cd76823f6e9",
     "3e51f8ab5e458371b91832d728eb9c4400232965": "f75100c751dba9ccc6f931fecade43e78f0cd48cbc92243627eb5f4f9784fa6c",
     "3e7b44cc9903b3bfc753b77797e96c2c831dcd5b": "59f5631613e78b02e966cccb9ae4c4eb626c791b0d718e292028f939c96ac59f",
     "3eab9ee7f5e8399b852c3304ca285ca0b252c73b": "cf9400af4176791471bb01bb051aaee1d7a7c74b922d1807a2ad344ad571295b",
@@ -18256,6 +18470,10 @@
   "provenance_remotes": [
     {
       "observed_at_commit": "014095da897ccb87cac5e439910ad053c1f64720",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "05702e2af217bfb10a57c0f44a7462aada242c43",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -19123,13 +19341,21 @@
         "v1.0.0"
       ],
       "version": "1.0.0"
+    },
+    {
+      "source_commits": [
+        "05702e2af217bfb10a57c0f44a7462aada242c43"
+      ],
+      "tagged": false,
+      "tags": [],
+      "version": "1.1.0"
     }
   ],
   "remotes": [
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "7cf6d3813e5ed9efa3a6db9a8d55705e86c89e23",
+  "source_commit": "05702e2af217bfb10a57c0f44a7462aada242c43",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",
