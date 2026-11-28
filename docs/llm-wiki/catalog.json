@@ -18459,6 +18459,80 @@
           "version": "1.1.0"
         }
       ]
+    },
+    {
+      "commit": "c8dddce02d17fbbd4b4d4bc26f6e418ec69a7b87",
+      "diff_sha256": "b03588f98c4c0f9aec48b99af83456dc8c3698784dfcd07203f282ef0165d2b2",
+      "files": [
+        "CHANGELOG.md",
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/0e01fe1ded1cdcd3623a5bcba905027d9c953b1b.md",
+        "docs/llm-wiki/patches/319ccb58a5ecd7725a855d4e579513f35624025a.md",
+        "docs/llm-wiki/patches/5218dfe91cec6f19d8714800bb37043624f84b3c.md",
+        "docs/llm-wiki/patches/5a23f947043e5721f3ff849c46400691f45193f0.md",
+        "docs/llm-wiki/patches/d0a5c9fdbc21ccc6d4c20470cff79387427e50af.md",
+        "docs/llm-wiki/releases.md"
+      ],
+      "parents": [
+        "319ccb58a5ecd7725a855d4e579513f35624025a"
+      ],
+      "subject": "docs: freeze RC3 after all four direct verification paths",
+      "tree": "221d9eb0ded5e4a05486ce954e892d937347083c",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.1.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.1.0"
+        }
+      ]
+    },
+    {
+      "commit": "a24adcc9b6a7930702e82eb4d7d439f84f601aa3",
+      "diff_sha256": "e41ab991cba2e301eb1b6f31691c663db32b543456bae7b815d8e7a4f2deed70",
+      "files": [
+        "tests/test_verifier_imports.py"
+      ],
+      "parents": [
+        "c8dddce02d17fbbd4b4d4bc26f6e418ec69a7b87"
+      ],
+      "subject": "test(verification): pin package and standalone verifier imports",
+      "tree": "e747adc5b3b84c78c33af1ce7386353cdcbb6c6b",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.1.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.1.0"
+        }
+      ]
+    },
+    {
+      "commit": "150aeeb1fc28b14fec5af09af0b6351f1b709f74",
+      "diff_sha256": "d4d48b97159ea2983e8c5387441be80667a596714e0d3205c35b33de1f415acb",
+      "files": [
+        "tools/maintenance.py",
+        "tools/patch_knowledge_check.py"
+      ],
+      "parents": [
+        "a24adcc9b6a7930702e82eb4d7d439f84f601aa3"
+      ],
+      "subject": "fix(verification): resolve test environment helper in package mode",
+      "tree": "133570aed75a0df77c9899a3666851538f4be3ab",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.1.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.1.0"
+        }
+      ]
     }
   ],
   "pages": {
@@ -18513,6 +18587,7 @@
     "142dfd97ed5bba73e787d99924a2693a3a86b61a": "ae48f7155217b25723041dbb94a637420e942ecb927b253dc65a16aebbee5c00",
     "1430fdfbed0cc7862ff2bbf9648c2faf468cf3de": "5f2b7a311e12c35569029d1556b3dd2842d65940a30d79ce1aeca5046864c300",
     "15051541950b339c5f23dd246f4910e794a597c9": "b63931105a4d263c0d5734bdbfe53cd25cf1a3fc7405081194b9a9a29d614518",
+    "150aeeb1fc28b14fec5af09af0b6351f1b709f74": "efa387a7ee7934052ab67a630bdc0b33f7f5a59a55cd34cad5e4d7be877d2e68",
     "159f3ae64bca897fe04734929bd406744b27932f": "ac67c67b1a72f2754170de1701582c6dd1c40461f5b96cb58096aa8db24a8a01",
     "15f29963c1f4e7685a7deb6b851a1d360fcbad6b": "5001d2f08dba44969ed63b29f62eb2531ddb3a9df18484c3b7355c555ac6b6b5",
     "163aab118eb134d6fd8d677a1644f2d78dde4532": "3eb71f867b0c3979ba6c26d48ca5cae2e126cc8014083f2de15fcc8078ef3ec2",
@@ -18802,6 +18877,7 @@
     "a0f790602dc1a2b6b6efaaf4623b14dc7461faa8": "890ca77056c5172e56054e28e8471fc9c0cb68c2c808e37ae497f86d5bc53373",
     "a13e89c27c16108e4fb75a446154636124312c4d": "f12e95d0da042f4f9a9a3904b769cd32486c82c2c5f3eacd64c9ab936c3717d6",
     "a1ede2a37a03f631dbad93047488031f661a29ca": "f88c676103d3f5b834186eec7e1b1179133e11c3d2877056da20059505bc05f6",
+    "a24adcc9b6a7930702e82eb4d7d439f84f601aa3": "0f9346a277fc8731ca3431b5d1c08d80476547a10d85cd94a48a43fba68e2b2a",
     "a447283ab18da87a078dbacb2b9ea937f820d100": "1c4c1b923809036605a83d8ea4cee8a57dcca82c67c309e4e8baa34865b04288",
     "a46a608d94731afdf0af5f1214d6e7b00dd495af": "bbf9829a5ee582ccafd43f5f4177b56e714794e9ca5cc7f5a21b944f13153132",
     "a49dd1d1b5794a295aa7e71a3983c5777adc5dc5": "bfeac968a5f411fa9fe1d03c0cfeac469b78ac1f0a9209c22e163db7225b520d",
@@ -18892,6 +18968,7 @@
     "c80def58a7b0a875961f13c9ae7307bbc910ff8e": "061218675aaa4315a7464452e1bacc9daf5a366b816c1e63e2becfe63ab7a50e",
     "c860a86f146e3302caeffbcfcfdbbe9d832f052d": "74ae820117eceb9c09aab0b7d290230871a3a367998f3d6dab2cf41c3fec0502",
     "c89403fd4dd5923eb633ff079bf62db4f22861f1": "58686be9fdbbdc36504488cafbcff4710d17e92702d46620ee16ebb6f239bd6a",
+    "c8dddce02d17fbbd4b4d4bc26f6e418ec69a7b87": "191190abd2d3ac9d3770ccb7e70b2387c95e9586c064bc4847fa0b7e571adb91",
     "cab5eae313363aa116816b0afc79673f7ffb54fe": "0b80eb0eb5cd7508a140f027a43251f4cd74f26a4b79ddfb7ea4bf7284625d1f",
     "cae9f166bff0a1e888f55f5e943fec224643bf11": "02fe88dd0e52773632b8ce037cf39e18603df5db883c755e84bcb7ca5aefe67d",
     "cb19ac749989bafeda8ca5a75505ebe86abed802": "aa0b0da805dce8ba673cfeac0c4ea0b106068f91a9fbbe31b62dc74f73bb7f33",
@@ -19058,6 +19135,10 @@
     },
     {
       "observed_at_commit": "142dfd97ed5bba73e787d99924a2693a3a86b61a",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "150aeeb1fc28b14fec5af09af0b6351f1b709f74",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -19924,7 +20005,7 @@
     },
     {
       "source_commits": [
-        "319ccb58a5ecd7725a855d4e579513f35624025a"
+        "150aeeb1fc28b14fec5af09af0b6351f1b709f74"
       ],
       "tagged": false,
       "tags": [],
@@ -19935,7 +20016,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "319ccb58a5ecd7725a855d4e579513f35624025a",
+  "source_commit": "150aeeb1fc28b14fec5af09af0b6351f1b709f74",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",

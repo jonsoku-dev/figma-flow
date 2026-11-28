@@ -2,6 +2,8 @@
 
 ## 1.1.0 · 2026-11-28
 
+- 유지보수·패치 검증기는 직접 실행과 `tools` 패키지 import를 모두 지원합니다. [릴리스 프로필 import 복구](docs/llm-wiki/patches/150aeeb1fc28b14fec5af09af0b6351f1b709f74.md)
+
 - 릴리스 증인, 유지보수 단계, 명명된 Node 계약과 나머지 Node 제품군을 직접 실행해도 검증 자식마다 임시 설정 경로를 사용합니다. [직접 검증 격리](docs/llm-wiki/patches/319ccb58a5ecd7725a855d4e579513f35624025a.md)
 
 - PC에서 재사용할 작업공간은 `figma_workspace.py remember --workspace PATH`로 등록하고, 기본값은 `--default`로 선택합니다. 여러 등록 중 기본값이 없으면 경로를 직접 지정할 수 있습니다. 테스트 명령은 임시 XDG 설정으로 실행됩니다. [RC3 등록과 테스트 격리](docs/llm-wiki/patches/a49dd1d1b5794a295aa7e71a3983c5777adc5dc5.md)

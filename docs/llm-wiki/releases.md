@@ -10,6 +10,8 @@
 
 ## v1.1.0
 
+최종 RC3는 [release 프로필의 독립 패키지 import](patches/150aeeb1fc28b14fec5af09af0b6351f1b709f74.md)를 복구했다.
+
 [명명된 Node 계약 검사](patches/319ccb58a5ecd7725a855d4e579513f35624025a.md)를 포함해 네 직접 경로의 새 설정·정리를 확인했다.
 
 RC3에는 [세 직접 검증 진입점의 설정 격리](patches/0e01fe1ded1cdcd3623a5bcba905027d9c953b1b.md)도 포함된다.
