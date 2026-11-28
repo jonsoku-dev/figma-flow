@@ -118,6 +118,10 @@ RELAY_REQUEST_TTL = 120
 SESSION_RETENTION_TTL = 60
 MAX_TRACKED_SESSIONS = 64
 MAX_ACTIVE_FILES = 64
+MAX_FILE_KEY_LENGTH = 128
+FILE_KEY = re.compile(rf'[A-Za-z0-9]{{1,{MAX_FILE_KEY_LENGTH}}}')
+# ASCII keys and 32-character operation IDs, plus the JSON indentation and latest ID.
+ACTIVE_MAP_BYTES = MAX_ACTIVE_FILES * (MAX_FILE_KEY_LENGTH + 32 + 16) + 128
 PROFILE_PLANS = set(PROFILE_POLICY['options']['plans'])
 PROFILE_SEATS = set(PROFILE_POLICY['options']['seats'])
 PROFILE_ERROR_CODES = {'profile-save-failed', 'profile-storage-unavailable'}
@@ -436,7 +440,7 @@ def _relay_command_unlocked(root, payload):
         raise ValueError('Relay command fields do not match its action')
     filter_file = payload.get('file_key')
     filter_session = payload.get('session_id')
-    if filter_file is not None and (not isinstance(filter_file, str) or not re.fullmatch(r'[A-Za-z0-9]{1,128}', filter_file)):
+    if filter_file is not None and (not isinstance(filter_file, str) or not FILE_KEY.fullmatch(filter_file)):
         raise ValueError('Exact Figma file key required')
     if filter_session is not None:
         identity(filter_session, 'plugin session')
@@ -699,7 +703,7 @@ def identity(value, label):
 
 
 def scope(file_key, page_id, revision):
-    if not isinstance(file_key, str) or not re.fullmatch(r'[A-Za-z0-9]{1,128}', file_key):
+    if not isinstance(file_key, str) or not FILE_KEY.fullmatch(file_key):
         raise ValueError('Exact Figma file key required')
     if not isinstance(page_id, str) or not re.fullmatch(r'[0-9]+:[0-9]+', page_id):
         raise ValueError('Exact numeric Figma page ID required')
@@ -945,36 +949,18 @@ def conflict_detail(readback):
 def _peek_active_operations(root):
     """Strictly read-only listing of non-terminal operations across files without creating files."""
     directory = Path(root) / '.control'
-    if not directory.is_dir():
-        return []
-    active_path = directory / 'active.json'
-    if not active_path.is_file() or active_path.is_symlink():
-        return []
-    now = time.time()
     try:
-        pointer = workspace.read(active_path, private=True, limit=4096)
+        _, by_file = _read_active_map(directory)
     except (OSError, ValueError):
         return []
-    candidate_ids = []
-    by_file = pointer.get('by_file')
-    if isinstance(by_file, dict):
-        candidate_ids.extend(op_id for op_id in by_file.values() if isinstance(op_id, str))
-    if isinstance(pointer.get('id'), str):
-        candidate_ids.append(pointer['id'])
+    now = time.time()
     rows = []
-    seen = set()
-    for op_id in candidate_ids:
-        if op_id in seen or not re.fullmatch(r'[a-f0-9]{32}', op_id):
-            continue
-        seen.add(op_id)
-        req_path = directory / 'requests' / (op_id + '.json')
-        if not req_path.is_file() or req_path.is_symlink():
-            continue
+    for file_key, oid in by_file.items():
         try:
-            req = workspace.read(req_path, private=True, limit=32768)
+            req = _read_slot(directory, file_key, oid)
         except (OSError, ValueError):
             continue
-        if req.get('state') not in TERMINAL and now < req.get('deadline', 0):
+        if req['state'] not in TERMINAL and req['deadline'] > now:
             rows.append(req)
     rows.sort(key=lambda item: item.get('created_at', 0))
     return rows
@@ -994,31 +980,8 @@ def _peek_active_and_uncertain(root):
                 uncertain_count = len(data['operations'])
         except (OSError, ValueError):
             pass
-    active_req = None
-    active_path = directory / 'active.json'
-    if active_path.is_file() and not active_path.is_symlink():
-        try:
-            pointer = workspace.read(active_path, private=True, limit=4096)
-            candidate_ids = []
-            by_file = pointer.get('by_file')
-            if isinstance(by_file, dict):
-                candidate_ids.extend(op_id for op_id in by_file.values() if isinstance(op_id, str))
-            if isinstance(pointer.get('id'), str):
-                candidate_ids.append(pointer['id'])
-            for op_id in candidate_ids:
-                if not re.fullmatch(r'[a-f0-9]{32}', op_id):
-                    continue
-                req_path = directory / 'requests' / (op_id + '.json')
-                if req_path.is_file() and not req_path.is_symlink():
-                    req = workspace.read(req_path, private=True, limit=32768)
-                    if req.get('state') not in TERMINAL:
-                        if active_req is None or req.get('created_at', 0) < active_req.get('created_at', float('inf')):
-                            active_req = req
-                    elif active_req is None:
-                        active_req = req
-        except (OSError, ValueError):
-            pass
-    return active_req, uncertain_count
+    rows = _peek_active_operations(root)
+    return (rows[0] if rows else None), uncertain_count
 
 
 def _live_metrics_state(root):
@@ -1172,96 +1135,103 @@ def _expire_if_due(directory, request):
     return request
 
 
+def _read_request(directory, oid):
+    req = workspace.read(directory / 'requests' / (oid + '.json'), private=True, limit=32768)
+    if not isinstance(req, dict) or req.get('id') != oid:
+        raise ValueError('Invalid operation record')
+    return req
+
+
+def _read_slot(directory, file_key, oid):
+    req = _read_request(directory, oid)
+    if req.get('file_key') != file_key:
+        raise ValueError('Operation pointer does not match the request')
+    if not isinstance(req.get('state'), str):
+        raise ValueError('Invalid active operation state')
+    if req['state'] not in TERMINAL and (
+            req.get('state') not in ('pending', 'claimed') or not isinstance(req.get('deadline'), (int, float))):
+        raise ValueError('Invalid active operation state')
+    return req
+
+
 def _read_active_map(directory):
     path = directory / 'active.json'
     if not path.exists():
         return None, {}
-    pointer = workspace.read(path, private=True, limit=4096)
+    pointer = workspace.read(path, private=True, limit=ACTIVE_MAP_BYTES)
+    if not isinstance(pointer, dict):
+        raise ValueError('Invalid operation pointer')
     latest_id = pointer.get('id')
     if latest_id is not None and (not isinstance(latest_id, str) or not re.fullmatch(r'[a-f0-9]{32}', latest_id)):
         raise ValueError('Invalid operation pointer')
-    by_file = {}
-    raw_by_file = pointer.get('by_file')
-    if raw_by_file is not None:
-        if not isinstance(raw_by_file, dict):
+    by_file = pointer.get('by_file')
+    if by_file is None:
+        by_file = {}
+    if not isinstance(by_file, dict) or len(by_file) > MAX_ACTIVE_FILES:
+        raise ValueError('Invalid operation pointer')
+    for file_key, oid in by_file.items():
+        if (not isinstance(file_key, str) or not FILE_KEY.fullmatch(file_key) or
+                not isinstance(oid, str) or not re.fullmatch(r'[a-f0-9]{32}', oid)):
             raise ValueError('Invalid operation pointer')
-        for fkey, oid in raw_by_file.items():
-            if (not isinstance(fkey, str) or not re.fullmatch(r'[A-Za-z0-9]{1,128}', fkey) or
-                    not isinstance(oid, str) or not re.fullmatch(r'[a-f0-9]{32}', oid)):
-                raise ValueError('Invalid operation pointer')
-            by_file[fkey] = oid
-    elif latest_id is not None:
-        req = workspace.read(directory / 'requests' / (latest_id + '.json'), private=True, limit=32768)
-        if isinstance(req.get('file_key'), str):
-            by_file[req['file_key']] = latest_id
+    if latest_id is not None and latest_id not in by_file.values():
+        # Older pointers store only the latest ID. Recover its file without rewriting the index.
+        req = _read_request(directory, latest_id)
+        key = req.get('file_key')
+        if (not isinstance(key, str) or not FILE_KEY.fullmatch(key) or
+                key in by_file or len(by_file) >= MAX_ACTIVE_FILES):
+            raise ValueError('Invalid operation pointer')
+        by_file[key] = latest_id
     return latest_id, by_file
 
 
 def _write_active_map(directory, by_file, latest_id):
-    cleaned = dict(by_file)
-    if len(cleaned) > MAX_ACTIVE_FILES:
-        items = []
-        for fkey, oid in cleaned.items():
-            req = None
-            try:
-                req = workspace.read(directory / 'requests' / (oid + '.json'), private=True, limit=32768)
-            except (OSError, ValueError):
-                pass
-            is_live = bool(req and req.get('state') not in TERMINAL)
-            created = req.get('created_at', 0) if isinstance(req, dict) else 0
-            items.append((fkey, oid, is_live, created))
-        # Evict oldest terminal entries first.
-        items.sort(key=lambda item: (item[2], item[3]))
-        while len(cleaned) > MAX_ACTIVE_FILES and items:
-            drop_fkey, _, _, _ = items.pop(0)
-            cleaned.pop(drop_fkey, None)
-    workspace.atomic(directory / 'active.json', workspace.encode({'id': latest_id, 'by_file': cleaned}))
+    if len(by_file) > MAX_ACTIVE_FILES:
+        raise ValueError('Active file index exceeds capacity')
+    workspace.atomic(directory / 'active.json', workspace.encode({'id': latest_id, 'by_file': by_file}))
+
+
+def _settled_requests(directory, by_file):
+    return {oid: _expire_if_due(directory, _read_slot(directory, key, oid))
+            for key, oid in by_file.items()}
+
+
+def _reserve_slot(directory, by_file, file_key):
+    if file_key in by_file or len(by_file) < MAX_ACTIVE_FILES:
+        return
+    rows = _settled_requests(directory, by_file)
+    terminal = (req for req in rows.values() if req['state'] in TERMINAL)
+    oldest = min(terminal, key=lambda req: req.get('created_at', 0), default=None)
+    if oldest is None:
+        raise ControlDiagnostic(
+            f'All {MAX_ACTIVE_FILES} file slots are active. Run figma_control.py status --workspace WORKSPACE '
+            'and wait for a file operation to finish before submitting a new file.')
+    del by_file[oldest['file_key']]
+
+
+def _current_slot(directory, by_file, file_key):
+    oid = by_file.get(file_key)
+    return _expire_if_due(directory, _read_slot(directory, file_key, oid)) if oid else None
 
 
 def active_for_file(directory, file_key):
-    latest_id, by_file = _read_active_map(directory)
-    operation_id = by_file.get(file_key)
-    if operation_id is None and latest_id and latest_id not in by_file.values():
-        candidate = workspace.read(directory / 'requests' / (latest_id + '.json'), private=True, limit=32768)
-        if candidate.get('file_key') == file_key:
-            operation_id = latest_id
-    if operation_id is None:
-        return None
-    request = workspace.read(directory / 'requests' / (operation_id + '.json'), private=True, limit=32768)
-    return _expire_if_due(directory, request)
+    _, by_file = _read_active_map(directory)
+    return _current_slot(directory, by_file, file_key)
+
+
+def _live_rows(requests):
+    return sorted((r for r in requests if r['state'] not in TERMINAL), key=lambda r: r.get('created_at', 0))
 
 
 def active_operations(directory):
-    latest_id, by_file = _read_active_map(directory)
-    rows = []
-    seen = set()
-    for op_id in [oid for oid in by_file.values()] + ([latest_id] if latest_id else []):
-        if op_id in seen:
-            continue
-        seen.add(op_id)
-        request = _expire_if_due(directory, workspace.read(directory / 'requests' / (op_id + '.json'), private=True, limit=32768))
-        if request and request.get('state') not in TERMINAL:
-            rows.append(request)
-    rows.sort(key=lambda item: item.get('created_at', 0))
-    return rows
+    _, by_file = _read_active_map(directory)
+    return _live_rows(_settled_requests(directory, by_file).values())
 
 
 def active(directory, *, file_key=None):
     if file_key is not None:
         return active_for_file(directory, file_key)
     latest_id, by_file = _read_active_map(directory)
-    if latest_id is None:
-        return None
-    latest = None
-    seen = set()
-    for op_id in [latest_id, *by_file.values()]:
-        if op_id in seen:
-            continue
-        seen.add(op_id)
-        request = _expire_if_due(directory, workspace.read(directory / 'requests' / (op_id + '.json'), private=True, limit=32768))
-        if op_id == latest_id:
-            latest = request
-    return latest
+    return _settled_requests(directory, by_file).get(latest_id)
 
 
 def control_embedded_in_manifest(root, control_value):
@@ -1320,12 +1290,13 @@ def enqueue(root, key, operation, file_key, page_id, revision, timeout, *, focus
     with workspace.locked(root) as root:
         config(root)
         directory = state_dir(root)
-        previous = active_for_file(directory, file_key)
+        _, by_file = _read_active_map(directory)
+        previous = _current_slot(directory, by_file, file_key)
         if previous and previous['state'] not in TERMINAL:
             raise ControlDiagnostic(
                 'An operation is already active for this file. Run figma_control.py status --workspace WORKSPACE '
                 '--file-key FILE_KEY and wait for the active operation to finish.')
-        if uncertainties_for_file(directory, file_key) and operation not in READ_ONLY_OPERATIONS:
+        if operation not in READ_ONLY_OPERATIONS and uncertainties_for_file(directory, file_key):
             raise ControlDiagnostic(
                 'Previous claimed operation is uncertain. Run figma_control.py status --workspace WORKSPACE '
                 '--file-key FILE_KEY. Run a prepared --operation read for the affected file and page and reconcile '
@@ -1351,9 +1322,9 @@ def enqueue(root, key, operation, file_key, page_id, revision, timeout, *, focus
         elif viewer_options is not None:
             raise ValueError('Viewer options are available only for viewer operations')
         task(root, request)
+        _reserve_slot(directory, by_file, file_key)
         record_phase(request, 'queued')
         save(directory, request)
-        _, by_file = _read_active_map(directory)
         by_file[file_key] = request['id']
         _write_active_map(directory, by_file, request['id'])
         return request
@@ -1579,21 +1550,19 @@ def status(root, operation_id=None, *, file_key=None):
         directory = state_dir(root)
         if operation_id is not None and file_key is not None:
             raise ValueError('Specify either --id or --file-key')
-        if operation_id is None and file_key is not None:
-            if not isinstance(file_key, str) or not re.fullmatch(r'[A-Za-z0-9]{1,128}', file_key):
-                raise ValueError('Exact Figma file key required')
-            current_ops = active_operations(directory)
-            value = active_for_file(directory, file_key) or {'state': 'idle', 'file_key': file_key}
-        elif operation_id is None:
-            current = active(directory)
-            current_ops = active_operations(directory)
-            value = current or {'state': 'idle'}
+        if file_key is not None and (not isinstance(file_key, str) or not FILE_KEY.fullmatch(file_key)):
+            raise ValueError('Exact Figma file key required')
+        if operation_id is not None and not re.fullmatch(r'[a-f0-9]{32}', operation_id):
+            raise ValueError('Invalid operation ID')
+        latest_id, by_file = _read_active_map(directory)
+        requests = _settled_requests(directory, by_file)
+        current_ops = _live_rows(requests.values())
+        if file_key is not None:
+            value = requests.get(by_file.get(file_key)) or {'state': 'idle', 'file_key': file_key}
+        elif operation_id is not None:
+            value = requests.get(operation_id) or _read_request(directory, operation_id)
         else:
-            if not re.fullmatch(r'[a-f0-9]{32}', operation_id):
-                raise ValueError('Invalid operation ID')
-            current = active(directory)
-            current_ops = active_operations(directory)
-            value = current if current and current['id'] == operation_id else workspace.read(directory / 'requests' / (operation_id + '.json'), private=True, limit=32768)
+            value = requests.get(latest_id) or {'state': 'idle'}
         pending = uncertainties(directory)['operations']
         journal = journal_history(value if isinstance(value, dict) else {})
         return {**value, 'journal': journal,

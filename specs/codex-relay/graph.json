@@ -120,6 +120,20 @@
       "source": "../../tests/test_control_cli_rejections.py",
       "title": "CLI recovery guidance and private queue preservation",
       "status": "unverified"
+    },
+    {
+      "id": "AC-FILE-SLOTS",
+      "type": "acceptance",
+      "source": "spec.md",
+      "title": "64-file admission, retained receipts and non-mutating live observations",
+      "status": "unverified"
+    },
+    {
+      "id": "TEST-FILE-SLOTS",
+      "type": "test",
+      "source": "../../tests/test_active_file_index.py",
+      "title": "Persisted file pointer and capacity regression tests",
+      "status": "unverified"
     }
   ],
   "edges": [
@@ -217,6 +231,21 @@
       "from": "CODEX",
       "type": "verified by",
       "to": "TEST-RUN-REJECTIONS"
+    },
+    {
+      "from": "REQ-CODEX",
+      "type": "accepted by",
+      "to": "AC-FILE-SLOTS"
+    },
+    {
+      "from": "AC-FILE-SLOTS",
+      "type": "exercised through",
+      "to": "CODEX"
+    },
+    {
+      "from": "CODEX",
+      "type": "verified by",
+      "to": "TEST-FILE-SLOTS"
     }
   ]
 }
