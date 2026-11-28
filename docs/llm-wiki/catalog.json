@@ -18334,6 +18334,131 @@
           "version": "1.1.0"
         }
       ]
+    },
+    {
+      "commit": "5218dfe91cec6f19d8714800bb37043624f84b3c",
+      "diff_sha256": "260956cffc29b72863e35765ca9e00810f5f7460eb5d3f797bd58827a3e80b27",
+      "files": [
+        "CHANGELOG.md",
+        "docs/llm-wiki/catalog.json",
+        "docs/llm-wiki/patches/13ddf9a3ad3d4419ca7f873e41ff549b24659b4d.md",
+        "docs/llm-wiki/patches/a49dd1d1b5794a295aa7e71a3983c5777adc5dc5.md",
+        "docs/llm-wiki/patches/c6b2c7c9f70128e4fccfde5df3edbb841a31c268.md",
+        "docs/llm-wiki/releases.md"
+      ],
+      "parents": [
+        "a49dd1d1b5794a295aa7e71a3983c5777adc5dc5"
+      ],
+      "subject": "docs: freeze local 1.1.0 RC3 registration and isolation evidence",
+      "tree": "5608e8b3a1c365163a49da6c50601bad29451543",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.1.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.1.0"
+        }
+      ]
+    },
+    {
+      "commit": "5a23f947043e5721f3ff849c46400691f45193f0",
+      "diff_sha256": "eec23dcda5b099e43204c0f737f011ea011141e3f7908e4064d1f9c4400e3db0",
+      "files": [
+        "tests/test_verification_config.py"
+      ],
+      "parents": [
+        "5218dfe91cec6f19d8714800bb37043624f84b3c"
+      ],
+      "subject": "test(verification): pin configuration isolation at direct entrypoints",
+      "tree": "ed8accc7b3241eb5aab88afd4369a43e62b4512c",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.1.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.1.0"
+        }
+      ]
+    },
+    {
+      "commit": "0e01fe1ded1cdcd3623a5bcba905027d9c953b1b",
+      "diff_sha256": "2aa13f31b7ffc41318974464bacd3a0117a6d0362b8abc2fae4d50eb30ed163e",
+      "files": [
+        "CONTRIBUTING.md",
+        "docs/graph-governance-review.json",
+        "docs/maintenance-verification.md",
+        "specs/codex-relay/graph.json",
+        "tools/graph_governance.py",
+        "tools/maintenance.py",
+        "tools/major_release.py"
+      ],
+      "parents": [
+        "5a23f947043e5721f3ff849c46400691f45193f0"
+      ],
+      "subject": "fix(verification): isolate direct release and maintenance children",
+      "tree": "bf596e248f81c47410d98adcfa7100fd0d24e39d",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.1.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.1.0"
+        }
+      ]
+    },
+    {
+      "commit": "d0a5c9fdbc21ccc6d4c20470cff79387427e50af",
+      "diff_sha256": "637f3c5c0ac83cdf0f17885d6b4980fdf9ac2eb20cc5caf3ea788b9f5938e305",
+      "files": [
+        "tests/test_graph_governance.py"
+      ],
+      "parents": [
+        "0e01fe1ded1cdcd3623a5bcba905027d9c953b1b"
+      ],
+      "subject": "test(verification): pin direct named Node contract isolation",
+      "tree": "b2dc78d8acb40ee04a619fec4469e1c5976a9d70",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.1.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.1.0"
+        }
+      ]
+    },
+    {
+      "commit": "319ccb58a5ecd7725a855d4e579513f35624025a",
+      "diff_sha256": "34a61f2cd0946d6e25d64aabdf8a61f9621969aa78bc2729dc669b2d90df3003",
+      "files": [
+        "CONTRIBUTING.md",
+        "docs/graph-governance-review.json",
+        "docs/maintenance-verification.md",
+        "specs/codex-relay/graph.json",
+        "tools/graph_governance.py"
+      ],
+      "parents": [
+        "d0a5c9fdbc21ccc6d4c20470cff79387427e50af"
+      ],
+      "subject": "fix(verification): isolate named Node contracts through the shared test path",
+      "tree": "9518cbd20da882b810ff212919ccd1c38cfa94ca",
+      "versions": [
+        {
+          "path": "plugin.json",
+          "version": "1.1.0"
+        },
+        {
+          "path": ".codex-plugin/plugin.json",
+          "version": "1.1.0"
+        }
+      ]
     }
   ],
   "pages": {
@@ -18367,6 +18492,7 @@
     "0ce837ccf732354cf2a0f94cbb42042c9ca6fda2": "384f7bc05cbe9ff28dde0a705a63a18cb94b89ebb6da20c8abadce3dfc6d8913",
     "0cf1823f9225b694b40961f2b6fb5d6eaa79834c": "fa2b919c9277a10c3eb30ed75c61256da3c8c215b241bc189a72082bd3c68e76",
     "0d344a1f55f15a20a9d6057c79cface9c2aae13c": "b6f329976a0dea90260c58084abae3307e7072b61153d63780e7b1ac6d8e3867",
+    "0e01fe1ded1cdcd3623a5bcba905027d9c953b1b": "81c8d77f7cb1d8bad17708d0645b7d370060cac726520c07290efb1f5069f12d",
     "0ee0a24c5955e52dfb6f8f183bb6ac813252b446": "e68dc9e09bd5af0387a2814d66d294159d4c6a0165b0f96b511f0b77d835433b",
     "0ef8fe7126290ba10bd7ffe511e455d027226f74": "53e97298a0b490e017649b15a7ed501294917b0f4ae9d3bca8b59967456a93ca",
     "0f4761e270a554324fbb29831d232e8564ad6ad2": "6b639d8232b4cf666e65dcbf222bb5fcf2ab3763fd75ddc4ca4e645b90f02a4b",
@@ -18444,6 +18570,7 @@
     "306f26c7454a310f9f9b61f5ddb8b9f557d71318": "8fb110347d5b777b763379a2c240adeec0975c7b9cfd6cb761939d4443973a13",
     "3101237e7e97c6181416780c94888ba134a005d0": "eb8cd406e0591b4fa29b20c75057305ae593587084edf8595a5b40a82eb1c3d5",
     "310f6573b4c60a78a4da0099c0f91976430323da": "a961d41b7c9d27ba0726201165f95586ef7d7d40cac201ccb3bb40c6bb9ef376",
+    "319ccb58a5ecd7725a855d4e579513f35624025a": "cf5c485f2fc09e8e7ac161f54c16b877563cc48d9d89ae70e86c3db7dd4fe1b4",
     "325e122cb48aebe61663333db337e093bc6a1429": "142955184fdc6dfe7ceb86756da3edaf6e4b1d0d304bb34c5ccf45ef164d8d6b",
     "33287d5e331c454f1d8c0be7363de9edb848df4b": "4373d9e16b08df782a03ea453221eede69cac20bda656a9751bd546072e193eb",
     "335679f7f543e354a370cf102d0d2bd88acb9007": "6dbc58b1b177359a5a90a52203fcd12b92303d48c12935f633012edde588e1ca",
@@ -18509,6 +18636,7 @@
     "4f75cb4af31947f6d4eda1f270279fa905a7c45c": "a6c8ed3f9a0e00ce494fbfe1db429a236da0fa7afa39d0e1c32cc8312dcf7cf9",
     "503a532696a7c9f912824d80c3157ee11eaefcd0": "6dc5716ec717ab678f90c0fbbfbf17020e4f2793250f2c56ee2aab4d3d8c1806",
     "517b26733de38a1ea1ae885498b8b5ec41f3b3f4": "ae54ef0fa6ada4a6fa658055805159dd1a9e1280c3758fa1fab408d967b60451",
+    "5218dfe91cec6f19d8714800bb37043624f84b3c": "dc601d6b4019a5ed23e0a932fd73612a009a819197850c66ccc38f0bd74419a0",
     "5302e7ec33c30964a7c343b0a85497a6f70e61a7": "bbe9bb786cd83f51f6b746f76900d85946898a3c12b37d0c516c1cdb6bcb78d5",
     "531365b4f23774444cdee1440f8756b6cd2068ff": "23f870449c1a2b18871c22a850be5cefa137d320b27e9f5780d6d5b29349c38d",
     "5355e61fb65f3c1a47f9cfbccdd26f71ec6a9979": "9c53f969ba7c610e4fd063bc9b74a03d0edbb11d89983018d7ff57669dbfcc3e",
@@ -18525,6 +18653,7 @@
     "59dba566f4982923076ef0ed22cc0da5f60f42c5": "917fd3ff94e55217641f9ce07b69f6ae6017762eb3b6292a8b5588bf76384e06",
     "59e4a57ba67a2efa1cace67c54e37b13ce747e1b": "41536552a4b1b08ff4e3d86c13fbb4dc8f4fce50c6f4d443f008801328e8f869",
     "5a1c20bd56951111194253efa143f5df5765f396": "2975c4e4ec26a3feba629fc3a6c43921c159eac9aedbb9d907645ccdcffba26b",
+    "5a23f947043e5721f3ff849c46400691f45193f0": "db123be0c7cc98ae7d29e7a145811da5026f05a7044b8d6963dd6ca23b7266e8",
     "5c7fd51084bb5115ff99d81763272b4a6ea90a60": "3ffa367dc00f3986850130c31c44c1853005ce2d6f3fc200bac6ad745c080a79",
     "5caacfd96b70a03abd80d331a5a8b5317a38e2bf": "4ce682d00bf0b76e1ce62a1b57399ff7991959b367e5eec3f0b91282aa319ca7",
     "5d068b010d5fb53147a15913efbd458737eb8281": "dc7b7fe997ea3bdf74a44c66eca76111484d6866b44adb9db16eb616f153dbcc",
@@ -18778,6 +18907,7 @@
     "ce1bc7d2988a7247f61cbf8fd827ed0278e0964d": "6c193b7204aa16ae651956ce75ccde03f2d45d5adf55c2f6317d76dcd7b2cb9a",
     "cfc7fbd1a2867d2665c29e9eaa066b4b18eac254": "fb3af507f949f2cd5fe7bc906a4d8412552dfcb2b5df688287daf280e20ab193",
     "d00b3ac9d5ec90137d9a4f5c83c0ee2f2c9f3999": "4d259ce566853681178ec2b80fada97d6fba6ee7b1f1ec6f0b6e5d13183caa1e",
+    "d0a5c9fdbc21ccc6d4c20470cff79387427e50af": "52401620a54ad1920168514de776bce94c4030ce4487e3c584e27b70ff577aff",
     "d12b467a821bc1984f3166f646f5359b208171fb": "53a719238ee62586ab01c8ecc53269aa5ab60eb84265679cf52597c76052a781",
     "d161ee42784220bf20a3fb0649fcb7d3c3c3af18": "81899b8b791caf981018417dcb41425411a6356308303a68ecfdca51b6322098",
     "d2035bc66468b51fef14f8e1c7902391cc0a41fa": "9343ed92444ecdee1737b27c9dd5ad9a42cab7fef8962ad84ba51efa1e24bf22",
@@ -18911,6 +19041,10 @@
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
+      "observed_at_commit": "0e01fe1ded1cdcd3623a5bcba905027d9c953b1b",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
       "observed_at_commit": "0f4761e270a554324fbb29831d232e8564ad6ad2",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
@@ -19004,6 +19138,10 @@
     },
     {
       "observed_at_commit": "3101237e7e97c6181416780c94888ba134a005d0",
+      "remote": "github.com/jonsoku-dev/figma-flow.git"
+    },
+    {
+      "observed_at_commit": "319ccb58a5ecd7725a855d4e579513f35624025a",
       "remote": "github.com/jonsoku-dev/figma-flow.git"
     },
     {
@@ -19786,7 +19924,7 @@
     },
     {
       "source_commits": [
-        "a49dd1d1b5794a295aa7e71a3983c5777adc5dc5"
+        "319ccb58a5ecd7725a855d4e579513f35624025a"
       ],
       "tagged": false,
       "tags": [],
@@ -19797,7 +19935,7 @@
     "github.com/jonsoku-dev/figma-flow.git"
   ],
   "schema": "figma-flow-patch-catalog-v1",
-  "source_commit": "a49dd1d1b5794a295aa7e71a3983c5777adc5dc5",
+  "source_commit": "319ccb58a5ecd7725a855d4e579513f35624025a",
   "tags": [
     {
       "commit": "f18f8f53dfdadd89db0781d13d404ab4b8bc3d0c",

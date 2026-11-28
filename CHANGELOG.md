@@ -2,6 +2,8 @@
 
 ## 1.1.0 · 2026-11-28
 
+- 릴리스 증인, 유지보수 단계, 명명된 Node 계약과 나머지 Node 제품군을 직접 실행해도 검증 자식마다 임시 설정 경로를 사용합니다. [직접 검증 격리](docs/llm-wiki/patches/319ccb58a5ecd7725a855d4e579513f35624025a.md)
+
 - PC에서 재사용할 작업공간은 `figma_workspace.py remember --workspace PATH`로 등록하고, 기본값은 `--default`로 선택합니다. 여러 등록 중 기본값이 없으면 경로를 직접 지정할 수 있습니다. 테스트 명령은 임시 XDG 설정으로 실행됩니다. [RC3 등록과 테스트 격리](docs/llm-wiki/patches/a49dd1d1b5794a295aa7e71a3983c5777adc5dc5.md)
 
 - 이전 포화 큐에서 누락된 작업은 원래 ID로 조회해 복구할 수 있습니다. 보류 중에는 같은 파일의 중복 접수를 막고 상태 조회 방법을 표시합니다. [이전 큐 복구](docs/llm-wiki/patches/44ffbe810f042ed5b2b0cc31a88a2732df2b6883.md)
