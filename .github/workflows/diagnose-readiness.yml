@@ -1,0 +1,31 @@
+name: Diagnose macOS control readiness
+on:
+  push:
+    branches: [diagnose/macos-readiness-1.1.1]
+permissions:
+  contents: read
+jobs:
+  observe:
+    runs-on: macos-15
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0
+        with:
+          python-version: '3.13'
+      - name: Exercise the original CLI tests and record a bounded stack on timeout
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('tools/figma_control.py')
+          s=p.read_text().replace('def serve(root):', '''def serve(root):
+              import faulthandler
+              faulthandler.dump_traceback_later(4, repeat=True)''')
+          p.write_text(s)
+          p=Path('tests/test_registry_intent.py')
+          s=p.read_text().replace('                p.communicate(timeout=10)', '''                _, err = p.communicate(timeout=10)
+                          if err:
+                              print(err[-12000:], flush=True)''')
+          p.write_text(s)
+          PY
+          python -B tools/test_env.py python -B -m unittest -v tests.test_registry_intent.RegistryIntentTests.test_rc2_registry_and_default_remain_stable tests.test_registry_intent.RegistryIntentTests.test_unregistered_lifecycle_leaves_both_config_roots_absent
