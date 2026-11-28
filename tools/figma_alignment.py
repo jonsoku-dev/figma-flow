@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Compare explicit Design node edges using a signed viewer readback receipt."""
 import argparse
+import schema_ids
 import hashlib
 import json
 import math
@@ -22,10 +23,10 @@ def load_receipt(path):
         raise ValueError(f'Cannot read JSON receipt: {error}') from error
     if not isinstance(value, dict):
         raise ValueError('Expected a JSON readback receipt')
-    if value.get('schema') == 'figma-flow-viewer-result-v1' and value.get('operation') == 'selection-info':
+    if value.get('schema') == schema_ids.ID['viewerResult'] and value.get('operation') == 'selection-info':
         value['_receipt_sha256'] = hashlib.sha256(raw).hexdigest()
         return value
-    if value.get('schema') == 'figma-flow-graph-native-discovery-v1':
+    if value.get('schema') == schema_ids.ID['graphNativeDiscovery']:
         value['_receipt_sha256'] = hashlib.sha256(raw).hexdigest()
         return value
     raise ValueError('Expected a selection-info or native-discovery readback receipt')
@@ -45,7 +46,7 @@ def compare(receipt, file_key, page_id, anchor_id, target_ids, axis, anchor_edge
     if geometry is not None and not isinstance(geometry, dict):
         raise ValueError('Receipt geometry field is malformed')
     rows = geometry.get('nodes') if isinstance(geometry, dict) else None
-    if rows is None and receipt.get('schema') == 'figma-flow-graph-native-discovery-v1':
+    if rows is None and receipt.get('schema') == schema_ids.ID['graphNativeDiscovery']:
         rows = receipt.get('nodes')
     if geometry and geometry.get('coordinate_space') not in (None, 'page-absolute-axis-aligned'):
         raise ValueError('Unsupported geometry coordinate space')
@@ -62,7 +63,7 @@ def compare(receipt, file_key, page_id, anchor_id, target_ids, axis, anchor_edge
         if not row or row.get('status') == 'missing':
             return None, 'missing'
         status = row.get('status')
-        legacy_box = receipt.get('schema') == 'figma-flow-graph-native-discovery-v1' and status is None
+        legacy_box = receipt.get('schema') == schema_ids.ID['graphNativeDiscovery'] and status is None
         if (status != 'observed' and not legacy_box) or not isinstance(box, dict) or any(
             isinstance(box.get(key), bool) or not isinstance(box.get(key), (int, float)) or not math.isfinite(box[key])
             for key in ('x', 'y', 'width', 'height')

@@ -1,0 +1,98 @@
+{
+  "schema": "figma-flow-ssot-scan-v1",
+  "baseline": "tools/ssot-baseline.json",
+  "scope": {
+    "python": ["tools/*.py", "skills/*/scripts/*.py"],
+    "javascript": ["figma-bridge/*.js", "panel-ui/src/*.js", "panel-ui/src/*.jsx", "panel-ui/src/*.mjs"],
+    "exclude": ["figma-bridge/assets/*", "*/__pycache__/*", "*/node_modules/*", "tools/ssot_scan.py"]
+  },
+  "rules": {
+    "loopback-literal": {
+      "owners": ["tools/local_endpoint.py"],
+      "message": "Loopback host literal; use local_endpoint (policy.json controlEndpoint) for bind/connect hosts and origins."
+    },
+    "port-literal": {
+      "owners": ["tools/local_endpoint.py"],
+      "message": "Hardcoded port; read defaults from policy.json controlEndpoint.defaultPorts via local_endpoint."
+    },
+    "network-timeout-literal": {
+      "owners": ["tools/local_endpoint.py"],
+      "message": "Inline network timeout; use local_endpoint.timeout_seconds(<kind>) backed by policy.json controlEndpoint.timeoutsMs."
+    },
+    "control-route-literal": {
+      "owners": ["tools/figma_control.py", "tools/local_endpoint.py", "figma-bridge/workspace_transport.js"],
+      "message": "Control route literal outside the control server/client owners; call local_endpoint helpers instead."
+    },
+    "private-atomic-writer": {
+      "owners": ["tools/private_io.py"],
+      "message": "Duplicate owner-only atomic writer; use private_io.atomic_write/atomic_write_json."
+    },
+    "vocabulary-literal": {
+      "owners": [],
+      "vocabularies": [
+        {"id": "setup-next-action", "owner": "tools/figma_control.py", "symbol": "SETUP_STEPS", "field": "action",
+         "ignoreValues": ["ready"], "ignoreReason": "\"ready\" is a generic state word shared by unrelated vocabularies; the other setup actions are unique."}
+      ],
+      "message": "Vocabulary value repeated outside its owning declaration; reference the declared constant."
+    },
+    "timer-literal": {
+      "owners": [],
+      "message": "Inline timer delay; name it from policy (WORKSPACE_PROFILE_POLICY) or a single module constant."
+    },
+    "inline-limit": {
+      "owners": [],
+      "minimum": 1000,
+      "message": "Inline size/count limit; move it to policy.json controlTransport, read-limits.json or a named constant."
+    },
+    "schema-id-spread": {
+      "owners": [],
+      "pattern": "figma-flow-[a-z0-9]+(?:-[a-z0-9]+)*-v[0-9]+",
+      "registry": "library/schema-ids.json",
+      "maxFiles": 1,
+      "message": "Schema ID literal repeated across files; export it from its producer and import it in consumers."
+    }
+  },
+  "mirrors": [
+    {
+      "rule": "loopback-literal",
+      "key": "localhost",
+      "source": "library/figma-profile/policy.json#/controlEndpoint/originHost",
+      "paths": [
+        "figma-bridge/code.js",
+        "figma-bridge/workspace_chat.js",
+        "figma-bridge/workspace_control.js",
+        "panel-ui/src/ImportPanel.jsx",
+        "panel-ui/src/reviewTransport.mjs"
+      ]
+    },
+    {"rule": "timer-literal", "key": "1000", "source": "library/runtime-limits.json#/timersMs/changeRebindRetry", "paths": ["figma-bridge/workspace_changes.js"]},
+    {"rule": "timer-literal", "key": "80", "source": "library/runtime-limits.json#/timersMs/changeFlushDebounce", "paths": ["figma-bridge/workspace_changes.js"]},
+    {"rule": "timer-literal", "key": "20000", "source": "library/runtime-limits.json#/timersMs/chatSubmitTimeout", "paths": ["figma-bridge/workspace_chat.js"]},
+    {"rule": "timer-literal", "key": "1000", "source": "library/runtime-limits.json#/timersMs/objectUrlRevoke", "paths": ["panel-ui/src/DiagnosticExport.jsx", "panel-ui/src/GraphPanel.jsx", "panel-ui/src/ImportPanel.jsx"]},
+    {"rule": "timer-literal", "key": "250", "source": "library/runtime-limits.json#/timersMs/reviewDownloadRelease", "paths": ["panel-ui/src/ReviewPanel.jsx"]},
+    {"rule": "timer-literal", "key": "5000", "source": "library/runtime-limits.json#/timersMs/importConnectTimeout", "paths": ["panel-ui/src/ImportPanel.jsx"]},
+    {"rule": "timer-literal", "key": "5000", "source": "library/runtime-limits.json#/timersMs/relaySnapshotTimeout", "paths": ["panel-ui/src/useRelaySnapshot.js"]},
+    {"rule": "timer-literal", "key": "1000", "source": "library/runtime-limits.json#/timersMs/workspaceHeartbeat", "paths": ["panel-ui/src/Workspace.jsx"]},
+    {"rule": "inline-limit", "key": "1000", "source": "library/runtime-limits.json#/designNoteBoard/maxNotes", "paths": ["figma-bridge/design_note_board.js"]},
+    {"rule": "inline-limit", "key": "60000", "source": "library/runtime-limits.json#/directionReview/chunkBytes", "paths": ["figma-bridge/direction_review.js"]},
+    {"rule": "inline-limit", "key": "2000", "source": "library/runtime-limits.json#/componentFields/maxTextLength", "paths": ["figma-bridge/graph_token_sync.js", "figma-bridge/semantic_components.js"]},
+    {"rule": "inline-limit", "key": "90000", "source": "library/runtime-limits.json#/annotations/maxMetadataBytes", "paths": ["figma-bridge/native_annotations.js", "figma-bridge/native_semantic_read.js"]},
+    {"rule": "inline-limit", "key": "9999", "source": "library/runtime-limits.json#/nativeApi/fixtureMaxFontSize", "paths": ["figma-bridge/native_api_fixture.js"]},
+    {"rule": "inline-limit", "key": "4096", "source": "library/runtime-limits.json#/nativeApi/maxProbeArrayCount", "paths": ["figma-bridge/native_api_probe.js"]},
+    {"rule": "inline-limit", "key": "10000000", "source": "library/runtime-limits.json#/geometry/maxAbsCoordinate", "paths": ["figma-bridge/relay_view.js", "figma-bridge/workspace_chat.js"]},
+    {"rule": "inline-limit", "key": "32768", "source": "library/runtime-limits.json#/webDesign/maxDimension", "paths": ["figma-bridge/web_design.js"]},
+    {"rule": "inline-limit", "key": "100000", "source": "library/runtime-limits.json#/webDesign/maxAbsPosition", "paths": ["figma-bridge/web_design.js"]},
+    {"rule": "inline-limit", "key": "1000000000", "source": "library/runtime-limits.json#/webDesign/maxBorderRadius", "paths": ["figma-bridge/web_design.js"]},
+    {"rule": "inline-limit", "key": "1000", "source": "library/runtime-limits.json#/webDesign/maxEffectOffset", "paths": ["figma-bridge/web_design.js"]},
+    {"rule": "inline-limit", "key": "1000", "source": "library/runtime-limits.json#/webDesign/autoplayMinMs", "paths": ["figma-bridge/web_design.js"]},
+    {"rule": "inline-limit", "key": "60000", "source": "library/runtime-limits.json#/webDesign/autoplayMaxMs", "paths": ["figma-bridge/web_design.js"]},
+    {"rule": "inline-limit", "key": "200000", "source": "library/runtime-limits.json#/webDesign/maxSvgChars", "paths": ["figma-bridge/web_design.js"]},
+    {"rule": "inline-limit", "key": "20000", "source": "library/runtime-limits.json#/webDesign/maxFontRows", "paths": ["figma-bridge/web_design.js"]},
+    {"rule": "inline-limit", "key": "1500", "source": "library/runtime-limits.json#/webDesign/maxElements", "paths": ["figma-bridge/web_design.js"]},
+    {"rule": "inline-limit", "key": "8000000", "source": "library/runtime-limits.json#/webDesign/maxPreviewBytes", "paths": ["figma-bridge/web_design.js"]},
+    {"rule": "inline-limit", "key": "2048", "source": "library/runtime-limits.json#/workspace/maxChangedPathChars", "paths": ["figma-bridge/workspace_host.js"]},
+    {"rule": "inline-limit", "key": "600000", "source": "library/runtime-limits.json#/workspace/maxPreviewDataUrlChars", "paths": ["figma-bridge/workspace_host.js", "panel-ui/src/Workspace.jsx", "panel-ui/src/components.jsx"]},
+    {"rule": "inline-limit", "key": "65535", "source": "library/runtime-limits.json#/network/maxTcpPort", "paths": ["figma-bridge/workspace_transport.js"]}
+  ],
+  "allow": []
+}

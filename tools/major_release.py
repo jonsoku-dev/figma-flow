@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Audit the exact Git distribution before its major version is released."""
 import argparse
+import schema_ids
 import ast
 import hashlib
 import json
@@ -165,7 +166,7 @@ def verify_review(root, surface, paths, owners, fingerprint, panel_deps=None):
                         surface=id_, count=len(paths))]
     try:
         doc = read_json(root/note)
-        if (doc.get('schema') != 'figma-flow-major-review-v1' or doc.get('surface') != id_
+        if (doc.get('schema') != schema_ids.ID['majorReview'] or doc.get('surface') != id_
                 or doc.get('fingerprint') != fingerprint):
             raise ValueError('Review is stale or bound to another surface.')
         if doc.get('openFindings') != []:

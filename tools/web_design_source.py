@@ -12,6 +12,7 @@ from urllib.parse import urlsplit
 
 from web_design import image_signature, validate_graph, validate_svg
 from web_design_media import apply_svg_silhouette, normalize_svg
+import runtime_limits
 
 
 def sha(raw):
@@ -89,7 +90,7 @@ def bind_screens(captures, graph_id, title, output, asset_index=None, *, respons
                     content = base64.b64decode(data_url[len(prefix):], validate=True)
                 except (ValueError, binascii.Error) as error:
                     raise ValueError('Captured canvas PNG base64 is invalid') from error
-                if len(content) > 8_000_000 or not image_signature(content, 'image/png'):
+                if len(content) > runtime_limits.WEB_DESIGN['maxPreviewBytes'] or not image_signature(content, 'image/png'):
                     raise ValueError('Captured canvas PNG is invalid or exceeds 8 MB')
                 digest = sha(content)
                 rel = Path('assets') / f'canvas-{digest}.png'

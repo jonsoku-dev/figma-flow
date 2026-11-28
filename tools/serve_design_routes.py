@@ -7,6 +7,8 @@ from pathlib import Path
 
 import campaign_library
 import route_design
+import local_endpoint
+import runtime_limits
 
 MAX_BODY = 131072
 MAX_TEXT = 16000
@@ -16,7 +18,7 @@ HTML = Path(__file__).with_name('design-routes.html')
 class Handler(BaseHTTPRequestHandler):
     def setup(self):
         super().setup()
-        self.connection.settimeout(10)
+        self.connection.settimeout(local_endpoint.timeout_seconds('localServerRead'))
 
     def log_message(self, format, *args):
         pass  # Prompts and request paths are never logged.
@@ -38,7 +40,7 @@ class Handler(BaseHTTPRequestHandler):
         self.wfile.write(data)
 
     def local_request(self):
-        authority = f'127.0.0.1:{self.server.server_port}'
+        authority = local_endpoint.bind_header(self.server.server_port)
         if (self.headers.get_all('Host') != [authority]
                 or self.headers.get('Origin') not in (None, 'http://' + authority)
                 or self.headers.get('Sec-Fetch-Site') == 'cross-site'):
@@ -101,7 +103,7 @@ def create_server(port=0):
     registry = route_design.load_registry()
     campaign_data = campaign_library.load_library(campaign_library.DEFAULT_DATA)
     html = HTML.read_bytes()
-    server = ThreadingHTTPServer(('127.0.0.1', port), Handler)
+    server = ThreadingHTTPServer((local_endpoint.BIND_HOST, port), Handler)
     server.daemon_threads = True
     server.registry, server.campaign_data, server.html = registry, campaign_data, html
     return server
@@ -111,10 +113,11 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--port', type=int, default=0, help='Loopback port; 0 selects an available port')
     args = parser.parse_args(argv)
-    if not 0 <= args.port <= 65535:
-        parser.error('--port must be between 0 and 65535')
+    max_port = runtime_limits.NETWORK['maxTcpPort']
+    if not 0 <= args.port <= max_port:
+        parser.error(f'--port must be between 0 and {max_port}')
     with create_server(args.port) as server:
-        print(f'디자인 라우팅: http://127.0.0.1:{server.server_port}/', flush=True)
+        print(f'디자인 라우팅: {local_endpoint.bind_origin(server.server_port)}/', flush=True)
         try:
             server.serve_forever()
         except KeyboardInterrupt:

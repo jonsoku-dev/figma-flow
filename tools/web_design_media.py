@@ -15,7 +15,12 @@ import xml.etree.ElementTree as ET
 from urllib.parse import urlsplit
 import argparse
 
+import local_endpoint
+import runtime_limits
 
+MEDIA_LIMITS = runtime_limits.LIMITS['media']
+WEB_LIMITS = runtime_limits.WEB_DESIGN
+FETCH_TIMEOUT_SEC = MEDIA_LIMITS['fetchTimeoutMs'] / 1000
 MAX_MEDIA_BYTES = 8_000_000
 MAX_VIDEO_BYTES = 100_000_000
 SVG_TAGS = {'svg', 'g', 'path', 'rect', 'circle', 'ellipse', 'line', 'polyline', 'polygon', 'defs', 'clipPath', 'linearGradient', 'radialGradient', 'stop'}
@@ -41,7 +46,7 @@ SVG_COLOR = re.compile(r'#[0-9a-fA-F]{3,4}(?:[0-9a-fA-F]{2})?\Z')
 def normalize_svg(data):
     """Strip XML declaration/comments/metadata and emit only native vector primitives."""
     text = data.decode('utf-8')
-    if len(data) > 200_000 or re.search(r'<!\s*DOCTYPE|<!\s*ENTITY|<\?(?!xml\s)', text, re.I):
+    if len(data) > WEB_LIMITS['maxSvgChars'] or re.search(r'<!\s*DOCTYPE|<!\s*ENTITY|<\?(?!xml\s)', text, re.I):
         raise ValueError('SVG has unsafe declarations or exceeds 200 KB')
     text = re.sub(r'<\?xml\s+[^?]*\?>', '', text, count=1, flags=re.I)
     text = re.sub(r'<!--[\s\S]*?-->', '', text)
@@ -73,7 +78,7 @@ def normalize_svg(data):
         if tag in ('title', 'desc', 'metadata'):
             return None
         count += 1
-        if tag not in SVG_TAGS or count > 1200 or (node.text and node.text.strip()):
+        if tag not in SVG_TAGS or count > MEDIA_LIMITS['maxSvgElements'] or (node.text and node.text.strip()):
             raise ValueError('SVG contains unsupported content')
         attrs = {}
         if tag == 'defs' and parent_tag is not None and parent_tag != 'svg':
@@ -128,7 +133,7 @@ def normalize_svg(data):
             if name == 'gradientUnits' and value not in {'objectBoundingBox', 'userSpaceOnUse'}:
                 raise ValueError('Unsupported SVG gradient coordinate system')
             if name in {'x1', 'y1', 'x2', 'y2', 'cx', 'cy', 'r', 'fx', 'fy'}:
-                if not re.fullmatch(r'-?(?:\d+(?:\.\d*)?|\.\d+)%?', value) or abs(float(value.rstrip('%'))) > 32768:
+                if not re.fullmatch(r'-?(?:\d+(?:\.\d*)?|\.\d+)%?', value) or abs(float(value.rstrip('%'))) > WEB_LIMITS['maxDimension']:
                     raise ValueError('SVG gradient coordinate is outside bounded numeric values')
             if name == 'offset':
                 if not re.fullmatch(r'(?:0(?:\.\d+)?|1(?:\.0+)?|\d+(?:\.\d+)?%)', value):
@@ -162,7 +167,7 @@ def normalize_svg(data):
     if clip_refs - clip_ids or gradient_refs - gradient_ids:
         raise ValueError('SVG clip or gradient references must resolve to local definitions')
     normalized = ET.tostring(tree, encoding='unicode', short_empty_elements=True)
-    if len(normalized) > 200_000:
+    if len(normalized) > WEB_LIMITS['maxSvgChars']:
         raise ValueError('Normalized SVG exceeds 200 KB')
     return normalized
 
@@ -206,7 +211,7 @@ def _origin_tuple(value):
 
 
 def _is_local_host(host):
-    if host.lower().rstrip('.') == 'localhost':
+    if host.lower().rstrip('.') == local_endpoint.ORIGIN_HOST:
         return True
     try:
         return ipaddress.ip_address(host).is_loopback
@@ -355,7 +360,7 @@ def _fetch(url, is_video=False, page_origin=None, reviewed_origins=()):
         no_redirect = type('NoRedirect', (urllib.request.HTTPRedirectHandler,), {'redirect_request': _no_redirect})()
         opener = urllib.request.build_opener(urllib.request.ProxyHandler({}), no_redirect)
         request = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0 (compatible; figma-flow-reviewed-media/1.0)'})
-        with opener.open(request, timeout=15) as response:
+        with opener.open(request, timeout=FETCH_TIMEOUT_SEC) as response:
             final_url = response.geturl()
             if final_url != url:
                 return {'url': url, 'status': 'unavailable', 'reason': 'request redirected'}

@@ -12,9 +12,13 @@ import sys
 
 from plugin_panel import panel_messages
 from specification_contract import spec_label_prelude
+import local_endpoint
+import runtime_limits
+import schema_ids
 
 ROOT = Path(__file__).resolve().parents[1]
 MAX_BYTES = 2_000_000
+MAX_TREE_NODES = 1000
 PX_PER_REM = 16
 
 FAMILY_CONTRACT = json.loads((ROOT / 'library/component-families.json').read_bytes())
@@ -33,7 +37,9 @@ _SECRET_TEXT_PATTERNS = (
 
 
 def reject_secret_like_text(value, context='component property'):
-    if not isinstance(value, str) or len(value) > 2000 or any(ord(ch) < 32 and ch not in ('\n', '\t') for ch in value):
+    if (not isinstance(value, str)
+            or len(value) > runtime_limits.LIMITS['componentFields']['maxTextLength']
+            or any(ord(ch) < 32 and ch not in ('\n', '\t') for ch in value)):
         raise ValueError(f'Invalid text value in {context}')
     for pattern in _SECRET_TEXT_PATTERNS:
         if pattern.search(value):
@@ -292,8 +298,8 @@ def validate(data):
                 component = components.get(element.get('component'), {})
                 if element.get('variant') not in component.get('variants', {}):
                     raise ValueError('Component elements must reference an existing component variant')
-    if count > 1000:
-        raise ValueError('At most 1000 screen elements are supported')
+    if count > MAX_TREE_NODES:
+        raise ValueError(f'At most {MAX_TREE_NODES} screen elements are supported')
     if 'componentFamilies' in data:
         families = data['componentFamilies']
         if not isinstance(families, list) or not 1 <= len(families) <= 32:
@@ -376,7 +382,7 @@ def expected_handoff(data):
                 control['token_bindings'] = list(final_bindings.values())
             controls.append(control)
         screens.append({'key': screen['id'], 'static': not any(not control['static'] for control in controls), 'controls': controls})
-    return {'schema': 'figma-flow-native-handoff-v1', 'collection_key': 'token-collection',
+    return {'schema': schema_ids.ID['nativeHandoff'], 'collection_key': 'token-collection',
             'variables': [{'name': path.replace('.', '/'), 'resolved_type': variable_value(token)[0]} for path, token in data['tokens'].items()],
             'screens': screens}
 
@@ -605,7 +611,8 @@ def compile_plugin(source, reviewed_sha256, out, plugin_id=None, *, local_sync=N
         manifest['id'] = plugin_id
     prefix = ''
     if local_sync is not None:
-        if not plugin_id or not re.fullmatch(r'http://localhost:[0-9]+/sync', local_sync['url']) or not re.fullmatch(r'http://localhost:[0-9]+/', local_sync['preview_url']):
+        if (not plugin_id or not local_endpoint.origin_pattern('/sync').fullmatch(local_sync['url'])
+                or not local_endpoint.origin_pattern('/').fullmatch(local_sync['preview_url'])):
             raise ValueError('Paired development plugin requires fixed loopback endpoints and an assigned plugin ID.')
         manifest['name'] = 'Figma Flow · 앱에 반영 0.9'
         manifest['enablePrivatePluginApi'] = True
@@ -985,7 +992,7 @@ def compare_import(page, expected, digest, variables, collections, required_anno
 
 def inspect_readback(path, source=None, expected_contract=None):
     _, data = read_json(path)
-    if not isinstance(data, dict) or data.get('format') != 'figma-flow-readback-v1' or not isinstance(data.get('pages'), list) or not isinstance(data.get('variables'), list):
+    if not isinstance(data, dict) or data.get('format') != schema_ids.ID['readback'] or not isinstance(data.get('pages'), list) or not isinstance(data.get('variables'), list):
         raise ValueError('Expected a Figma Flow readback JSON export')
     nodes, identities = [], []
     def visit(node):

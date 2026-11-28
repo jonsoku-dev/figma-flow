@@ -8,6 +8,8 @@ from graph_document import contract, decode_json
 
 from native_appearance import appearance
 
+MAX_DETAIL_LEN = 4000
+
 
 def project_graph(path, selected_ids):
     policy = appearance('graphReview')
@@ -33,7 +35,7 @@ def project_graph(path, selected_ids):
     for key in ids:
         node = by_id[key]
         detail = node.get('detail') or ''
-        if not isinstance(detail, str) or len(detail) > 4000 or len(node['title']) > 512 or len(key) > 256:
+        if not isinstance(detail, str) or len(detail) > MAX_DETAIL_LEN or len(node['title']) > 512 or len(key) > 256:
             raise ValueError(f'Review content exceeds the presentation bounds: {key[:64]}')
         nodes.append({'id': key, 'kind': policy['nodeGroups'][node['type']], 'type': node['type'],
                       'title': node['title'], 'detail': detail, 'status': node['status']})

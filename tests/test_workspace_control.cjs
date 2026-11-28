@@ -207,3 +207,60 @@ test('read cannot attest a different page even when it becomes the current page'
   });
   await assert.rejects(d.run('read'),/readback/);
 });
+
+test('relay tick reloads profile on fileKey change and loads before saving when workspaceProfile is null', async()=>{
+  let loadCalls=0;
+  let saveCalls=0;
+  const env={
+    figma:{fileKey:'file-1',currentPage:{id:'0:1'}},
+    workspaceActive:null,
+    workspaceHomeSession:'home',
+    workspaceRelayViewer:true,
+    workspaceRelayStatus:'offline',
+    workspaceRelayError:null,
+    workspaceRelayLastResult:null,
+    workspaceRelayLastOkAt:null,
+    workspaceProfile:null,
+    workspaceState:{locale:'ko',history:[]},
+    workspaceServerHistory:[],
+    workspaceJournalUnavailable:false,
+    workspaceInputFreshness:[],
+    WORKSPACE_CONTROL_CONFIG:{url:'http://localhost:1234',token:'local'},
+    workspaceRelayIdentity:()=>'user-1',
+    workspaceRelayProfile:()=>env.workspaceProfile,
+    workspaceRelayContext:()=>({session_id:env.lastSessionId || 's',file_key:env.figma.fileKey,page_id:env.figma.currentPage.id,
+      user_id:'user-1',selection:[],selection_total:0,selection_truncated:false,profile:env.workspaceProfile}),
+    workspaceRelayViewerState:()=>{},
+    workspaceProfileManager:{
+      async load(){loadCalls++; return {declared:{plan:'unknown',seat:'unknown'},needsSetup:true,storage:'local'};},
+      async save(declared){saveCalls++; return {declared,needsSetup:false,storage:'local'};},
+    },
+    async controlRequest(_route, body){
+      env.lastSessionId=body.session_id;
+      return {
+        relay:{
+          context:{session_id:body.session_id,file_key:env.figma.fileKey,page_id:'0:1',user_id:'user-1'},
+          profile_request:env.nextRequest ? {...env.nextRequest, session_id:body.session_id} : null,
+        },
+        operation:null,
+      };
+    },
+  };
+  vm.runInNewContext(source,env);
+  await env.workspaceControlTick();
+  assert.equal(loadCalls,1);
+  assert.equal(env.workspaceProfile?.needsSetup,true);
+
+  // Switch fileKey while user_id stays the same -> profile must reload for new fileKey
+  env.figma.fileKey='file-2';
+  await env.workspaceControlTick();
+  assert.equal(loadCalls,2);
+
+  // Even if workspaceProfile was reset/null before profile_request arrives, save loads first
+  env.workspaceProfile=null;
+  env.nextRequest={request_id:'a'.repeat(32),file_key:'file-2',page_id:'0:1',user_id:'user-1',profile:{plan:'unknown',seat:'unknown'}};
+  await env.workspaceControlTick();
+  assert.equal(loadCalls,3);
+  assert.equal(saveCalls,1);
+  assert.equal(env.workspaceProfile?.needsSetup,false);
+});

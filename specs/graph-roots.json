@@ -9,6 +9,7 @@
     { "path": "specs/interactive-web/graph.json", "role": "canonical-feature-graph" },
     { "path": "specs/live-change-sync/graph.json", "role": "canonical-feature-graph" },
     { "path": "specs/local-profile-init/graph.json", "role": "canonical-feature-graph" },
+    { "path": "specs/metrics-export/graph.json", "role": "canonical-feature-graph" },
     { "path": "specs/pre-figma-quality/graph.json", "role": "canonical-feature-graph" },
     { "path": "specs/readable-specifications/graph.json", "role": "canonical-feature-graph" },
     { "path": "specs/responsive-web/graph.json", "role": "canonical-feature-graph" },

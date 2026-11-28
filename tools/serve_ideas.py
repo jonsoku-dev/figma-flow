@@ -22,7 +22,11 @@ from urllib.parse import unquote, urlsplit
 
 import idea_catalog
 import check_project
+import local_endpoint
 from promote_idea import require_selection
+
+MAX_SNAPSHOT_BYTES = 50_000_000
+MAX_SNAPSHOT_FILES = 2000
 
 
 def digest(data):
@@ -74,9 +78,9 @@ def snapshot_app(out):
                             if not stat.S_ISREG(current.st_mode) or current.st_nlink != 1:
                                 continue
                             with os.fdopen(child, 'rb', closefd=False) as stream:
-                                content = stream.read(50_000_001)
+                                content = stream.read(MAX_SNAPSHOT_BYTES + 1)
                             total += len(content)
-                            if total > 50_000_000 or len(files) >= 2000:
+                            if total > MAX_SNAPSHOT_BYTES or len(files) >= MAX_SNAPSHOT_FILES:
                                 raise ValueError('Preview exceeds local snapshot limit')
                             files['/' + relative] = content
                         finally:
@@ -129,10 +133,10 @@ def start_preview(out, expected=None):
     files = snapshot_app(out)
     if expected is not None and (any(digest(data) not in expected.get(name, set()) for name, data in files.items()) or '/index.html' not in expected):
         raise ValueError('Reviewed app files are not fully pinned or have changed')
-    server = ThreadingHTTPServer(('127.0.0.1', 0), PreviewHandler)
+    server = ThreadingHTTPServer((local_endpoint.BIND_HOST, 0), PreviewHandler)
     server.daemon_threads = True
     server.files = files
-    server.host = '127.0.0.1:' + str(server.server_port)
+    server.host = local_endpoint.bind_header(server.server_port)
     threading.Thread(target=server.serve_forever, daemon=True).start()
     return server
 
@@ -279,8 +283,8 @@ class IdeaServer(ThreadingHTTPServer):
             else:
                 item['trace'] = None
         self.page = idea_catalog.render(data, {'idea': idea, 'token': self.token, 'reviewed': bool(open_reviewed)}).encode()
-        super().__init__(('127.0.0.1', 0), Handler)
-        self.host = '127.0.0.1:' + str(self.server_port)
+        super().__init__((local_endpoint.BIND_HOST, 0), Handler)
+        self.host = local_endpoint.bind_header(self.server_port)
         self.origin = 'http://' + self.host
         if open_reviewed:
             try:

@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Pin actual creative observations into a review receipt; never fabricate missing observations."""
 import argparse
+import schema_ids
 import copy
 import hashlib
 import json
@@ -68,7 +69,7 @@ def prepare(project, out, artifacts, *, operation='create', target_kind='website
         if identity == 'design-taste-frontend' and target_kind == 'product-ui':
             item['scope'] = 'limited-to-applicable-surfaces'
         skill_records.append(item)
-    receipt = {'schema': 'figma-flow-design-review-v1', 'skills': skill_records, 'artifacts': pinned_artifacts,
+    receipt = {'schema': schema_ids.ID['designReview'], 'skills': skill_records, 'artifacts': pinned_artifacts,
                'font_selection': normalize(document(font, {'sequence': 1, 'sample_text': 'PENDING actual target-script specimens',
                    'candidates': [], 'chosen': [], 'specimens': []})), 'authoring': {'sequence': 2},
                'critique': normalize(document(critique, {'sequence': 3, 'reviewer': None, 'findings': [],

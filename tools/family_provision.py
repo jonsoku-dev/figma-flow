@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Prepare a page-scoped, idempotent NF-01 component families provision plan."""
 import argparse
+import schema_ids
 import hashlib
 import json
 import math
@@ -10,9 +11,10 @@ import re
 import design_system
 from native_handoff import normalize
 from native_edit import ID, PLAN_SCHEMA, validate_plan
+import runtime_limits
 
-PROVISION_SCHEMA = 'figma-flow-component-families-provision-v1'
-CONTRACT_SCHEMA = 'figma-flow-semantic-family-contract-v1'
+PROVISION_SCHEMA = schema_ids.ID['componentFamiliesProvision']
+CONTRACT_SCHEMA = schema_ids.ID['semanticFamilyContract']
 DEFAULT_OWNER_KEY = 'nf01.component-families'
 DEFAULT_WORKBENCH_NAME = 'NF-01 · Component families workbench'
 from figma_bridge import CANONICAL_COMPONENT_FAMILIES
@@ -147,7 +149,7 @@ def _inspect_readback(readback_path, file_key, page_id, owner_key):
     except (UnicodeDecodeError, json.JSONDecodeError) as error:
         raise ValueError('Pinned native discovery readback is not valid UTF-8 JSON') from error
     if (not isinstance(readback, dict)
-            or readback.get('schema') != 'figma-flow-graph-native-discovery-v1'
+            or readback.get('schema') != schema_ids.ID['graphNativeDiscovery']
             or readback.get('fileKey') != file_key
             or readback.get('pageId') != page_id
             or readback.get('allowed_page_ids') != [page_id]
@@ -190,7 +192,7 @@ def _inspect_readback(readback_path, file_key, page_id, owner_key):
         and row.get('id') != (frame or {}).get('id')
     ]
     root_rows.sort(key=lambda row: row['id'])
-    if len(root_rows) > 4000:
+    if len(root_rows) > runtime_limits.LIMITS['nativeEdit']['maxRoots']:
         raise ValueError('Bounded existing page root snapshot required')
     seen_ids = set()
     for row in root_rows:

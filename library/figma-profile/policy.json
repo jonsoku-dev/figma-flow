@@ -10,7 +10,27 @@
     "largeRead": {"bodyBytes": 83886080, "readbackBytes": 67108864},
     "replyBytes": 16777216,
     "historyDetailReplyBytes": 262144,
-    "readinessReplyBytes": 65536
+    "readinessReplyBytes": 65536,
+    "relayReplyBytes": 65536,
+    "changeReplyBytes": 2000000
+  },
+  "controlEndpoint": {
+    "bindHost": "127.0.0.1",
+    "originHost": "localhost",
+    "loopbackHosts": ["localhost", "127.0.0.1", "::1"],
+    "defaultPorts": {"control": 43180, "draftReview": 49185, "ownedWorkspace": 8893},
+    "timeoutsMs": {
+      "probe": 1500,
+      "request": 3000,
+      "bulkRequest": 5000,
+      "longPollSlack": 5000,
+      "metricsIngest": 300,
+      "serverRead": 15000,
+      "serverLongPoll": 70000,
+      "serverMetricsIngest": 10000,
+      "localServerRead": 10000,
+      "pluginRequest": 15000
+    }
   },
   "contextFields": {
     "userId": ["user", "id"],

@@ -7,6 +7,7 @@ screens [{id/key, controls [{id/key, action, states, component_id/component_key,
 All IDs refer to actual native objects, never declared plugin metadata.
 """
 from report_appearance import report_css
+import schema_ids
 import argparse
 import hashlib
 import html
@@ -93,7 +94,7 @@ def scalar(value, kind):
 def evaluate(readback, expected=None, page_id=None):
     """Return report and observed screen specification; malformed/missing evidence fails."""
     errors, screens, token_records = [], [], []
-    report = {'schema': 'figma-flow-native-handoff-v1', 'status': 'blocked', 'passed': False,
+    report = {'schema': schema_ids.ID['nativeHandoff'], 'status': 'blocked', 'passed': False,
               'errors': errors, 'screens': screens, 'variables': token_records,
               'source_verification': 'Validates supplied evidence only; cannot cryptographically authenticate frontend origin.'}
     try:
@@ -659,7 +660,7 @@ def component_scope_report(readback, graph_path, pairing_path, component_key, pl
     pairing = json.loads(Path(pairing_path).read_bytes())
     graph_sync.check_pairing(graph, pairing)
     paired_tokens = _pairing_tokens(pairing)
-    if readback.get('schema') != 'figma-flow-graph-native-discovery-v1' or readback.get('allowed_page_ids') != [readback.get('pageId')]:
+    if readback.get('schema') != schema_ids.ID['graphNativeDiscovery'] or readback.get('allowed_page_ids') != [readback.get('pageId')]:
         raise ValueError('CTA handoff requires a full selected-page native discovery')
     if readback.get('fileKey') != pairing.get('plan', {}).get('file_key') or readback.get('pageId') != pairing.get('plan', {}).get('page_id'):
         raise ValueError('CTA discovery differs from the current graph pairing file/page')
@@ -878,9 +879,9 @@ def verify_graph_sync_handoff(readback, report, graph_path, pairing_path, web_mo
             raise ValueError('Current browser computed-style proof is missing or stale')
     if readback.get('fileKey') != pairing.get('plan', {}).get('file_key') or readback.get('pageId') != pairing.get('plan', {}).get('page_id'):
         raise ValueError('Native handoff readback is outside the paired file or page')
-    full_discovery = (readback.get('schema') == 'figma-flow-graph-native-discovery-v1' and
+    full_discovery = (readback.get('schema') == schema_ids.ID['graphNativeDiscovery'] and
                       readback.get('allowed_page_ids') == [readback.get('pageId')])
-    full_export = (readback.get('format') == 'figma-flow-readback-v1' and len(readback.get('pages', [])) == 1 and
+    full_export = (readback.get('format') == schema_ids.ID['readback'] and len(readback.get('pages', [])) == 1 and
                    readback['pages'][0].get('id') == readback.get('pageId'))
     if not (full_discovery or full_export):
         raise ValueError('Offline handoff requires an explicit full-page native readback')
@@ -1029,9 +1030,9 @@ def main():
         else:
             revision_status = 'observed' if observed_revision else 'unavailable'
         page_id = args.page_id or readback.get('pageId')
-        if readback.get('schema') == 'figma-flow-graph-native-discovery-v1' and readback.get('allowed_page_ids') == [page_id]:
+        if readback.get('schema') == schema_ids.ID['graphNativeDiscovery'] and readback.get('allowed_page_ids') == [page_id]:
             evidence_scope, evidence_coverage = 'full selected page', 'all native nodes on the admitted page'
-        elif readback.get('format') == 'figma-flow-readback-v1' and len(readback.get('pages', [])) == 1:
+        elif readback.get('format') == schema_ids.ID['readback'] and len(readback.get('pages', [])) == 1:
             evidence_scope, evidence_coverage = 'single exported page', 'all nodes in the exported page snapshot'
         else:
             evidence_scope = readback.get('scope') or readback.get('evidence_scope') or 'scope not declared'

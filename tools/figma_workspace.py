@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Compile trusted Figma Flow tasks into one private, atomically published plugin."""
 import argparse
+import schema_ids
 from contextlib import contextmanager
 from datetime import datetime, timezone
 try:
@@ -21,10 +22,15 @@ import tempfile
 import uuid
 
 from relay_limits import control_transport, read_limits
+import local_endpoint
+import private_io
+import runtime_limits
 from plugin_panel import display_name, registered_home_view, render_app, supported_locales
 from panel_artifacts import read_panel_artifact
 import input_effect
+import metrics
 import workspace_recipes
+import workspace_registry
 
 ROOT = Path(__file__).resolve().parents[1]
 PANEL_CONTRACT_GRAPH = json.loads((ROOT / 'library' / 'panel-design' / 'contracts.json').read_text(encoding='utf-8'))
@@ -69,20 +75,7 @@ def read(path, **kwargs):
 
 
 def atomic(path, raw):
-    path = Path(path)
-    if path.is_symlink():
-        raise ValueError('Refusing a symlink output')
-    fd, temporary = tempfile.mkstemp(prefix='.' + path.name + '-', dir=path.parent)
-    try:
-        with os.fdopen(fd, 'wb') as stream:
-            os.fchmod(stream.fileno(), 0o600)
-            stream.write(raw)
-            stream.flush()
-            os.fsync(stream.fileno())
-        os.replace(temporary, path)
-    finally:
-        if os.path.exists(temporary):
-            os.unlink(temporary)
+    private_io.atomic_write(path, raw)
 
 
 def private_dir(path, *, create=False):
@@ -125,8 +118,12 @@ def thread_identity(value):
     return str(uuid.UUID(value))
 
 
+MAX_PINNED_BYTES = 1_000_000
+MAX_PINNED_SOURCES = 4096
+
+
 def checked_port(value):
-    if isinstance(value, bool) or not isinstance(value, int) or not 1024 <= value <= 65535:
+    if not local_endpoint.valid_port(value):
         raise ValueError('Expected a localhost port between 1024 and 65535')
     return value
 
@@ -139,7 +136,7 @@ def network(manifest):
     if not isinstance(domains, list) or len(domains) > 8 or len(set(domains)) != len(domains):
         raise ValueError('Local development domains must be bounded and unique')
     for domain in domains:
-        match = re.fullmatch(r'http://localhost:([0-9]{1,5})', domain) if isinstance(domain, str) else None
+        match = local_endpoint.ORIGIN_PATTERN.fullmatch(domain) if isinstance(domain, str) else None
         if not match:
             raise ValueError('Only exact localhost development origins are allowed')
         checked_port(int(match[1]))
@@ -268,12 +265,12 @@ def paired_compile(options, output, plugin_id):
     if not isinstance(token, str) or not re.fullmatch(r'[0-9a-f]{64}', token):
         raise ValueError('Invalid private paired capability')
     sync_port, preview_port = checked_port(connection['sync_port']), checked_port(connection['preview_port'])
-    client = http.client.HTTPConnection('localhost', sync_port, timeout=3)
+    client = http.client.HTTPConnection(local_endpoint.ORIGIN_HOST, sync_port, timeout=local_endpoint.timeout_seconds('request'))
     try:
         # Invalid shape is rejected before native snapshots or project state can be applied.
         client.request('POST', '/sync', b'{}', {'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json'})
         response = client.getresponse()
-        body = response.read(4096)
+        body = response.read(runtime_limits.NETWORK['maxErrorResponseBytes'])
         if response.status != 409 or json.loads(body) != {'error': 'Expected the paired native snapshot.'}:
             raise ValueError('Existing paired endpoint did not authenticate the expected protocol')
     finally:
@@ -284,7 +281,7 @@ def paired_compile(options, output, plugin_id):
         raise ValueError('Paired production graph differs from its owner')
     if not options.get('--selection') and (options.get('--batch') or options.get('--asset-receipts')):
         raise ValueError('Asset receipts require selected production admission')
-    config = {'url': f'http://localhost:{sync_port}/sync', 'preview_url': f'http://localhost:{preview_port}/',
+    config = {'url': local_endpoint.origin(sync_port) + '/sync', 'preview_url': local_endpoint.origin(preview_port) + '/',
               'file_key': owner['file_key'], 'page_id': owner['page_id'], 'token': token}
     try:
         compile_plugin(options['--input'], options['--reviewed-sha256'], output, plugin_id,
@@ -352,9 +349,9 @@ def generate(kind, args, options, output, plugin_id):
         paired.mkdir(mode=0o700)
         for name in ('code.js', 'manifest.json'):
             atomic(paired / name, regular(bundle / name).read_bytes())
-        atomic(paired / 'ui.html', ui_html({'url': 'http://localhost:' + options['--receiver-port'] + '/draft-readback', 'capability': token}, review=packet).encode())
+        atomic(paired / 'ui.html', ui_html({'url': local_endpoint.origin(options['--receiver-port']) + '/draft-readback', 'capability': token}, review=packet).encode())
         paired_manifest = read(paired / 'manifest.json')
-        paired_manifest['networkAccess']['devAllowedDomains'] = ['http://localhost:' + options['--receiver-port']]
+        paired_manifest['networkAccess']['devAllowedDomains'] = [local_endpoint.origin(options['--receiver-port'])]
         atomic(paired / 'manifest.json', encode(paired_manifest))
         bundle = paired
     manifest = read(bundle / 'manifest.json')
@@ -456,9 +453,9 @@ def chat_config(workspace):
     if not (workspace / 'chat.json').exists():
         return None
     config = read(workspace / 'chat.json', private=True, limit=4096)
-    if config.get('schema') != 'figma-flow-workspace-chat-v1' or not re.fullmatch(r'[0-9a-f]{64}', str(config.get('token', ''))):
+    if config.get('schema') != schema_ids.ID['workspaceChat'] or not re.fullmatch(r'[0-9a-f]{64}', str(config.get('token', ''))):
         raise ValueError('Invalid private workspace chat configuration')
-    return {'url': f'http://localhost:{checked_port(config["port"])}', 'token': config['token']}
+    return {'url': local_endpoint.origin(checked_port(config['port'])), 'token': config['token']}
 
 
 def check_source_pins(pins):
@@ -482,7 +479,7 @@ def source_inputs(staging):
     if not sidecar.exists():
         return []
     value = read(sidecar, private=True, limit=128 * 1024)
-    if not isinstance(value, dict) or set(value) != {'schema', 'pins'} or value['schema'] != 'figma-flow-source-pins-v1':
+    if not isinstance(value, dict) or set(value) != {'schema', 'pins'} or value['schema'] != schema_ids.ID['sourcePins']:
         raise ValueError('Invalid generator source input sidecar')
     return check_source_pins(value['pins'])
 
@@ -770,7 +767,7 @@ def publish(workspace, catalogue, *, expected_implementation=None):
     if (workspace / 'control.json').exists():
         from figma_control import config
         private = config(workspace)
-        control = {'url': f'http://localhost:{private["port"]}', 'token': private['token']}
+        control = {'url': local_endpoint.origin(private['port']), 'token': private['token']}
         domains.add(control['url'])
     if len(domains) > 8:
         raise ValueError('Workspace exceeds its exact localhost origin limit')
@@ -834,7 +831,7 @@ def init(workspace, id_from, chat_port=None):
                 if read(workspace / 'chat.json', private=True)['port'] != chat_port:
                     raise ValueError('Workspace already owns a different chat endpoint')
             else:
-                atomic(workspace / 'chat.json', encode({'schema': 'figma-flow-workspace-chat-v1', 'port': chat_port, 'token': secrets.token_hex(32)}))
+                atomic(workspace / 'chat.json', encode({'schema': schema_ids.ID['workspaceChat'], 'port': chat_port, 'token': secrets.token_hex(32)}))
         if not (workspace / 'compiler.key').exists():
             atomic(workspace / 'compiler.key', secrets.token_bytes(32))
         for name in ('.tasks', '.generations'):
@@ -842,7 +839,25 @@ def init(workspace, id_from, chat_port=None):
         catalogue = current(workspace) if (workspace / 'manifest.json').exists() else {'schema': SCHEMA, 'plugin_id': assigned, 'tasks': []}
         if not (workspace / 'manifest.json').exists() or chat_port is not None:
             catalogue = publish(workspace, catalogue)
+        workspace_registry.register_workspace(workspace, plugin_id=assigned)
         return {'manifest': str(workspace / 'manifest.json'), 'plugin_id': assigned, 'tasks': len(catalogue['tasks'])}
+
+
+def _emit_workspace_prepare_metric(workspace, kind, status, key, tasks):
+    try:
+        counts = {}
+        for row in tasks or []:
+            row_kind = row.get('kind')
+            if row_kind:
+                counts[row_kind] = counts.get(row_kind, 0) + 1
+        metrics.emit_cli_source_event(workspace, 'workspace', {
+            'kind': kind,
+            'status': status,
+            'task_key': key,
+            'task_counts_by_kind': counts,
+        })
+    except Exception:
+        pass
 
 
 def prepare(workspace, key, title, kind, generator_args, project=None, thread_id=None, replace_expected=None, *, infer_thread=True, depends_on=None, input_record=None, input_root=None):
@@ -855,14 +870,14 @@ def prepare(workspace, key, title, kind, generator_args, project=None, thread_id
         raise ValueError('Unknown trusted task kind')
     args, options, pins = arguments(kind, generator_args)
     pinned = input_effect.summarize_input_record(input_record) if input_record is not None else None
-    if pinned is not None and len(pinned['bytes']) > 1_000_000:
+    if pinned is not None and len(pinned['bytes']) > MAX_PINNED_BYTES:
         raise ValueError('Input record exceeds the admission limit')
     if input_root is not None:
         if pinned is None:
             raise ValueError('--input-root requires an input record')
         input_root = str(input_effect._root(input_root))
         sources = input_record.get('sources')
-        if not isinstance(sources, list) or not 1 <= len(sources) <= 4096:
+        if not isinstance(sources, list) or not 1 <= len(sources) <= MAX_PINNED_SOURCES:
             raise ValueError('Input record requires bounded source hashes')
         for source in sources:
             if (not isinstance(source, dict) or not isinstance(source.get('path'), str)
@@ -906,10 +921,12 @@ def prepare(workspace, key, title, kind, generator_args, project=None, thread_id
                 task_artifacts(workspace, previous)
                 if replace_expected is not None and previous.get('generator_sha256') != before:
                     require_idle_publication(workspace)
-                    repaired = {**previous, 'generator_sha256': before}
-                    result = publish(workspace, {**catalogue, 'tasks': [repaired if item['key'] == key else item for item in catalogue['tasks']]})
+                    updated_tasks = [repaired if item['key'] == key else item for item in catalogue['tasks']]
+                    result = publish(workspace, {**catalogue, 'tasks': updated_tasks})
+                    _emit_workspace_prepare_metric(workspace, kind, 'metadata-updated', key, updated_tasks)
                     return {'key': key, 'revision': revision, 'unchanged': False, 'metadata_only': True,
                             'manifest': str(workspace / 'manifest.json'), 'generation': result['generation']}
+                _emit_workspace_prepare_metric(workspace, kind, 'unchanged', key, catalogue['tasks'])
                 return {'key': key, 'revision': revision, 'unchanged': True, 'manifest': str(workspace / 'manifest.json')}
             if previous and replace_expected is None:
                 raise ValueError('Task key already exists with different inputs; use --replace-expected')
@@ -959,6 +976,7 @@ def prepare(workspace, key, title, kind, generator_args, project=None, thread_id
                 if regular(workspace / 'manifest.json', private=True).read_bytes() == manifest_before:
                     os.replace(artifact_root, staging)
                 raise
+            _emit_workspace_prepare_metric(workspace, kind, 'prepared', key, tasks)
             return {'key': key, 'revision': revision, 'unchanged': False, 'manifest': str(workspace / 'manifest.json'),
                 'generation': result['generation'], 'artifacts': str(artifact_root),
                 'web_module': str(artifact_root / 'web-module.mjs') if kind == 'sync' else None}
@@ -1229,6 +1247,7 @@ def history_detail(workspace, file_key, page_id, operation_id, task_key, revisio
 def refresh(workspace):
     with locked(workspace) as root:
         updated = publish(root, current(root))
+        workspace_registry.register_workspace(root, plugin_id=updated.get('plugin_id'))
         return {'manifest': str(root / 'manifest.json'), 'generation': updated['generation'], 'tasks': len(updated['tasks'])}
 
 

@@ -32,6 +32,30 @@ python3 -B tools/maintenance.py verify --profile ui --base "$BASE_CHECKOUT" --ou
 
 출력 폴더는 실행 전 존재하지 않아야 한다. 각 프로필은 자체 임시 디렉터리에서 실행하고, 결과·재실행 명령·실행 환경의 소스 지문·출력 크기와 SHA-256이 있는 `evidence.json` 한 개만 남긴다. UI 캡처 원본은 판정 후 정리한다. PR에는 확인한 화면, 전후 비교 결과, 실행 불가 또는 실패의 이유를 먼저 쓴다.
 
+## 하드코딩·SSoT 스캐너
+
+`python3 -B tools/maintenance.py check`는 [ssot_scan.py](../tools/ssot_scan.py)도 실행한다. 규칙·소유 파일·검증된 `mirrors`·예외는 [ssot-scan.json](../tools/ssot-scan.json), 스키마 ID 레지스트리는 [schema-ids.json](../library/schema-ids.json), 공용 한도는 [runtime-limits.json](../library/runtime-limits.json), 남은 부채 기준선은 [ssot-baseline.json](../tools/ssot-baseline.json)이 관리한다(현재 `entries: {}` 0건).
+
+| 규칙 | 정본(SSoT) | 대상 |
+| --- | --- | --- |
+| `loopback-literal`, `port-literal`, `network-timeout-literal` | `policy.json`의 `controlEndpoint` → [local_endpoint.py](../tools/local_endpoint.py) | `localhost`·`127.0.0.1` 문자열, 기본 포트, 로컬 HTTP·소켓 timeout |
+| `control-route-literal` | `figma_control.py`, `local_endpoint.py`, `workspace_transport.js` | 소유 파일 밖의 `/control/*` 경로 |
+| `private-atomic-writer` | [private_io.py](../tools/private_io.py) | `0600`·`os.replace`를 다시 구현한 함수 |
+| `vocabulary-literal` | 선언한 Python 상수(`figma_control.SETUP_STEPS`) | 소유 선언 밖에서 반복한 단계 값 |
+| `timer-literal`, `inline-limit` | [runtime-limits.json](../library/runtime-limits.json)([runtime_limits.py](../tools/runtime_limits.py)), `WORKSPACE_PROFILE_POLICY`, `controlTransport`, `read-limits.json` 또는 이름 있는 상수 | JS 지연 숫자, 1000 이상의 비교·`read()` 한도(16진수 코드 포인트 제외) |
+| `schema-id-spread` | [schema-ids.json](../library/schema-ids.json)([schema_ids.py](../tools/schema_ids.py)) | 두 파일 이상에 반복한 `figma-flow-*-vN` |
+| `mirror-drift`, `mirror-stale` | `ssot-scan.json`의 `mirrors` · `schema-ids.json`의 `mirrors` | 직접 `import`가 불가한 JS·패널 사본이 정본과 다르거나 삭제됨(기준선 무관 즉시 실패) |
+
+Python은 `ast`로 검사하고 docstring을 제외한다. JS·JSX는 주석을 버리는 줄 단위 lexer로 문자열·정규식·템플릿·숫자만 본다. 기준선은 규칙·경로·키별 개수로 비교한다. 새 부채가 생기거나 부채를 고친 뒤 기준선을 줄이지 않으면 `check`가 실패한다.
+
+```sh
+python3 -B tools/ssot_scan.py summary              # 규칙별 개수와 새 부채
+python3 -B tools/ssot_scan.py scan --rule loopback-literal --path 'tools/*'
+python3 -B tools/ssot_scan.py baseline --write     # 부채를 고친 뒤 기준선 축소(증가는 거절)
+```
+
+`baseline --write --allow-growth`는 처음 기준선을 만들 때나 리뷰한 예외에만 사용하며 `mirror-drift`·`mirror-stale`·`parse-error`가 있으면 거절한다. 오탐은 기준선 대신 `ssot-scan.json`의 `allow`에 규칙·경로·키·사유를 적는다.
+
 ## 검증 산출물 정리
 
 | 산출물 | 종료 시 처리 |

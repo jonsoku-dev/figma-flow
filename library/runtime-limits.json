@@ -1,0 +1,86 @@
+{
+  "schema": "figma-flow-runtime-limits-v1",
+  "description": "Single source of truth for size, count, geometry and timing limits shared across tools and the Figma bridge/panel runtimes. Python reads tools/runtime_limits.py; JavaScript copies are declared as mirrors in tools/ssot-scan.json and verified by tools/ssot_scan.py.",
+  "network": {
+    "maxTcpPort": 65535,
+    "minUnprivilegedPort": 1024,
+    "maxUdpPayloadBytes": 65507,
+    "maxErrorResponseBytes": 4096,
+    "statsdSocketTimeoutMs": 1000,
+    "maxControlPolicyTimeoutMs": 600000
+  },
+  "geometry": {
+    "maxAbsCoordinate": 10000000
+  },
+  "componentFields": {
+    "maxTextLength": 2000
+  },
+  "annotations": {
+    "maxMetadataBytes": 90000
+  },
+  "designNoteBoard": {
+    "maxNotes": 1000
+  },
+  "directionReview": {
+    "chunkBytes": 60000
+  },
+  "nativeApi": {
+    "maxProbeArrayCount": 4096,
+    "fixtureMaxFontSize": 9999,
+    "pinnedMemberCount": 1382
+  },
+  "nativeEdit": {
+    "maxRoots": 4000
+  },
+  "workspace": {
+    "maxPreviewDataUrlChars": 600000,
+    "maxChangedPathChars": 2048
+  },
+  "webDesign": {
+    "maxDimension": 32768,
+    "maxAbsPosition": 100000,
+    "maxBorderRadius": 1000000000,
+    "maxEffectOffset": 1000,
+    "maxSvgChars": 200000,
+    "maxSvgElements": 2000,
+    "autoplayMinMs": 1000,
+    "autoplayMaxMs": 60000,
+    "maxFontRows": 20000,
+    "maxElements": 1500,
+    "maxPreviewBytes": 8000000,
+    "maxGraphBytes": 12000000,
+    "maxObservationBytes": 4000000,
+    "maxGraphNodes": 2000,
+    "maxGraphEdges": 4000,
+    "maxTextCharacters": 10000,
+    "maxNumericValue": 1000000
+  },
+  "media": {
+    "maxSvgElements": 1200,
+    "fetchTimeoutMs": 15000
+  },
+  "evidence": {
+    "maxFileBytes": 64000000,
+    "maxPngPixels": 50000000,
+    "desktopMinWidth": 1000,
+    "mobileMinWidth": 240,
+    "mobileMaxWidth": 600,
+    "maxQualityImagePixels": 32000000,
+    "maxThumbnailPixels": 4000000
+  },
+  "control": {
+    "maxWaitSeconds": 3600,
+    "maxErrorChars": 2000,
+    "maxMetricsFlushBodyBytes": 4096
+  },
+  "timersMs": {
+    "changeRebindRetry": 1000,
+    "changeFlushDebounce": 80,
+    "chatSubmitTimeout": 20000,
+    "objectUrlRevoke": 1000,
+    "reviewDownloadRelease": 250,
+    "importConnectTimeout": 5000,
+    "relaySnapshotTimeout": 5000,
+    "workspaceHeartbeat": 1000
+  }
+}

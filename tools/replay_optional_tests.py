@@ -15,6 +15,7 @@ import tempfile
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'tools'))
+import schema_ids
 import figma_draft
 
 SHADOW_ID = 'tests.test_design_quality.RealLayoutCalibrationTests.test_shadow_troupe_light_bars_are_placeholder_bars'
@@ -177,7 +178,7 @@ def run_native(project, temp, inputs):
     code_path = evidence / 'code.js'
     code_path.write_text(code, encoding='utf-8')
     snapshot = {
-        'schema': 'figma-flow-native-renderer-snapshot-v1',
+        'schema': schema_ids.ID['nativeRendererSnapshot'],
         'sources': {name: {'path': str(path), 'sha256': file_hash(path)} for name, path in inputs['sources'].items()},
         'packet': {'path': str(packet_path), 'sha256': file_hash(packet_path)},
         'code': {'path': str(code_path), 'sha256': file_hash(code_path)},

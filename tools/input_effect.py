@@ -18,6 +18,9 @@ from urllib.parse import parse_qs, unquote, urljoin, urlsplit, urlunsplit
 import design_directions
 import design_system
 
+MAX_REQUESTED_PATHS = 4096
+MAX_REQUESTED_PATH_LEN = 2048
+
 INPUT_CONTRACT = json.loads(Path(__file__).with_name('input-effect-contract.json').read_bytes())
 SCHEMA = INPUT_CONTRACT['records']['input']
 RESULT_SCHEMA = INPUT_CONTRACT['records']['output']
@@ -972,10 +975,10 @@ def contrast_css_browser_loading(root, *, requested_paths=None):
     page = root / 'index.html'
     if not page.is_file():
         raise ValueError('Browser contrast requires index.html')
-    if not isinstance(requested_paths, list) or len(requested_paths) > 4096:
+    if not isinstance(requested_paths, list) or len(requested_paths) > MAX_REQUESTED_PATHS:
         raise ValueError('An approved browser observation of relative request paths is required')
     for value in requested_paths:
-        if not isinstance(value, str) or not value or len(value) > 2048 or urlsplit(value).query or urlsplit(value).fragment:
+        if not isinstance(value, str) or not value or len(value) > MAX_REQUESTED_PATH_LEN or urlsplit(value).query or urlsplit(value).fragment:
             raise ValueError('Browser observations require bounded relative paths')
         locate(root, value, require_file=False)
     listed = [{'path': asset['path'], 'status': asset['status']} for asset in html_channel(page, root, required_facts=())['assets'] if asset.get('path')]

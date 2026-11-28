@@ -11,6 +11,10 @@ import tempfile
 from pathlib import Path
 from urllib.parse import urlsplit
 
+import local_endpoint
+import private_io
+import runtime_limits
+
 
 RELOAD_STATUS = "Reload or reconnect the MCP server, then verify network.allowedOrigins and network.blockedOrigins with browser_get_config before browsing."
 
@@ -36,7 +40,7 @@ def _origin(value):
         raise ValueError("URL must include a valid host")
     if "%" in host:
         raise ValueError("Percent-encoded hosts and IPv6 zone identifiers are not allowed")
-    if port is not None and not 1 <= port <= 65535:
+    if port is not None and (isinstance(port, bool) or not isinstance(port, int) or port not in runtime_limits.TCP_PORTS):
         raise ValueError("URL port must be between 1 and 65535")
 
     try:
@@ -108,8 +112,8 @@ def _configure(config_path, urls, *, auto_allow):
     if not isinstance(browser["contextOptions"], dict):
         raise ValueError("Existing browser.contextOptions must be an object")
     browser["contextOptions"].setdefault("serviceWorkers", "block")
-    server.setdefault("host", "127.0.0.1")
-    server.setdefault("allowedHosts", ["localhost", "127.0.0.1"])
+    server.setdefault("host", local_endpoint.BIND_HOST)
+    server.setdefault("allowedHosts", list(local_endpoint.IPV4_LOOPBACK_HOSTS))
     capabilities = config.setdefault("capabilities", [])
     if not isinstance(capabilities, list) or not all(isinstance(item, str) for item in capabilities):
         raise ValueError("Existing capabilities must be a list of names")
@@ -132,29 +136,17 @@ def _configure(config_path, urls, *, auto_allow):
         if not isinstance(blocked, list) or not all(isinstance(item, str) for item in blocked):
             raise ValueError("Existing network.blockedOrigins must be a list of strings")
         browser["isolated"] = True
-        server["host"] = "127.0.0.1"
-        server["allowedHosts"] = ["localhost", "127.0.0.1"]
+        server["host"] = local_endpoint.BIND_HOST
+        server["allowedHosts"] = list(local_endpoint.IPV4_LOOPBACK_HOSTS)
         origins = []
         network["blockedOrigins"] = []
     network["allowedOrigins"] = origins
 
     output = (json.dumps(config, indent=2, ensure_ascii=False) + "\n").encode("utf-8")
     path.parent.mkdir(parents=True, exist_ok=True)
-    if path.exists() and path.read_bytes() == output:
-        pass
-    else:
-        mode = stat.S_IMODE(path.stat().st_mode) if path.exists() else 0o600
-        fd, temporary = tempfile.mkstemp(prefix=f".{path.name}.", dir=path.parent)
-        try:
-            with os.fdopen(fd, "wb") as stream:
-                stream.write(output)
-                stream.flush()
-                os.fsync(stream.fileno())
-            os.chmod(temporary, mode)
-            os.replace(temporary, path)
-        finally:
-            if os.path.exists(temporary):
-                os.unlink(temporary)
+    if not (path.exists() and path.read_bytes() == output):
+        mode = stat.S_IMODE(path.stat().st_mode) if path.exists() else private_io.PRIVATE_FILE_MODE
+        private_io.atomic_write(path, output, mode=mode)
 
     return {"config_path": str(path.resolve()), "origins": origins, "status": RELOAD_STATUS,
             "network_policy": "auto-allow" if auto_allow else "exact-origins", "config": config,

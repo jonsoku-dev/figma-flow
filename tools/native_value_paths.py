@@ -10,25 +10,27 @@ import re
 import sys
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / 'tools'))
+import schema_ids
+from figma_api_inventory import inherited_members, load as load_api_catalog
+from review_api_coverage import observed_member_evidence
+import api_priority
+
 RECIPE = ROOT / 'library/figma-recipes/inspection'
 POLICY = RECIPE / 'values.json'
 API_AUDIT = ROOT / 'library/figma-api/audit/members.json'
 ALLOWED_RECEIPTS = {
     'figma-flow-service-inspection-receipt-v1',
-    'figma-flow-graph-native-discovery-v1',
+    schema_ids.ID['graphNativeDiscovery'],
 }
 MAX_RECEIPT_BYTES = 1_000_000
 MAX_GRAPH_NODES = 500
 MAX_COLLECTION_ITEMS = 8
+MAX_ABS_FLOAT = 1e12
 FILE_KEY = re.compile(r'[A-Za-z0-9_-]{1,128}\Z')
 PAGE_ID = re.compile(r'\d+:\d+\Z')
 PLUGIN_ID = re.compile(r'\d+\Z')
 SHA256 = re.compile(r'[a-f0-9]{64}\Z')
-
-sys.path.insert(0, str(ROOT / 'tools'))
-from figma_api_inventory import inherited_members, load as load_api_catalog
-from review_api_coverage import observed_member_evidence
-import api_priority
 
 
 def canonical(value):
@@ -206,7 +208,7 @@ def _receipt_member_ids(path, audit):
         for row in observations:
             if row.get('status') == 'success' and row.get('id') in by_key:
                 ids.add(row['id'])
-    elif schema == 'figma-flow-graph-native-discovery-v1':
+    elif schema == schema_ids.ID['graphNativeDiscovery']:
         probe = value.get('api_probe')
         observations = probe.get('observations') if isinstance(probe, dict) else None
         if not isinstance(observations, list):
@@ -437,7 +439,7 @@ def _validate_projected_value(value, depth=0):
     if depth > 8:
         raise ValueError('Projected value exceeds the nesting bound.')
     if value is None or type(value) in (bool, int, float):
-        if isinstance(value, float) and not (value == value and abs(value) < 1e12):
+        if isinstance(value, float) and not (value == value and abs(value) < MAX_ABS_FLOAT):
             raise ValueError('Projected numbers must be finite and bounded.')
         return
     if isinstance(value, str):

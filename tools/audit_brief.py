@@ -12,6 +12,9 @@ from pathlib import Path
 import re
 import sys
 
+MAX_REVIEW_BYTES = 1_000_000
+MAX_REVIEW_TEXT = 4000
+
 
 RETRY = r"다시\s*연습|재시도|다시\s*풀|오답|틀리|retry|incorrect|wrong\s+answer"
 RELOAD = r"새로\s*고침|리로드|reload|refresh"
@@ -129,7 +132,7 @@ def import_review(review, documents, aliases, active_locations):
     review_file = None
     if isinstance(review, (str, Path)):
         path = Path(review).resolve(strict=True)
-        if path.stat().st_size > 1_000_000:
+        if path.stat().st_size > MAX_REVIEW_BYTES:
             raise ValueError("Review JSON exceeds 1 MB")
         review_file = str(path)
         review = json.loads(path.read_text(encoding="utf-8"))
@@ -137,7 +140,7 @@ def import_review(review, documents, aliases, active_locations):
         raise ValueError("Review must have exactly version=1, reviewer, findings")
 
     def text_value(value, field):
-        if not isinstance(value, str) or not 3 <= len(value.strip()) <= 4000 or any(ord(c) < 32 for c in value):
+        if not isinstance(value, str) or not 3 <= len(value.strip()) <= MAX_REVIEW_TEXT or any(ord(c) < 32 for c in value):
             raise ValueError(f"Invalid review {field}")
         if has(r"ignore.{0,30}(?:instructions|rules)|system\s+prompt|reveal.{0,30}(?:secret|credential)|(?:execute|run).{0,20}(?:shell\s+command|tool\s+call)|이전.{0,15}지시.{0,10}무시|비밀.{0,15}공개", value):
             raise ValueError("Review contains instruction-like content")

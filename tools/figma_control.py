@@ -6,6 +6,7 @@ create-only or revised task, prepare a signed discover task for the original
 file/page and run read; its actual getter reconciles the preserved receipt.
 """
 import argparse
+import schema_ids
 import hashlib
 import hmac
 import http.client
@@ -24,13 +25,20 @@ import operation_detail as detail_projection
 import relay_view
 import relay_limits
 import change_journal
+import local_endpoint
+import metrics
+from metrics import cli as metrics_cli
+from metrics.types import MetricSample
+import private_io
+import runtime_limits
+import workspace_registry
 
 CAROUSEL_OPERATIONS = frozenset({'carousel-select', 'carousel-present'})
-SCHEMA = 'figma-flow-control-v1'
+SCHEMA = local_endpoint.CONTROL_SCHEMA
 NON_CANVAS_OPERATIONS = {'native-summary', *relay_view.OPERATIONS, *CAROUSEL_OPERATIONS}
 READ_ONLY_OPERATIONS = {'read', *NON_CANVAS_OPERATIONS}
 TERMINAL = {'ok', 'error', 'uncertain', 'expired'}
-ORIGINS = {'null', 'https://www.figma.com', 'https://figma.com'}
+ORIGINS = local_endpoint.FIGMA_ORIGINS
 READINESS_PROTOCOL = 'figma-flow-control-readiness-v1'
 
 
@@ -59,6 +67,21 @@ MAX_LARGE_READ_BODY = TRANSPORT['largeRead']['bodyBytes']
 MAX_LARGE_READBACK = TRANSPORT['largeRead']['readbackBytes']
 MAX_READINESS = TRANSPORT['readinessReplyBytes']
 OPERATIONS = {kind: set(actions) for kind, actions in PROFILE_POLICY['taskOperations'].items()}
+METRICS_SCHEMA_PATH = Path(__file__).resolve().parents[1] / 'library' / 'metrics' / 'schema.json'
+METRICS_PACKAGE_DIR = Path(__file__).resolve().parent / 'metrics'
+METRICS_INGEST_LIMIT = metrics.load_schema(METRICS_SCHEMA_PATH)['limits']['maxIngestBodyBytes']
+RELAY_REPLY_LIMIT = TRANSPORT['relayReplyBytes']
+CHANGE_REPLY_LIMIT = TRANSPORT['changeReplyBytes']
+
+
+def _metrics_implementation_bytes():
+    chunks = [METRICS_SCHEMA_PATH.read_bytes()]
+    for path in sorted(METRICS_PACKAGE_DIR.rglob('*.py')):
+        if '__pycache__' not in path.parts:
+            chunks.append(path.read_bytes())
+    return b'\0'.join(chunks)
+
+
 LOADED_IMPLEMENTATION = hashlib.sha256(
     Path(__file__).read_bytes()
     + b'\0' + Path(workspace.__file__).read_bytes()
@@ -68,7 +91,19 @@ LOADED_IMPLEMENTATION = hashlib.sha256(
     + b'\0' + PROFILE_POLICY_PATH.read_bytes()
     + b'\0' + Path(relay_limits.__file__).read_bytes()
     + b'\0' + (relay_limits.ROOT / relay_limits.LIMITS_FILE).read_bytes()
+    + b'\0' + Path(workspace_registry.__file__).read_bytes()
+    + b'\0' + Path(local_endpoint.__file__).read_bytes()
+    + b'\0' + Path(private_io.__file__).read_bytes()
+    + b'\0' + Path(schema_ids.__file__).read_bytes()
+    + b'\0' + schema_ids.REGISTRY_PATH.read_bytes()
+    + b'\0' + Path(runtime_limits.__file__).read_bytes()
+    + b'\0' + runtime_limits.LIMITS_PATH.read_bytes()
+    + b'\0' + _metrics_implementation_bytes()
 ).hexdigest()
+
+
+METRICS_HUBS = {}
+METRICS_HUBS_LOCK = threading.Lock()
 
 
 NATIVE_CLIENTS = {}
@@ -354,23 +389,17 @@ def relay_request(root, action, *, profile=None, request_id=None, expected_conte
         payload['request_id'] = request_id
     if expected_context is not None:
         payload['expected_context'] = expected_context
-    connection = http.client.HTTPConnection('127.0.0.1', settings['port'], timeout=3)
     try:
-        connection.request('POST', '/control/relay', workspace.encode(payload),
-                           {'Host': f'localhost:{settings["port"]}', 'Content-Type': 'application/json',
-                            'Authorization': 'Bearer ' + settings['token']})
-        response = connection.getresponse()
-        raw = response.read(65537)
-        if response.status != 200 or len(raw) > 65536:
-            raise ReadinessError('Relay request rejected or oversized; reopen the same Figma Flow plugin')
-        value = json.loads(raw)
-        if not isinstance(value, dict):
-            raise ReadinessError('Malformed relay response')
-        return value
-    except (ConnectionRefusedError, TimeoutError, OSError, http.client.HTTPException):
+        reply = local_endpoint.request(settings['port'], settings['token'], 'POST', '/control/relay',
+                                       workspace.encode(payload), limit=RELAY_REPLY_LIMIT)
+    except (OSError, http.client.HTTPException):
         raise ReadinessError('Control server unavailable; reopen the same Figma Flow plugin') from None
-    finally:
-        connection.close()
+    if reply.status != 200 or len(reply.body) > RELAY_REPLY_LIMIT:
+        raise ReadinessError('Relay request rejected or oversized; reopen the same Figma Flow plugin')
+    value = json.loads(reply.body)
+    if not isinstance(value, dict):
+        raise ReadinessError('Malformed relay response')
+    return value
 
 
 def change_query(root, file_key, page_id, *, cursor=None, timeout=0):
@@ -395,23 +424,18 @@ def change_request(root, file_key, page_id, *, cursor=None, timeout=0):
     payload = {'file_key': file_key, 'page_id': page_id, 'timeout': timeout}
     if cursor is not None:
         payload['cursor'] = cursor
-    connection = http.client.HTTPConnection('127.0.0.1', settings['port'], timeout=max(5, timeout + 5))
     try:
-        connection.request('POST', '/control/changes', workspace.encode(payload),
-                           {'Host': f'localhost:{settings["port"]}', 'Content-Type': 'application/json',
-                            'Authorization': 'Bearer ' + settings['token']})
-        response = connection.getresponse()
-        raw = response.read(2_000_001)
-        if response.status != 200 or len(raw) > 2_000_000:
-            raise ReadinessError('Change query rejected or oversized; reopen the same Figma Flow plugin')
-        value = json.loads(raw)
-        if not isinstance(value, dict):
-            raise ReadinessError('Malformed change query response')
-        return value
-    except (ConnectionRefusedError, TimeoutError, OSError, http.client.HTTPException):
+        reply = local_endpoint.request(settings['port'], settings['token'], 'POST', '/control/changes',
+                                       workspace.encode(payload), limit=CHANGE_REPLY_LIMIT,
+                                       timeout=local_endpoint.timeout_seconds('longPollSlack') + timeout)
+    except (OSError, http.client.HTTPException):
         raise ReadinessError('Control server unavailable; reopen the same Figma Flow plugin') from None
-    finally:
-        connection.close()
+    if reply.status != 200 or len(reply.body) > CHANGE_REPLY_LIMIT:
+        raise ReadinessError('Change query rejected or oversized; reopen the same Figma Flow plugin')
+    value = json.loads(reply.body)
+    if not isinstance(value, dict):
+        raise ReadinessError('Malformed change query response')
+    return value
 
 
 def native_state(root):
@@ -444,18 +468,15 @@ def require_ready(root, key, operation, file_key, page_id, revision, *, focus_pa
         task_request['viewer_options'] = operation_options(operation, viewer_options or {})
     row = task(root, task_request)
     repair = '; restart only this workspace\'s existing serve command using the current installed plugin root'
-    connection = http.client.HTTPConnection('127.0.0.1', settings['port'], timeout=3)
     try:
-        connection.request('POST', '/control/readiness', b'{}',
-                           {'Host': f'localhost:{settings["port"]}', 'Content-Type': 'application/json',
-                            'Authorization': 'Bearer ' + settings['token']})
-        response = connection.getresponse()
-        if response.status != 200:
-            raise ReadinessError(f'Control readiness rejected (HTTP {response.status})' + repair)
-        length = response.getheader('Content-Length')
+        reply = local_endpoint.request(settings['port'], settings['token'], 'POST', local_endpoint.READINESS_ROUTE,
+                                       b'{}', limit=MAX_READINESS)
+        if reply.status != 200:
+            raise ReadinessError(f'Control readiness rejected (HTTP {reply.status})' + repair)
+        length = reply.content_length
         if length is not None and (not re.fullmatch(r'[0-9]{1,9}', length) or int(length) > MAX_READINESS):
             raise ReadinessError('Control readiness response is oversized or malformed' + repair)
-        raw = response.read(MAX_READINESS + 1)
+        raw = reply.body
         if len(raw) > MAX_READINESS:
             raise ReadinessError('Control readiness response is oversized' + repair)
         try:
@@ -483,8 +504,6 @@ def require_ready(root, key, operation, file_key, page_id, revision, *, focus_pa
         raise ReadinessError('Control readiness timed out' + repair) from None
     except (OSError, http.client.HTTPException):
         raise ReadinessError('Control readiness connection failed' + repair) from None
-    finally:
-        connection.close()
 
 
 def config(root):
@@ -592,7 +611,7 @@ def recovery_read(request, row, data, original):
     scoped_discovery = (row['kind'] == 'discover' and row.get('fileKey') == original['file_key'] and row.get('pageId') == original['page_id'])
     if not (same_task or scoped_discovery) or data.get('error') or data.get('status') not in (None, 'ok', 'success') or data.get('rollback_conflicts'):
         return False
-    if data.get('schema') == 'figma-flow-web-screen-discovery-v1':
+    if data.get('schema') == schema_ids.ID['webScreenDiscovery']:
         edit, web = data.get('native_edit'), data.get('web_design')
         if not (same_task and row['kind'] == 'native-edit' and isinstance(edit, dict)
                 and isinstance(web, dict) and data.get('readback_scope') == 'screens'
@@ -606,14 +625,14 @@ def recovery_read(request, row, data, original):
             return False
         return all(isinstance(screen, dict) and screen.get('status') in ('current', 'missing')
                    and (screen['status'] == 'missing' or bool(screen.get('frame_id'))) for screen in web['screens'])
-    if data.get('schema') == 'figma-flow-graph-native-discovery-v1':
+    if data.get('schema') == schema_ids.ID['graphNativeDiscovery']:
         return (row['kind'] == 'discover' and data.get('fileKey') == original['file_key'] and data.get('pageId') == original['page_id']
                 and isinstance(data.get('allowed_page_ids'), list) and original['page_id'] in data['allowed_page_ids']
                 and all(isinstance(data.get(key), list) for key in ('nodes', 'variables', 'collections')))
-    if data.get('schema') == 'figma-flow-graph-token-readback-v1':
+    if data.get('schema') == schema_ids.ID['graphTokenReadback']:
         return (row['kind'] == 'sync' and data.get('operation') == 'inspect' and data.get('file_key') == original['file_key']
                 and data.get('page_id') == original['page_id'] and all(isinstance(data.get(key), list) for key in ('tokens', 'components')))
-    return (row['kind'] == 'import' and data.get('format') == 'figma-flow-readback-v1' and data.get('evidence') == 'observed-plugin-api-readback'
+    return (row['kind'] == 'import' and data.get('format') == schema_ids.ID['readback'] and data.get('evidence') == 'observed-plugin-api-readback'
             and data.get('fileKey') == original['file_key'] and isinstance(data.get('pages'), list)
             and any(isinstance(page, dict) and page.get('id') == original['page_id'] for page in data['pages'])
             and all(isinstance(data.get(key), list) for key in ('variables', 'collections')))
@@ -743,6 +762,176 @@ def conflict_detail(readback):
     return {'plan_sha256': plan, 'actions': ['save-evidence', 'read-scope'], 'conflicts': rows}
 
 
+def _peek_active_and_uncertain(root):
+    """Strictly read-only inspection of active and uncertain state without creating files."""
+    directory = Path(root) / '.control'
+    if not directory.is_dir():
+        return None, 0
+    uncertain_count = 0
+    uncertain_path = directory / 'uncertainty.json'
+    if uncertain_path.is_file() and not uncertain_path.is_symlink():
+        try:
+            data = workspace.read(uncertain_path, private=True, limit=1_000_000)
+            if isinstance(data.get('operations'), dict):
+                uncertain_count = len(data['operations'])
+        except (OSError, ValueError):
+            pass
+    active_req = None
+    active_path = directory / 'active.json'
+    if active_path.is_file() and not active_path.is_symlink():
+        try:
+            pointer = workspace.read(active_path, private=True, limit=4096)
+            op_id = pointer.get('id')
+            if isinstance(op_id, str) and re.fullmatch(r'[a-f0-9]{32}', op_id):
+                req_path = directory / 'requests' / (op_id + '.json')
+                if req_path.is_file() and not req_path.is_symlink():
+                    active_req = workspace.read(req_path, private=True, limit=32768)
+        except (OSError, ValueError):
+            pass
+    return active_req, uncertain_count
+
+
+def _live_metrics_state(root):
+    """Compute headless plugin/operation health without mutating workspace files."""
+    key = str(Path(root).resolve())
+    now = time.time()
+    client = NATIVE_CLIENTS.get(key)
+    seen_at = client.get('seen_at') if isinstance(client, dict) else None
+    last_seen_age = round(max(0.0, now - seen_at), 3) if isinstance(seen_at, (int, float)) else -1.0
+    plugin_online = bool(isinstance(seen_at, (int, float)) and now - seen_at <= RELAY_TTL)
+    runtime_status = 'offline'
+    runtime_current = False
+    if plugin_online:
+        try:
+            native = native_state(root)
+            runtime_status = native.get('native_status') or 'unverified'
+            runtime_current = runtime_status == 'current-self-reported'
+        except (OSError, ValueError):
+            runtime_status = 'unverified'
+    active_req, uncertain_count = _peek_active_and_uncertain(root)
+    active_state = 'idle'
+    active_age = 0.0
+    if isinstance(active_req, dict) and active_req.get('state') not in TERMINAL:
+        active_state = str(active_req.get('state') or 'pending')
+        created = active_req.get('created_at')
+        if isinstance(created, (int, float)):
+            active_age = round(max(0.0, now - created), 3)
+    with RELAY_LOCK:
+        relay_ctx = (RELAY_STATES.get(key) or {}).get('context')
+    profile_needs_setup = bool(
+        isinstance(relay_ctx, dict)
+        and isinstance(relay_ctx.get('profile'), dict)
+        and relay_ctx['profile'].get('needsSetup') is True
+    )
+    return {
+        'plugin_online': plugin_online,
+        'plugin_last_seen_age_seconds': last_seen_age,
+        'runtime_status': runtime_status,
+        'plugin_runtime_current': runtime_current,
+        'active_operation_state': active_state,
+        'active_operation_age_seconds': active_age,
+        'uncertain_operations': uncertain_count,
+        'profile_needs_setup': profile_needs_setup,
+    }
+
+
+def _collect_live_gauges(root):
+    state = _live_metrics_state(root)
+    return [
+        MetricSample(
+            name='figma_flow_plugin_online',
+            kind='gauge',
+            value=1.0 if state['plugin_online'] else 0.0,
+            labels={'runtime_status': state['runtime_status']},
+            source='operations',
+        ),
+        MetricSample(
+            name='figma_flow_plugin_last_seen_age_seconds',
+            kind='gauge',
+            value=float(state['plugin_last_seen_age_seconds']),
+            labels={},
+            source='operations',
+        ),
+        MetricSample(
+            name='figma_flow_plugin_runtime_current',
+            kind='gauge',
+            value=1.0 if state['plugin_runtime_current'] else 0.0,
+            labels={},
+            source='operations',
+        ),
+        MetricSample(
+            name='figma_flow_active_operation_age_seconds',
+            kind='gauge',
+            value=float(state['active_operation_age_seconds']),
+            labels={'state': state['active_operation_state']},
+            source='operations',
+        ),
+        MetricSample(
+            name='figma_flow_uncertain_operations',
+            kind='gauge',
+            value=float(state['uncertain_operations']),
+            labels={},
+            source='operations',
+        ),
+        MetricSample(
+            name='figma_flow_profile_needs_setup',
+            kind='gauge',
+            value=1.0 if state['profile_needs_setup'] else 0.0,
+            labels={},
+            source='operations',
+        ),
+    ]
+
+
+def get_metrics_hub(root, *, start_workers=True):
+    key = str(Path(root).resolve())
+    with METRICS_HUBS_LOCK:
+        hub = METRICS_HUBS.get(key)
+        if hub is None:
+            hub = metrics.MetricsHub(key, start_workers=start_workers)
+            hub.register_gauge_collector(lambda: _collect_live_gauges(key))
+            METRICS_HUBS[key] = hub
+        return hub
+
+
+def _record_metrics_source(root, source_id, payload):
+    try:
+        hub = get_metrics_hub(root, start_workers=True)
+        if hub.source_enabled(source_id):
+            hub.record_source(source_id, payload)
+    except Exception:
+        pass
+
+
+def _record_operation_terminal(root, request, *, task_kind='unknown', readback_bytes=None, route='normal'):
+    try:
+        hub = get_metrics_hub(root, start_workers=True)
+        if not hub.source_enabled('operations'):
+            return
+        created = request.get('created_at')
+        claimed = request.get('claimed_at')
+        completed = request.get('completed_at')
+        queue_ms = (claimed - created) * 1000.0 if isinstance(created, (int, float)) and isinstance(claimed, (int, float)) else None
+        plugin_ms = (completed - claimed) * 1000.0 if isinstance(claimed, (int, float)) and isinstance(completed, (int, float)) else None
+        e2e_ms = (completed - created) * 1000.0 if isinstance(created, (int, float)) and isinstance(completed, (int, float)) else None
+        hub.record_source('operations', {
+            'event': 'operation_terminal',
+            'task_kind': task_kind,
+            'operation': request.get('operation', 'unknown'),
+            'state': request.get('state', 'unknown'),
+            'queue_ms': queue_ms,
+            'plugin_ms': plugin_ms,
+            'e2e_ms': e2e_ms,
+            'readback_bytes': readback_bytes,
+            'route': route,
+            'file_key': request.get('file_key'),
+            'page_id': request.get('page_id'),
+            'task_key': request.get('key'),
+        })
+    except Exception:
+        pass
+
+
 def active(directory):
     path = directory / 'active.json'
     if not path.exists():
@@ -757,10 +946,37 @@ def active(directory):
         if request['state'] == 'uncertain' and lifecycle_present(request):
             record_phase(request, 'uncertain')
         save(directory, request)
+        _record_operation_terminal(directory.parent, request, task_kind='unknown')
     return request
 
 
-def enable(root, port):
+def control_embedded_in_manifest(root, control_value):
+    """Return True when manifest.json and its main code.js already embed control_value."""
+    try:
+        root = Path(root).expanduser().resolve()
+        manifest_path = root / 'manifest.json'
+        manifest = workspace.read(manifest_path, limit=128 * 1024)
+        expected_origin = local_endpoint.origin(control_value['port'])
+        allowed = manifest.get('networkAccess', {}).get('devAllowedDomains', [])
+        if not isinstance(allowed, list) or expected_origin not in allowed:
+            return False
+        main_rel = manifest.get('main')
+        if not isinstance(main_rel, str) or not main_rel:
+            return False
+        main_path = (root / main_rel).resolve()
+        if not main_path.is_relative_to(root) or main_path.is_symlink() or not main_path.is_file():
+            return False
+        expected_snippet = (
+            'const WORKSPACE_CONTROL_CONFIG = '
+            + json.dumps({'url': expected_origin, 'token': control_value['token']}, ensure_ascii=True)
+            + ';'
+        )
+        return expected_snippet in main_path.read_text(encoding='utf-8')
+    except (OSError, ValueError, KeyError, TypeError, UnicodeDecodeError):
+        return False
+
+
+def enable(root, port, *, refresh=False):
     port = workspace.checked_port(port)
     with workspace.locked(root) as root:
         workspace.current(root)
@@ -770,14 +986,23 @@ def enable(root, port):
             if value['port'] != port:
                 raise ValueError('Control is already enabled on another port')
         else:
-            workspace.atomic(root / 'control.json', workspace.encode({'schema': SCHEMA, 'port': port, 'token': secrets.token_hex(32)}))
-    return {'enabled': True, 'port': port, 'refresh_required': True}
+            value = {'schema': SCHEMA, 'port': port, 'token': secrets.token_hex(32)}
+            workspace.atomic(root / 'control.json', workspace.encode(value))
+        needs_refresh = not control_embedded_in_manifest(root, value)
+    did_refresh = False
+    if refresh and needs_refresh:
+        workspace.refresh(root)
+        needs_refresh = not control_embedded_in_manifest(root, value)
+        did_refresh = True
+    workspace_registry.register_workspace(root, control_port=port)
+    return {'enabled': True, 'port': port, 'refresh_required': needs_refresh, 'refreshed': did_refresh}
 
 
 def enqueue(root, key, operation, file_key, page_id, revision, timeout, *, focus_page=False, fresh=False, selected_ids=None, plan_sha256=None, viewer_options=None):
     scope(file_key, page_id, revision)
-    if not isinstance(timeout, (int, float)) or isinstance(timeout, bool) or not 1 <= timeout <= 3600:
-        raise ValueError('Timeout must be between 1 and 3600 seconds')
+    max_wait = runtime_limits.LIMITS['control']['maxWaitSeconds']
+    if not isinstance(timeout, (int, float)) or isinstance(timeout, bool) or not 1 <= timeout <= max_wait:
+        raise ValueError(f'Timeout must be between 1 and {max_wait} seconds')
     with workspace.locked(root) as root:
         config(root)
         directory = state_dir(root)
@@ -874,6 +1099,17 @@ def poll(root, payload):
                     oldest = min(CHANGE_CLIENTS, key=lambda key: CHANGE_CLIENTS[key][2])
                     del CHANGE_CLIENTS[oldest]
                 CHANGE_CLIENTS[change_key] = (dict(batch_scope),runtime,time.time())
+            batch_events = payload['change_batch'].get('events') or []
+            gap_reason = 'unavailable' if change_receipt.get('status') == 'unavailable' else (
+                'session_rollover' if change_receipt.get('session_rollover') else ('native_overflow' if change_receipt.get('gap') else None)
+            )
+            if batch_events or gap_reason:
+                _record_metrics_source(root, 'live_changes', {
+                    'events': batch_events,
+                    'gap_reason': gap_reason,
+                    'file_key': payload['file_key'],
+                    'page_id': payload['page_id'],
+                })
 
 
         def poll_reply(value):
@@ -889,6 +1125,7 @@ def poll(root, payload):
         if request['operation'] not in READ_ONLY_OPERATIONS and uncertainties(directory)['operations']:
             request.update(state='error', error='Previous mutation remains uncertain', completed_at=time.time())
             save(directory, request)
+            _record_operation_terminal(root, request, task_kind='unknown')
             return poll_reply({'operation': None, **native})
         if request['file_key'] != payload['file_key'] or request['page_id'] != payload['page_id'] and not request.get('focus_page', False):
             return poll_reply({'operation': None, **native})
@@ -897,6 +1134,7 @@ def poll(root, payload):
         except ValueError:
             request.update(state='error', error='Prepared task changed before claim', completed_at=time.time())
             save(directory, request)
+            _record_operation_terminal(root, request, task_kind='unknown')
             return poll_reply({'operation': None, **native})
         if lifecycle_present(request):
             validate_lifecycle(request)
@@ -933,7 +1171,9 @@ def result(root, payload, *, large_body_bytes=None):
             raise ValueError('Readback must be a bounded JSON object string')
         if large_read and raw_bytes <= MAX_READBACK and large_body_bytes <= MAX_BODY:
             raise ValueError('Use the ordinary route for this result')
-    if payload.get('error') is not None and (not isinstance(payload['error'], str) or len(payload['error']) > 2000):
+    if payload.get('error') is not None and (
+            not isinstance(payload['error'], str)
+            or len(payload['error']) > runtime_limits.LIMITS['control']['maxErrorChars']):
         raise ValueError('Invalid plugin error')
     fingerprint = hashlib.sha256(json.dumps(payload, sort_keys=True, separators=(',', ':')).encode('utf-8')).hexdigest()
     with workspace.locked(root) as root:
@@ -965,6 +1205,7 @@ def result(root, payload, *, large_body_bytes=None):
             if lifecycle_present(request):
                 record_phase(request, 'uncertain')
             save(directory, request)
+            _record_operation_terminal(root, request, task_kind='unknown')
             raise ValueError('Prepared task changed after claim')
         if payload['status'] == 'ok' and raw is None:
             raise ValueError('Successful operation requires the actual native result JSON')
@@ -997,6 +1238,13 @@ def result(root, payload, *, large_body_bytes=None):
         if (client and client.get('session_id') == payload['session_id'] and client.get('runtime')
                 and client['runtime'] == workspace.current(root, repair=False).get('runtime')):
             client['seen_at'] = time.time()
+        _record_operation_terminal(
+            root,
+            request,
+            task_kind=row['kind'],
+            readback_bytes=len(raw.encode('utf-8')) if raw is not None else None,
+            route='large' if large_read else 'normal',
+        )
         return {'accepted': True, 'id': request['id'], 'state': request['state']}
 
 
@@ -1087,7 +1335,7 @@ def pinned_operation_transitions(root, discovery_revision, mutation_revision, ot
         return result(root, payload)
 
     def discovery(page_id):
-        return json.dumps({'schema': 'figma-flow-graph-native-discovery-v1', 'fileKey': 'fixturefile', 'pageId': page_id,
+        return json.dumps({'schema': schema_ids.ID['graphNativeDiscovery'], 'fileKey': 'fixturefile', 'pageId': page_id,
                             'allowed_page_ids': [page_id], 'nodes': [], 'variables': [], 'collections': []})
 
     try:
@@ -1205,7 +1453,7 @@ def note_native_started(root, payload):
 def restart_delivery_report(root, mutation_revision):
     """Exercise the HTTP server, then drop its memory and miss the result post."""
     settings = dict(config(root))
-    server = ThreadingHTTPServer(('127.0.0.1', 0), Handler)
+    server = ThreadingHTTPServer((local_endpoint.BIND_HOST, 0), Handler)
     server.workspace, server.token = root, settings['token']
     settings['port'] = server.server_port
     workspace.atomic(root / 'control.json', workspace.encode(settings))
@@ -1214,16 +1462,9 @@ def restart_delivery_report(root, mutation_revision):
     original_time = time.time
 
     def post(path, payload):
-        connection = http.client.HTTPConnection('127.0.0.1', server.server_port, timeout=5)
-        try:
-            connection.request('POST', path, json.dumps(payload), {
-                'Host': f'localhost:{server.server_port}',
-                'Authorization': 'Bearer ' + settings['token'],
-                'Content-Type': 'application/json'})
-            response = connection.getresponse()
-            return response.status, json.loads(response.read())
-        finally:
-            connection.close()
+        reply = local_endpoint.post_json(server.server_port, settings['token'], path, payload,
+                                         limit=TRANSPORT['replyBytes'], timeout_kind='bulkRequest')
+        return reply.status, json.loads(reply.body)
 
     try:
         runtime = workspace.current(root)['runtime']
@@ -1284,15 +1525,123 @@ class Handler(BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(body)
 
+    def send_raw(self, code, content_type, body):
+        self.send_response(code)
+        origin = self.headers.get('Origin')
+        if origin in ORIGINS:
+            self.send_header('Access-Control-Allow-Origin', origin)
+            self.send_header('Vary', 'Origin')
+        self.send_header('Content-Type', content_type)
+        self.send_header('Cache-Control', 'no-store')
+        self.send_header('Content-Length', str(len(body)))
+        self.end_headers()
+        self.wfile.write(body)
+
+    def _metrics_host_allowed(self, *, require_no_origin=False):
+        port = self.server.server_port
+        if self.headers.get('Host') not in local_endpoint.accepted_host_headers(port):
+            return False
+        origin = self.headers.get('Origin')
+        if require_no_origin:
+            return origin is None
+        return origin in ORIGINS | {None}
+
+    def _metrics_pull_authorized(self, hub):
+        auth_mode, bearer_secret = hub.pull_auth_config()
+        header = self.headers.get('Authorization', '')
+        if auth_mode == 'none':
+            return True
+        if auth_mode == 'control-token':
+            return hmac.compare_digest(header, 'Bearer ' + self.server.token)
+        if auth_mode == 'bearer-secret' and bearer_secret:
+            try:
+                expected = hub.secret_resolver.resolve(bearer_secret)
+            except ValueError:
+                return False
+            return bool(expected) and hmac.compare_digest(header, 'Bearer ' + expected)
+        return False
+
     def allowed(self):
-        return (self.path in {'/control/poll', '/control/result', '/control/result-large', '/control/readiness', '/control/native-started', '/control/history', '/control/history-detail', '/control/relay', '/control/changes'} and self.headers.get('Host') == f'localhost:{self.server.server_port}'
+        return (self.path in {'/control/poll', '/control/result', '/control/result-large', '/control/readiness', '/control/native-started', '/control/history', '/control/history-detail', '/control/relay', '/control/changes'} and self.headers.get('Host') == local_endpoint.host_header(self.server.server_port)
                 and self.headers.get('Origin') in ORIGINS | {None})
 
     def do_OPTIONS(self):
         self.reply(200 if self.allowed() else 403, {})
 
+    def do_GET(self):
+        if self.path not in {'/metrics', '/metrics/json', '/metrics/doctor'}:
+            return self.reply(404, {'error': 'Endpoint not found'})
+        if not self._metrics_host_allowed():
+            return self.reply(403, {'error': 'Metrics endpoint host or origin rejected'})
+        hub = get_metrics_hub(self.server.workspace, start_workers=True)
+        if self.path == '/metrics/doctor':
+            if not hmac.compare_digest(self.headers.get('Authorization', ''), 'Bearer ' + self.server.token):
+                return self.reply(403, {'error': 'Metrics doctor authentication rejected'})
+            report = hub.doctor_report(live_state=_live_metrics_state(self.server.workspace), server_online=True)
+            return self.reply(200, report)
+        fmt = 'json' if self.path == '/metrics/json' else 'prometheus'
+        if not hub.is_pull_enabled(fmt):
+            return self.reply(404, {'error': 'Metrics pull endpoint is disabled'})
+        if not self._metrics_pull_authorized(hub):
+            return self.reply(403, {'error': 'Metrics authentication rejected'})
+        content_type, body = hub.render_pull(fmt)
+        return self.send_raw(200, content_type, body)
+
     def do_POST(self):
-        self.connection.settimeout(70 if self.path == '/control/changes' else 15)
+        if self.path == '/metrics/ingest':
+            self.connection.settimeout(local_endpoint.timeout_seconds('serverMetricsIngest'))
+            if not self._metrics_host_allowed(require_no_origin=True) or not hmac.compare_digest(self.headers.get('Authorization', ''), 'Bearer ' + self.server.token):
+                return self.reply(403, {'error': 'Metrics ingest authentication or endpoint rejected'})
+            length = self.headers.get('Content-Length', '')
+            if self.headers.get('Transfer-Encoding') or self.headers.get_content_type() != 'application/json' or not re.fullmatch(r'[0-9]{1,9}', length) or not 0 < int(length) <= METRICS_INGEST_LIMIT:
+                return self.reply(413, {'error': 'Invalid metrics ingest request body'})
+            try:
+                body = self.rfile.read(int(length))
+                if len(body) != int(length):
+                    raise ValueError('Incomplete metrics ingest body')
+                payload = json.loads(body)
+                if not isinstance(payload, dict) or set(payload) != {'source', 'payload'} or not isinstance(payload['source'], str) or not isinstance(payload['payload'], dict):
+                    raise ValueError('Metrics ingest requires source and payload object')
+                hub = get_metrics_hub(self.server.workspace, start_workers=True)
+                if not hub.registry.has_source(payload['source']):
+                    raise ValueError('Unknown metrics source')
+                recorded = hub.record_source(payload['source'], payload['payload'])
+                return self.reply(200, {'accepted': True, 'recorded': recorded})
+            except (ValueError, KeyError, TypeError, OSError):
+                return self.reply(409, {'error': 'Metrics ingest request rejected'})
+        if self.path == '/metrics/flush':
+            self.connection.settimeout(local_endpoint.timeout_seconds('serverRead'))
+            if not self._metrics_host_allowed(require_no_origin=True) or not hmac.compare_digest(self.headers.get('Authorization', ''), 'Bearer ' + self.server.token):
+                return self.reply(403, {'error': 'Metrics flush authentication or endpoint rejected'})
+            length = self.headers.get('Content-Length', '')
+            max_flush_body = runtime_limits.LIMITS['control']['maxMetricsFlushBodyBytes']
+            if self.headers.get('Transfer-Encoding') or self.headers.get_content_type() != 'application/json' or not re.fullmatch(r'[0-9]{1,9}', length) or not 0 < int(length) <= max_flush_body:
+                return self.reply(413, {'error': 'Invalid metrics flush request body'})
+            try:
+                body = self.rfile.read(int(length))
+                if len(body) != int(length):
+                    raise ValueError('Incomplete metrics flush body')
+                payload = json.loads(body)
+                if not isinstance(payload, dict) or payload:
+                    raise ValueError('Exact empty flush object required')
+                hub = get_metrics_hub(self.server.workspace, start_workers=True)
+                results = hub.flush_all()
+                serialized = {
+                    sid: (
+                        None if res is None else {
+                            'ok': res.ok,
+                            'sent_count': res.sent_count,
+                            'status_code': res.status_code,
+                            'latency_ms': round(res.latency_ms, 2) if res.latency_ms is not None else None,
+                            'error': res.error,
+                        }
+                    )
+                    for sid, res in results.items()
+                }
+                return self.reply(200, {'flushed': True, 'sinks': serialized})
+            except (ValueError, KeyError, TypeError, OSError):
+                return self.reply(409, {'error': 'Metrics flush request rejected'})
+        self.connection.settimeout(local_endpoint.timeout_seconds('serverLongPoll' if self.path == '/control/changes' else 'serverRead'))
         if not self.allowed() or not hmac.compare_digest(self.headers.get('Authorization', ''), 'Bearer ' + self.server.token):
             return self.reply(403, {'error': 'Control authentication or endpoint rejected'})
         length = self.headers.get('Content-Length', '')
@@ -1339,31 +1688,163 @@ class Handler(BaseHTTPRequestHandler):
         self.reply(200, value)
 
 
+# Ordered setup steps: the first step whose `blocked_by` fact is false is the next action.
+# This tuple is the single owner of the setup action vocabulary (see tools/ssot-scan.json).
+SETUP_STEPS = (
+    {'action': 'init-workspace', 'blocked_by': 'workspace_initialized',
+     'command': 'python3 -B tools/figma_workspace.py init --workspace {workspace} --id-from <MANIFEST>',
+     'guidance': 'Initialize the private workspace once with your Figma plugin manifest ID.'},
+    {'action': 'enable-control', 'blocked_by': 'control_enabled',
+     'command': 'python3 -B tools/figma_control.py enable --workspace {workspace} --port {control_port} --refresh',
+     'guidance': 'Enable local control once and embed it into the existing workspace.'},
+    {'action': 'refresh-workspace', 'blocked_by': 'manifest_synced',
+     'command': 'python3 -B tools/figma_workspace.py refresh --workspace {workspace}',
+     'guidance': 'Refresh the existing workspace once so manifest.json includes the control endpoint.'},
+    {'action': 'start-serve', 'blocked_by': 'server_running',
+     'command': 'python3 -B tools/figma_control.py serve --workspace {workspace}',
+     'guidance': 'Workspace is already configured; start the local control server without re-initializing.'},
+    {'action': 'reopen-plugin', 'blocked_by': 'plugin_connected',
+     'command': 'python3 -B tools/figma_control.py metrics watch --workspace {workspace} --until-ready',
+     'guidance': 'Workspace and server are ready; open the SAME registered Figma Flow plugin in Figma Desktop (do not create a new plugin or re-init).'},
+    {'action': 'reconcile-uncertain', 'blocked_by': 'no_uncertain_operations',
+     'command': 'python3 -B tools/figma_control.py status --workspace {workspace}',
+     'guidance': 'Run a scoped discover/read before mutating to reconcile uncertain operations.'},
+    {'action': 'confirm-profile', 'blocked_by': 'profile_confirmed',
+     'command': ('python3 -B tools/figma_control.py profile set --workspace {workspace} '
+                 '--plan unknown --seat unknown --expected-context {context_fingerprint}'),
+     'guidance': 'Confirm the usage profile once for this Figma user and file (use plan/seat or unknown).'},
+    {'action': 'ready', 'blocked_by': None, 'command': None,
+     'guidance': 'Workspace, server, plugin, and profile are ready. Proceed directly without reconfiguring.'},
+)
+SETUP_ACTIONS = tuple(step['action'] for step in SETUP_STEPS)
+
+
+def next_setup_step(result):
+    """Pick the first incomplete setup step from observed facts (pure; no I/O)."""
+    facts = {**result, 'no_uncertain_operations': not result.get('uncertain_operations')}
+    values = {'workspace': result.get('workspace') or '<WORKSPACE>',
+              'control_port': result.get('control_port') or local_endpoint.DEFAULT_PORTS['control'],
+              'context_fingerprint': result.get('context_fingerprint') or '<CONTEXT_FINGERPRINT>'}
+    step = next(step for step in SETUP_STEPS if step['blocked_by'] is None or not facts.get(step['blocked_by']))
+    return {'next_action': step['action'],
+            'next_command': step['command'].format(**values) if step['command'] else None,
+            'guidance': step['guidance']}
+
+
+def setup_status(root=None):
+    """Strictly read-only setup continuity check across PC workspace registry and live server."""
+    discovered = workspace_registry.discover_workspaces()
+    target = workspace_registry.resolve_workspace(root)
+    result = {
+        'schema': 'figma-flow-setup-status-v1',
+        'registered_workspaces': discovered,
+        'workspace': str(target) if target else None,
+        'plugin_id': None,
+        'control_port': None,
+        'workspace_initialized': False,
+        'control_enabled': False,
+        'manifest_synced': False,
+        'server_running': False,
+        'plugin_connected': False,
+        'profile_confirmed': False,
+        'profile': None,
+        'context_fingerprint': None,
+        'uncertain_operations': 0,
+        'already_configured': False,
+        'ready_for_work': False,
+    }
+    if target is None:
+        result.update(next_setup_step(result), guidance='No registered Figma Flow workspace was found on this PC.')
+        return result
+
+    info = workspace_registry._inspect_workspace_dir(target)
+    if info.get('valid'):
+        result['workspace'] = info['path']
+        result['workspace_initialized'] = True
+        result['plugin_id'] = info['plugin_id']
+
+    ctrl_val = None
+    if result['workspace_initialized']:
+        try:
+            ctrl_val = config(target)
+            result['control_enabled'] = True
+            result['control_port'] = ctrl_val['port']
+            result['manifest_synced'] = control_embedded_in_manifest(target, ctrl_val)
+        except (OSError, ValueError):
+            ctrl_val = None
+
+    _, uncertain_count = _peek_active_and_uncertain(target)
+    result['uncertain_operations'] = uncertain_count
+
+    if ctrl_val is not None:
+        r_data = local_endpoint.probe_readiness(ctrl_val['port'], ctrl_val['token'])
+        expected = readiness()
+        if r_data is not None and all(r_data.get(k) == expected[k] for k in ('schema', 'protocol', 'version', 'implementation')):
+            result['server_running'] = True
+            result['plugin_connected'] = r_data.get('native_status') == 'current-self-reported'
+
+    if result['server_running'] and result['plugin_connected']:
+        try:
+            ctx_reply = relay_request(target, 'context')
+            if ctx_reply.get('state') == 'ok':
+                ctx = ctx_reply.get('context') or {}
+                prof = ctx.get('profile')
+                result['profile'] = prof
+                result['context_fingerprint'] = ctx_reply.get('context_fingerprint')
+                result['profile_confirmed'] = bool(isinstance(prof, dict) and prof.get('needsSetup') is False)
+        except (ReadinessError, OSError, ValueError):
+            pass
+
+    already_configured = result['workspace_initialized'] and result['control_enabled'] and result['manifest_synced']
+    ready_for_work = (
+        already_configured
+        and result['server_running']
+        and result['plugin_connected']
+        and result['profile_confirmed']
+        and result['uncertain_operations'] == 0
+    )
+    result['already_configured'] = already_configured
+    result['ready_for_work'] = ready_for_work
+
+    result.update(next_setup_step(result))
+    return result
+
+
 def serve(root):
     root = workspace.private_dir(root)
     with workspace.locked(root):
         workspace.current(root)
         value = config(root)
         directory = state_dir(root)
+    workspace_registry.register_workspace(root, control_port=value['port'])
     fd = os.open(directory / 'server.lock', os.O_RDWR | os.O_CREAT | os.O_NOFOLLOW, 0o600)
     with os.fdopen(fd, 'a+b') as lock:
         if os.fstat(lock.fileno()).st_mode & 0o077 or os.fstat(lock.fileno()).st_uid != os.getuid():
             raise ValueError('Control server lock must be owner-only')
         workspace.fcntl.flock(lock, workspace.fcntl.LOCK_EX | workspace.fcntl.LOCK_NB)
-        with ThreadingHTTPServer(('127.0.0.1', value['port']), Handler) as server:
+        with ThreadingHTTPServer((local_endpoint.BIND_HOST, value['port']), Handler) as server:
             server.workspace, server.token = root, value['token']
+            hub = get_metrics_hub(root, start_workers=True)
             print(json.dumps({'serving': True, 'port': value['port']}), flush=True)
-            server.serve_forever()
+            try:
+                server.serve_forever()
+            finally:
+                hub.flush_all()
+                hub.close()
 
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     commands = parser.add_subparsers(dest='command', required=True)
+    metrics_cli.register_metrics_subparser(commands)
+    setup_cmd = commands.add_parser('setup-status', help='Check existing PC workspace and connection status without re-configuring')
+    setup_cmd.add_argument('--workspace', type=Path)
     for name in ('enable', 'serve', 'run', 'status', 'context', 'profile', 'changes'):
         command = commands.add_parser(name)
         command.add_argument('--workspace', type=Path, required=True)
         if name == 'enable':
             command.add_argument('--port', type=int, required=True)
+            command.add_argument('--refresh', action='store_true', help='Refresh workspace automatically if control config is not yet embedded')
         elif name == 'status':
             command.add_argument('--id')
         elif name == 'changes':
@@ -1398,8 +1879,16 @@ def main(argv=None):
             command.add_argument('--focus-page', action='store_true', help='Focus the exact signed task page within the current file')
     args = parser.parse_args(argv)
     try:
+        if args.command == 'metrics':
+            code, output_text = metrics_cli.run_metrics_cli(args, live_state_fn=_live_metrics_state)
+            print(output_text, end='')
+            return code
+        if args.command == 'setup-status':
+            value = setup_status(args.workspace)
+            print(json.dumps(value, ensure_ascii=True, allow_nan=False))
+            return 0
         if args.command == 'enable':
-            value = enable(args.workspace, args.port)
+            value = enable(args.workspace, args.port, refresh=args.refresh)
         elif args.command == 'serve':
             serve(args.workspace)
             return 0
@@ -1421,7 +1910,8 @@ def main(argv=None):
                     raise ValueError('Profile status requires --request-id')
                 value = relay_request(args.workspace, 'profile-status', request_id=args.request_id)
             else:
-                if not args.plan or not args.seat or not args.expected_context or not 1 <= args.timeout <= 3600:
+                max_wait = runtime_limits.LIMITS['control']['maxWaitSeconds']
+                if not args.plan or not args.seat or not args.expected_context or not 1 <= args.timeout <= max_wait:
                     raise ValueError('Profile set requires --plan, --seat, --expected-context and a valid timeout')
                 value = relay_request(args.workspace, 'profile-set', profile={'plan': args.plan, 'seat': args.seat},
                                       expected_context=args.expected_context)

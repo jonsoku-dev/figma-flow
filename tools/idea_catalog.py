@@ -5,10 +5,12 @@ import argparse
 import base64
 import hashlib
 import json
+import re
 import sys
 from pathlib import Path
 
 import check_project
+import local_endpoint
 
 
 def preflight(manifest_path, out):
@@ -167,7 +169,7 @@ function draw() {
           const job = await response.json();
           button.disabled = job.state !== 'ready';
           message.textContent = job.message;
-          if (job.state === 'succeeded' && /^http:\/\/127\.0\.0\.1:\d+\/$/.test(job.preview_url || '')) { preview.href = job.preview_url; preview.hidden = false; }
+          if (job.state === 'succeeded' && /^http:\/\/__BIND_HOST_RE__:\d+\/$/.test(job.preview_url || '')) { preview.href = job.preview_url; preview.hidden = false; }
           if (job.state === 'running') setTimeout(refresh, 1000);
         } catch (error) { button.disabled = true; message.textContent = String(error); }
       }
@@ -219,7 +221,7 @@ function draw() {
 }
 for (const control of [project, kind, search]) control.addEventListener(control === search ? 'input' : 'change', () => { selected = null; draw(); });
 draw();
-"""
+""".replace('__BIND_HOST_RE__', re.escape(local_endpoint.BIND_HOST))
 def render(catalog, build=None):
     encoded = json.dumps(catalog, ensure_ascii=True, allow_nan=False).replace('<', '\\u003c').replace('>', '\\u003e').replace('&', '\\u0026')
     build_json = json.dumps(build, ensure_ascii=True).replace('<', '\\u003c').replace('>', '\\u003e').replace('&', '\\u0026')

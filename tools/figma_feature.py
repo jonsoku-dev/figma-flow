@@ -153,6 +153,14 @@ ROUTES = [
              'python3 tools/figma_rest_inventory.py curl OPERATION_ID --help'],
             ['Search the pinned catalog, then supply the real operation ID and required path/query/body inputs when exporting a request. The curl command only prints a reviewed command; it does not make a request.',
              'Explicitly configure the exact official REST endpoint and credential; check minimum scopes, file/admin access, plan and rate limits. REST is not generic canvas node CRUD.']),
+    feature('metrics-export', 'metrics|metric|observability|prometheus|otlp|statsd|dogstatsd|telemetry|메트릭|매트릭|지표|관측|모니터링', 'flow',
+            ['python3 -B tools/figma_control.py metrics list-adapters',
+             'python3 -B tools/figma_control.py metrics init --workspace WORKSPACE',
+             'python3 -B tools/figma_control.py metrics doctor --workspace WORKSPACE',
+             'python3 -B tools/figma_control.py metrics watch --workspace WORKSPACE --until-ready',
+             'python3 -B tools/figma_control.py metrics flush --workspace WORKSPACE'],
+            ['Optional PC-local feature; disabled by default (NullRecorder) with zero network side effects.',
+             'Configure per-PC sinks (http-json, otlp-http, jsonl-file, statsd-udp) and pull endpoints (prometheus, json) in WORKSPACE/metrics.json or ~/.config/figma-flow/metrics.json (0600); Figma plugin networkAccess remains none.']),
 ]
 
 

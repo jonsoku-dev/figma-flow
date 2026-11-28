@@ -224,7 +224,8 @@ def main():
         print(json.dumps(audit(ROOT),ensure_ascii=False,indent=2))
         return 0
     if args.command == 'check':
-        findings = graph_decode_findings(ROOT)
+        import ssot_scan
+        findings = graph_decode_findings(ROOT) + ssot_scan.check(ROOT)
         for item in findings:
             print(f"{item['path']}:{item['line']}: {item['message']}", file=sys.stderr)
         return int(bool(findings))

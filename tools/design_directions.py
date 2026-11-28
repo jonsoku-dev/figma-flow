@@ -24,6 +24,7 @@ from urllib.parse import parse_qs, urlsplit
 
 import workflow
 from workflow import State, Event, Guard, VerifiedFact
+import runtime_limits
 
 
 class SelectionRequired(ValueError):
@@ -45,7 +46,7 @@ def digest(value):
 
 def pin(path):
     path = Path(path).absolute()
-    if path.is_symlink() or not path.is_file() or path.stat().st_size > 64_000_000:
+    if path.is_symlink() or not path.is_file() or path.stat().st_size > runtime_limits.EVIDENCE['maxFileBytes']:
         raise ValueError('Regular bounded input required: ' + str(path))
     return {'path': str(path), 'sha256': hashlib.sha256(path.read_bytes()).hexdigest()}
 
@@ -209,7 +210,7 @@ def _candidate(candidate, content):
         size, edges = _image(preview['file'])
         if list(size) != [preview['width'], preview['height']]:
             raise ValueError('Direction raster viewport differs from actual artifact')
-        if not (240 <= size[0] <= 600 if preview['viewport'] == 'mobile' else size[0] >= 1000):
+        if not (runtime_limits.EVIDENCE['mobileMinWidth'] <= size[0] <= runtime_limits.EVIDENCE['mobileMaxWidth'] if preview['viewport'] == 'mobile' else size[0] >= runtime_limits.EVIDENCE['desktopMinWidth']):
             raise ValueError('Invalid comparable direction viewport')
         images[preview['viewport']] = {'size': size, 'edges': edges, 'sha256': preview['file']['sha256']}
     script = re.sub(r'/\*.*?\*/|//[^\n]*', '', '\n'.join(source.script), flags=re.S)

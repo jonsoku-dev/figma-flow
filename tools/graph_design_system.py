@@ -12,6 +12,9 @@ from pathlib import Path
 import tempfile
 
 from graph_document import decode_json
+import runtime_limits
+
+MAX_SELECTOR_LEN = 1024
 
 
 class LoadedGraph(dict):
@@ -72,7 +75,8 @@ def _validate_property(prop, kind, value):
         valid = (valid and value == value.strip() and len(value) <= 200 and
                  not any(c in value for c in ',;:{}\\\"\'<>/'))
     elif prop == 'characters':
-        valid = valid and len(value) <= 2000 and not _SECRET_VALUE_RE.search(value)
+        valid = (valid and len(value) <= runtime_limits.LIMITS['componentFields']['maxTextLength']
+                 and not _SECRET_VALUE_RE.search(value))
     elif prop == 'instanceSwap':
         valid = (valid and value == value.strip() and len(value) <= 200 and
                  bool(re.fullmatch(r'[A-Za-z0-9_.:/-]+', value)) and
@@ -100,7 +104,7 @@ def _stylesheet(declarations, mui_components):
             continue
         web = component['web']
         selector = web.get('selector') if isinstance(web, dict) else None
-        if (not isinstance(selector, str) or not selector.strip() or len(selector) > 1024 or
+        if (not isinstance(selector, str) or not selector.strip() or len(selector) > MAX_SELECTOR_LEN or
                 not re.fullmatch(r'[A-Za-z0-9_#.*:(), >+~-]+', selector)):
             raise ValueError(f'invalid web selector: {name}')
         depth = 0

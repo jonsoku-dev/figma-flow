@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Finite, scoped graph/native token exchange. Readbacks are evidence, not authority."""
 import argparse
+import schema_ids
 import copy
 from datetime import datetime
 import hashlib
@@ -17,11 +18,12 @@ from urllib.parse import urlsplit
 from plugin_panel import render_panel
 from specification_contract import spec_label_prelude
 from graph_design_system import load_graph, resolve_design_system, emit_web_module, update_graph_values, _atomic_write, _encode, _validate_value, _validate_property, SUPPORTED_PROPERTY_TYPES
+import runtime_limits
 
 SCHEMA = 'figma-flow-graph-token-sync-v1'
 RECEIPT = 'figma-flow-graph-pairing-v1'
 WEB_COMPOSITION = 'figma-flow-web-composition-v1'
-SELECTIVE_FIXTURE = 'figma-flow-selective-sync-v1'
+SELECTIVE_FIXTURE = schema_ids.ID['selectiveSync']
 
 
 def selective_sync_condition(payload, selection):
@@ -134,8 +136,9 @@ def _validate_component_field_value(field_type, value, field, allowed_swap_ids=N
     elif field_type == 'STRING':
         valid = isinstance(value, str) and bool(value.strip()) and all(ord(c) >= 32 for c in value)
     elif field_type == 'TEXT':
-        valid = (isinstance(value, str) and bool(value.strip()) and len(value) <= 2000 and
-                 all(ord(c) >= 32 for c in value) and not _SECRET_FIELD_RE.search(value))
+        valid = (isinstance(value, str) and bool(value.strip())
+                 and len(value) <= runtime_limits.LIMITS['componentFields']['maxTextLength']
+                 and all(ord(c) >= 32 for c in value) and not _SECRET_FIELD_RE.search(value))
     elif field_type == 'INSTANCE_SWAP':
         valid = (isinstance(value, str) and value == value.strip() and bool(value) and len(value) <= 200 and
                  bool(re.fullmatch(r'[A-Za-z0-9_.:/-]+', value)) and not value.lower().startswith(('http:', 'https:')))
@@ -158,7 +161,7 @@ def _validate_component_field_value(field_type, value, field, allowed_swap_ids=N
 
 def commit_component_fields(spec, selection, observed):
     """Apply a whole shared-token or declared component property field selection without creating another component."""
-    if not isinstance(spec, dict) or spec.get('schema') != 'figma-flow-component-field-v1':
+    if not isinstance(spec, dict) or spec.get('schema') != schema_ids.ID['componentField']:
         raise ValueError('Invalid component field selection')
     if not isinstance(observed, dict):
         raise ValueError('component field selection requires observed values')
@@ -325,7 +328,7 @@ def plan_scope(graph, baseline, plan):
     pages = declared.get('allowed_page_ids', [plan['page_id']])
     if not isinstance(pages, list) or not pages or len(set(pages)) != len(pages) or not all(isinstance(page, str) and page for page in pages) or plan['page_id'] not in pages:
         raise ValueError('explicit allowed native page IDs required')
-    if baseline.get('schema') == 'figma-flow-graph-native-discovery-v1' and set(baseline.get('allowed_page_ids', [])) != set(pages):
+    if baseline.get('schema') == schema_ids.ID['graphNativeDiscovery'] and set(baseline.get('allowed_page_ids', [])) != set(pages):
         raise ValueError('discovery allowed pages differ from graph native scope')
     plan['allowed_page_ids'] = pages
     plan['node_page_ids'] = {}
@@ -493,7 +496,7 @@ def build_adoption_plan(graph, baseline, previous=None):
     if scope.get('collection_id', collection_id) != collection_id:
         raise ValueError('declared migration collection differs from graph scope')
     collection = unique(collections, collection_id, 'collection')
-    if baseline.get('schema') == 'figma-flow-graph-native-discovery-v1':
+    if baseline.get('schema') == schema_ids.ID['graphNativeDiscovery']:
         owner = collection.get('owner')
         if not isinstance(owner, dict) or owner.get('pageId') != baseline.get('pageId') or owner.get('collectionId') != collection_id:
             raise ValueError('native collection ownership mismatch')
@@ -722,7 +725,7 @@ def reject_shared_consumers(baseline, plan, actual):
 
 
 def normalize(data, plan):
-    if data.get('schema') == 'figma-flow-graph-token-readback-v1':
+    if data.get('schema') == schema_ids.ID['graphTokenReadback']:
         return data
     nodes = data['nodes']
     variables = {v['id']: v for v in data['variables']}
@@ -1158,7 +1161,7 @@ def selection_manifest(plan):
                                     'kind': 'component_field', 'component_id': component['id'], 'field': field,
                                     'name': component['id'] + '.' + field,
                                     'targets': component['main_keys'] + component['instance_keys']})
-    return {'schema': 'figma-flow-selection-v2', 'plan_sha256': identity(plan), 'changes': changes}
+    return {'schema': schema_ids.ID['selectionV2'], 'plan_sha256': identity(plan), 'changes': changes}
 
 
 def graph_panel(mode, scope, plan=None, session=None):
@@ -1271,7 +1274,7 @@ def import_values(graph_path, pairing, readback, web_module, out, apply=False, n
     normalized = normalize(readback, pairing['plan'])
     observed, _ = verify_readback(pairing['plan'], normalized, identities=pairing['consumer_ids'], allow_node_edits=node_edit_scope == 'component')
     verify_native_marker(readback, pairing['graph_sha256'], required=readback.get('schema') in (
-        'figma-flow-graph-token-readback-v1', 'figma-flow-graph-native-discovery-v1'))
+        schema_ids.ID['graphTokenReadback'], schema_ids.ID['graphNativeDiscovery']))
     repairs, unsupported = [], copy.deepcopy(normalized.get('unsupported_changes', []))
     if node_edit_scope == 'component':
         observed, repairs, unsupported = component_node_edits(graph, pairing, normalized, observed)
@@ -1561,7 +1564,7 @@ def main(argv=None):
                 read(args.native_readback) if args.native_readback else None, pairing, args.plugin_id, args.adopt, read(args.import_report) if args.import_report else None)
         elif args.command == 'pair':
             data = read(args.readback)
-            if data.get('schema') != 'figma-flow-graph-token-readback-v1':
+            if data.get('schema') != schema_ids.ID['graphTokenReadback']:
                 raise ValueError('pair requires actual focused native getter readback')
             # Recover exact plan topology from full native baseline or prior export alongside readback.
             plan_path = Path(args.plan) if args.plan else Path(args.readback).parent / 'native-plan.json'

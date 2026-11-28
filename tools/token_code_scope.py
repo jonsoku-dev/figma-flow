@@ -17,6 +17,7 @@ VAR = re.compile(r'var\(\s*(--[\w-]+)')
 RULE = re.compile(r'([^{}]+)\{([^{}]*)\}')
 DECL = re.compile(r'([\w-]+)\s*:\s*([^;]+)')
 CLASS = re.compile(r'\.([\w-]+)')
+MAX_SOURCE_FILE_BYTES = 2_000_000
 
 
 def digest(data):
@@ -116,7 +117,7 @@ def analyze(project, before, after, apply=False):
             inventory.append(rel)
             if len(inventory) > 500:
                 raise ValueError('runtime source inventory exceeds 500 files')
-            if path.stat().st_size > 2_000_000:
+            if path.stat().st_size > MAX_SOURCE_FILE_BYTES:
                 unknowns.append({'source': rel, 'reason': 'runtime file exceeds 2 MB and was not inspected'})
                 continue
             if rel not in codepaths:
@@ -126,7 +127,7 @@ def analyze(project, before, after, apply=False):
     for path in sorted(codepaths):
         if path.startswith('app/') and not within(root, path).is_file():
             unknowns.append({'source': path, 'reason': 'bound runtime source is missing'})
-    css_files = sorted(p for p in codepaths if p.endswith('.css') and within(root, p).is_file() and within(root, p).stat().st_size <= 2_000_000)
+    css_files = sorted(p for p in codepaths if p.endswith('.css') and within(root, p).is_file() and within(root, p).stat().st_size <= MAX_SOURCE_FILE_BYTES)
 
     for path in css_files:
         data = within(root, path).read_text(encoding='utf-8')
@@ -160,7 +161,7 @@ def analyze(project, before, after, apply=False):
     relevant = [x for x in declarations if any(reaches(v) for v in x[4])]
     uses = []
     for path in sorted(codepaths):
-        if not path.endswith(('.html', '.js')) or not within(root, path).is_file() or within(root, path).stat().st_size > 2_000_000:
+        if not path.endswith(('.html', '.js')) or not within(root, path).is_file() or within(root, path).stat().st_size > MAX_SOURCE_FILE_BYTES:
             continue
         data = within(root, path).read_text(encoding='utf-8')
         if path.endswith('.html'):

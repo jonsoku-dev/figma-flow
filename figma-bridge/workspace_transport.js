@@ -5,7 +5,7 @@ function controlPayloadSize(value, limit) {
   for (let index = 0; index < value.length; index++) {
     const code = value.charCodeAt(index);
     if (code < 128) bytes++;
-    else if (code < 2048) bytes += 2;
+    else if (code < 0x800) bytes += 2;
     else if (code >= 0xd800 && code <= 0xdbff && index + 1 < value.length && value.charCodeAt(index + 1) >= 0xdc00 && value.charCodeAt(index + 1) <= 0xdfff) {index++; bytes += 4;}
     else bytes += 3;
     if (bytes > limit) throw Object.assign(Error('Local command payload exceeds its limit'), {code: 'payload-limit-exceeded'});
@@ -63,7 +63,7 @@ async function controlRequest(route, body, readResult = false) {
         controlPayloadSize(JSON.stringify(value), responseLimit);
         return value;
       })(),
-      new Promise((_, reject) => {timer = setTimeout(() => reject(Object.assign(Error('Local command request timed out'), {code: 'request-timeout'})), 15000);})
+      new Promise((_, reject) => {timer = setTimeout(() => reject(Object.assign(Error('Local command request timed out'), {code: 'request-timeout'})), WORKSPACE_PROFILE_POLICY.controlEndpoint.timeoutsMs.pluginRequest);})
     ]);
   } finally {clearTimeout(timer);}
 }

@@ -1,10 +1,10 @@
 {
   "decision": "updated",
-  "reason": "패널 산출물 역할의 단일 원천, 기준과 현재의 관측 영향, 확대된 Knip 검사와 독립 CI 잡을 대조하여 유지보수 절차를 갱신했다.",
+  "reason": "패널 산출물 역할의 단일 원천, 기준과 현재의 관측 영향, 확대된 Knip 검사, 독립 CI 잡과 SSoT 스캐너(하드코딩·SSoT 스캐너) 절을 반영해 유지보수 절차를 갱신했다.",
   "inputs": {
     "panel-boundary-policy": "f26cfaaaacf318e58c78ee2a80ee6e64b9a7c3a7279ede5cb2b5863e7cb54b18",
     "panel-governance": "4f74763a2464367b2b5b77ac6b69d773cbbb9eec280044cc40dd3b05c7734dc7",
     "panel-static-quality": "19624e882e323e30f9be88d29fe237f0d46f3b78c2ec83d06a992f5b5aa6b23d"
   },
-  "documentSha256": "25913cd245fd6235da899fb52383d12539f53684e4edcbeae5b64dec472f2dc5"
+  "documentSha256": "aeb3be66a03acad4394e587d58cdf52de2904f71eadcf5c43b8ca69d1333221d"
 }

@@ -164,13 +164,15 @@ Codex는 플러그인의 읽기 전용 문맥을 확인하고 프로필 선언�
 4. 연결이나 실행에 문제가 있으면 Codex가 상태와 진단을 확인합니다. Figma 패널에 대화 입력·승인·작업 실행 버튼은 없습니다.
 
 ```sh
-# Codex가 기존 private 작업공간에서 한 번 구성합니다. 포트는 예시입니다.
-"$PY" -B "$PLUGIN_ROOT/tools/figma_control.py" enable --workspace "$WORKSPACE" --port 43180
-"$PY" -B "$PLUGIN_ROOT/tools/figma_workspace.py" refresh --workspace "$WORKSPACE"
+# 기존 설정 여부와 필요한 다음 단계 한 번에 확인 (경로 생략 시 PC에 등록된 작업공간 자동 조회)
+"$PY" -B "$PLUGIN_ROOT/tools/figma_control.py" setup-status
+
+# Codex가 기존 private 작업공간에서 처음 한 번만 구성합니다. 포트는 예시이며 기본값은 library/figma-profile/policy.json의 controlEndpoint.defaultPorts.control입니다(setup-status의 next_command가 이 값을 사용).
+"$PY" -B "$PLUGIN_ROOT/tools/figma_control.py" enable --workspace "$WORKSPACE" --port 43180 --refresh
 "$PY" -B "$PLUGIN_ROOT/tools/figma_control.py" serve --workspace "$WORKSPACE"
 ```
 
-`enable`만으로 열린 플러그인 코드가 바뀌지는 않습니다. `refresh` 후 Figma Flow를 다시 실행합니다. `serve`는 Figma Desktop과 같은 컴퓨터에서 유지합니다. `run`과 `status`는 Codex가 사용합니다. relay와 Figma Desktop은 localhost 연결을 사용합니다. 현재 연결 결과를 확인하고 원격 Codex에서는 Desktop 머신에 명령을 전달할 경로를 준비합니다.
+`init`·`refresh`·`enable`·`serve`를 실행한 작업공간은 이 PC의 `~/.config/figma-flow/workspaces.json`에 경로와 플러그인 ID만 비공개(`0600`)로 기억되므로 다음 대화에서도 `setup-status`로 바로 재사용할 수 있습니다. `enable`은 `manifest.json`과 생성된 `code.js`에 제어 설정이 아직 없으면 `refresh_required: true`를 반환하고(`--refresh`로 자동 반영), 이미 반영돼 있으면 `refresh_required: false`를 반환해 불필요한 재시작을 만들지 않습니다. `serve`는 Figma Desktop과 같은 컴퓨터에서 유지합니다. `run`과 `status`는 Codex가 사용합니다. relay와 Figma Desktop은 localhost 연결을 사용합니다. 현재 연결 결과를 확인하고 원격 Codex에서는 Desktop 머신에 명령을 전달할 경로를 준비합니다.
 
 ```sh
 "$PY" -B "$PLUGIN_ROOT/tools/figma_control.py" run --workspace "$WORKSPACE" \
@@ -945,6 +947,44 @@ mkdir -m 700 "$REVIEW_PAIR"
 ```
 
 capability는 비공개 폴더에서 생성·재사용되며 공개하지 않습니다. 이 과거 UI 수신기 경로의 성공·거부 영수증을 각각 검토합니다. 수신기가 중단되면 기존 프로젝트가 제공하던 결과 파일을 사용하고 그 파일의 출처를 확인합니다. 현재 Figma Flow viewer에는 수동 저장이나 상세 진단 버튼이 없습니다. 이 전달은 앱 반영 `/sync`와 다른 동작입니다. 기존 등록을 없애기 전에 실제 호환 경로를 대조합니다.
+
+<a id="private-distribution"></a>
+
+## PC 로컬 메트릭 노출과 외부 API 연계 (옵셔널)
+
+기본값에서는 모든 메트릭 수집·노출·외부 전송이 꺼져 있으며(`NullRecorder`), 작업공간 파일이나 네트워크 호출을 추가하지 않습니다. 필요한 PC에서만 비공개 설정 파일(`$WORKSPACE/metrics.json`, 또는 PC 전역 기본값 `~/.config/figma-flow/metrics.json`, 모두 `0600`)로 원하는 소스와 Pull/Push 어댑터를 켜서 사용합니다. 설정 변경은 `figma_control.py serve`가 자동으로 감지하므로 플러그인 재실행이나 서버 재시작이 필요하지 않습니다.
+
+```sh
+# 1. 지원 어댑터 확인
+"$PY" -B "$PLUGIN_ROOT/tools/figma_control.py" metrics list-adapters
+
+# 2. PC/작업공간 설정 초기화 및 활성화 (기본 privacy.scope_labels=strict)
+"$PY" -B "$PLUGIN_ROOT/tools/figma_control.py" metrics init --workspace "$WORKSPACE"
+"$PY" -B "$PLUGIN_ROOT/tools/figma_control.py" metrics enable --workspace "$WORKSPACE"
+
+# 3. Pull 노출 켜기 (/metrics Prometheus, /metrics/json)
+"$PY" -B "$PLUGIN_ROOT/tools/figma_control.py" metrics set-pull --workspace "$WORKSPACE" \
+  --enabled true --auth control-token --format prometheus --format json
+
+# 4. 외부 REST API 또는 StatsD/DogStatsD 싱크 추가 (비밀키는 ${ENV_VAR} 또는 file:/path/to/secret 참조)
+"$PY" -B "$PLUGIN_ROOT/tools/figma_control.py" metrics add-sink --workspace "$WORKSPACE" \
+  --id company-api --type http-json \
+  --url https://metrics.internal.example.com/v1/ingest \
+  --header 'Authorization=Bearer ${FIGMA_FLOW_METRICS_TOKEN}' \
+  --include-source operations --include-source quality
+
+"$PY" -B "$PLUGIN_ROOT/tools/figma_control.py" metrics add-sink --workspace "$WORKSPACE" \
+  --id local-statsd --type statsd-udp --host 127.0.0.1 --port 8125 --prefix figma_flow
+
+# 5. 전송 테스트, 플러시, 헤드리스 진단 및 플러그인 준비 대기 (Computer Use 없이 상태 확인)
+"$PY" -B "$PLUGIN_ROOT/tools/figma_control.py" metrics test --workspace "$WORKSPACE" --sink company-api
+"$PY" -B "$PLUGIN_ROOT/tools/figma_control.py" metrics flush --workspace "$WORKSPACE"
+"$PY" -B "$PLUGIN_ROOT/tools/figma_control.py" metrics doctor --workspace "$WORKSPACE"
+"$PY" -B "$PLUGIN_ROOT/tools/figma_control.py" metrics watch --workspace "$WORKSPACE" --until-ready --interval 2 --count 30
+"$PY" -B "$PLUGIN_ROOT/tools/figma_control.py" metrics snapshot --workspace "$WORKSPACE" --format json
+```
+
+외부 수집기 장애나 타임아웃이 발생해도 Figma 작업(`poll`/`result`)은 차단되지 않으며(Fail-open), `metrics doctor`와 `metrics watch`가 플러그인 온라인 여부(`figma_flow_plugin_online`), 마지막 폴링 경과 시간, 런타임 일치(`figma_flow_plugin_runtime_current`), 미결 불확실 작업 수(`figma_flow_uncertain_operations`)와 싱크 오류를 JSON/NDJSON으로 보고합니다. 상세 계약은 [메트릭 노출 설계서](../specs/metrics-export/spec.md)를 확인하세요.
 
 <a id="private-distribution"></a>
 

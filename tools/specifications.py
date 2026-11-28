@@ -15,6 +15,8 @@ from native_edit import PLAN_SCHEMA
 from native_handoff import normalize
 from specification_contract import NATIVE_SCHEMA, derive_specifications, render_screen_spec, validate_specification, connected_annotation_markdown
 
+MAX_ABS_NUMERIC = 10000
+
 
 def load(path):
     return json.loads(Path(path).read_text())
@@ -60,7 +62,7 @@ def _valid_font(font):
     return (
         isinstance(settings, dict) and len(settings) <= 16
         and all(isinstance(axis, str) and re.fullmatch(r'[A-Za-z0-9]{4}', axis) and isinstance(value, (int, float))
-                and not isinstance(value, bool) and math.isfinite(value) and abs(value) <= 10000
+                and not isinstance(value, bool) and math.isfinite(value) and abs(value) <= MAX_ABS_NUMERIC
                 for axis, value in settings.items())
     )
 

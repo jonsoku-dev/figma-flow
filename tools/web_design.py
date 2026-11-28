@@ -1,6 +1,7 @@
 """Prepare a bounded, pinned Web-to-Figma native design import."""
 
 import argparse
+import schema_ids
 import base64
 import hashlib
 import copy
@@ -20,8 +21,10 @@ import zlib
 SCRIPT_ROOT = Path(__file__).resolve().parents[1] / 'skills/figma-flow/scripts'
 sys.path.insert(0, str(SCRIPT_ROOT))
 from graph import validate_graph as validate_canonical_graph
+import runtime_limits
 
-SCHEMA = 'figma-flow-web-design-v1'
+WL = runtime_limits.WEB_DESIGN
+SCHEMA = schema_ids.ID['webDesign']
 CAROUSEL_TRIGGERS = {'next', 'previous', 'swipe_left', 'swipe_right', 'autoplay'}
 KINDS = {'frame', 'text', 'component', 'image', 'video', 'vector', 'annotation'}
 COLORS = re.compile(r'#[0-9a-fA-F]{6}(?:[0-9a-fA-F]{2})?\Z')
@@ -32,18 +35,18 @@ def _box(box):
         not isinstance(box, dict)
         or set(box) != {'x', 'y', 'width', 'height'}
         or any(type(v) not in (int, float) or not math.isfinite(v) for v in box.values())
-        or abs(box['x']) > 100_000
-        or abs(box['y']) > 100_000
+        or abs(box['x']) > WL['maxAbsPosition']
+        or abs(box['y']) > WL['maxAbsPosition']
         or box['width'] < 0
         or box['height'] < 0
-        or box['width'] > 32768
-        or box['height'] > 32768
+        or box['width'] > WL['maxDimension']
+        or box['height'] > WL['maxDimension']
     ):
         raise ValueError('Finite bounded viewport-relative element bounds required')
 
 
 def validate_svg(svg):
-    if not isinstance(svg, str) or len(svg) > 200_000 or re.search(r'<!|<\?|javascript:', svg, re.I):
+    if not isinstance(svg, str) or len(svg) > WL['maxSvgChars'] or re.search(r'<!|<\?|javascript:', svg, re.I):
         raise ValueError('Bounded standalone SVG required')
     try:
         root = ET.fromstring(svg)
@@ -77,7 +80,7 @@ def validate_svg(svg):
     for node in root.iter():
         tag = node.tag.split('}')[-1]
         count += 1
-        if tag not in allowed or count > 2000 or node.text and node.text.strip():
+        if tag not in allowed or count > WL['maxSvgElements'] or node.text and node.text.strip():
             raise ValueError('Unsupported SVG element or text')
         parent_tag = parents.get(node).tag.split('}')[-1] if parents.get(node) is not None else None
         if tag == 'defs' and parent_tag != 'svg':
@@ -125,7 +128,7 @@ def validate_svg(svg):
             if name in {'fill-rule', 'clip-rule'} and value not in {'evenodd', 'nonzero'}:
                 raise ValueError('SVG fill and clip rules must be evenodd or nonzero')
             if name in {'x1', 'y1', 'x2', 'y2', 'cx', 'cy', 'r', 'fx', 'fy'} and tag in {'linearGradient', 'radialGradient'}:
-                if not re.fullmatch(r'-?(?:\d+(?:\.\d*)?|\.\d+)%?', value) or abs(float(value.rstrip('%'))) > 32768:
+                if not re.fullmatch(r'-?(?:\d+(?:\.\d*)?|\.\d+)%?', value) or abs(float(value.rstrip('%'))) > WL['maxDimension']:
                     raise ValueError('SVG gradient coordinate is outside bounded numeric values')
             if name == 'gradientUnits' and value not in {'objectBoundingBox', 'userSpaceOnUse'}:
                 raise ValueError('Unsupported SVG gradient coordinate system')
@@ -192,7 +195,7 @@ def embed_local_assets(web, max_total=8_000_000):
                     raise ValueError('Media asset hash or file signature is invalid')
                 if asset['sha256'] not in assets:
                     total += len(data)
-                    if len(data) > 8_000_000 or total > max_total:
+                    if len(data) > WL['maxPreviewBytes'] or total > max_total:
                         raise ValueError('Unique embedded assets exceed the 8 MB total limit')
                     assets[asset['sha256']] = base64.b64encode(data).decode('ascii')
                 pins.append({'path': str(path.resolve()), 'sha256': asset['sha256']})
@@ -220,8 +223,8 @@ def validate_graph(graph, require_embedded=False):
     if (
         not isinstance(nodes, list)
         or not isinstance(edges, list)
-        or not 1 <= len(nodes) <= 2000
-        or len(edges) > 4000
+        or not 1 <= len(nodes) <= WL['maxGraphNodes']
+        or len(edges) > WL['maxGraphEdges']
     ):
         raise ValueError('Bounded canonical graph nodes and edges required')
     node_ids = set()
@@ -273,14 +276,14 @@ def validate_graph(graph, require_embedded=False):
                 type(layout.get(k)) not in (int, float)
                 or not math.isfinite(layout[k])
                 or layout[k] <= 0
-                or layout[k] > 32768
+                or layout[k] > WL['maxDimension']
                 for k in ('width', 'height')
             )
         ):
             raise ValueError('Finite bounded actual viewport dimensions required')
         if layout.get('background') is not None and not COLORS.fullmatch(layout['background']):
             raise ValueError('Hex screen background required')
-        if not isinstance(elements, list) or len(elements) > 1500:
+        if not isinstance(elements, list) or len(elements) > WL['maxElements']:
             raise ValueError('Bounded flat screen element list required')
         element_ids = set()
         for e in elements:
@@ -375,7 +378,7 @@ def validate_graph(graph, require_embedded=False):
             if e['kind'] == 'text' and (
                 not isinstance(e.get('text'), dict)
                 or not isinstance(e['text'].get('characters'), str)
-                or len(e['text']['characters']) > 10000
+                or len(e['text']['characters']) > WL['maxTextCharacters']
             ):
                 raise ValueError('Bounded text characters required')
             if e['kind'] in ('image', 'video') and e.get('objectFit', 'cover') not in ('cover', 'contain'):
@@ -447,7 +450,7 @@ def validate_graph(graph, require_embedded=False):
                     if not isinstance(operation, dict) or set(operation) != {'name', 'value'} or operation.get('name') not in names:
                         raise ValueError('CSS color filters need a known operation and numeric value')
                     value = operation.get('value')
-                    if type(value) not in (int, float) or not math.isfinite(value) or abs(value) > 1_000_000:
+                    if type(value) not in (int, float) or not math.isfinite(value) or abs(value) > WL['maxNumericValue']:
                         raise ValueError('CSS color filter value must be finite and bounded')
                     if operation['name'] in {'grayscale', 'sepia', 'invert', 'opacity'} and not 0 <= value <= 1:
                         raise ValueError('CSS amount filter must be between zero and one')
@@ -502,7 +505,7 @@ def validate_graph(graph, require_embedded=False):
                         raise ValueError('Layer blur radius must be between 0 and 100')
                 elif (
                     set(effect) != {'type', 'x', 'y', 'blur', 'spread', 'color'}
-                    or any(type(effect[k]) not in (int, float) or not math.isfinite(effect[k]) or abs(effect[k]) > 1000 for k in ('x', 'y', 'blur', 'spread'))
+                    or any(type(effect[k]) not in (int, float) or not math.isfinite(effect[k]) or abs(effect[k]) > WL['maxEffectOffset'] for k in ('x', 'y', 'blur', 'spread'))
                     or effect['blur'] < 0 or not isinstance(effect['color'], str) or not COLORS.fullmatch(effect['color'])
                 ):
                     raise ValueError('Shadow needs bounded geometry and a literal color')
@@ -635,7 +638,7 @@ def validate_capture_source(source, label):
             or not isinstance(source['title'], str) or not source['title'].strip() or len(source['title']) > 160
             or not isinstance(source['browser'], str) or not source['browser'].strip() or len(source['browser']) > 120
             or not isinstance(source['viewport'], dict) or set(source['viewport']) != {'width', 'height'}
-            or any(type(source['viewport'][key]) is not int or not 1 <= source['viewport'][key] <= 32768 for key in ('width', 'height'))
+            or any(type(source['viewport'][key]) is not int or not 1 <= source['viewport'][key] <= WL['maxDimension'] for key in ('width', 'height'))
             or type(source['dpr']) not in (int, float) or not math.isfinite(source['dpr']) or not 0.1 <= source['dpr'] <= 8
             or not isinstance(source['capturedAt'], str) or len(source['capturedAt']) > 64):
         raise ValueError(label + ' source must pin its page, browser, viewport, DPR, and capture time')
@@ -859,8 +862,8 @@ def validate_carousel(carousel, screens):
     autoplay = carousel['autoplay']
     if (not isinstance(autoplay, dict) or set(autoplay) != {'enabled', 'intervalMs'}
             or type(autoplay['enabled']) is not bool or type(autoplay['intervalMs']) is not int
-            or not 1000 <= autoplay['intervalMs'] <= 60000):
-        raise ValueError('Carousel autoplay interval must be bounded from 1000 to 60000 ms')
+            or not WL['autoplayMinMs'] <= autoplay['intervalMs'] <= WL['autoplayMaxMs']):
+        raise ValueError(f"Carousel autoplay interval must be bounded from {WL['autoplayMinMs']} to {WL['autoplayMaxMs']} ms")
     transitions = carousel['transitions']
     if not isinstance(transitions, list) or not 1 <= len(transitions) <= 80:
         raise ValueError('Carousel transitions must be a bounded explicit edge list')
@@ -959,14 +962,14 @@ def validate_interaction_evidence(graph_path, graph):
         if not candidate.is_file() or not candidate.resolve().is_relative_to(root):
             raise ValueError('Pinned interaction evidence file is missing or outside the graph directory')
         data = candidate.read_bytes()
-        if len(data) > 8_000_000 or not valid_png(data):
+        if len(data) > WL['maxPreviewBytes'] or not valid_png(data):
             raise ValueError('Interaction evidence must be a bounded PNG screenshot')
         if hashlib.sha256(data).hexdigest() != pin['sha256']:
             raise ValueError('Pinned interaction evidence SHA-256 changed')
         if pin['sha256'] not in unique:
             unique[pin['sha256']] = len(data)
             total += len(data)
-            if total > 8_000_000:
+            if total > WL['maxPreviewBytes']:
                 raise ValueError('Unique interaction screenshots exceed the 8 MB evidence limit')
 
 
@@ -990,7 +993,7 @@ def valid_png(data):
                 return False
             width = int.from_bytes(payload[:4], 'big')
             height = int.from_bytes(payload[4:8], 'big')
-            if not 1 <= width <= 32768 or not 1 <= height <= 32768:
+            if not 1 <= width <= WL['maxDimension'] or not 1 <= height <= WL['maxDimension']:
                 return False
         elif chunk_type == b'IHDR':
             return False
@@ -1012,7 +1015,7 @@ def _read_join_inputs(graph_path, observation_path, out_path):
     if any(path.is_symlink() or not path.is_file() for path in (source, observations_file)):
         raise ValueError('Graph and browser observation inputs must be regular local files')
     graph_bytes, observation_bytes = source.read_bytes(), observations_file.read_bytes()
-    if len(graph_bytes) > 12_000_000 or len(observation_bytes) > 4_000_000:
+    if len(graph_bytes) > WL['maxGraphBytes'] or len(observation_bytes) > WL['maxObservationBytes']:
         raise ValueError('Bounded canonical graph and browser observation inputs required')
     graph, observations = decode_json(graph_bytes), decode_json(observation_bytes)
     if not isinstance(graph, dict) or not isinstance(observations, dict):
@@ -1233,7 +1236,7 @@ def build_plan(graph_path, file_key, page_id, out, screen_ids=None, preview_widt
     if source.is_symlink() or not source.is_file():
         raise ValueError('Canonical graph must be a regular local file')
     raw = source.read_bytes()
-    if len(raw) > 12_000_000:
+    if len(raw) > WL['maxGraphBytes']:
         raise ValueError('Bounded source graph required')
     graph = decode_json(raw)
     screens = validate_graph(graph)
@@ -1274,7 +1277,7 @@ def build_plan(graph_path, file_key, page_id, out, screen_ids=None, preview_widt
     if preview_width is not None:
         web['preview_width'] = preview_width
     plan = {
-        'schema': 'figma-flow-native-edit-plan-v1',
+        'schema': schema_ids.ID['nativeEditPlan'],
         'file_key': file_key,
         'page_id': page_id,
         'web_design': web,

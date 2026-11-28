@@ -11,6 +11,7 @@ plan and export. --resolved always names the original reviewed import payload;
 --design names the preceding plan's design.json (equivalent JSON is accepted).
 """
 import argparse
+import schema_ids
 import copy
 from decimal import Decimal
 import hashlib
@@ -60,7 +61,7 @@ def indexed(items, label):
 
 
 def selected(export, page_id, digest, expected):
-    if not isinstance(export, dict) or export.get('format') != 'figma-flow-readback-v1':
+    if not isinstance(export, dict) or export.get('format') != schema_ids.ID['readback']:
         raise ValueError('expected figma-flow-readback-v1 export')
     pages = indexed(export.get('pages'), 'pages')
     variables = indexed(export.get('variables'), 'variables')

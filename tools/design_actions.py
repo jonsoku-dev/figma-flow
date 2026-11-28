@@ -6,6 +6,7 @@ from pathlib import Path
 import sys
 
 import design_directions as directions
+import local_endpoint
 import workflow
 from workflow import State, Event
 
@@ -70,7 +71,7 @@ def main(argv=None):
     prepare_native.add_argument('--layout', type=Path)
     prepare_native.add_argument('--file-key')
     prepare_native.add_argument('--plugin-id')
-    prepare_native.add_argument('--port', type=int, default=49185)
+    prepare_native.add_argument('--port', type=int, default=local_endpoint.DEFAULT_PORTS['draftReview'])
     status = actions.add_parser('status', help='Read-only: workflow state, input freshness and next events of a review')
     status.add_argument('--manifest', type=Path, required=True)
     status.add_argument('--selection', type=Path)

@@ -15,6 +15,7 @@ from uuid import UUID, uuid4
 import figma_control as control
 import figma_workspace as workspace
 from relay_view import INSPECT_FIELDS, MAX_NODES
+import runtime_limits
 
 ROOT = Path(__file__).resolve().parent
 SCHEMA = 'figma-flow-live-follow-v1'
@@ -452,8 +453,9 @@ def main():
     args = parser.parse_args()
     if args.resume_chat and not args.notify_current_chat:
         parser.error('--resume-chat requires --notify-current-chat')
-    if not 1 <= args.read_timeout <= 3600:
-        parser.error('read timeout must be between 1 and 3600 seconds')
+    max_wait = runtime_limits.LIMITS['control']['maxWaitSeconds']
+    if not 1 <= args.read_timeout <= max_wait:
+        parser.error(f'read timeout must be between 1 and {max_wait} seconds')
     try:
         follow(args)
     except (KeyError, OSError, ValueError, TypeError) as exc:

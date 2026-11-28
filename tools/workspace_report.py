@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Build a read-only local evidence report for a signed Figma Flow workspace."""
 import argparse
+import schema_ids
 import json
 from pathlib import Path
 import re
@@ -9,7 +10,7 @@ import sys
 
 import figma_workspace as workspace
 
-HISTORY_SCHEMA = 'figma-flow-viewer-result-v1'
+HISTORY_SCHEMA = schema_ids.ID['viewerResult']
 HISTORY_STATUSES = {'requested', 'running', 'finished', 'failed', 'readback', 'verified', 'baseline'}
 
 
@@ -34,7 +35,7 @@ def validate_history_export(value, file_key, page_id):
             event['executionId'] = row['executionId']
         if row.get('carousel') is not None:
             carousel = row['carousel']
-            if (isinstance(carousel, dict) and carousel.get('schema') == 'figma-flow-carousel-summary-v1'
+            if (isinstance(carousel, dict) and carousel.get('schema') == schema_ids.ID['carouselSummary']
                     and carousel.get('status') in {'current', 'changed'}
                     and isinstance(carousel.get('file_key'), str) and isinstance(carousel.get('page_id'), str)
                     and isinstance(carousel.get('flow_start_node_id'), str)
@@ -112,7 +113,7 @@ def _change_manifest(task, bundle):
     if task['kind'] == 'sync':
         manifest = _embedded_json(source, 'GRAPH_SELECTION_MANIFEST')
         plan = _embedded_json(source, 'GRAPH_SYNC_PLAN')
-        if (not isinstance(manifest, dict) or manifest.get('schema') != 'figma-flow-selection-v2'
+        if (not isinstance(manifest, dict) or manifest.get('schema') != schema_ids.ID['selectionV2']
                 or not re.fullmatch(r'[a-f0-9]{64}', str(manifest.get('plan_sha256', '')))
                 or not isinstance(manifest.get('changes'), list)):
             return {'available': False, 'reason': 'No pinned protocol-2 selection manifest is embedded in this sync bundle'}
@@ -148,7 +149,7 @@ def _change_manifest(task, bundle):
                 'group': edit.get('group') or edit.get('group_id'), 'kind': 'native-edit', 'field': field,
                 'targets': [target] if isinstance(target, str) else [],
                 'before': edit.get('before'), 'after': edit.get('after')})
-        return {'available': True, 'schema': 'figma-flow-native-edit-plan-v1', 'protocol': None,
+        return {'available': True, 'schema': schema_ids.ID['nativeEditPlan'], 'protocol': None,
             'plan_sha256': plan_sha, 'changes': changes, 'selected_ids': [], 'partialApplyAvailable': False,
             'reason': 'native-edit-uses-full-plan-apply; protocol-2-partial-selection-is-not-supported'}
     return {'available': False, 'reason': 'Selection manifests are available only for sync and native-edit tasks'}

@@ -21,9 +21,11 @@ from workflow import Event
 from figma_sync_session import SyncSession
 from serve_ideas import snapshot_app
 from figma_live_preview import start_preview, update_preview
+import local_endpoint
+import private_io
 
 MAX_BODY = 2_000_000
-ORIGINS = {'null', 'https://www.figma.com', 'https://figma.com'}
+ORIGINS = local_endpoint.FIGMA_ORIGINS
 
 
 class SyncHandler(BaseHTTPRequestHandler):
@@ -32,7 +34,7 @@ class SyncHandler(BaseHTTPRequestHandler):
 
     def setup(self):
         super().setup()
-        self.connection.settimeout(10)
+        self.connection.settimeout(local_endpoint.timeout_seconds('localServerRead'))
 
     def reply(self, status, payload):
         body = json.dumps(payload, ensure_ascii=False, allow_nan=False).encode()
@@ -137,7 +139,7 @@ def run(project, resolved, page_id, file_key, plugin_id, state_dir, prior_sync=N
             running = json.loads(registry.read_text()) if registry.exists() else None
             if not running or running.get('identity') != expected:
                 raise ValueError('A different helper already owns this private directory.')
-            print(f"이미 실행 중입니다. 비교 화면: http://localhost:{running['preview_port']}/", flush=True)
+            print(f"이미 실행 중입니다. 비교 화면: {local_endpoint.origin(running['preview_port'])}/", flush=True)
             return
         saved = json.loads(registry.read_text()) if registry.exists() else None
         if saved is not None and saved['identity'] != expected:
@@ -150,18 +152,15 @@ def run(project, resolved, page_id, file_key, plugin_id, state_dir, prior_sync=N
         if last is not None:
             readback, previous_result = last
             update_preview(preview, readback, page_id, previous_result)
-        http = stack.enter_context(ThreadingHTTPServer(('127.0.0.1', saved['sync_port'] if saved else 0), SyncHandler))
-        http.host = f'localhost:{http.server_port}'
-        http.preview_url = f'http://localhost:{preview.server_port}/'
+        http = stack.enter_context(ThreadingHTTPServer((local_endpoint.BIND_HOST, saved['sync_port'] if saved else 0), SyncHandler))
+        http.host = local_endpoint.host_header(http.server_port)
+        http.preview_url = local_endpoint.origin(preview.server_port) + '/'
         token = saved['token'] if saved else secrets.token_hex(32)
         config = {'url': f'http://{http.host}/sync', 'preview_url': http.preview_url,
                   'file_key': file_key, 'page_id': page_id, 'token': token}
         if saved is None:
             connection = dict(identity=expected, sync_port=http.server_port, preview_port=preview.server_port, token=token)
-            temporary = registry.with_suffix('.tmp')
-            temporary.write_text(json.dumps(connection)+'\n')
-            os.chmod(temporary, 0o600)
-            os.replace(temporary, registry)
+            private_io.atomic_write(registry, (json.dumps(connection) + '\n').encode('utf-8'))
         plugin = state_dir / 'plugin'
         # Compare a fresh compile on resume; never silently replace a registered plugin someone edited.
         with tempfile.TemporaryDirectory(dir=state_dir) as temp:

@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Reconcile the declared Figma panel Graph with the submitted source snapshot."""
 import argparse
+import schema_ids
 from collections import Counter
 from hashlib import sha256
 import json
@@ -115,7 +116,7 @@ def observe(root, graph, policy, *, checkout=None):
     if process.returncode != 0:
         raise ValueError(f'Extract the observed panel Graph: {process.stderr.strip()}')
     report = decode_json(process.stdout)
-    if report.get('schema') != 'figma-flow-observed-panel-v1' or not report.get('sourceFingerprint'):
+    if report.get('schema') != schema_ids.ID['observedPanel'] or not report.get('sourceFingerprint'):
         raise ValueError('The panel observer did not produce current source evidence')
     expected = {
         path.relative_to(checkout).as_posix() for path in (checkout / SOURCE).rglob('*')

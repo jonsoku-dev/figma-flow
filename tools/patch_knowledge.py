@@ -11,6 +11,8 @@ import sys
 import tempfile
 from urllib.parse import urlsplit
 
+import local_endpoint
+
 SCHEMA = "figma-flow-patch-catalog-v1"
 SECTIONS = ("문제와 계기", "결과 동작", "변경 파일과 인터페이스", "설계 이유와 출처",
             "호환성·이관·복구", "검증과 미검증", "한계와 후속 개선", "관련 기록")
@@ -47,7 +49,7 @@ def sanitize_remote(raw):
         if not m: return "[redacted-private-or-local-remote]"
         host,path=m.group(1).lower(),m.group(2).strip("/")
     path=re.sub(r"\.git$","",path)
-    if host in ("localhost", "127.0.0.1", "::1") or host.endswith((".local", ".internal")) or path.startswith(("Users/", "home/", "private/")):
+    if host in local_endpoint.LOOPBACK_HOSTS or host.endswith((".local", ".internal")) or path.startswith(("Users/", "home/", "private/")):
         return "[redacted-private-or-local-remote]"
     return f"{host}/{path}.git"
 

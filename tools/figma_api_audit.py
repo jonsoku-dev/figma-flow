@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Build a per-member, evidence-separated audit of the pinned Plugin API inventory."""
 import argparse
+import schema_ids
 import hashlib
 import importlib.util
 import io
@@ -11,6 +12,8 @@ import subprocess
 import sys
 import tarfile
 import tempfile
+
+import runtime_limits
 
 ROOT = Path(__file__).resolve().parents[1]
 AUDIT = ROOT / 'library' / 'figma-api' / 'audit'
@@ -428,7 +431,7 @@ def assemble(candidate_ref, baseline_ref, typescript):
     introduced_catalog_blob = git('rev-parse', API_INVENTORY_REF + ':library/figma-api/index.json').strip()
     if catalog_blob != introduced_catalog_blob:
         raise ValueError('Candidate catalog differs from the pinned inventory-introduction commit')
-    if len(api_index.get('members', [])) != 1382:
+    if len(api_index.get('members', [])) != runtime_limits.LIMITS['nativeApi']['pinnedMemberCount']:
         raise ValueError('Pinned candidate API catalog no longer has 1,382 rows; review the audit scope')
     member_identities = [(row['owner'], row['name'], row['signature']) for row in api_index['members']]
     if len(set(member_identities)) != len(member_identities):
@@ -599,7 +602,7 @@ def assemble(candidate_ref, baseline_ref, typescript):
     status_changes = sum(row['release_status']['baseline']['status'] != row['release_status']['candidate']['status']
                          for row in verified_pairs)
     dataset = {
-        'schema': 'figma-flow-plugin-api-member-audit-v1',
+        'schema': schema_ids.ID['pluginApiMemberAudit'],
         'evidence_policy': {
             'statuses': list(MEMBER_STATUSES),
             'disjoint_status_totals': True,

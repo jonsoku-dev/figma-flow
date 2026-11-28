@@ -14,6 +14,7 @@ from pathlib import Path
 TOOLS = Path(__file__).resolve().parent
 if str(TOOLS) not in sys.path:
     sys.path.insert(0, str(TOOLS))
+import schema_ids
 from report_appearance import graphic, report_css
 from figma_bridge import (
     CANONICAL_COMPONENT_FAMILIES, FAMILY_CONTRACT,
@@ -943,7 +944,7 @@ def compile_graph_component_families(
             instances_out.append(inst_entry)
 
     return {
-        "schema": "figma-flow-semantic-family-contract-v1",
+        "schema": schema_ids.ID['semanticFamilyContract'],
         "version": 1,
         "mode": "additive-family-workbench",
         "ownerKey": owner_key,

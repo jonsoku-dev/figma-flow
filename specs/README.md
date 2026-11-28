@@ -22,6 +22,7 @@ Canonical feature graph roots are listed in [graph-roots.json](graph-roots.json)
 | [Workspace Activity](workspace-activity/spec.md) | `REQ-ACTIVITY-01`–`REQ-ACTIVITY-04` | `AC-ACTIVITY-01`–`AC-ACTIVITY-06` | Execution-linked history and the earlier native activity screen. The current registered viewer reports status and Codex presents the history. |
 | [Startup Freshness and Safe Update](startup-freshness/spec.md) | `REQ-UPDATE-01`–`REQ-UPDATE-06` | `AC-UPDATE-01`–`AC-UPDATE-08` | Loaded-runtime identity and explicit revision-checked retirement are covered separately from package installation/update/recovery. See executed verification. |
 | [Live Design change sync](live-change-sync/spec.md) | `REQ-LIVE-01`–`REQ-LIVE-05` | `AC-LIVE-01`–`AC-LIVE-08` | Source contract and one private event/queue observation are recorded. Figma actor attribution and continuous delivery guarantees remain unavailable. |
+| [Optional Metrics and Headless Observability](metrics-export/spec.md) | `REQ-METRIC-01`–`REQ-METRIC-05` | `AC-METRIC-01`–`AC-METRIC-06` | Adapter-first PC-local Pull/Push export and headless diagnostics; disabled by default (`NullRecorder`). |
 
 The graphs follow the repository’s [evidence graph contract](../skills/figma-flow/references/graph-contract.md). The supplied request is the source for observed requirement nodes. No implementation, local test, browser, or Figma result is asserted by registration alone.
 

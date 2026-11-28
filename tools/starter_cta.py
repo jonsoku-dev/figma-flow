@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Prepare a page-scoped, idempotent Little Hands booking CTA provision plan."""
 import argparse
+import schema_ids
 import hashlib
 import json
 from pathlib import Path
@@ -15,7 +16,7 @@ from native_appearance import appearance
 
 STARTER = appearance('starterCta')
 ROOT_KEY = STARTER['frameKey']
-PLAN_KIND = 'figma-flow-starter-cta-provision-v1'
+PLAN_KIND = schema_ids.ID['starterCtaProvision']
 SEED_COLLECTION = STARTER['seedCollection']
 SEED_VARIABLE = STARTER['seedVariable']
 INSTANCE_KEYS = tuple(STARTER['instanceKeys'])
@@ -52,7 +53,7 @@ def prepare(graph_path, readback_path, file_key, page_id, out):
 
     raw = Path(readback_path).read_bytes()
     readback = json.loads(raw)
-    if (readback.get('schema') != 'figma-flow-graph-native-discovery-v1' or readback.get('fileKey') != file_key
+    if (readback.get('schema') != schema_ids.ID['graphNativeDiscovery'] or readback.get('fileKey') != file_key
             or readback.get('pageId') != page_id or readback.get('allowed_page_ids') != [page_id]):
         raise ValueError('Full native discovery must match the exact file and existing page')
     nodes, parents = normalize(readback)

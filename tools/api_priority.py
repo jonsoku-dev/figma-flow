@@ -13,6 +13,7 @@ from figma_api_inventory import inherited_members, load as load_catalog
 
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUT_SCHEMA = 'figma-flow-api-priority-v1'
+MAX_CLI_LIMIT = 10000
 
 ROLE_TERMS = {
     'designer': ('fill', 'stroke', 'color', 'font', 'text', 'layout', 'node', 'component', 'style', 'effect', 'export', 'geometry', 'paint', 'vector', 'corner', 'constraint', 'opacity', 'rotation', 'width', 'height'),
@@ -473,8 +474,8 @@ def main(argv=None):
                           'sha256': result['sha256']}))
     else:
         limit = args.limit if args.limit is not None else (None if args.format == 'graph' else 50)
-        if limit is not None and (limit < 1 or limit > 10000):
-            parser.error('--limit must be between 1 and 10000')
+        if limit is not None and (limit < 1 or limit > MAX_CLI_LIMIT):
+            parser.error(f'--limit must be between 1 and {MAX_CLI_LIMIT}')
         payload = json.loads(args.inventory.read_text())
         if payload.get('schema') != OUTPUT_SCHEMA:
             parser.error('Unsupported API priority inventory schema')

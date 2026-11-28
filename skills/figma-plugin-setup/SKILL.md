@@ -22,6 +22,8 @@ Figma Flow의 **Codex 설치**, 한 번 등록하는 고정 workspace와 수동 
 
 ## 1. 현재 상태 확인
 
+가장 먼저 작업공간 경로를 사용자에게 다시 묻거나 초기 등록을 안내하기 전에 `python3 -B tools/figma_control.py setup-status`를 실행해 이 PC에 이미 등록된 작업공간(`workspaces.json`)과 서버·플러그인·프로필 상태를 확인한다. `already_configured: true`이면 **새 플러그인 생성, `init`, `manifest.json` 재등록, `enable`을 다시 요구하지 말고** `next_action`에 나온 단일 단계(`start-serve`, `reopen-plugin`, `confirm-profile`)만 수행한다. `ready_for_work: true`이면 설정 안내 없이 바로 요청된 작업으로 진행한다.
+
 매 사용의 첫 단계는 실제 설치본의 `tools/plugin_startup.py ensure`다. Figma 접근이 허용된 요청에만 `--figma-access allowed --workspace DIR`을 전달한다. 텍스트 전용·접근 금지에서는 `--figma-access forbidden`으로 Codex/출처 점검만 하고 Figma 파일 갱신·접속·재로드를 실행하지 않는다. 자동 업데이트와 예외는 [통합 가이드](../../docs/guide.md#automatic-startup)를 따른다. 점검만 필요한 개발·검토는 `check`를 사용한다. 변경된 원본·고정된 버전·실행 중 요청·불명확한 복제본 출처를 임의로 덮어쓰지 않는다.
 
 1. 원본 루트, `git status`, 태그/커밋, 두 plugin manifest 버전, 마켓플레이스 JSON을 읽는다. 현재 CLI의 plugin/marketplace `--help`, `list --json`으로 실제 지원 문법과 설치 소스를 확인한다. 다른 작업이 있는 클론은 보존하고 새 전용 클론에서 진행한다.

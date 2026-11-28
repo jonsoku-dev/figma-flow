@@ -11,6 +11,8 @@ from pathlib import Path
 import tempfile
 from urllib.parse import urlsplit
 
+import local_endpoint
+
 
 def escape(value):
     return html.escape(str(value), quote=True)
@@ -18,7 +20,7 @@ def escape(value):
 
 def location(url):
     parts = urlsplit(url)
-    if parts.scheme not in {'http', 'https'} or parts.hostname not in {'localhost', '127.0.0.1', '::1'}:
+    if parts.scheme not in {'http', 'https'} or parts.hostname not in local_endpoint.LOOPBACK_HOSTS:
         raise ValueError('Expected a local screen URL.')
     return (parts.scheme, parts.netloc), (parts.path or '/', parts.query, parts.fragment)
 

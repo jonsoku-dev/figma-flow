@@ -10,6 +10,7 @@ from urllib.parse import unquote, urlsplit
 
 from design_system import compile_design
 from serve_ideas import snapshot_app
+import local_endpoint
 
 METRIC_PROPERTIES = {
     'padding': [('padding-' + side, 'padding' + side.title()) for side in ('top', 'right', 'bottom', 'left')],
@@ -228,11 +229,11 @@ class PreviewHandler(BaseHTTPRequestHandler):
 def start_preview(project, port=0):
     project = Path(project).absolute()
     files = snapshot_app(project)
-    server = ThreadingHTTPServer(('127.0.0.1', port), PreviewHandler)
+    server = ThreadingHTTPServer((local_endpoint.BIND_HOST, port), PreviewHandler)
     server.daemon_threads = True
     server.project = project
-    server.host = '127.0.0.1:' + str(server.server_port)
-    server.preview_hosts = {server.host, 'localhost:' + str(server.server_port)}
+    server.host = local_endpoint.bind_header(server.server_port)
+    server.preview_hosts = local_endpoint.accepted_host_headers(server.server_port)
     server.preview_epoch = secrets.token_hex(16)
     server.preview_lock = threading.Lock()
     server.preview_files = files

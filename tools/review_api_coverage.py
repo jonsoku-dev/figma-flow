@@ -17,6 +17,8 @@ PUBLIC_OBSERVATION_OVERLAYS = (
     ROOT / 'specs/design-inspection/value-observations.json',
 )
 RECEIPT_SHA256 = re.compile(r'[a-f0-9]{64}\Z')
+MAX_OBSERVATION_NODES = 10000
+MAX_OBSERVATION_EDGES = 100000
 
 
 def _valid_observation_time(value):
@@ -34,7 +36,7 @@ def _validate_graph_shape(observations):
             or not isinstance(observations.get('id'), str) or not observations['id'].strip()
             or not isinstance(observations.get('nodes'), list)
             or not isinstance(observations.get('edges'), list)
-            or len(observations['nodes']) > 10000 or len(observations['edges']) > 100000):
+            or len(observations['nodes']) > MAX_OBSERVATION_NODES or len(observations['edges']) > MAX_OBSERVATION_EDGES):
         raise ValueError('Invalid API observation graph envelope')
     by_id = {}
     for node in observations['nodes']:

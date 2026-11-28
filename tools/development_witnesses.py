@@ -1,5 +1,6 @@
 """Index historical release witnesses as development candidates without executing them."""
 from collections import defaultdict
+import schema_ids
 from collections.abc import Mapping
 from hashlib import sha256
 import re
@@ -10,7 +11,7 @@ from release_ownership import pointer_parts, relative
 
 
 REVIEW_PREFIX = 'release/reviews/'
-REVIEW_SCHEMA = 'figma-flow-major-review-v1'
+REVIEW_SCHEMA = schema_ids.ID['majorReview']
 WITNESS_SCHEMAS = {None, 'figma-flow-major-witness-v1', 'figma-flow-major-review-witness-v1'}
 INPUT_ERRORS = (OSError, ValueError, TypeError, KeyError, IndexError, subprocess.SubprocessError)
 

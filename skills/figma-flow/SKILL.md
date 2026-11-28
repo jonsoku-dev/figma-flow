@@ -25,13 +25,15 @@ Figma Flow 자체를 수정할 때는 [패치 기록과 근거 기반 개선](..
 
 ## Figma 작업공간 기본 경로
 
-Figma가 작업 목적지이면 하나의 등록된 **Figma Flow 작업공간**을 기본으로 사용한다. [설치·작업 목록 가이드](../../docs/guide.md)를 읽고 기존 workspace manifest·실제 Figma 발급 ID·등록 경로를 먼저 확인한다. 최초 연결·업데이트가 필요하면 `figma-plugin-setup`으로 이어간다. 명시적 Local HTML only 요청은 해당 로컬 경로를 유지한다.
+Figma가 작업 목적지이면 하나의 등록된 **Figma Flow 작업공간**을 기본으로 사용한다. 새 채팅이나 재개 시 사용자에게 작업공간 등록·설정을 다시 요구하기 전에 먼저 `python3 -B tools/figma_control.py setup-status`를 실행해 이 PC에 기억된 작업공간과 현재 연결·프로필 상태를 확인한다. `already_configured: true`이면 초기 등록·`init`·`enable`을 반복하지 않고 `next_action`에 해당하는 최소 복구(`start-serve`, `reopen-plugin`, `confirm-profile`)만 안내하거나 수행하며, `ready_for_work: true`이면 즉시 작업한다. [설치·작업 목록 가이드](../../docs/guide.md)를 읽고 기존 workspace manifest·실제 Figma 발급 ID·등록 경로를 먼저 확인한다. 최초 연결·업데이트가 필요하면 `figma-plugin-setup`으로 이어간다. 명시적 Local HTML only 요청은 해당 로컬 경로를 유지한다.
 
 Codex에서 레이어를 지정해 보거나 치수와 연결 정보를 요청하면 현재 파일·페이지의 서명된 discover 작업으로 `select-node`, `selection-info`를 실행한다. 텍스트 첨부는 명시적 요청에서만 `--include-text`를 사용한다. 과거 기기 이력은 `viewer-history`, 패널 언어는 `viewer-language`, 서버 작업 이력은 `figma_workspace.py activity`와 `history-detail`로 조회한다. 전체 경로와 Figma에서 직접 수행할 단계는 [기능 대조표](../../specs/codex-relay/parity-inventory.json)를 따른다.
 
 기본은 사용자가 대상 파일에서 Figma Flow를 실행 세션마다 한 번 직접 실행한 뒤 Codex가 로컬 제어를 사용하는 흐름이다. Codex는 `figma_control.py context`와 `profile get`으로 실제 세션 문맥과 사용자 선언을 읽는다. 플랜·좌석을 확인할 수 없으면 `unknown`으로 둔다. 선언 변경은 `profile set --expected-context`로 고정한다. `enable`, workspace `refresh`, `serve`를 구성한 뒤 `run`은 실제 작업 키·operation·file/page·현재 revision을 고정하고 반환된 readback을 기존 검사기로 확인한다. 패널은 파일·페이지·선택·연결·실행·마지막 결과만 표시한다. 패널에 대화, 프로필, 승인, 작업 버튼은 없다. 앱 시작·숨은 백그라운드 실행·임의 원격 코드 평가를 제공하지 않는다. prepare/refresh 뒤 실제 실행 revision이 이전이면 같은 플러그인을 다시 열며 환경별 자동 재로드를 단정하지 않는다.
 
 요청·사용자 승인·후보 선택은 현재 Codex 대화에서 받는다. Codex가 문맥 조회와 task preparation·실행·readback 검증을 수행하고 결과를 대화에 보고한다. 실제 native/web readback, 해시·페이지·소비자 검증은 그대로 수행한다. 새 작업을 위해 새 Figma ID나 등록 폴더를 반복 요구하지 않는다. 불확실한 쓰기는 자동 재시도하지 않고 `status`와 실제 읽기를 먼저 확인한다. 다른 ID로 작성한 페이지의 private plugin data는 현재 ID에서 읽을 수 없으므로 기존 ID·패키지를 보존하고 명시적인 이관 범위를 확인한다.
+
+Computer Use가 없는 환경에서는 `figma_control.py metrics doctor --workspace 실제_작업공간`과 `metrics watch --workspace 실제_작업공간 --until-ready`로 플러그인 연결·런타임 세대 일치·불확실 작업 차단 여부를 비대화형 JSON/NDJSON으로 확인하고 대기한다. 외부 수집기(Prometheus, OTLP, StatsD/DogStatsD, 사내 HTTP API, 회전 JSONL) 연계는 선택 사항이며 PC별 `WORKSPACE/metrics.json`(또는 `~/.config/figma-flow/metrics.json`)에서 `metrics init`·`add-sink`·`test`·`flush`로 설정한다. [메트릭 노출 계약](../../specs/metrics-export/spec.md)
 
 ## 첨부한 분석 자료 사용
 

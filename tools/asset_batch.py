@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Freeze a game asset role inventory and exact shared image-generation context before production."""
 import argparse
+import schema_ids
 import hashlib
 import json
 from io import BytesIO
@@ -97,7 +98,7 @@ def freeze(concept, references, roles, out, *, batch_id, game_id, concept_id, ve
     if profile == 'game-campaign' and not sheets:
         raise ValueError('Game production requires locked visual references')
     prospective = {
-        'schema': 'figma-flow-asset-batch-v1', 'batch_id': batch_id, 'game_id': game_id,
+        'schema': schema_ids.ID['assetBatch'], 'batch_id': batch_id, 'game_id': game_id,
         'concept': {'id': concept_id, 'version': version, 'path': str(concept.absolute()), 'sha256': hashlib.sha256(raw).hexdigest()},
         'references': [{'path': str(path.absolute()), 'sha256': hashlib.sha256(content).hexdigest()} for path, content in sheets],
         'roles': planned, 'design_selection': selection_pin}
@@ -111,7 +112,7 @@ def freeze(concept, references, roles, out, *, batch_id, game_id, concept_id, ve
         name = f'reference-{index:02d}{suffix}'
         (out / name).write_bytes(content)
         refs.append({'path': name, 'sha256': hashlib.sha256(content).hexdigest()})
-    batch = {'schema': 'figma-flow-asset-batch-v1', 'batch_id': batch_id, 'game_id': game_id,
+    batch = {'schema': schema_ids.ID['assetBatch'], 'batch_id': batch_id, 'game_id': game_id,
              'concept': {'id': concept_id, 'version': version, 'path': concept_name, 'sha256': hashlib.sha256(raw).hexdigest()},
              'references': refs, 'roles': planned, 'design_selection': selection_pin, 'workflow_state': admission['state']}
     encoded = (json.dumps(batch, ensure_ascii=False, indent=2) + '\n').encode()

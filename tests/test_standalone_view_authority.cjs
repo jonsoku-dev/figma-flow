@@ -18,7 +18,7 @@ test('standalone Design views apply graph-owned CSS and input limits to actual b
     edit(data);fs.writeFileSync(dest,JSON.stringify(data));
   };
   try {
-    for(const name of ['tools/plugin_panel.py','tools/panel_components.py','tools/relay_limits.py','plugin.json','figma-bridge','library/panel-design','library/figma-profile','panel-ui/src'])copy(name);
+    for(const name of ['tools/plugin_panel.py','tools/panel_artifacts.py','tools/maintenance-contract.json','tools/panel_components.py','tools/relay_limits.py','plugin.json','figma-bridge','library/panel-design','library/figma-profile','panel-ui/src'])copy(name);
     change('figma-bridge/standalone-views.json',g=>{
       g.views.import.values.miniPagesWidth='56px';
       g.views.graph.values.swatchHeight='49px';

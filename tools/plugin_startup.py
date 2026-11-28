@@ -2,6 +2,7 @@
 """Check each workflow's package and native files; apply only proven safe updates."""
 import argparse
 from contextlib import nullcontext
+import http.client
 import io
 import json
 import os
@@ -32,6 +33,8 @@ if __name__ == '__main__':
     cli_options = parse_options()
 
 import figma_workspace as workspace
+import local_endpoint
+import runtime_limits
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -58,7 +61,7 @@ def authority(value):
             parsed.password or parsed.query or parsed.fragment or
             (parsed.scheme == 'https' and parsed.username) or
             (parsed.username and not re.fullmatch(r'[A-Za-z0-9._-]+', parsed.username)) or
-            (port is not None and not 1 <= port <= 65535) or
+            (port is not None and port not in runtime_limits.TCP_PORTS) or
             not parsed.path.startswith('/') or '..' in parsed.path.split('/')):
         raise ExceptionStatus('unknown-source')
     host = parsed.hostname.lower() + (':' + str(port) if port is not None else '')
@@ -371,7 +374,27 @@ class HostAdapter:
                 workspace.task_artifacts(root, row)
             expected_runtime = workspace.runtime_info(catalogue)
             if catalogue.get('runtime') == expected_runtime and all(row.get('generator_sha256') == expected_runtime['implementation'] for row in catalogue['tasks']):
-                return {'status':'files-current', 'loaded':'unverified', 'action':'Reopen the SAME registered Figma Flow plugin to verify its loaded runtime.'}
+                live = self._probe_live_runtime(root)
+                if live is None:
+                    return {
+                        'status': 'files-current',
+                        'loaded': 'unverified',
+                        'server_online': False,
+                        'action': 'Start local control serve if needed; do not re-register the existing workspace manifest.',
+                    }
+                if live.get('native_status') == 'current-self-reported' and live.get('observed_native') == expected_runtime:
+                    return {
+                        'status': 'files-current',
+                        'loaded': 'current-self-reported',
+                        'server_online': True,
+                        'action': None,
+                    }
+                return {
+                    'status': 'files-current',
+                    'loaded': 'unverified',
+                    'server_online': True,
+                    'action': 'Reopen the SAME registered Figma Flow plugin to verify its loaded runtime.',
+                }
         if not apply:
             return {'status':'update-available', 'loaded':'unverified'}
         batch = workspace.replay_batch(path, catalogue, expected_runtime['implementation'])
@@ -379,6 +402,10 @@ class HostAdapter:
             'replayed_tasks':batch['replayed'],
             'action':'Reopen the SAME registered Figma Flow plugin; files do not prove the loaded runtime.'}
 
+    @staticmethod
+    def _probe_live_runtime(root):
+        """Read-only probe of the local control server's readiness endpoint."""
+        return local_endpoint.probe_workspace(root)
 
 def ensure(adapter, *, apply=True, figma_access='forbidden', workspace_path=None, source=None, pin=None):
     result = {'schema':SCHEMA, 'mode':'ensure' if apply else 'check', 'codex':{},

@@ -18,6 +18,7 @@ sys.path.insert(0, str(REPO / 'skills/figma-flow/scripts'))
 sys.path.insert(0, str(REPO / 'tools'))
 from graph_document import decode_json
 from graph import validate_graph  # noqa: E402
+import local_endpoint  # noqa: E402
 import review_graph  # noqa: E402
 
 DEFAULT_ROOT = REPO / 'examples/owned-production-workspace'
@@ -43,7 +44,7 @@ AUTHORITY = re.compile(r'(?<![/\\])//(?=[^\s\\])')
 SCHEME_BEFORE = re.compile(r'([A-Za-z][A-Za-z0-9+.-]*):\Z')
 URL_END = re.compile(r'[\s"\'<>()`\\]')
 SVG_NAMESPACE = 'http://www.w3.org/2000/svg'
-LOOPBACK_HOSTS = {'127.0.0.1', 'localhost'}
+LOOPBACK_HOSTS = frozenset(local_endpoint.IPV4_LOOPBACK_HOSTS)
 NETWORK_FETCH = re.compile(r'(?i)(?:src|href|action)\s*=\s*["\']?//|url\(|@import|@font-face')
 SENSITIVE = {
     'email address': re.compile(r'[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+\.[A-Za-z0-9.-]+'),
@@ -457,8 +458,8 @@ def make_handler(root, entries, access_log=None):
     return Handler
 
 
-def make_server(root=DEFAULT_ROOT, host='127.0.0.1', port=8893, access_log=None):
-    if host not in ('127.0.0.1', 'localhost'):
+def make_server(root=DEFAULT_ROOT, host=local_endpoint.BIND_HOST, port=local_endpoint.DEFAULT_PORTS['ownedWorkspace'], access_log=None):
+    if host not in LOOPBACK_HOSTS:
         raise WorkspaceError(['serve binds to loopback only (127.0.0.1 or localhost)'])
     if access_log is not None and not _outside(root, access_log):
         raise WorkspaceError(['the access log must be written outside the public fixture'])
@@ -474,8 +475,8 @@ def main(argv=None):
     check.add_argument('--receipt', type=Path, help='New private receipt path outside the fixture.')
     serve = commands.add_parser('serve', help='Serve approved files on loopback after verify passes.')
     serve.add_argument('--root', type=Path, default=DEFAULT_ROOT)
-    serve.add_argument('--host', default='127.0.0.1')
-    serve.add_argument('--port', type=int, default=8893)
+    serve.add_argument('--host', default=local_endpoint.BIND_HOST)
+    serve.add_argument('--port', type=int, default=local_endpoint.DEFAULT_PORTS['ownedWorkspace'])
     serve.add_argument('--access-log', type=Path, help='Private JSONL of served paths, statuses, and digests.')
     args = parser.parse_args(argv)
     try:

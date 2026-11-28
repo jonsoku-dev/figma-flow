@@ -11,18 +11,20 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'tools'))
+import schema_ids
 from figma_api_inventory import inherited_members, load as load_catalog
 import api_priority
+import runtime_limits
 
 AUDIT_PATH = ROOT / 'library' / 'figma-api' / 'audit' / 'members.json'
 AUDIT_CANDIDATE_RELEASE = '0.28.0'
 SELECTION_SCHEMA = 'figma-flow-native-api-probe-selection-v1'
-READBACK_SCHEMA = 'figma-flow-graph-native-discovery-v1'
-CONFIG_SCHEMA = 'figma-flow-native-api-probe-config-v1'
+READBACK_SCHEMA = schema_ids.ID['graphNativeDiscovery']
+CONFIG_SCHEMA = schema_ids.ID['nativeApiProbeConfig']
 MAX_TARGETS = 24
 MAX_CANDIDATES_PER_TYPE = 16
 MAX_ELIGIBLE_PER_TYPE = 64
-AUDIT_MEMBER_COUNT = 1382
+AUDIT_MEMBER_COUNT = runtime_limits.LIMITS['nativeApi']['pinnedMemberCount']
 MAX_GETTERS = MAX_TARGETS * MAX_CANDIDATES_PER_TYPE
 MAX_ELAPSED_MS = 3000
 MAX_ANCESTORS = 32
@@ -230,7 +232,7 @@ SAFE_METHODS = {
 def _audit_rows(catalog, audit):
     source = catalog['source']
     candidate = audit.get('comparison', {}).get('candidate', {})
-    if (audit.get('schema') != 'figma-flow-plugin-api-member-audit-v1'
+    if (audit.get('schema') != schema_ids.ID['pluginApiMemberAudit']
             or len(audit.get('members', [])) != AUDIT_MEMBER_COUNT
             or audit.get('counts', {}).get('members') != AUDIT_MEMBER_COUNT
             or candidate.get('api_catalog_member_count') != AUDIT_MEMBER_COUNT
@@ -348,7 +350,7 @@ def _previous_statuses(previous, file_key, page_id, selected):
             or not _readback_timestamp(previous.get('observed_at'))):
         return None
     probe = previous.get('api_probe')
-    if not isinstance(probe, dict) or probe.get('schema') != 'figma-flow-native-api-probe-v1':
+    if not isinstance(probe, dict) or probe.get('schema') != schema_ids.ID['nativeApiProbe']:
         return None
     selected_keys = {(row['semantic_id'], row['observed_node_id']) for row in selected}
     result = {}
@@ -544,7 +546,7 @@ def normalize_selection(selection, *, file_key, page_id, catalog=None, audit=Non
     if config['previous'] is not None:
         result['previous_readback'] = {'schema': READBACK_SCHEMA, 'fileKey': file_key, 'pageId': page_id,
             'observed_at': config['previous']['observed_at'],
-            'api_probe': {'schema': 'figma-flow-native-api-probe-v1',
+            'api_probe': {'schema': schema_ids.ID['nativeApiProbe'],
                 'auditRelease': config['previous']['auditRelease'], 'apiSource': config['previous']['apiSource'],
                 'auditSha256': config['previous']['auditSha256'],
                 'fieldPolicySha256': config['previous']['fieldPolicySha256'],

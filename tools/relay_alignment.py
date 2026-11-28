@@ -10,6 +10,7 @@ from threading import Thread
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'tools'))
+import local_endpoint
 from plugin_panel import render_app
 
 
@@ -84,13 +85,13 @@ def main():
     document = document.replace('</head>', '<meta http-equiv="Content-Security-Policy" content="default-src \'self\'; script-src \'unsafe-inline\'; style-src \'unsafe-inline\'; img-src data:; font-src data:\">\n</head>')
     document = document.replace('<body class="panel react-panel">', '<body class="panel react-panel">' + HOST_BRIDGE, 1)
     FixtureHandler.document = document
-    server = ThreadingHTTPServer(('127.0.0.1', 0), FixtureHandler)
+    server = ThreadingHTTPServer((local_endpoint.BIND_HOST, 0), FixtureHandler)
     thread = Thread(target=server.serve_forever, daemon=True)
     thread.start()
     try:
         command = [
             'node', str(ROOT / 'tools/alignment_audit.mjs'),
-            '--url', f'http://127.0.0.1:{server.server_port}/',
+            '--url', local_endpoint.bind_origin(server.server_port) + '/',
             '--rules', str(ROOT / 'tools' / ('relay_paint_rules.json' if args.paint else 'relay_alignment_rules.json')),
             '--out', str(out), '--widths', args.widths, '--height', args.height,
         ]

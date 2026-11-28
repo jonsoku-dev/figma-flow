@@ -1,0 +1,209 @@
+{
+  "schema": "figma-flow-metrics-schema-v1",
+  "version": 1,
+  "configSchema": "figma-flow-metrics-config-v1",
+  "snapshotSchema": "figma-flow-metrics-snapshot-v1",
+  "doctorSchema": "figma-flow-metrics-doctor-v1",
+  "sources": [
+    "operations",
+    "live_changes",
+    "workspace",
+    "quality",
+    "benchmark"
+  ],
+  "pullFormats": [
+    "prometheus",
+    "json"
+  ],
+  "pullAuthModes": [
+    "control-token",
+    "bearer-secret",
+    "none"
+  ],
+  "sinkTypes": [
+    "http-json",
+    "otlp-http",
+    "jsonl-file",
+    "statsd-udp"
+  ],
+  "privacyModes": [
+    "strict",
+    "hashed",
+    "scoped"
+  ],
+  "scopeLabelFields": [
+    "file_key",
+    "page_id",
+    "task_key",
+    "user_id"
+  ],
+  "limits": {
+    "maxSinks": 16,
+    "maxQueueSize": 1000,
+    "maxBatchSize": 200,
+    "maxIngestBodyBytes": 65536,
+    "maxConfigBytes": 65536,
+    "maxStaticTags": 16,
+    "maxLabelLength": 128,
+    "minFlushIntervalSec": 1,
+    "maxFlushIntervalSec": 3600,
+    "maxTimeoutSec": 30,
+    "maxRetries": 5,
+    "maxRecentEvents": 200
+  },
+  "defaults": {
+    "sinkTimeoutSec": 3,
+    "sinkBatchSize": 50,
+    "sinkFlushIntervalSec": 15,
+    "sinkMaxRetries": 2,
+    "statsdPort": 8125,
+    "statsdMaxPacketBytes": 1432
+  },
+  "metrics": {
+    "figma_flow_operations_total": {
+      "type": "counter",
+      "source": "operations",
+      "unit": "1",
+      "help": "Total terminal Figma Flow control operations by task kind, operation, and state.",
+      "labels": ["task_kind", "operation", "state"]
+    },
+    "figma_flow_operation_queue_ms": {
+      "type": "histogram",
+      "source": "operations",
+      "unit": "ms",
+      "help": "Control operation queue wait duration from enqueue to plugin claim in milliseconds.",
+      "labels": ["task_kind", "operation"],
+      "buckets": [5, 10, 25, 50, 100, 250, 500, 1000, 2500, 5000, 10000, 30000, 60000, 120000]
+    },
+    "figma_flow_operation_plugin_ms": {
+      "type": "histogram",
+      "source": "operations",
+      "unit": "ms",
+      "help": "Plugin execution duration from claim to terminal result in milliseconds.",
+      "labels": ["task_kind", "operation"],
+      "buckets": [5, 10, 25, 50, 100, 250, 500, 1000, 2500, 5000, 10000, 30000, 60000, 120000]
+    },
+    "figma_flow_operation_e2e_ms": {
+      "type": "histogram",
+      "source": "operations",
+      "unit": "ms",
+      "help": "End-to-end operation duration from enqueue to completion in milliseconds.",
+      "labels": ["task_kind", "operation", "state"],
+      "buckets": [5, 10, 25, 50, 100, 250, 500, 1000, 2500, 5000, 10000, 30000, 60000, 120000]
+    },
+    "figma_flow_readback_bytes": {
+      "type": "histogram",
+      "source": "operations",
+      "unit": "By",
+      "help": "Accepted plugin readback JSON payload size in bytes.",
+      "labels": ["task_kind", "operation", "route"],
+      "buckets": [1024, 8192, 65536, 262144, 1048576, 4194304, 16777216, 33554432, 67108864]
+    },
+    "figma_flow_plugin_online": {
+      "type": "gauge",
+      "source": "operations",
+      "unit": "1",
+      "help": "Whether an authenticated Figma plugin poll was observed within the relay TTL (1=online, 0=offline).",
+      "labels": ["runtime_status"]
+    },
+    "figma_flow_plugin_last_seen_age_seconds": {
+      "type": "gauge",
+      "source": "operations",
+      "unit": "s",
+      "help": "Seconds since the last authenticated Figma plugin poll (-1 if never observed in this session).",
+      "labels": []
+    },
+    "figma_flow_plugin_runtime_current": {
+      "type": "gauge",
+      "source": "operations",
+      "unit": "1",
+      "help": "Whether the observed plugin runtime matches the workspace expected generation (1=current, 0=stale/unverified).",
+      "labels": []
+    },
+    "figma_flow_active_operation_age_seconds": {
+      "type": "gauge",
+      "source": "operations",
+      "unit": "s",
+      "help": "Age in seconds of the currently active pending or claimed operation (0 if idle).",
+      "labels": ["state"]
+    },
+    "figma_flow_uncertain_operations": {
+      "type": "gauge",
+      "source": "operations",
+      "unit": "1",
+      "help": "Number of unresolved uncertain mutating operations blocking further writes.",
+      "labels": []
+    },
+    "figma_flow_profile_needs_setup": {
+      "type": "gauge",
+      "source": "operations",
+      "unit": "1",
+      "help": "Whether the latest relay profile reports needsSetup=true (1=needs setup, 0=configured or unknown).",
+      "labels": []
+    },
+    "figma_flow_live_changes_total": {
+      "type": "counter",
+      "source": "live_changes",
+      "unit": "1",
+      "help": "Total ingested live Figma Design page change events by change type and origin.",
+      "labels": ["change_type", "origin"]
+    },
+    "figma_flow_live_change_gaps_total": {
+      "type": "counter",
+      "source": "live_changes",
+      "unit": "1",
+      "help": "Total live Figma Design change stream gaps or unavailability notifications by reason.",
+      "labels": ["reason"]
+    },
+    "figma_flow_tasks_prepared_total": {
+      "type": "counter",
+      "source": "workspace",
+      "unit": "1",
+      "help": "Total workspace task prepare invocations by task kind and outcome status.",
+      "labels": ["kind", "status"]
+    },
+    "figma_flow_workspace_tasks_count": {
+      "type": "gauge",
+      "source": "workspace",
+      "unit": "1",
+      "help": "Current number of prepared tasks in the workspace catalogue by task kind.",
+      "labels": ["kind"]
+    },
+    "figma_flow_quality_checks_total": {
+      "type": "counter",
+      "source": "quality",
+      "unit": "1",
+      "help": "Total pre-Figma design quality evaluations by pass/fail and strict mode.",
+      "labels": ["passed", "strict"]
+    },
+    "figma_flow_quality_issues_total": {
+      "type": "counter",
+      "source": "quality",
+      "unit": "1",
+      "help": "Total design quality errors and warnings recorded by severity.",
+      "labels": ["severity"]
+    },
+    "figma_flow_native_read_ms": {
+      "type": "histogram",
+      "source": "benchmark",
+      "unit": "ms",
+      "help": "Fresh native read benchmark durations in milliseconds by workload and state.",
+      "labels": ["workload", "state"],
+      "buckets": [5, 10, 25, 50, 100, 250, 500, 1000, 2500, 5000, 10000, 30000, 60000, 120000]
+    },
+    "figma_flow_metrics_export_total": {
+      "type": "counter",
+      "source": "operations",
+      "unit": "1",
+      "help": "Total metrics sink export attempts by sink id and status.",
+      "labels": ["sink", "status"]
+    },
+    "figma_flow_metrics_queue_dropped_total": {
+      "type": "counter",
+      "source": "operations",
+      "unit": "1",
+      "help": "Total metrics items dropped due to bounded per-sink queue overflow.",
+      "labels": ["sink"]
+    }
+  }
+}

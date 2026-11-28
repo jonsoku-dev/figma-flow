@@ -7,6 +7,7 @@ weight, no visual anchor, monotone centering, type scale, density) are warnings 
 Reads JSON and optional local font files; never writes to Figma or the layout.
 """
 import argparse
+import schema_ids
 import hashlib
 import io
 import math
@@ -16,6 +17,7 @@ import re
 import sys
 
 from design_directions import normalize_layer_containers
+import runtime_limits
 
 SCHEMA = 'figma-flow-design-quality-v1'
 LAYOUT_SCHEMA = 'figma-flow-authored-native-layout-v1'
@@ -114,7 +116,7 @@ class _PixelContrast:
         if not isinstance(record, dict) or record.get('reference') or not isinstance(record.get('path'), str) or not re.fullmatch('[0-9a-fA-F]{64}', str(record.get('sha256', ''))):
             raise ValueError('Missing pinned non-reference raster asset: ' + str(name))
         path = self.dir / record['path']
-        if path.is_symlink() or not path.resolve().is_relative_to(self.dir) or not path.is_file() or path.stat().st_size > 64_000_000:
+        if path.is_symlink() or not path.resolve().is_relative_to(self.dir) or not path.is_file() or path.stat().st_size > runtime_limits.EVIDENCE['maxFileBytes']:
             raise ValueError('Raster asset must be a bounded owned regular file: ' + str(name))
         raw = path.read_bytes()
         if hashlib.sha256(raw).hexdigest() != record['sha256'].lower():
@@ -123,7 +125,7 @@ class _PixelContrast:
             return self.cache[name]
         Image = self.pillow[0]
         with Image.open(io.BytesIO(raw)) as source:
-            if source.width * source.height > 32_000_000 or getattr(source, 'n_frames', 1) != 1:
+            if source.width * source.height > runtime_limits.EVIDENCE['maxQualityImagePixels'] or getattr(source, 'n_frames', 1) != 1:
                 raise ValueError('Unsupported raster dimensions or animation: ' + str(name))
             if source.mode not in ('RGB', 'RGBA', 'L', 'LA', 'P') or source.info.get('icc_profile') or source.info.get('gamma', .45455) != .45455 or source.getexif().get(274, 1) != 1:
                 raise ValueError('Unsupported raster color profile, mode or orientation: ' + str(name))
@@ -225,7 +227,7 @@ class _PixelContrast:
                 raise ValueError('Unsupported text opacity')
             region=(math.floor(x),math.floor(y),math.ceil(x+width),math.ceil(y+height))
             size=(region[2]-region[0],region[3]-region[1])
-            if size[0]*size[1]>4_000_000:
+            if size[0]*size[1]>runtime_limits.EVIDENCE['maxThumbnailPixels']:
                 raise ValueError('Text raster bounds exceed the conservative measurement budget')
             image=self.pillow[0].new('RGBA',size,self._color(self.state['bg'])+(255,))
             for layer in layers:
@@ -623,7 +625,7 @@ def _variants(candidate, layout_dir):
 
 
 def evaluate(layout, layout_dir=None, strict=False):
-    if not isinstance(layout, dict) or layout.get('schema') not in (LAYOUT_SCHEMA, 'figma-flow-authored-native-production-v1'):
+    if not isinstance(layout, dict) or layout.get('schema') not in (LAYOUT_SCHEMA, schema_ids.ID['authoredNativeProduction']):
         raise ValueError('schema %s의 authored native layout이 필요합니다.' % LAYOUT_SCHEMA)
     report = {'schema': SCHEMA, 'passed': False, 'strict': bool(strict), 'errors': [], 'warnings': [], 'metrics': {}}
     fonts = _Fonts(layout_dir)
@@ -678,6 +680,7 @@ def main(argv=None):
     parser.add_argument('--layout', type=Path, required=True)
     parser.add_argument('--out', type=Path)
     parser.add_argument('--project-root', type=Path, help='Owning project root for nested production layouts and pinned assets')
+    parser.add_argument('--workspace', type=Path, help='Optional private workspace to forward quality metrics when enabled')
     parser.add_argument('--strict', action='store_true', help='경고도 실패로 처리')
     args = parser.parse_args(argv)
     try:
@@ -685,6 +688,17 @@ def main(argv=None):
     except (OSError, ValueError, TypeError, KeyError) as exc:
         print(json.dumps({'passed': False, 'error': str(exc)}, ensure_ascii=False), file=sys.stderr)
         return 1
+    if args.workspace:
+        try:
+            import metrics
+            metrics.emit_cli_source_event(args.workspace, 'quality', {
+                'passed': bool(report['passed']),
+                'strict': bool(args.strict),
+                'errors': int(report['summary']['errors']),
+                'warnings': int(report['summary']['warnings']),
+            })
+        except Exception:
+            pass
     text = json.dumps(report, ensure_ascii=False, indent=2) + '\n'
     if args.out:
         args.out.parent.mkdir(parents=True, exist_ok=True)

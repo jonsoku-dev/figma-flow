@@ -19,6 +19,7 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 
 TOOLS=Path(__file__).resolve().parent
 if str(TOOLS) not in sys.path: sys.path.insert(0,str(TOOLS))
+import schema_ids
 from graph_document import decode_json
 from report_appearance import report_css
 from embedded_assets import embedded_asset_warnings
@@ -29,6 +30,7 @@ from draft_foundation_audit import audit_draft_foundations
 from draft_token_plan import foundation_bindings
 import design_directions
 import design_quality
+import local_endpoint
 
 PLUGIN=TOOLS.parent
 HELPERS=('semantic_tokens.js','native_annotations.js','native_semantic_read.js','foundation_palette.js','design_note_board.js')
@@ -71,6 +73,10 @@ LAYER_FIELDS={'text':BASE_LAYER+('value','size','leading','ink','font','align','
 LAYER_ROLES={'background','surface','illustration','image','divider','ornament','frame'}
 IMAGE_FITS={'FILL','FIT','CROP','TILE'}
 FIGMA_IMAGE_SIDE_LIMIT=4096
+MAX_REFERENCE_BASE64=16_000_000
+MAX_REFERENCE_PIXELS=16_000_000
+MAX_THUMBNAIL_BYTES=256_000
+MAX_DRAFT_BODY_BYTES=25_000_000
 
 
 def _finite(value):
@@ -346,7 +352,7 @@ def _selected_production_inputs(selected, reviewed, authored, layout_path, graph
     original_layout = design_directions.current(reviewed.get('native_layout') or reviewed['native_target']['layout'], Path(reviewed['project_root']))
     original = decode_json(original_layout.read_text())
     old = next(row for row in original['candidates'] if row['id'] == selected['candidate_id'])
-    if authored.get('schema') != 'figma-flow-authored-native-production-v1' or authored.get('scope') != 'selected-production' or len(authored.get('candidates', [])) != 1:
+    if authored.get('schema') != schema_ids.ID['authoredNativeProduction'] or authored.get('scope') != 'selected-production' or len(authored.get('candidates', [])) != 1:
         raise ValueError('Distinct single-candidate selected-production authored layout required')
     candidate = authored['candidates'][0]
     provenance = {'path': selected['selection_path'], 'sha256': selected['selection_sha256'],
@@ -642,7 +648,7 @@ def make_packet(manifest,layout_path=None,file_key=None,*,selection_path=None,pr
         assets[name]=base64.b64encode(raw).decode();pins.append({'path':str(path),'sha256':record['sha256']})
     importer_hash=canonical_sha({name:sha((PLUGIN/'figma-bridge'/name).read_bytes())for name in (*HELPERS,'direction_review.js')})
     instance_hash=canonical_sha({'packet':packet_hash,'layout':layout_hash,'fileKey':file_key,'importer':importer_hash})
-    packet = {'schema':'figma-flow-native-direction-review-v1','scope':'exploratory-only','production_admitted':False,'fileKey':file_key,'prepared_target':prepared_target,'instance_sha256':instance_hash,'importer_sha256':importer_hash,'layout_sha256':layout_hash,'layout_pin':{'path':str(layout_path),'sha256':layout_hash},'packet_sha256':packet_hash,'manifest':str(Path(manifest).resolve()),'candidate_pins':{c['id']:c['sha256']for c in candidates},'content':content,'candidates':candidates,'assets':assets,'input_pins':pins,'prepared_at':now(),'execution_status':'prepared-not-executed','boundary':'Reference images are raster; authored titles/body/controls/role palette are native editable nodes. No approval, final asset batch or reservation.'}
+    packet = {'schema':schema_ids.ID['nativeDirectionReview'],'scope':'exploratory-only','production_admitted':False,'fileKey':file_key,'prepared_target':prepared_target,'instance_sha256':instance_hash,'importer_sha256':importer_hash,'layout_sha256':layout_hash,'layout_pin':{'path':str(layout_path),'sha256':layout_hash},'packet_sha256':packet_hash,'manifest':str(Path(manifest).resolve()),'candidate_pins':{c['id']:c['sha256']for c in candidates},'content':content,'candidates':candidates,'assets':assets,'input_pins':pins,'prepared_at':now(),'execution_status':'prepared-not-executed','boundary':'Reference images are raster; authored titles/body/controls/role palette are native editable nodes. No approval, final asset batch or reservation.'}
     if selected:
         packet.update(schema=PRODUCTION_SCHEMA, scope='selected-production', production_admitted=True,
             sourceSelection=provenance, production_graph=graph_pin, change_request=request_pin,
@@ -1343,11 +1349,11 @@ def _attested_review_packet(manifest_path, raw):
         return packet
     snapshot = json.loads(design_directions.current(design_directions.pin(sidecar)).read_text())
     names = (*HELPERS, 'direction_review.js')
-    if snapshot.get('schema') != 'figma-flow-native-renderer-snapshot-v1' or set(snapshot.get('sources', {})) != set(names):
+    if snapshot.get('schema') != schema_ids.ID['nativeRendererSnapshot'] or set(snapshot.get('sources', {})) != set(names):
         raise ValueError('Exact historical renderer source set required')
     sources = {name:design_directions.current(snapshot['sources'][name]).read_bytes() for name in names}
     original = json.loads(design_directions.current(snapshot['packet']).read_text())
-    if original.get('schema') != 'figma-flow-native-direction-review-v1' or original.get('scope') != 'exploratory-only' or original.get('production_admitted') is not False:
+    if original.get('schema') != schema_ids.ID['nativeDirectionReview'] or original.get('scope') != 'exploratory-only' or original.get('production_admitted') is not False:
         raise ValueError('Historical snapshot must be an original exploratory review packet')
     if original['importer_sha256'] != canonical_sha({name:sha(value) for name,value in sources.items()}):
         raise ValueError('Historical renderer implementation digest differs from exact archived sources')
@@ -1382,7 +1388,7 @@ def _verify_native_packet(packet,readback_path):
     report={'passed':False,'errors':[],'scope':packet['scope'],'production_admitted':packet['production_admitted'],'evidence':'supplied-native-readback-not-origin-authentication','screens':[],'layout_findings':[],'annotation_checks':[],'foundation_checks':[],'prototype_checks':[],'return_checks':[],'design_note_board_checks':[],'dev_mode_required':False}
     try:
         raw=json.loads(Path(readback_path).read_text())
-        if isinstance(raw,dict) and raw.get('schema')=='figma-flow-native-geometry-failure-v1':
+        if isinstance(raw,dict) and raw.get('schema')==schema_ids.ID['nativeGeometryFailure']:
             raise ValueError('Native geometry failure diagnostics are not an admissible readback')
         nodes, keyed = _native_readback_nodes(raw, packet)
         if not raw.get('fileKey')or packet['fileKey']and raw.get('fileKey')!=packet['fileKey']or raw.get('instance_sha256')!=packet['instance_sha256'] or raw.get('packet_sha256')!=packet['packet_sha256'] or raw.get('candidate_pins')!=packet['candidate_pins'] or raw.get('scope')!=packet['scope']or raw.get('production_admitted')is not packet['production_admitted'] or raw.get('approved')is True: raise ValueError('Exact current checked draft inputs/file/scope required')
@@ -1545,7 +1551,7 @@ def _verify_native_packet(packet,readback_path):
 def verify_native_review(manifest_path,readback_path):
     try:
         raw = json.loads(Path(readback_path).read_text())
-        if raw.get('schema') == 'figma-flow-native-geometry-failure-v1':
+        if raw.get('schema') == schema_ids.ID['nativeGeometryFailure']:
             raise ValueError('Native geometry failure diagnostics are not an admissible readback')
         return _verify_native_packet(_attested_review_packet(manifest_path, raw), readback_path)
     except (ValueError,KeyError,TypeError,OSError,IndexError,AttributeError) as error:
@@ -1601,7 +1607,7 @@ def check_note(node,note,specification=None,owner_hash=None,readback=None):
         if state not in text:raise ValueError('Canonical native functional state missing')
 
 
-def prepare(manifest,out,register=False,port=49185,layout_path=None,file_key=None,plugin_id=None,night_demo=False,*,selection_path=None,product_graph=None,change_request=None):
+def prepare(manifest,out,register=False,port=local_endpoint.DEFAULT_PORTS['draftReview'],layout_path=None,file_key=None,plugin_id=None,night_demo=False,*,selection_path=None,product_graph=None,change_request=None):
     if register and not night_demo:raise ValueError('No implicit NIGHT registration: use an explicit task demo or the normal portable local plugin package.')
     if register:
         allowed_file = os.environ.get('FIGMA_FLOW_NIGHT_FILE_KEY')
@@ -1634,8 +1640,8 @@ def prepare(manifest,out,register=False,port=49185,layout_path=None,file_key=Non
         if not token_path.exists():token_path.write_text(secrets.token_hex(32));token_path.chmod(0o600)
         private=PRIVATE/'plugin';private.mkdir(parents=True,exist_ok=True,mode=0o700)
         for path in portable.iterdir():shutil.copyfile(path,private/path.name);(private/path.name).chmod(0o600)
-        manifest_data['networkAccess']['devAllowedDomains']=[f'http://localhost:{port}']
-        (private/'manifest.json').write_text(json.dumps(manifest_data,ensure_ascii=False,indent=2));(private/'ui.html').write_text(ui_html({'url':f'http://localhost:{port}/draft-readback','capability':token_path.read_text().strip()},night_demo=True,review=packet));(private/'ui.html').chmod(0o600)
+        manifest_data['networkAccess']['devAllowedDomains']=[local_endpoint.origin(port)]
+        (private/'manifest.json').write_text(json.dumps(manifest_data,ensure_ascii=False,indent=2));(private/'ui.html').write_text(ui_html({'url':local_endpoint.origin(port)+'/draft-readback','capability':token_path.read_text().strip()},night_demo=True,review=packet));(private/'ui.html').chmod(0o600)
     (out/'사용방법.txt').write_text(('지정한 Figma 파일에서 로컬 검토 플러그인을 열고')+' 「검토 시안 만들기」를 한 번 누르세요.\n이 도구는 검토용 화면·주석·팔레트·클릭 이동만 만듭니다. 방향 선택·승인·본 제작은 하지 않습니다.\nDev Mode나 유료 업그레이드 없이 일반 Design 모드의 「주석 읽기」 프레임에서 설명을 읽고 링크로 해당 화면·조작으로 이동하세요.\n원화와 브라우저 참조는 래스터이고 제목·본문·행동 제어·팔레트는 편집 가능한 실제 Figma 노드입니다. 「결과 JSON 저장」으로 원본 읽기 결과를 내보내세요. 로컬 수신기를 연결한 경우에는 결과가 그 수신기에도 전달됩니다.\n')
     if selection_path:
         (out/'사용방법.txt').write_text('Selected production authoring from the validated user choice and pinned contrast changes. Run the prepared workspace create operation, preserve its actual readback, then verify-production --packet packet.json --readback ACTUAL.json. This does not approve a new direction or final delivery.\n')
@@ -1650,23 +1656,23 @@ def review_thumbnails(review, candidate):
         from PIL import Image
     except ImportError:
         return []
-    if not review or review.get('schema') not in ('figma-flow-native-direction-review-v1', PRODUCTION_SCHEMA):
+    if not review or review.get('schema') not in (schema_ids.ID['nativeDirectionReview'], PRODUCTION_SCHEMA):
         return []
     thumbnails = []
     for viewport in ('desktop', 'mobile'):
         name = candidate.get('references', {}).get(viewport)
         encoded = review.get('assets', {}).get(name)
-        if not isinstance(encoded, str) or len(encoded) > 16_000_000:
+        if not isinstance(encoded, str) or len(encoded) > MAX_REFERENCE_BASE64:
             continue
         try:
             raw = base64.b64decode(encoded, validate=True)
             with Image.open(BytesIO(raw)) as image:
-                if image.format != 'PNG' or image.width * image.height > 16_000_000:
+                if image.format != 'PNG' or image.width * image.height > MAX_REFERENCE_PIXELS:
                     continue
                 image.thumbnail((640, 360), Image.Resampling.LANCZOS)
                 output = BytesIO()
                 image.convert('RGBA').save(output, format='PNG', optimize=True)
-            if output.tell() <= 256_000:
+            if output.tell() <= MAX_THUMBNAIL_BYTES:
                 thumbnails.append((viewport, base64.b64encode(output.getvalue()).decode('ascii')))
         except (ValueError, OSError, Image.DecompressionBombError):
             continue
@@ -1887,9 +1893,9 @@ class DraftReceiver(BaseHTTPRequestHandler):
     def do_POST(self):
         import hmac
         try:
-            if self.path!='/draft-readback'or self.headers.get('Host')!=f'localhost:{self.server.server_port}'or not hmac.compare_digest(self.headers.get('Authorization',''),'Bearer '+self.server.capability):raise ValueError('Exact paired local draft endpoint required')
+            if self.path!='/draft-readback'or self.headers.get('Host')!=local_endpoint.host_header(self.server.server_port)or not hmac.compare_digest(self.headers.get('Authorization',''),'Bearer '+self.server.capability):raise ValueError('Exact paired local draft endpoint required')
             length=int(self.headers.get('Content-Length','0'))
-            if not 0<length<25_000_000 or self.headers.get('Transfer-Encoding'):raise ValueError('Bounded draft JSON required')
+            if not 0<length<MAX_DRAFT_BODY_BYTES or self.headers.get('Transfer-Encoding'):raise ValueError('Bounded draft JSON required')
             raw=json.loads(self.rfile.read(length));packet=json.loads(self.server.packet.read_text())
             if not raw.get('fileKey')or packet['fileKey']and raw.get('fileKey')!=packet['fileKey']or raw.get('instance_sha256')!=packet['instance_sha256'] or raw.get('packet_sha256')!=packet['packet_sha256']:raise ValueError('Exact prepared direction-review packet required')
             stamp=datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ');folder=self.server.output/stamp;write_json(folder/'readback.json',raw)
@@ -1902,10 +1908,10 @@ class DraftReceiver(BaseHTTPRequestHandler):
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__);commands=parser.add_subparsers(dest='command',required=True)
-    build=commands.add_parser('prepare');build.add_argument('--manifest',type=Path);build.add_argument('--out',type=Path,required=True);build.add_argument('--register-night',action='store_true');build.add_argument('--port',type=int,default=49185);build.add_argument('--layout',type=Path);build.add_argument('--file-key');build.add_argument('--plugin-id');build.add_argument('--selection',type=Path);build.add_argument('--product-graph',type=Path);build.add_argument('--change-request',type=Path)
+    build=commands.add_parser('prepare');build.add_argument('--manifest',type=Path);build.add_argument('--out',type=Path,required=True);build.add_argument('--register-night',action='store_true');build.add_argument('--port',type=int,default=local_endpoint.DEFAULT_PORTS['draftReview']);build.add_argument('--layout',type=Path);build.add_argument('--file-key');build.add_argument('--plugin-id');build.add_argument('--selection',type=Path);build.add_argument('--product-graph',type=Path);build.add_argument('--change-request',type=Path)
     verify=commands.add_parser('verify');verify.add_argument('--manifest',type=Path,required=True);verify.add_argument('--readback',type=Path,required=True)
     production=commands.add_parser('verify-production');production.add_argument('--packet',type=Path,required=True);production.add_argument('--readback',type=Path,required=True)
-    serve=commands.add_parser('serve');serve.add_argument('--packet',type=Path,required=True);serve.add_argument('--out',type=Path,required=True);serve.add_argument('--port',type=int,default=49185);serve.add_argument('--pair-dir',type=Path,required=True)
+    serve=commands.add_parser('serve');serve.add_argument('--packet',type=Path,required=True);serve.add_argument('--out',type=Path,required=True);serve.add_argument('--port',type=int,default=local_endpoint.DEFAULT_PORTS['draftReview']);serve.add_argument('--pair-dir',type=Path,required=True)
     args=parser.parse_args()
     try:
         _run(parser,args)
@@ -1926,7 +1932,7 @@ def _run(parser,args):
         capability=(args.pair_dir/'capability').read_text().strip()
         if not re.fullmatch(r'[0-9a-f]{64}', capability):parser.error('Valid local pairing is required')
         args.out.mkdir(parents=True,exist_ok=True)
-        with HTTPServer(('127.0.0.1',args.port),DraftReceiver)as server:
+        with HTTPServer((local_endpoint.BIND_HOST,args.port),DraftReceiver)as server:
             server.packet=args.packet.resolve();server.output=args.out.resolve();server.capability=capability;print('Figma draft-only receiver '+str(args.port),flush=True);server.serve_forever()
 
 

@@ -14,6 +14,7 @@ import secrets
 
 import check_project
 import audit_project
+import private_io
 import safe_node_tests
 import design_directions
 from workflow import State
@@ -148,23 +149,11 @@ def write_bytes(root, file, content):
 
 
 def write_json(path, data, *, exclusive=False, root=None):
-    content = json.dumps(data, ensure_ascii=True, indent=2, allow_nan=False) + '\n'
+    content = (json.dumps(data, ensure_ascii=True, indent=2, allow_nan=False) + '\n').encode('utf-8')
     parent, name = output_parent(root or path.parent, path)
-    temporary = None
     try:
-        if exclusive:
-            descriptor = os.open(name, os.O_WRONLY | os.O_CREAT | os.O_EXCL | getattr(os, 'O_NOFOLLOW', 0), 0o600, dir_fd=parent)
-        else:
-            temporary = '.promotion-status-' + secrets.token_hex(12)
-            descriptor = os.open(temporary, os.O_WRONLY | os.O_CREAT | os.O_EXCL | getattr(os, 'O_NOFOLLOW', 0), 0o600, dir_fd=parent)
-        with os.fdopen(descriptor, 'w', encoding='utf-8') as stream:
-            stream.write(content)
-        if temporary:
-            os.replace(temporary, name, src_dir_fd=parent, dst_dir_fd=parent)
-            temporary = None
+        private_io.atomic_write_dir_fd(parent, name, content, exclusive=exclusive, temp_prefix='.promotion-status-')
     finally:
-        if temporary:
-            os.unlink(temporary, dir_fd=parent)
         os.close(parent)
 
 

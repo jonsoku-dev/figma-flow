@@ -272,11 +272,14 @@ async function workspaceControlTick() {
     const relayMode = typeof workspaceRelayViewer !== 'undefined' && workspaceRelayViewer;
     if (relayMode && typeof workspaceRelayIdentity === 'function') {
       const identity = workspaceRelayIdentity();
-      if (identity !== controlRelayIdentity) {
-        controlRelayIdentity = identity;
-        if (identity && workspaceProfileManager) {
+      const scopeKey = identity ? identity + ':' + (figma.fileKey || '') : null;
+      if (scopeKey !== controlRelayIdentity || (scopeKey && !workspaceProfile)) {
+        controlRelayIdentity = scopeKey;
+        if (scopeKey && workspaceProfileManager) {
           try {workspaceProfile = await workspaceProfileManager.load(workspaceState.locale);} catch (_) {workspaceProfile = null;}
           workspaceRelayViewerState(workspaceRelayStatus);
+        } else if (!scopeKey) {
+          workspaceProfile = null;
         }
       }
     }
@@ -317,6 +320,9 @@ async function workspaceControlTick() {
       if (request && matches(request) && workspaceProfileManager && !controlRelayProfileResult) {
         workspaceRelayStatus = 'busy'; workspaceRelayError = null; workspaceRelayViewerState('busy');
         try {
+          if (!workspaceProfile) {
+            try {workspaceProfile = await workspaceProfileManager.load(workspaceState.locale);} catch (_) {workspaceProfile = null;}
+          }
           const saved = await workspaceProfileManager.save(request.profile, workspaceState.locale, () => matches(request));
           if (matches(request) && figma.fileKey === request.file_key && figma.currentPage.id === request.page_id) {
             workspaceProfile = saved;

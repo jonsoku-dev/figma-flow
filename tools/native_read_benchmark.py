@@ -7,6 +7,7 @@ plugin reader clock; `--read-measure getter-counts` is a single diagnostic run t
 never enters the reported statistics. The runner never retries a sample.
 """
 import argparse
+import schema_ids
 import hashlib
 import http.client
 import json
@@ -69,7 +70,7 @@ def sample_from(workload, role, index, status, raw, end_to_end_ms, execution, ex
     if (measurement or {}).get('mode') != WORKLOADS[workload]:
         sample.update(state='workload-mismatch', error='Readback measurement mode differs from the workload task')
         return sample
-    if readback.get('schema') != 'figma-flow-graph-native-discovery-v1' or readback.get('status') not in (None, 'ok', 'success'):
+    if readback.get('schema') != schema_ids.ID['graphNativeDiscovery'] or readback.get('status') not in (None, 'ok', 'success'):
         sample.update(state='not-full-discovery', error='Readback is not a successful full native discovery')
         return sample
     if expected_scope and (readback.get('fileKey'), readback.get('pageId')) != (expected_scope['file_key'], expected_scope['page_id']):
@@ -221,18 +222,13 @@ def readiness(workspace_root):
     sys.path.insert(0, str(ROOT / 'tools'))
     import figma_control
     import figma_workspace
+    import local_endpoint
     settings = figma_control.config(figma_workspace.private_dir(workspace_root))
-    connection = http.client.HTTPConnection('127.0.0.1', settings['port'], timeout=3)
-    try:
-        connection.request('POST', '/control/readiness', b'{}', {'Host': f'localhost:{settings["port"]}',
-                           'Content-Type': 'application/json', 'Authorization': 'Bearer ' + settings['token']})
-        response = connection.getresponse()
-        raw = response.read(figma_control.MAX_READINESS + 1)
-        if response.status != 200 or len(raw) > figma_control.MAX_READINESS:
-            raise ValueError('Control readiness rejected')
-        return json.loads(raw)
-    finally:
-        connection.close()
+    reply = local_endpoint.request(settings['port'], settings['token'], 'POST', local_endpoint.READINESS_ROUTE,
+                                   b'{}', limit=local_endpoint.READINESS_LIMIT)
+    if reply.status != 200 or len(reply.body) > local_endpoint.READINESS_LIMIT:
+        raise ValueError('Control readiness rejected')
+    return json.loads(reply.body)
 
 
 def task_pins(workspace_root, keys):
@@ -330,6 +326,14 @@ def main(argv=None):
     report = run({'tasks': tasks, 'repeats': args.repeats, 'scope': {'file_key': args.file_key, 'page_id': args.page_id}}, args.out, execution='root-live', pins=pins, before=before,
                  readiness_after=lambda: readiness(args.workspace),
                  control=lambda key, revision: control_read(args.workspace, key, revision, args.file_key, args.page_id, args.timeout))
+    try:
+        import metrics
+        samples_path = args.out / 'samples.jsonl'
+        if samples_path.is_file():
+            sample_rows = [json.loads(line) for line in samples_path.read_text(encoding='utf-8').splitlines() if line.strip()]
+            metrics.emit_cli_source_event(args.workspace, 'benchmark', {'samples': sample_rows})
+    except Exception:
+        pass
     print(json.dumps({'verdict': report['verdict'], 'reasons': report['reasons'], 'native_proof': report['native_proof'],
                       'report': str(args.out / 'report.json'), 'public_summary': str(args.out / 'public-summary.json')}))
     return 0 if report['verdict'] == 'baseline-recorded' else 2

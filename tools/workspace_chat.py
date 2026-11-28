@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Explicit, authenticated loopback actions for registered workspace Codex chats."""
 import argparse
+import schema_ids
 import hashlib
 import hmac
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -16,9 +17,13 @@ import threading
 import uuid
 
 import figma_workspace
+import local_endpoint
 
 MAX_BODY = 100_000
-ORIGINS = {'null', 'https://www.figma.com', 'https://figma.com'}
+MAX_STATE_FILE_BYTES = 4_000_000
+MAX_QUEUE_TEXT_BYTES = 64_000
+MAX_LEDGER_ENTRIES = 10_000
+ORIGINS = local_endpoint.FIGMA_ORIGINS
 
 
 def read_private(path):
@@ -26,7 +31,7 @@ def read_private(path):
         raise ValueError('Expected a private workspace file.')
     if os.name != 'nt' and path.stat().st_mode & 0o077:
         raise ValueError('Workspace files must have private permissions (0600).')
-    if path.stat().st_size > 4_000_000:
+    if path.stat().st_size > MAX_STATE_FILE_BYTES:
         raise ValueError('Workspace file is too large.')
     return json.loads(path.read_text(encoding='utf-8'))
 
@@ -43,7 +48,7 @@ def unique_object(pairs):
 class ChatHandler(BaseHTTPRequestHandler):
     def setup(self):
         super().setup()
-        self.connection.settimeout(10)
+        self.connection.settimeout(local_endpoint.timeout_seconds('localServerRead'))
 
     def log_message(self, *args):
         pass
@@ -107,7 +112,7 @@ class ChatHandler(BaseHTTPRequestHandler):
                 raise ValueError('Expected canonical UUIDs.')
             if not re.fullmatch(r'[0-9a-f]{64}', data['revision']) or not 0 < len(data['key']) <= 200:
                 raise ValueError('Invalid task identity.')
-            if queue and (not data['text'].strip() or '\x00' in data['text'] or len(data['text'].encode('utf-8')) > 64_000):
+            if queue and (not data['text'].strip() or '\x00' in data['text'] or len(data['text'].encode('utf-8')) > MAX_QUEUE_TEXT_BYTES):
                 raise ValueError('Expected bounded reviewed text.')
             with self.server.action_lock, figma_workspace.locked(self.server.workspace) as workspace:
                 catalogue = figma_workspace.current(workspace)
@@ -131,13 +136,13 @@ class ChatServer(ThreadingHTTPServer):
     def __init__(self, workspace, *, cli=None, timeout=15, port=None):
         self.workspace = figma_workspace.private_dir(workspace)
         self.config = read_private(self.workspace / 'chat.json')
-        if set(self.config) != {'schema', 'port', 'token'} or self.config['schema'] != 'figma-flow-workspace-chat-v1' or type(self.config['port']) is not int or not 1024 <= self.config['port'] <= 65535 or not isinstance(self.config['token'], str) or not re.fullmatch(r'[0-9a-f]{64}', self.config['token']):
+        if set(self.config) != {'schema', 'port', 'token'} or self.config['schema'] != schema_ids.ID['workspaceChat'] or not local_endpoint.valid_port(self.config['port']) or not isinstance(self.config['token'], str) or not re.fullmatch(r'[0-9a-f]{64}', self.config['token']):
             raise ValueError('Invalid workspace chat configuration.')
         self.cli = cli or shutil.which('codex')
         self.action_timeout = timeout
         self.action_lock = threading.Lock()
-        super().__init__(('127.0.0.1', self.config['port'] if port is None else port), ChatHandler)
-        self.host = f'localhost:{self.server_port}'
+        super().__init__((local_endpoint.BIND_HOST, self.config['port'] if port is None else port), ChatHandler)
+        self.host = local_endpoint.host_header(self.server_port)
 
     def perform(self, endpoint, data):
         ledger_path = self.workspace / 'chat-requests.json'
@@ -149,7 +154,7 @@ class ChatServer(ThreadingHTTPServer):
             if prior['fingerprint'] != fingerprint:
                 return 409, {'error': 'Request ID already used for another action.'}
             return 409, dict(prior['result'], replayed=True)
-        if len(ledger) >= 10_000:
+        if len(ledger) >= MAX_LEDGER_ENTRIES:
             return 409, {'error': 'Request ledger is full; no action was started.'}
         if endpoint == '/chat/queue' and not self.cli:
             return 503, {'error': 'Official Codex CLI was not found on PATH; no action was started.'}

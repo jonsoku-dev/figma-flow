@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Validate supplied creative evidence and current bytes; never attest tool execution or taste."""
 import argparse
+import schema_ids
 import base64
 import hashlib
 import json
@@ -12,6 +13,7 @@ import struct
 import zlib
 import workflow
 from workflow import State
+import runtime_limits
 import skill_dependencies
 
 OPERATIONS = {'create', 'redesign', 'refine'}
@@ -87,8 +89,8 @@ def evaluate(base, declaration, *, request_text='', required=False, expected_pat
     if isinstance(declaration, dict) and declaration.get("project_root"):
         base = (bindings_base / declaration["project_root"]).resolve()
         if not base.is_dir() or not bindings_base.is_relative_to(base):
-            return {"schema": "figma-flow-design-review-v1", "status": "blocked", "passed": False, "errors": ["explicit project_root must contain the bindings directory"], "pinned_files": {}}
-    report = {'schema': 'figma-flow-design-review-v1', 'status': 'blocked', 'passed': False,
+            return {"schema": schema_ids.ID['designReview'], "status": "blocked", "passed": False, "errors": ["explicit project_root must contain the bindings directory"], "pinned_files": {}}
+    report = {'schema': schema_ids.ID['designReview'], 'status': 'blocked', 'passed': False,
               'workflow_graph_sha256': workflow.graph_hash(), 'workflow_state': None, 'workflow_symbol': None, 'required_boundary': State.WAIT_SELECTION.name, 'production_admitted': False, 'errors': [], 'project_root': str(base), 'pinned_files': {}, 'asset_inventory': [],
               'evidence_boundary': 'Checks supplied evidence structure and current byte bindings. Skill hashes do not prove instructions were followed; tool capture is not authenticated platform execution; creative quality and visible use require the recorded actual visual review.'}
     errors, pins = report['errors'], report['pinned_files']
@@ -110,7 +112,7 @@ def evaluate(base, declaration, *, request_text='', required=False, expected_pat
         need(not path.is_symlink() and path.is_file(), 'regular evidence file required: ' + str(path))
         path = path.resolve()
         need(external or path.is_relative_to(base), 'project evidence must stay inside project: ' + str(path))
-        need(path.stat().st_size <= 64_000_000, 'evidence file exceeds bounded 64MB input')
+        need(path.stat().st_size <= runtime_limits.EVIDENCE['maxFileBytes'], 'evidence file exceeds bounded 64MB input')
         raw = path.read_bytes()
         digest = hashlib.sha256(raw).hexdigest()
         need(item.get('sha256') == digest, 'current byte hash mismatch: ' + str(path))
@@ -131,7 +133,7 @@ def evaluate(base, declaration, *, request_text='', required=False, expected_pat
                 if kind == b'IHDR':
                     need(len(payload) == 13, 'invalid PNG header')
                     width, height, depth, color, _, _, interlace = struct.unpack('>IIBBBBB', payload)
-                    need(depth == 8 and color in (0, 2, 4, 6) and interlace == 0 and width * height <= 50_000_000, 'unsupported/oversized evidence PNG format')
+                    need(depth == 8 and color in (0, 2, 4, 6) and interlace == 0 and width * height <= runtime_limits.EVIDENCE['maxPngPixels'], 'unsupported/oversized evidence PNG format')
                     dimensions = (width, height)
                     channels = {0: 1, 2: 3, 4: 2, 6: 4}[color]
                 if kind == b'IDAT':
@@ -239,7 +241,7 @@ def evaluate(base, declaration, *, request_text='', required=False, expected_pat
                 path, raw, dimensions = raster(capture)
                 width, height = dimensions
                 need((width, height) == (capture.get('width'), capture.get('height')), 'capture dimensions differ from raster')
-                need(width >= 1000 if capture['viewport'] == 'desktop' else 240 <= width <= 600, 'capture viewport is not desktop/mobile specimen')
+                need(width >= runtime_limits.EVIDENCE['desktopMinWidth'] if capture['viewport'] == 'desktop' else runtime_limits.EVIDENCE['mobileMinWidth'] <= width <= runtime_limits.EVIDENCE['mobileMaxWidth'], 'capture viewport is not desktop/mobile specimen')
                 need(capture.get('tool') in (('stagehand', 'cua', 'figma-native-export', 'static-render', 'manual-user-capture') if inspection else ('figma-native-export', 'static-render', 'manual-user-capture')) and capture.get('target') and capture.get('observed_at'), 'actual capture tool/target/time required')
                 if final:
                     need(capture.get('artifact_hashes') == artifact_hashes, 'final capture must pin every current visual artifact')
@@ -312,7 +314,7 @@ def evaluate(base, declaration, *, request_text='', required=False, expected_pat
             report['asset_batch_path_base'] = str(batch_base)
             if game:
                 need(isinstance(declaration.get('game_id'), str) and declaration['game_id'] == batch.get('game_id'), 'selected game identity must match frozen asset production batch')
-            need(batch.get('schema') == 'figma-flow-asset-batch-v1' and batch.get('batch_id') and batch.get('game_id'), 'frozen asset production batch required')
+            need(batch.get('schema') == schema_ids.ID['assetBatch'] and batch.get('batch_id') and batch.get('game_id'), 'frozen asset production batch required')
             concept = batch.get('concept', {})
             need(concept.get('id') and concept.get('version'), 'versioned common game concept required')
             _, concept_raw = pin(concept, at=batch_base)

@@ -25,6 +25,8 @@ TEXT_FIELDS = ("problem", "result", "rationale", "compatibility", "limits", "fol
 BAD = re.compile(r"\b(?:TODO|TBD|PLACEHOLDER|SCAFFOLD|INCOMPLETE|N/?A)\b|미작성|작성 예정", re.I)
 MAX_ARCHIVE = 256 * 1024 * 1024
 MAX_OUTPUT = 2 * 1024 * 1024
+MAX_ARCHIVE_FILES = 100000
+HASH_CHUNK_BYTES = 65536
 
 
 class GateError(Exception):
@@ -73,7 +75,7 @@ def archive(repo, commit, destination):
             name = safe_path(member.name.rstrip("/"))
             count += 1
             total += max(0, member.size)
-            if count > 100000 or total > MAX_ARCHIVE:
+            if count > MAX_ARCHIVE_FILES or total > MAX_ARCHIVE:
                 raise GateError("archive exceeds extraction limits")
             if not (member.isdir() or member.isfile()) or member.issym() or member.islnk():
                 raise GateError(f"unsupported archive entry: {name}")
@@ -284,7 +286,7 @@ def run(argv, cwd, timeout):
             digest.update(name)
             stream.seek(0)
             while True:
-                chunk = stream.read(65536)
+                chunk = stream.read(HASH_CHUNK_BYTES)
                 if not chunk:
                     break
                 digest.update(chunk)

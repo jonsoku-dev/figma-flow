@@ -1,6 +1,7 @@
 """Compare declared dependencies and source evidence for a Graph change."""
 
 from collections import defaultdict, deque
+import schema_ids
 from contextlib import contextmanager
 from fnmatch import fnmatchcase
 from functools import lru_cache
@@ -229,7 +230,7 @@ def analyze_impact(base, current, changed_paths, *, observed_targets=()):
 
 
 def _observed_index(observation, types):
-    if observation.get('schema') != 'figma-flow-observed-panel-v1' or not observation.get('sourceFingerprint'):
+    if observation.get('schema') != schema_ids.ID['observedPanel'] or not observation.get('sourceFingerprint'):
         raise ValueError('Observed impact needs source-pinned panel observations')
     sources = {
         path: {'path': path, 'origin': 'input', 'sha256': digest}

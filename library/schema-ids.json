@@ -1,0 +1,190 @@
+{
+  "schema": "figma-flow-schema-id-registry-v1",
+  "description": "Single source of truth for wire schema IDs shared by more than one file. Python imports tools/schema_ids.py; Figma sandbox/panel JavaScript cannot import it, so each JS copy is listed under mirrors and verified by tools/ssot_scan.py.",
+  "ids": {
+    "assetBatch": {
+      "id": "figma-flow-asset-batch-v1"
+    },
+    "authoredNativeProduction": {
+      "id": "figma-flow-authored-native-production-v1"
+    },
+    "carouselSummary": {
+      "id": "figma-flow-carousel-summary-v1",
+      "mirrors": [
+        "figma-bridge/workspace_host.js",
+        "panel-ui/src/Workspace.jsx"
+      ]
+    },
+    "componentFamiliesProvision": {
+      "id": "figma-flow-component-families-provision-v1",
+      "mirrors": [
+        "figma-bridge/native_provision.js"
+      ]
+    },
+    "componentField": {
+      "id": "figma-flow-component-field-v1",
+      "mirrors": [
+        "figma-bridge/graph_token_sync.js"
+      ]
+    },
+    "control": {
+      "id": "figma-flow-control-v1"
+    },
+    "designReview": {
+      "id": "figma-flow-design-review-v1"
+    },
+    "exampleReadback": {
+      "id": "figma-flow-example-readback-v1",
+      "mirrors": [
+        "figma-bridge/relay_recipe.js",
+        "figma-bridge/workspace_control.js"
+      ]
+    },
+    "graphNativeDiscovery": {
+      "id": "figma-flow-graph-native-discovery-v1",
+      "mirrors": [
+        "figma-bridge/native_api_probe.js",
+        "figma-bridge/native_edit.js",
+        "figma-bridge/workspace_control.js"
+      ]
+    },
+    "graphReview": {
+      "id": "figma-flow-graph-review-v1",
+      "mirrors": [
+        "figma-bridge/native_edit.js",
+        "figma-bridge/native_graph_review.js"
+      ]
+    },
+    "graphTokenReadback": {
+      "id": "figma-flow-graph-token-readback-v1",
+      "mirrors": [
+        "figma-bridge/graph_token_sync.js",
+        "figma-bridge/workspace_control.js"
+      ]
+    },
+    "majorReview": {
+      "id": "figma-flow-major-review-v1"
+    },
+    "nativeApiProbe": {
+      "id": "figma-flow-native-api-probe-v1",
+      "mirrors": [
+        "figma-bridge/native_api_probe.js"
+      ]
+    },
+    "nativeApiProbeConfig": {
+      "id": "figma-flow-native-api-probe-config-v1",
+      "mirrors": [
+        "figma-bridge/native_api_probe.js"
+      ]
+    },
+    "nativeDirectionReview": {
+      "id": "figma-flow-native-direction-review-v1",
+      "mirrors": [
+        "figma-bridge/direction_review.js"
+      ]
+    },
+    "nativeEditPlan": {
+      "id": "figma-flow-native-edit-plan-v1"
+    },
+    "nativeEditReceipt": {
+      "id": "figma-flow-native-edit-receipt-v1",
+      "mirrors": [
+        "figma-bridge/native_edit.js",
+        "figma-bridge/native_provision.js"
+      ]
+    },
+    "nativeGeometryFailure": {
+      "id": "figma-flow-native-geometry-failure-v1",
+      "mirrors": [
+        "figma-bridge/direction_review.js",
+        "panel-ui/src/ReviewPanel.jsx"
+      ]
+    },
+    "nativeHandoff": {
+      "id": "figma-flow-native-handoff-v1"
+    },
+    "nativeReadSummary": {
+      "id": "figma-flow-native-read-summary-v1",
+      "mirrors": [
+        "figma-bridge/audit_log.js",
+        "figma-bridge/code.js",
+        "figma-bridge/native_semantic_read.js",
+        "figma-bridge/workspace_control.js",
+        "panel-ui/src/GraphPanel.jsx",
+        "panel-ui/src/ImportPanel.jsx",
+        "panel-ui/src/nativeSummary.mjs"
+      ]
+    },
+    "nativeRendererSnapshot": {
+      "id": "figma-flow-native-renderer-snapshot-v1"
+    },
+    "observedPanel": {
+      "id": "figma-flow-observed-panel-v1"
+    },
+    "panelContractGraph": {
+      "id": "figma-flow-panel-contract-graph-v1",
+      "mirrors": [
+        "figma-bridge/workspace_host.js",
+        "panel-ui/src/panelContracts.mjs"
+      ]
+    },
+    "pluginApiMemberAudit": {
+      "id": "figma-flow-plugin-api-member-audit-v1"
+    },
+    "readback": {
+      "id": "figma-flow-readback-v1",
+      "mirrors": [
+        "figma-bridge/code.js",
+        "figma-bridge/workspace_control.js"
+      ]
+    },
+    "selectionV2": {
+      "id": "figma-flow-selection-v2"
+    },
+    "selectiveSync": {
+      "id": "figma-flow-selective-sync-v1",
+      "mirrors": [
+        "figma-bridge/graph_token_sync.js"
+      ]
+    },
+    "semanticFamilyContract": {
+      "id": "figma-flow-semantic-family-contract-v1",
+      "mirrors": [
+        "figma-bridge/native_provision.js",
+        "figma-bridge/semantic_components.js"
+      ]
+    },
+    "sourcePins": {
+      "id": "figma-flow-source-pins-v1"
+    },
+    "starterCtaProvision": {
+      "id": "figma-flow-starter-cta-provision-v1",
+      "mirrors": [
+        "figma-bridge/native_provision.js"
+      ]
+    },
+    "viewerResult": {
+      "id": "figma-flow-viewer-result-v1",
+      "mirrors": [
+        "figma-bridge/relay_view.js"
+      ]
+    },
+    "webDesign": {
+      "id": "figma-flow-web-design-v1",
+      "mirrors": [
+        "figma-bridge/web_design.js"
+      ]
+    },
+    "webScreenDiscovery": {
+      "id": "figma-flow-web-screen-discovery-v1",
+      "mirrors": [
+        "figma-bridge/native_edit.js",
+        "figma-bridge/workspace_control.js",
+        "figma-bridge/workspace_host.js"
+      ]
+    },
+    "workspaceChat": {
+      "id": "figma-flow-workspace-chat-v1"
+    }
+  }
+}

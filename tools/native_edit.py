@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Prepare an exact, bounded native edit transaction; preparing never edits Figma."""
 import argparse
+import schema_ids
 import hashlib
 import json
 import math
@@ -11,9 +12,12 @@ import secrets
 from graph_design_system import SUPPORTED_PROPERTY_TYPES, _validate_property, _validate_value
 from graph_sync import graph_panel
 from specification_contract import spec_label_prelude
+import runtime_limits
 
 ROOT = Path(__file__).resolve().parents[1]
-PLAN_SCHEMA = 'figma-flow-native-edit-plan-v1'
+WEB_LIMITS = runtime_limits.WEB_DESIGN
+NATIVE_EDIT_LIMITS = runtime_limits.LIMITS['nativeEdit']
+PLAN_SCHEMA = schema_ids.ID['nativeEditPlan']
 NODE_EDIT_POLICY = json.loads((ROOT/'figma-bridge/edit-contract.json').read_bytes())['nodeEdits']
 NODE_FIELDS = frozenset(NODE_EDIT_POLICY['fields'])
 ID = re.compile(r'(?:I?\d+:\d+)(?:;\d+:\d+)*\Z')
@@ -35,7 +39,7 @@ def validate_plan(plan):
         required = {'schema', 'graph_id', 'graph_sha256', 'source_graph_path', 'screens'}
         if (not isinstance(web, dict) or not required <= web.keys()
                 or web.keys() - required - {'preview_width', 'readback_scope', 'carousel', 'tabs', 'disclosure'}
-                or web['schema'] != 'figma-flow-web-design-v1'
+                or web['schema'] != schema_ids.ID['webDesign']
                 or not re.fullmatch(r'[a-f0-9]{64}', str(web['graph_sha256']))):
             raise ValueError('Pinned web design graph required')
         if web.get('readback_scope', 'page') not in ('page', 'screens'):
@@ -46,7 +50,7 @@ def validate_plan(plan):
         if not source.is_absolute() or source.is_symlink() or not source.is_file():
             raise ValueError('Pinned web design source graph changed')
         source_bytes=source.read_bytes()
-        if len(source_bytes)>12_000_000 or hashlib.sha256(source_bytes).hexdigest()!=web['graph_sha256']:
+        if len(source_bytes)>WEB_LIMITS['maxGraphBytes'] or hashlib.sha256(source_bytes).hexdigest()!=web['graph_sha256']:
             raise ValueError('Pinned web design source graph changed')
         try: canonical=json.loads(source_bytes)
         except json.JSONDecodeError as error: raise ValueError('Pinned web design source graph is not valid JSON') from error
@@ -100,13 +104,13 @@ def validate_plan(plan):
         return plan
     if 'provision' in plan:
         provision = plan['provision']
-        if isinstance(provision, dict) and provision.get('schema') == 'figma-flow-component-families-provision-v1':
+        if isinstance(provision, dict) and provision.get('schema') == schema_ids.ID['componentFamiliesProvision']:
             from family_provision import validate_provision
             return validate_provision(plan)
         required = {'schema', 'graph_sha256', 'token_source_sha256', 'readback_sha256', 'frame_key', 'main_key',
                     'instance_keys', 'seed_collection_name', 'seed_variable_name', 'canonical_variable_name', 'background_color', 'text_color',
                     'labels', 'page_roots', 'position', 'source_graph_path', 'token_source_path', 'readback_path'}
-        if not isinstance(provision, dict) or set(provision) not in (required, required | {'label_source_path', 'label_source_sha256'}) or provision['schema'] != 'figma-flow-starter-cta-provision-v1':
+        if not isinstance(provision, dict) or set(provision) not in (required, required | {'label_source_path', 'label_source_sha256'}) or provision['schema'] != schema_ids.ID['starterCtaProvision']:
             raise ValueError('Exact Little Hands CTA provision contract required')
         for field in ('graph_sha256', 'token_source_sha256', 'readback_sha256'):
             if not isinstance(provision[field], str) or not re.fullmatch(r'[a-f0-9]{64}', provision[field]):
@@ -137,7 +141,7 @@ def validate_plan(plan):
         if not isinstance(position, dict) or set(position) != {'x', 'y'} or any(type(position[key]) not in (int, float) or not math.isfinite(position[key]) for key in position):
             raise ValueError('Finite existing-page CTA frame position required')
         roots = provision['page_roots']
-        if not isinstance(roots, list) or len(roots) > 4000:
+        if not isinstance(roots, list) or len(roots) > NATIVE_EDIT_LIMITS['maxRoots']:
             raise ValueError('Bounded existing page root snapshot required')
         seen = set()
         fields = {'id', 'type', 'name', 'semanticKey', 'x', 'y', 'width', 'height', 'absoluteBoundingBox'}
@@ -194,13 +198,13 @@ def validate_plan(plan):
 
 def prepare(plan_path, out, plugin_id=None):
     raw = Path(plan_path).read_bytes()
-    if len(raw) > 12_000_000:
+    if len(raw) > WEB_LIMITS['maxGraphBytes']:
         raise ValueError('Bounded native edit plan required')
     parsed = json.loads(raw)
     is_family_provision = (
         isinstance(parsed, dict)
         and isinstance(parsed.get('provision'), dict)
-        and parsed['provision'].get('schema') == 'figma-flow-component-families-provision-v1'
+        and parsed['provision'].get('schema') == schema_ids.ID['componentFamiliesProvision']
     )
     if len(raw) > (2_000_000 if is_family_provision else 128_000) and 'web_design' not in parsed:
         raise ValueError('Bounded plan JSON required')
@@ -240,7 +244,7 @@ def prepare(plan_path, out, plugin_id=None):
     # Standard graph panel carries the same read/apply consent protocol; all edits remain in the pinned plan.
     for index, row in enumerate(rows):
         if 'provision' in plan:
-            if row.get('schema') == 'figma-flow-component-families-provision-v1':
+            if row.get('schema') == schema_ids.ID['componentFamiliesProvision']:
                 csets = row['contract']['componentSets']
                 insts = row['contract']['instances']
                 fam_summary = ', '.join(cs['family'] for cs in csets)
@@ -290,7 +294,7 @@ def prepare(plan_path, out, plugin_id=None):
         for helper in ('native_annotations.js', 'design_note_board.js', 'native_specifications.js'):
             source += '\n' + (ROOT/'figma-bridge'/helper).read_text()
     if 'provision' in plan:
-        if plan['provision'].get('schema') == 'figma-flow-component-families-provision-v1':
+        if plan['provision'].get('schema') == schema_ids.ID['componentFamiliesProvision']:
             source += '\n' + (ROOT/'figma-bridge/semantic_components.js').read_text()
         source += '\n' + (ROOT/'figma-bridge/native_provision.js').read_text()
     source += '\n' + (ROOT/'figma-bridge/native_edit.js').read_text()
@@ -303,7 +307,7 @@ def prepare(plan_path, out, plugin_id=None):
             pins.append(plan['specifications']['source_graph'])
         elif 'provision' in plan:
             provision = plan['provision']
-            if provision.get('schema') == 'figma-flow-component-families-provision-v1':
+            if provision.get('schema') == schema_ids.ID['componentFamiliesProvision']:
                 pins.append({'path': provision['source_graph_path'], 'sha256': provision['graph_sha256']})
                 if 'design_source_path' in provision:
                     pins.append({'path': provision['design_source_path'], 'sha256': provision['design_source_sha256']})
@@ -327,7 +331,7 @@ def prepare(plan_path, out, plugin_id=None):
                 raise ValueError('One source path resolved to conflicting digests')
             unique_pins[pin['path']] = pin['sha256']
         pins = [{'path': path, 'sha256': sha256} for path, sha256 in unique_pins.items()]
-        (output/'source-inputs.json').write_text(json.dumps({'schema':'figma-flow-source-pins-v1','pins':pins}, indent=2)+'\n')
+        (output/'source-inputs.json').write_text(json.dumps({'schema':schema_ids.ID['sourcePins'],'pins':pins}, indent=2)+'\n')
         (output/'source-inputs.json').chmod(0o600)
         (output/'native-edit-plan.json').chmod(0o600)
     manifest = dict(name='Figma Flow · Scoped native edit', api='1.0.0', main='code.js', ui='ui.html', editorType=['figma'], documentAccess='dynamic-page', networkAccess={'allowedDomains':['none']}, enablePrivatePluginApi=True)
